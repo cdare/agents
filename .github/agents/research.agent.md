@@ -1,21 +1,16 @@
 ---
 name: Research
 description: Deep codebase exploration with read-only access. Use for understanding how code works, tracing data flow, exploring architecture, or investigating implementations.
-tools:
-  [
-    "codebase",
-    "search",
-    "fetch",
-    "githubRepo",
-    "usages",
-    "problems",
-    "findTestFiles",
-  ]
+tools: ["codebase", "search", "fetch", "githubRepo", "usages", "problems"]
 model: Claude Opus 4.5
 handoffs:
   - label: Create Plan
     agent: Plan
     prompt: Based on the research above, create a detailed implementation plan.
+    send: false
+  - label: Save Research
+    agent: Handoff
+    prompt: Persist the research findings above to a handoff file for future sessions.
     send: false
 ---
 

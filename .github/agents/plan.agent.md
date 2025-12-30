@@ -8,6 +8,10 @@ handoffs:
     agent: Implement
     prompt: Implement the plan outlined above.
     send: false
+  - label: Save Plan
+    agent: Handoff
+    prompt: Persist the implementation plan above to a handoff file for future sessions.
+    send: false
 ---
 
 # Plan Mode

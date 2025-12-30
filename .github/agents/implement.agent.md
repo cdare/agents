@@ -42,6 +42,16 @@ I'm ready to implement. Please provide:
 I'll read the plan thoroughly before beginning.
 ```
 
+If pointed to a handoff file (e.g., `~/.copilot/handoffs/YYYY-MM-DD-slug.md`):
+
+```
+I'll read the handoff file and use it as my implementation context.
+
+Reading: ~/.copilot/handoffs/[filename].md
+```
+
+Then proceed with implementation using the handoff content as the plan.
+
 ## Implementation Philosophy
 
 Plans are carefully designed, but reality can be messy. Your job is to:

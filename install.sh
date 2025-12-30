@@ -21,6 +21,7 @@ SCRIPT_DIR="${0:A:h}"
 # Target directories
 SKILLS_TARGET_DIR="$HOME/.github/skills"
 CLAUDE_SKILLS_TARGET_DIR="$HOME/.claude/skills"
+HANDOFFS_DIR="$HOME/.copilot/handoffs"
 
 # Agent target directories
 VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
@@ -118,6 +119,13 @@ install() {
         info "Claude Code symlink already exists"
     fi
     
+    # Create handoffs directory for multi-session context persistence
+    if [[ ! -d "$HANDOFFS_DIR" ]]; then
+        info "Creating handoffs directory..."
+        mkdir -p "$HANDOFFS_DIR"
+        success "Created: ~/.copilot/handoffs/"
+    fi
+
     # Install agents to VS Code prompts folder
     info "Installing agents to VS Code prompts folder..."
     if [[ ! -d "$VSCODE_PROMPTS_DIR" ]]; then
@@ -174,6 +182,9 @@ install() {
     echo ""
     info "Instructions installed to:"
     info "  • VS Code: ~/Library/Application Support/Code/User/prompts/"
+    echo ""
+    info "Handoffs directory:"
+    info "  • ~/.copilot/handoffs/"
     echo ""
 }
 

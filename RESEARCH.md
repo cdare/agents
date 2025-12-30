@@ -31,4 +31,8 @@ Add URLs to the list above. Format after research:
 - [x] [superpowers](https://github.com/obra/superpowers) → [RDR-004](docs/research/RDR-004-superpowers.md)
 - [x] [beads-memory](https://steve-yegge.medium.com/introducing-beads-a-coding-agent-memory-system-637d7d92514a) → [RDR-005](docs/research/RDR-005-beads.md)
 - [x] [agentic-future](https://seconds0.substack.com/p/heres-whats-next-in-agentic-coding) → [RDR-006](docs/research/RDR-006-agentic-future.md)
-- [ ] https://github.com/mitsuhiko/agent-stuff/blob/main/skills/improve-skill/SKILL.md
+- [x] [mitsuhiko-agent-stuff](https://github.com/mitsuhiko/agent-stuff/blob/main/skills/improve-skill/SKILL.md) → [RDR-007](docs/research/RDR-007-mitsuhiko-agent-stuff.md)
+- [ ] Building my own tools, to enable memory (eg beads) in Research/Plan agents, without letting them write to any files in the repo. Meaning, I want to keep their read-only nature, but want to have the option to step outside a given context window. See previous RDRs: RDR-005 and RDR-006
+- [ ] Consider combining research and plan agents. Weigh the pros and cons of doing so. At the moment, the research agent is doing the majority of the heavy lifting, and I'm not seeing too much additional value of the separate plan stage. If there's value in keeping them separate, consider what would make the plan agent more valuable.
+- [ ] Create guidelines for which agent(s) to use when I want the artifact to be a plan file. I like the research agent, but it doesn't have permissions to create files, which is problematic. Using the Implement agent loses some of the deep research capabilities in the Research agent.
+- [ ] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? If the memory/context is forked, then this means we can easily utilize subagents for steps like Plan

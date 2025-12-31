@@ -1,18 +1,18 @@
-# Agentic Coding Framework
+# AGENTS
 
-A curated set of **agents**, **skills**, and **instructions** for AI-assisted coding—synthesized from multiple frameworks into something minimal and actually useful.
+> **A**I-**G**uided **E**ngineering — **N**avigate → **T**hink → **S**hip
 
-## TL;DR
+A minimal framework for AI-assisted coding with phase-based workflows, auto-activating skills, and enforced tool safety. Works with **VS Code Copilot** and **Claude Code**.
 
-Clone the repo, run `./install.sh`, and get:
+---
 
-- **5 Agents** (Research → Plan → Implement → Review → Commit) with enforced tool access, preferred models, and handoff buttons between phases
-- **6 Skills** that auto-activate based on your prompts (debug, tech-debt, architecture, mentor, janitor, critic)
-- **5 Instructions** files with coding standards that load automatically based on file type
+## What You Get
 
-Works with **VS Code Copilot** and **Claude Code**. Use `/agent` or `/skills` in CLI, or the Chat menu in VS Code.
-
-## Quick Start
+| Component        | Count | What It Does                                                             |
+| ---------------- | ----- | ------------------------------------------------------------------------ |
+| **Agents**       | 6     | Phase-based workflow with enforced tool restrictions and handoff buttons |
+| **Skills**       | 6     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
+| **Instructions** | 5     | File-type coding standards that load automatically                       |
 
 ```bash
 git clone https://github.com/mcouthon/agents.git
@@ -20,48 +20,42 @@ cd agents
 ./install.sh
 ```
 
-> **Model recommendation:** Claude Opus 4.5 is a game changer for heavy lifting. When Sonnet struggles, Opus delivers.
+That's it. Use `/agent` or the Chat menu to select agents, or just talk naturally and let skills auto-activate.
 
-## Why This Exists
+---
 
-I've been reading up on AI coding frameworks that people have been sharing, and decided to roll several of them into something I'd actually understand and be happy with. The main sources were:
+## The Core Insight
 
-- [12 Factor Agents](./docs/sources/12-factor-agents/)
-- [CursorRIPER](./docs/sources/cursorriper/)
-- [HumanLayer's ACE Framework](./docs/sources/humanlayer/)
-- [Awesome Copilot](./docs/sources/awesome-copilot/)
+> "The highest leverage point is at the end of research and the beginning of the plan. A human can skim 30 seconds and provide feedback that saves hours of incorrect implementation."
 
-See [docs/synthesis/prevailing-wisdom.md](./docs/synthesis/prevailing-wisdom.md) for the synthesized principles, or [docs/synthesis/framework-comparison.md](./docs/synthesis/framework-comparison.md) for analysis of the source material.
+This framework is built around that insight. **Research** and **Plan** agents are read-only—they can't accidentally edit your code. You review their output, then hand off to **Implement** when you're ready.
 
-## Key Insight: Human-in-the-Loop
+---
 
-**The highest leverage point for humans is at the end of research and the beginning of the plan.**
-
-A human can skim 30 seconds and provide a sentence of feedback that could save the agent hours of incorrect implementation. The workflow is designed around this—Research hands off to Plan, and you review before Implement begins.
-
-## The Core Workflow (Custom Agents)
-
-For substantial changes, use the **agent picker dropdown** (or `/agent` in CLI) to select workflow phases:
+## The Workflow
 
 ```
 Research → Plan → Implement → Review → Commit
-                      ↑          ↓
-                      └─(fix)────┘ (max 3 iterations)
+    ↓         ↓         ↑         ↓
+  Handoff  Handoff    (fix)     Done
 ```
 
-| Agent       | Purpose                       | Tool Access | Handoff To                                      |
-| ----------- | ----------------------------- | ----------- | ----------------------------------------------- |
-| `Research`  | Deep codebase exploration     | Read-only   | → Plan                                          |
-| `Plan`      | Create implementation plans   | Read-only   | → Implement                                     |
-| `Implement` | Execute planned changes       | Full access | → Review                                        |
-| `Review`    | Verify implementation quality | Read + Test | → Commit (pass) / Implement (fix) / Plan (fail) |
-| `Commit`    | Create semantic commits       | Git + Read  | ✅ Done                                         |
+| Agent         | Purpose                          | Tool Access | Handoff To                   |
+| ------------- | -------------------------------- | ----------- | ---------------------------- |
+| **Research**  | Deep codebase exploration        | Read-only   | → Plan, → Handoff            |
+| **Plan**      | Create implementation plans      | Read-only   | → Implement, → Handoff       |
+| **Implement** | Execute planned changes          | Full access | → Review                     |
+| **Review**    | Verify implementation quality    | Read + Test | → Commit / → Implement (fix) |
+| **Commit**    | Create semantic commits          | Git + Read  | ✅ Done                      |
+| **Handoff**   | Persist context for next session | Write       | → Implement                  |
 
 **Why agents?** Each phase has **enforced tool restrictions** (Plan can't accidentally edit code) and **handoff buttons** to guide you to the next step.
 
-## Utility Skills (Auto-Activate)
+---
 
-Skills provide particular capabilities without needing a full agent—they serve a narrow purpose. Use `/skills` in CLI, or trust VS Code to call them automatically based on your prompts:
+## Skills (Auto-Activate)
+
+Skills activate automatically based on what you say:
 
 | You Say                     | Skill Activated |
 | --------------------------- | --------------- |
@@ -72,22 +66,25 @@ Skills provide particular capabilities without needing a full agent—they serve
 | "Clean up dead code"        | `janitor`       |
 | "Challenge my approach"     | `critic`        |
 
-No manual switching required for skills—just ask naturally.
+No manual switching required—just ask naturally.
 
-## Available Skills
+---
 
-| Skill          | Purpose                         |
-| -------------- | ------------------------------- |
-| `debug`        | Systematic bug investigation    |
-| `tech-debt`    | Find and fix technical debt     |
-| `architecture` | High-level design documentation |
-| `mentor`       | Teaching through questions      |
-| `janitor`      | Cleanup and simplification      |
-| `critic`       | Challenge assumptions           |
+## What AGENTS Is / Isn't
+
+| AGENTS Is                       | AGENTS Isn't                 |
+| ------------------------------- | ---------------------------- |
+| Advisory guidance               | Mandatory enforcement        |
+| Phase-based workflow            | Magic one-shot agent         |
+| Minimal and composable          | Batteries-included framework |
+| IDE-agnostic patterns           | Cursor/Claude-specific       |
+| Human-in-the-loop at key points | Fully autonomous             |
+
+---
 
 ## Code Protection Markers
 
-Use these advisory markers in code comments. Skills will respect them:
+Use these advisory markers in code comments:
 
 ```python
 # [P] Protected - never modify without approval
@@ -95,37 +92,13 @@ Use these advisory markers in code comments. Skills will respect them:
 # [D] Debug - remove before merge
 ```
 
-## Instructions (File-Type Standards)
+Agents recognize and respect these markers.
 
-These are minimal files meant to always be part of the context—common ground rules and recommendations (e.g., what to do if the agent is stuck). They load automatically based on file patterns.
+---
 
-| File                       | Applies To       | Purpose                           |
-| -------------------------- | ---------------- | --------------------------------- |
-| global.instructions.md     | All files        | Core principles, inviolable rules |
-| terminal.instructions.md   | All files        | Shell/CLI patterns                |
-| python.instructions.md     | `*.py`           | Python coding standards           |
-| typescript.instructions.md | `*.ts, *.tsx`    | TypeScript/React standards        |
-| testing.instructions.md    | `*test*, *spec*` | Testing philosophy and patterns   |
+## Installation Details
 
-## Testing
-
-Validate structure:
-
-```bash
-./tests/validate-skills.sh   # Validates agents and skills
-```
-
-Test install/uninstall:
-
-```bash
-./tests/test-install.sh
-```
-
-Manual test scenarios: `tests/scenarios/skill-activation.md`
-
-## Installation Targets
-
-After running `./install.sh`:
+After `./install.sh`:
 
 | Component            | Installed To                                          |
 | -------------------- | ----------------------------------------------------- |
@@ -133,142 +106,129 @@ After running `./install.sh`:
 | Agents (Claude Code) | `~/.claude/agents/`                                   |
 | Skills               | `~/.github/skills/` (with `~/.claude/skills` symlink) |
 | Instructions         | `~/Library/Application Support/Code/User/prompts/`    |
+| Handoffs gitignore   | Added to global gitignore                             |
 
-## File Structure
+---
 
-```
-.github/
-├── agents/               # Custom agents (select from dropdown)
-│   ├── research.agent.md
-│   ├── plan.agent.md
-│   ├── implement.agent.md
-│   └── review.agent.md
-└── skills/               # Agent skills (auto-activate)
-    ├── debug/
-    ├── tech-debt/
-    ├── architecture/
-    ├── mentor/
-    ├── janitor/
-    └── critic/
+## Customization
 
-instructions/             # File-type coding standards (see above to enable)
-├── global.instructions.md
-├── python.instructions.md
-├── typescript.instructions.md
-├── testing.instructions.md
-└── terminal.instructions.md
+### Adding an Agent
 
-tests/                    # Validation and testing
-├── validate-skills.sh
-├── test-install.sh
-└── scenarios/
-
-docs/
-├── synthesis/            # Framework design principles
-│   ├── prevailing-wisdom.md
-│   └── framework-comparison.md
-├── sources/              # Reference materials used to build this
-└── meta/                 # Historical build prompts
-```
-
-## Adding Your Own
-
-### Custom Agent
-
-Create a new agent file:
-
-```
-.github/agents/my-agent.agent.md
-```
-
-With this structure:
+Create `.github/agents/my-agent.agent.md`:
 
 ```yaml
 ---
 name: My Agent
 description: What this agent does and when to use it.
-tools: ["codebase", "search", "editFiles"] # Available tools
-model: Claude Sonnet 4 # Optional: specific model
-handoffs: # Optional: workflow transitions
+tools: ["codebase", "search", "editFiles"]
+model: Claude Sonnet 4 # Optional
+handoffs:
   - label: Next Step
     agent: other-agent
     prompt: Continue with the next phase.
-    send: false
 ---
 # My Agent Instructions
 
 Your detailed instructions here.
 ```
 
-Run `./install.sh` to create symlinks.
+### Adding a Skill
 
-### Agent Skill
-
-Create a new skill directory:
-
-```
-.github/skills/my-skill/
-└── SKILL.md
-```
-
-With this structure:
+Create `.github/skills/my-skill/SKILL.md`:
 
 ```yaml
 ---
 name: my-skill
 description: >
-  Use when [specific symptoms/triggers]. Include keywords for auto-activation:
-  "keyword1", "keyword2", "when to use this".
-  Focus on WHEN to use (symptoms), not WHAT it does (workflow).
+  Trigger keywords for auto-activation: "keyword1", "keyword2".
+  Focus on WHEN to use (symptoms), not WHAT it does.
 ---
 # My Skill Instructions
 
-Your detailed instructions here (< 500 lines recommended).
-For heavy reference material (APIs, syntax guides), use separate files.
+Your instructions here (< 500 lines recommended).
 ```
 
-Run `./install.sh` to create symlinks.
+### Validating Skills (TDD for Documentation)
 
-**Skill Namespacing:** Personal skills at `~/.github/skills/` override framework skills with the same name, enabling local customization.
+1. **RED** - Run task WITHOUT the skill, note failures
+2. **GREEN** - Add skill, verify improvement
+3. **REFACTOR** - If agent rationalizes around it, strengthen guidance
 
-### Validating Skills
+> If you didn't see it fail without the skill, you don't know if the skill helps.
 
-Before deploying a new skill, validate it works:
+Run `./install.sh` after adding agents or skills.
 
-1. **Baseline** - Run a representative task WITHOUT the skill, note failures or suboptimal behavior
-2. **With Skill** - Add the skill, run the same task, verify improvement
-3. **Edge Cases** - Test pressure scenarios (time constraints, competing priorities)
-4. **Iterate** - If the agent rationalizes around the skill, strengthen the guidance
+---
 
-This is TDD for documentation—if you didn't see it fail without the skill, you don't know if the skill helps.
+## Agents vs Skills
 
-## Agents vs Skills: When to Use Which
+| Use Case                          | Use       |
+| --------------------------------- | --------- |
+| Need enforced tool restrictions   | **Agent** |
+| Need handoffs between phases      | **Agent** |
+| Want auto-activation from prompts | **Skill** |
+| Role-based workflow phases        | **Agent** |
+| Specialized methodologies         | **Skill** |
 
-| Use Case                           | Use       |
-| ---------------------------------- | --------- |
-| Need enforced tool restrictions    | **Agent** |
-| Need handoffs between phases       | **Agent** |
-| Want auto-activation from prompts  | **Skill** |
-| Cross-platform (CLI, coding agent) | **Skill** |
-| Role-based workflow phases         | **Agent** |
-| Specialized methodologies          | **Skill** |
+---
+
+## File Structure
+
+```
+.github/
+├── agents/           # Workflow phases (Research, Plan, Implement, Review, Commit, Handoff)
+└── skills/           # Auto-activating capabilities (debug, mentor, etc.)
+
+instructions/         # File-type coding standards
+├── global.instructions.md
+├── python.instructions.md
+├── typescript.instructions.md
+├── testing.instructions.md
+└── terminal.instructions.md
+
+docs/
+├── synthesis/        # Core principles and framework analysis
+└── research/         # Research Decision Records (RDRs)
+```
+
+---
 
 ## Troubleshooting
 
-**Skills not auto-activating:**
+**Skills not auto-activating?**
 
 1. Run `./install.sh` to ensure symlinks exist
 2. Check `~/.github/skills/` for your skills
-3. Be more explicit: "Use research mode to explore..."
+3. Be more explicit: "Use debug mode to investigate..."
 
-**Need to uninstall:**
+**Need to uninstall?**
 
 ```bash
-./install.sh uninstall  # Remove all global symlinks
+./install.sh uninstall
 ```
+
+---
 
 ## Further Reading
 
-- **[docs/synthesis/prevailing-wisdom.md](./docs/synthesis/prevailing-wisdom.md)** - Core principles and design patterns
-- **[docs/synthesis/framework-comparison.md](./docs/synthesis/framework-comparison.md)** - Analysis of source frameworks
-- **[docs/sources/12-factor-agents/](./docs/sources/12-factor-agents/)** - 12 Factor Agents principles
+| Topic                       | Document                                                              |
+| --------------------------- | --------------------------------------------------------------------- |
+| Core principles             | [prevailing-wisdom.md](./docs/synthesis/prevailing-wisdom.md)         |
+| Framework analysis          | [framework-comparison.md](./docs/synthesis/framework-comparison.md)   |
+| Memory & session continuity | [memory-and-continuity.md](./docs/synthesis/memory-and-continuity.md) |
+| Research decisions          | [docs/research/](./docs/research/)                                    |
+| 12-Factor Agents            | [docs/sources/12-factor-agents/](./docs/sources/12-factor-agents/)    |
+
+---
+
+## Why This Exists
+
+Synthesized from multiple frameworks into something minimal and useful:
+
+- [12 Factor Agents](./docs/sources/12-factor-agents/) — Control flow ownership
+- [HumanLayer ACE](./docs/sources/humanlayer/) — Context engineering, human leverage points
+- [CursorRIPER](./docs/sources/cursorriper/) — Permission boundaries, protection markers
+- [Superpowers](https://github.com/obra/superpowers) — Skill quality, TDD for documentation
+- [Awesome Copilot](./docs/sources/awesome-copilot/) — Agent and instruction patterns
+
+> **Model recommendation:** Claude Opus 4.5 for heavy lifting. When Sonnet struggles, Opus delivers.

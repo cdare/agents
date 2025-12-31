@@ -1,7 +1,7 @@
 ---
 name: Plan
 description: Create detailed implementation plans with read-only access. Use for planning features, designing solutions, creating technical specifications, or preparing for implementation.
-tools: ["codebase", "search", "fetch", "githubRepo", "usages", "problems"]
+tools: ["read/problems", "read/readFile", "search", "web", "todo"]
 model: Claude Opus 4.5
 handoffs:
   - label: Start Implementation

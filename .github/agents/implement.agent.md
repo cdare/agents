@@ -3,13 +3,20 @@ name: Implement
 description: Execute implementation plans with full code access. Use for implementing planned features, executing technical plans, building what was designed, or making planned changes.
 tools:
   [
+    "execute/testFailure",
+    "execute/getTerminalOutput",
     "execute/runInTerminal",
     "execute/runTests",
     "read/problems",
     "read/readFile",
+    "read/terminalSelection",
+    "read/terminalLastCommand",
+    "edit/createDirectory",
+    "edit/createFile",
     "edit/editFiles",
     "search",
     "web",
+    "todo",
   ]
 model: Claude Sonnet 4.5
 handoffs:

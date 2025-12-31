@@ -2,9 +2,14 @@
 name: Handoff
 description: Persist research findings or implementation plans to files for multi-session continuity. Use after Research or Plan when you want to save context for a future session.
 tools:
-  - codebase
-  - search
-  - editFiles
+  [
+    "read/readFile",
+    "edit/createDirectory",
+    "edit/createFile",
+    "edit/editFiles",
+    "search",
+    "todo",
+  ]
 model: Claude Sonnet 4.5
 handoffs:
   - label: Start Implementation

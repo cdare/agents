@@ -1,7 +1,16 @@
 ---
 name: Commit
 description: Create meaningful commits with logical file grouping. Use after implementation is reviewed and approved to commit changes with semantic, well-structured commit messages.
-tools: ["codebase", "search", "changes", "runInTerminal"]
+tools:
+  [
+    "execute/getTerminalOutput",
+    "execute/runInTerminal",
+    "read/readFile",
+    "read/terminalSelection",
+    "read/terminalLastCommand",
+    "search",
+    "todo",
+  ]
 model: Claude Sonnet 4.5
 handoffs: []
 ---

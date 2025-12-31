@@ -1,18 +1,20 @@
 # Framework Comparison Matrix
 
-Detailed comparison of key frameworks analyzed during Phase 1 research.
+> **AGENTS**: AI-Guided Engineering — Navigate → Think → Ship
+
+Detailed comparison of frameworks analyzed during research.
 
 ---
 
 ## Overview Comparison
 
-| Aspect             | HumanLayer ACE                        | CursorRIPER                | 12-Factor Agents              |
-| ------------------ | ------------------------------------- | -------------------------- | ----------------------------- |
-| **Primary Focus**  | Context engineering for coding agents | Structured workflow modes  | Agent architecture principles |
-| **Target IDE**     | IDE-agnostic (concepts)               | Cursor                     | IDE-agnostic (concepts)       |
-| **Workflow Model** | Research → Plan → Implement           | RIPER (5 modes)            | Flexible, principle-based     |
-| **Key Innovation** | Frequent Intentional Compaction       | Permission matrix per mode | Control flow ownership        |
-| **Human-in-Loop**  | At research/plan boundaries           | Mode transitions           | Tool-level interruption       |
+| Aspect             | HumanLayer ACE                        | CursorRIPER                | 12-Factor Agents              | Superpowers                    | Beads                         |
+| ------------------ | ------------------------------------- | -------------------------- | ----------------------------- | ------------------------------ | ----------------------------- |
+| **Primary Focus**  | Context engineering for coding agents | Structured workflow modes  | Agent architecture principles | Skills-based TDD workflow      | Agent memory system           |
+| **Target IDE**     | IDE-agnostic (concepts)               | Cursor                     | IDE-agnostic (concepts)       | Claude Code                    | IDE-agnostic                  |
+| **Workflow Model** | Research → Plan → Implement           | RIPER (5 modes)            | Flexible, principle-based     | Mandatory skill-driven         | Issue tracker metaphor        |
+| **Key Innovation** | Frequent Intentional Compaction       | Permission matrix per mode | Control flow ownership        | TDD for skills, pressure tests | Structured queries over prose |
+| **Human-in-Loop**  | At research/plan boundaries           | Mode transitions           | Tool-level interruption       | Skill enforcement              | N/A (memory, not workflow)    |
 
 ---
 
@@ -44,6 +46,30 @@ Detailed comparison of key frameworks analyzed during Phase 1 research.
 | Launch/pause/resume       | Explicit state management      |
 | Contact humans with tools | Interrupt for approval         |
 | Small focused agents      | Break complex work into phases |
+
+### Superpowers Framework
+
+| Phase          | Purpose                     | Enforcement         |
+| -------------- | --------------------------- | ------------------- |
+| Brainstorming  | Design before code          | Mandatory via skill |
+| Planning       | Structured implementation   | Mandatory via skill |
+| Implementation | Execute with subagents      | Two-stage review    |
+| Verification   | Confirm bugs actually fixed | Required evidence   |
+
+**Key Difference from AGENTS**: Superpowers uses emphatic, mandatory language ("YOU MUST"); AGENTS uses advisory guidance.
+
+### Beads Memory System
+
+Not a workflow framework—a memory system using issue-tracker metaphor:
+
+| Concept     | Description                                        |
+| ----------- | -------------------------------------------------- |
+| Issue Types | Epic → Story → Task → Defect with dependencies     |
+| Storage     | `docs/issues/issues.jsonl` in git                  |
+| Queries     | `bd ready --json` returns actionable items         |
+| Key Insight | Structured data > prose plans for long-term memory |
+
+**Status in AGENTS**: Future consideration for multi-week features.
 
 ---
 
@@ -179,6 +205,24 @@ result = execute(next_step)  # Your code, your rules
 | ✅ Flexible tool call handling       | ❌ No built-in workflow structure   |
 | ✅ Small focused agent guidance      |                                     |
 
+### Superpowers
+
+| Strengths                         | Weaknesses                        |
+| --------------------------------- | --------------------------------- |
+| ✅ TDD methodology for skills     | ❌ Claude Code-specific           |
+| ✅ Rich skill descriptions        | ❌ Emphatic/mandatory tone        |
+| ✅ Progressive disclosure pattern | ❌ Heavy command system           |
+| ✅ Subagent-driven development    | ❌ Requires specific tool support |
+
+### Beads
+
+| Strengths                           | Weaknesses                          |
+| ----------------------------------- | ----------------------------------- |
+| ✅ Solves write-only memory problem | ❌ Adds CLI tooling dependency      |
+| ✅ Structured queries over prose    | ❌ New file format and workflow     |
+| ✅ Git-native persistence           | ❌ Implementation effort required   |
+| ✅ First-class dependencies         | ❌ Overkill for single-session work |
+
 ---
 
 ## Synthesis: Best of Each
@@ -204,6 +248,20 @@ result = execute(next_step)  # Your code, your rules
 - Small, focused agents (3-20 steps)
 - Compact errors into context (limit retries)
 
+### Adopt from Superpowers
+
+- TDD methodology for validating skills (pressure scenarios)
+- Rich descriptions for skill auto-discovery
+- Progressive disclosure pattern (<500 lines main file)
+- Skill namespace concept (personal overrides framework)
+
+### Adopt from Beads (Future Consideration)
+
+- Issue tracker metaphor for multi-week features
+- Structured queries over prose plans
+- First-class `depends` field for explicit dependencies
+- `bd ready` pattern for "what's next?"
+
 ---
 
 ## Conflicts & Resolutions
@@ -218,7 +276,8 @@ result = execute(next_step)  # Your code, your rules
 
 - **RIPER**: Permanent memory bank files
 - **12-Factor**: Unified state per thread
-- **Resolution**: Use memory bank concept for project-level context, thread state for session-level
+- **Beads**: Issue tracker with structured queries
+- **Resolution**: Use Handoff pattern for session continuity (simpler than memory bank or Beads); revisit Beads when multi-week features become common. See [Memory and Session Continuity](./memory-and-continuity.md).
 
 ### Conflict 3: Tool Control
 

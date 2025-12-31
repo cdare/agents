@@ -1,6 +1,8 @@
 # Prevailing Wisdom in Agentic Coding Frameworks
 
-> Synthesized from: HumanLayer ACE, CursorRIPER, 12-Factor Agents, Awesome-Copilot Instructions & Agent Modes
+> **AGENTS**: AI-Guided Engineering — Navigate → Think → Ship
+
+Synthesized from: HumanLayer ACE, CursorRIPER, 12-Factor Agents, Awesome-Copilot, Anthropic Feature-Dev, Superpowers
 
 ---
 
@@ -47,6 +49,28 @@ tools: ['codebase', 'search', 'fetch', 'githubRepo']  # Read-only tools
 tools: ['codebase', 'search', 'editFiles', 'runTests']  # Full access
 ```
 
+### Clarifying Questions Phase (from Anthropic Feature-Dev)
+
+Before planning, explicitly surface ambiguities:
+
+- What remains unclear from research?
+- What edge cases need clarification?
+- What business logic needs human input?
+
+Present specific, answerable questions and wait for answers before proceeding. Skip this step only if the request is purely descriptive or all ambiguities are resolved from code.
+
+### Multiple Architecture Options (from Anthropic Feature-Dev)
+
+When planning, present 2-3 approaches with trade-offs:
+
+| Approach               | Description          | Trade-offs                 |
+| ---------------------- | -------------------- | -------------------------- |
+| **Minimal Changes**    | Fastest, lowest risk | May accumulate tech debt   |
+| **Clean Architecture** | Most maintainable    | More refactoring required  |
+| **Pragmatic Balance**  | Recommended default  | Balanced speed and quality |
+
+Include recommendation with rationale. Wait for user choice before detailing the plan.
+
 ---
 
 ## 2. Context Engineering
@@ -79,15 +103,9 @@ Instead of default message arrays, use structured formats:
 </planned_changes>
 ```
 
-### Memory Bank Pattern (from RIPER)
+### Session Continuity
 
-Maintain persistent context files:
-
-- `projectbrief.md` - Core project goals and constraints
-- `systemPatterns.md` - Established patterns and conventions
-- `techContext.md` - Tech stack and dependencies
-- `activeContext.md` - Current focus and recent changes
-- `progress.md` - What's done, what's next
+For memory and session continuity patterns (including the Handoff pattern adopted by AGENTS), see [Memory and Session Continuity](./memory-and-continuity.md).
 
 ---
 
@@ -159,7 +177,24 @@ handoffs:
 
 ---
 
-## 5. Focused, Single-Purpose Agents
+## 5. Review Quality (from Anthropic Feature-Dev)
+
+### Confidence-Based Filtering
+
+Rate potential issues on confidence (0-100) to reduce noise in reviews:
+
+| Score  | Meaning                                           | Action                        |
+| ------ | ------------------------------------------------- | ----------------------------- |
+| 90-100 | Certain: Confirmed bug that will cause problems   | Report in Issues Found        |
+| 70-89  | High: Very likely a real issue based on evidence  | Report in Issues Found        |
+| 50-69  | Medium: Possibly intentional or context-dependent | Note without requiring action |
+| 0-49   | Low: Uncertain; likely false positive             | Omit or brief mention         |
+
+Only report issues with confidence ≥70% in the Issues Found section. Lower-confidence observations go in a Notes section without required action.
+
+---
+
+## 6. Focused, Single-Purpose Agents
 
 ### The Problem with Monolithic Agents
 
@@ -184,7 +219,7 @@ handoffs:
 
 ---
 
-## 6. Code Protection (from RIPER)
+## 7. Code Protection (from RIPER)
 
 ### Protection Levels
 
@@ -211,7 +246,7 @@ Agent modes should recognize and respect these markers.
 
 ---
 
-## 7. VSCode Copilot Customization Hierarchy
+## 8. VSCode Copilot Customization Hierarchy
 
 ### File Types and Locations
 
@@ -263,7 +298,7 @@ tools: ["codebase", "search", "problems"]
 
 ---
 
-## 8. Anti-Patterns to Avoid
+## 9. Anti-Patterns to Avoid
 
 ### From Research Analysis
 
@@ -286,7 +321,7 @@ tools: ["codebase", "search", "problems"]
 
 ---
 
-## 9. Recommended Agent Modes
+## 10. Recommended Agent Modes
 
 Based on synthesized patterns, these agent modes provide maximum coverage:
 
@@ -311,7 +346,39 @@ Based on synthesized patterns, these agent modes provide maximum coverage:
 
 ---
 
-## 10. Key Quotes to Remember
+## 11. Skill Quality (from Superpowers)
+
+### TDD for Documentation
+
+Skills should be validated before deployment using a test-driven approach:
+
+1. **RED**: Run a representative task WITHOUT the skill, note failures or suboptimal behavior
+2. **GREEN**: Add the skill, run the same task, verify improvement
+3. **REFACTOR**: If the agent rationalizes around the skill, strengthen the guidance
+
+> If you didn't see it fail without the skill, you don't know if the skill helps.
+
+### Skill Description Optimization
+
+YAML `description` field should be optimized for discovery:
+
+- ✅ Include trigger keywords ("debug", "failing test", "broken")
+- ✅ Describe symptoms that activate the skill
+- ❌ Don't summarize the workflow (agent may follow description instead of skill content)
+
+### Progressive Disclosure
+
+| Content Type       | Location        | Guideline                     |
+| ------------------ | --------------- | ----------------------------- |
+| Core instructions  | Main SKILL.md   | <500 lines                    |
+| Reference material | Separate files  | APIs, syntax guides, examples |
+| Code patterns      | Inline in skill | Only for illustration         |
+
+Keep main skill files focused; split heavy reference material to avoid context bloat.
+
+---
+
+## 12. Key Quotes to Remember
 
 > "Frequent Intentional Compaction" - ACE on context management
 
@@ -331,22 +398,19 @@ Based on synthesized patterns, these agent modes provide maximum coverage:
 
 ### Critical Sources (Fully Read)
 
-- [HumanLayer ACE Framework](./sources/humanlayer/ace-fca.md) - Context engineering, workflow design
-- [CursorRIPER Framework](./sources/cursorriper/) - RIPER modes, memory bank, protection levels
-- [12 Factor Agents](./sources/12-factor-agents/) - Control flow, context ownership, focused agents
+- [HumanLayer ACE Framework](../sources/humanlayer/ace-fca.md) - Context engineering, workflow design
+- [CursorRIPER Framework](../sources/cursorriper/) - RIPER modes, memory bank, protection levels
+- [12 Factor Agents](../sources/12-factor-agents/) - Control flow, context ownership, focused agents
+- [Anthropic Feature-Dev](../sources/repomirror/) - Clarifying questions, architecture options, confidence scoring
+- [Superpowers](https://github.com/obra/superpowers) - Skill quality, TDD for documentation, progressive disclosure
 
 ### Important Sources (Fully Read)
 
-- [Awesome Copilot Instructions](./sources/awesome-copilot/instructions/) - Instruction file patterns
-- [Awesome Copilot Agent Modes](./sources/awesome-copilot/agents/) - Agent mode examples
+- [Awesome Copilot Instructions](../sources/awesome-copilot/instructions/) - Instruction file patterns
+- [Awesome Copilot Agent Modes](../sources/awesome-copilot/agents/) - Agent mode examples
 - [VSCode Copilot Customization Docs](https://code.visualstudio.com/docs/copilot/customization/overview) - Official documentation
 
-### Key Agent Mode Examples Studied
+### Related Documents
 
-- `critical-thinking.agent.md` - Challenge assumptions
-- `debug.agent.md` - Systematic debugging phases
-- `hlbpa.agent.md` - High-level architecture documentation
-- `implementation-plan.agent.md` - Structured planning
-- `task-researcher.agent.md` - Research-only specialist
-- `janitor.agent.md` - Tech debt and cleanup
-- `mentor.agent.md` - Teaching and guidance
+- [Framework Comparison](./framework-comparison.md) - Detailed comparison of source frameworks
+- [Memory and Session Continuity](./memory-and-continuity.md) - How AGENTS handles cross-session memory

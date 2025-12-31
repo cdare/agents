@@ -5,7 +5,7 @@ tools:
   - codebase
   - search
   - editFiles
-model: Claude Sonnet 4
+model: Claude Sonnet 4.5
 handoffs:
   - label: Start Implementation
     agent: Implement
@@ -19,15 +19,15 @@ Persist conversation context to a file for multi-session continuity. Adapts outp
 
 ## Output Location
 
-All handoff files are written to: `~/.copilot/handoffs/`
+All handoff files are written to: `.github/handoffs/`
 
-This directory is outside the repository to avoid accidental commits.
+This directory is inside the repository but globally gitignored to prevent accidental commits.
 
 ## Prerequisites
 
 - Active Research or Plan session with content to preserve
 - User explicitly requests handoff (via button or command)
-- Handoffs directory exists: `~/.copilot/handoffs/` (created by `./install.sh`)
+- Global gitignore configured: `.github/handoffs/` (configured by `./install.sh`)
 
 ## Initial Response
 
@@ -41,7 +41,7 @@ When activated, analyze the conversation to determine source:
 I'll create a handoff file to preserve this context for future sessions.
 
 Detected source: [Research/Plan]
-Writing to: ~/.copilot/handoffs/YYYY-MM-DD-<slug>.md
+Writing to: .github/handoffs/YYYY-MM-DD-<slug>.md
 ```
 
 Then proceed directly to write the file.
@@ -57,7 +57,7 @@ Identify the source agent and generate filename:
 | Research | "Research Findings", component tables, data flow diagrams | `<topic>-research` |
 | Plan     | "Implementation Plan", phases, success criteria           | `<topic>-plan`     |
 
-Create filename: `~/.copilot/handoffs/YYYY-MM-DD-<slug>.md`
+Create filename: `.github/handoffs/YYYY-MM-DD-<slug>.md`
 
 - Use current date for timestamp
 - Generate slug from main topic (e.g., `auth-system-research`, `api-refactor-plan`)
@@ -84,7 +84,7 @@ Write the transformed content to the handoff file location.
 ### Step 4: Confirm Completion
 
 ```
-✓ Handoff saved to: ~/.copilot/handoffs/YYYY-MM-DD-slug.md
+✓ Handoff saved to: .github/handoffs/YYYY-MM-DD-slug.md
 
 To continue in a new session:
 1. Start with the Implement agent

@@ -21,7 +21,6 @@ SCRIPT_DIR="${0:A:h}"
 # Target directories
 SKILLS_TARGET_DIR="$HOME/.github/skills"
 CLAUDE_SKILLS_TARGET_DIR="$HOME/.claude/skills"
-HANDOFFS_DIR="$HOME/.copilot/handoffs"
 
 # Agent target directories
 VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
@@ -62,6 +61,60 @@ link_file() {
 unlink_if_ours() {
     local src="$1" dest="$2"
     [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]] && rm "$dest" && return 0
+    return 1
+}
+
+# Configure global gitignore to exclude .github/handoffs/
+configure_global_gitignore() {
+    local pattern=".github/handoffs/"
+    
+    # Get global gitignore path, or set default if not configured
+    local gitignore_global=$(git config --global core.excludesFile)
+    
+    if [[ -z "$gitignore_global" ]]; then
+        # No global gitignore configured, use default location
+        gitignore_global="$HOME/.gitignore_global"
+        git config --global core.excludesFile "$gitignore_global"
+        info "Configured global gitignore: $gitignore_global"
+    fi
+    
+    # Expand tilde if present
+    gitignore_global="${gitignore_global/#\~/$HOME}"
+    
+    # Create the file if it doesn't exist
+    if [[ ! -f "$gitignore_global" ]]; then
+        touch "$gitignore_global"
+    fi
+    
+    # Check if pattern already exists
+    if grep -Fxq "$pattern" "$gitignore_global" 2>/dev/null; then
+        return 1  # Already exists
+    fi
+    
+    # Add pattern with a comment
+    echo "" >> "$gitignore_global"
+    echo "# Copilot handoffs (personal session context)" >> "$gitignore_global"
+    echo "$pattern" >> "$gitignore_global"
+    return 0
+}
+
+# Remove .github/handoffs/ from global gitignore
+unconfigure_global_gitignore() {
+    local pattern=".github/handoffs/"
+    local gitignore_global=$(git config --global core.excludesFile)
+    
+    [[ -z "$gitignore_global" ]] && return 1
+    gitignore_global="${gitignore_global/#\~/$HOME}"
+    [[ ! -f "$gitignore_global" ]] && return 1
+    
+    # Remove the pattern and its comment if they exist
+    if grep -Fxq "$pattern" "$gitignore_global" 2>/dev/null; then
+        # Use sed to remove the pattern and the comment line before it
+        sed -i.bak '/# Copilot handoffs (personal session context)/d' "$gitignore_global"
+        sed -i.bak "/$pattern/d" "$gitignore_global"
+        rm "${gitignore_global}.bak" 2>/dev/null || true
+        return 0
+    fi
     return 1
 }
 
@@ -119,11 +172,12 @@ install() {
         info "Claude Code symlink already exists"
     fi
     
-    # Create handoffs directory for multi-session context persistence
-    if [[ ! -d "$HANDOFFS_DIR" ]]; then
-        info "Creating handoffs directory..."
-        mkdir -p "$HANDOFFS_DIR"
-        success "Created: ~/.copilot/handoffs/"
+    # Configure global gitignore for handoffs
+    info "Configuring global gitignore for handoffs..."
+    if configure_global_gitignore; then
+        success "Added .github/handoffs/ to global gitignore"
+    else
+        info "Global gitignore already configured for handoffs"
     fi
 
     # Install agents to VS Code prompts folder
@@ -183,8 +237,8 @@ install() {
     info "Instructions installed to:"
     info "  • VS Code: ~/Library/Application Support/Code/User/prompts/"
     echo ""
-    info "Handoffs directory:"
-    info "  • ~/.copilot/handoffs/"
+    info "Handoffs location:"
+    info "  • .github/handoffs/ (in each workspace, gitignored globally)"
     echo ""
 }
 
@@ -195,6 +249,9 @@ uninstall() {
     local skill_count=0
     local agent_count=0
     local instruction_count=0
+    
+    # Remove global gitignore configuration
+    unconfigure_global_gitignore
     
     # Remove Agent Skills symlinks
     info "Removing skills from $SKILLS_TARGET_DIR..."
@@ -243,6 +300,14 @@ uninstall() {
             instruction_count=$((instruction_count + 1))
         fi
     done
+    
+    # Remove handoffs pattern from global gitignore
+    info "Removing handoffs pattern from global gitignore..."
+    if unconfigure_global_gitignore; then
+        success "Removed .github/handoffs/ from global gitignore"
+    else
+        info "Handoffs pattern not found in global gitignore"
+    fi
     
     echo ""
     success "Uninstallation complete!"

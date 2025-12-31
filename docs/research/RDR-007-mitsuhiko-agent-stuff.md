@@ -26,7 +26,7 @@ A repository by Armin Ronacher (mitsuhiko) containing commands and skills for co
 ### Adopted
 
 1. **Handoff Agent** - Created dedicated agent to persist Research/Plan context to files
-2. **Persistent Handoff Location** - Files stored in `~/.copilot/handoffs/` (outside repo)
+2. **Persistent Handoff Location** - Files stored in `.github/handoffs/` (inside repo, globally gitignored) - see [RDR-008](RDR-008-handoff-workspace-constraint.md)
 3. **Dual-Source Adaptation** - Handoff agent handles both Research and Plan outputs
 4. **Optional Integration** - Added as handoff option, doesn't change existing workflows
 
@@ -65,16 +65,16 @@ Platform limitation: VS Code Copilot doesn't expose session transcripts, so the 
 
 ### Handoff Location
 
-`~/.copilot/handoffs/YYYY-MM-DD-slug.md`
+`.github/handoffs/YYYY-MM-DD-slug.md`
 
-Outside repository to avoid accidental commits.
+Inside repository but globally gitignored to prevent accidental commits. See [RDR-008](RDR-008-handoff-workspace-constraint.md) for rationale.
 
 ### Workflow
 
 ```
 Research ──┬──→ Plan ──┬──→ Implement → Review → Commit
            │           │
-           └──→ Handoff Agent (writes to ~/.copilot/handoffs/)
+           └──→ Handoff Agent (writes to .github/handoffs/)
                        └──→ Handoff Agent
 
 New session: Implement (reads handoff file)

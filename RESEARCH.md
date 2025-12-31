@@ -8,7 +8,11 @@ Research external frameworks and materials to evaluate potential improvements to
 2. Pick the next unchecked item from the Research List
 3. Read it fully—follow links as needed to grasp its insights
 4. Create an RDR (Research Decision Record) in `docs/research/` using the [template](./docs/research/TEMPLATE.md)
-5. Mark the item as checked and link to the RDR
+5. **If adopting findings, update relevant synthesis docs:**
+   - Core principles → [prevailing-wisdom.md](./docs/synthesis/prevailing-wisdom.md)
+   - Framework comparisons → [framework-comparison.md](./docs/synthesis/framework-comparison.md)
+   - Memory/continuity patterns → [memory-and-continuity.md](./docs/synthesis/memory-and-continuity.md)
+6. Mark the item as checked and link to the RDR
 
 ## Guidelines
 
@@ -33,6 +37,6 @@ Add URLs to the list above. Format after research:
 - [x] [agentic-future](https://seconds0.substack.com/p/heres-whats-next-in-agentic-coding) → [RDR-006](docs/research/RDR-006-agentic-future.md)
 - [x] [mitsuhiko-agent-stuff](https://github.com/mitsuhiko/agent-stuff/blob/main/skills/improve-skill/SKILL.md) → [RDR-007](docs/research/RDR-007-mitsuhiko-agent-stuff.md)
 - [x] Building my own tools for memory (MCP servers) → [RDR-009](docs/research/RDR-009-mcp-memory-rejected.md) (Rejected)
-- [ ] Consider combining research and plan agents. Weigh the pros and cons of doing so. At the moment, the research agent is doing the majority of the heavy lifting, and I'm not seeing too much additional value of the separate plan stage. If there's value in keeping them separate, consider what would make the plan agent more valuable.
 - [ ] Create guidelines for which agent(s) to use when I want the artifact to be a plan file. I like the research agent, but it doesn't have permissions to create files, which is problematic. Using the Implement agent loses some of the deep research capabilities in the Research agent.
+- [ ] Consider combining research and plan agents. Weigh the pros and cons of doing so. At the moment, the research agent is doing the majority of the heavy lifting, and I'm not seeing too much additional value of the separate plan stage. If there's value in keeping them separate, consider what would make the plan agent more valuable.
 - [ ] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? If the memory/context is forked, then this means we can easily utilize subagents for steps like Plan

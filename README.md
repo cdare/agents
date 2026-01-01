@@ -2,6 +2,10 @@
 
 > **A**I-**G**uided **E**ngineering — **N**avigate → **T**hink → **S**hip
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![GitHub Discussions](https://img.shields.io/github/discussions/mcouthon/agents)](https://github.com/mcouthon/agents/discussions)
+
 A minimal framework for AI-assisted coding with phase-based workflows, auto-activating skills, and enforced tool safety. Works with **VS Code Copilot** and **Claude Code**.
 
 ---
@@ -206,6 +210,19 @@ docs/
 ```bash
 ./install.sh uninstall
 ```
+
+---
+
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+**Quick ways to contribute:**
+
+- 🐛 [Report a bug](https://github.com/mcouthon/agents/issues/new?template=bug_report.md)
+- 💡 [Request a feature](https://github.com/mcouthon/agents/issues/new?template=feature_request.md)
+- 🎯 [Share your skill](https://github.com/mcouthon/agents/issues/new?template=share_skill.md)
+- 🤖 [Share your agent](https://github.com/mcouthon/agents/issues/new?template=share_agent.md)
 
 ---
 

@@ -222,6 +222,22 @@ Document why tests were skipped in the implementation notes.
 
 After completing each phase, note files changed, tests added/passing, verification results, and any deviations from plan.
 
+## Final Cleanup
+
+After all phases are complete and verified:
+
+1. **Delete handoff files** - If implementation used a handoff file from `.github/handoffs/`, delete it
+2. **Confirm ready for review** - All tests pass, no lint errors, implementation matches plan intent
+
+```
+✅ Implementation complete
+
+Cleanup:
+- Deleted: .github/handoffs/YYYY-MM-DD-slug.md
+
+Ready to hand off to Review.
+```
+
 ## Resuming Work
 
 If picking up from previous work:

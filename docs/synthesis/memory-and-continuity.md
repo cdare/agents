@@ -95,7 +95,7 @@ Research ──┬──→ Plan ──┬──→ Implement → Review → Com
 New session: Implement agent reads handoff file
 ```
 
-**File location:** `.github/handoffs/YYYY-MM-DD-slug.md`
+**File location:** `.github/handoffs/YYYY-MM-DD-HHMMSS-slug.md`
 
 Inside repository but globally gitignored to prevent accidental commits. Can be selectively shared with `git add -f`.
 

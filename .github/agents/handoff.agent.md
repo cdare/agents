@@ -46,7 +46,7 @@ When activated, analyze the conversation to determine source:
 I'll create a handoff file to preserve this context for future sessions.
 
 Detected source: [Research/Plan]
-Writing to: .github/handoffs/YYYY-MM-DD-<slug>.md
+Writing to: .github/handoffs/YYYY-MM-DD-HHMMSS-<slug>.md
 ```
 
 Then proceed directly to write the file.
@@ -62,9 +62,9 @@ Identify the source agent and generate filename:
 | Research | "Research Findings", component tables, data flow diagrams | `<topic>-research` |
 | Plan     | "Implementation Plan", phases, success criteria           | `<topic>-plan`     |
 
-Create filename: `.github/handoffs/YYYY-MM-DD-<slug>.md`
+Create filename: `.github/handoffs/YYYY-MM-DD-HHMMSS-<slug>.md`
 
-- Use current date for timestamp
+- Use current date and time (HHMMSS) for timestamp
 - Generate slug from main topic (e.g., `auth-system-research`, `api-refactor-plan`)
 - Proceed directly without confirmation
 
@@ -89,7 +89,7 @@ Write the transformed content to the handoff file location.
 ### Step 4: Confirm Completion
 
 ```
-✓ Handoff saved to: .github/handoffs/YYYY-MM-DD-slug.md
+✓ Handoff saved to: .github/handoffs/YYYY-MM-DD-HHMMSS-slug.md
 
 To continue in a new session:
 1. Start with the Implement agent

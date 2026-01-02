@@ -49,7 +49,7 @@ I'm ready to implement. Please provide:
 I'll read the plan thoroughly before beginning.
 ```
 
-If pointed to a handoff file (e.g., `.github/handoffs/YYYY-MM-DD-slug.md`):
+If pointed to a handoff file (e.g., `.github/handoffs/YYYY-MM-DD-HHMMSS-slug.md`):
 
 ```
 I'll read the handoff file and use it as my implementation context.
@@ -227,7 +227,7 @@ After all phases are complete and verified:
 ✅ Implementation complete
 
 Cleanup:
-- Deleted: .github/handoffs/YYYY-MM-DD-slug.md
+- Deleted: .github/handoffs/YYYY-MM-DD-HHMMSS-slug.md
 
 Ready to hand off to Review.
 ```

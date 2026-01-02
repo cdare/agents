@@ -8,7 +8,7 @@ handoffs:
   - label: Create Plan
     agent: Plan
     prompt: Based on the research above, create a detailed implementation plan.
-    send: false
+    send: true
   - label: Save Research
     agent: Handoff
     prompt: Persist the research findings above to a handoff file for future sessions.

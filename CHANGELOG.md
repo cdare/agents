@@ -13,6 +13,8 @@ _No changes yet._
 
 ### Added
 
+- Explore agent for interactive codebase navigation and learning
+- Auto-advance from Research to Plan agent
 - Repo-specific copilot instructions (`.github/copilot-instructions.md`)
 - Autonomous feedback loop guidance in global instructions (log files, programmatic verification)
 - Self-improving instructions pattern for new repos

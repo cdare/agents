@@ -36,21 +36,57 @@ These rules have the highest priority and must never be violated.
 - Include type hints for function signatures
 - Write tests alongside new functionality
 - No placeholder code (`TODO`, `pass`, `...` without implementation)
-- No bare `except:` clauses
-
-## Code Protection Markers
-
-These markers are **advisory conventions** that skills respect. They are not programmatically
-enforced, but skills will ask before modifying `[P]` code and flag `[D]` code for cleanup.
-
-| Marker | Meaning                                            |
-| ------ | -------------------------------------------------- |
-| `[P]`  | Protected - Never modify without explicit approval |
-| `[G]`  | Guarded - Requires human review before changes     |
-| `[D]`  | Debug - Temporary code, remove before merge        |
 
 ## When Stuck
 
 1. Maximum 2-3 retry attempts before asking for help
 2. Include context: what was tried, what failed
 3. Suggest concrete next steps
+
+## Autonomous Feedback Loops
+
+### Log Management
+
+When developing backend or frontend applications, configure logging in code to write to
+well-known locations. This enables reading errors directly from log files instead of
+asking users to copy/paste terminal output.
+
+**Standard log locations:**
+
+| Application Type | Log File            |
+| ---------------- | ------------------- |
+| Backend          | `logs/backend.log`  |
+| Frontend         | `logs/frontend.log` |
+| Tests            | `logs/tests.log`    |
+
+**Key principle:** Configure logging in application code (not shell redirection) so logs
+go to the same location regardless of how the application is started.
+
+**Reading logs:**
+
+```bash
+# Watch for new output
+tail -f logs/backend.log
+
+# Search for errors
+grep -i "error\|exception\|failed" logs/backend.log | tail -20
+```
+
+### Autonomous Verification
+
+Verify behavior programmatically rather than asking users to check manually:
+
+1. **API endpoints**: Use `curl`, `httpie`, or write test scripts
+2. **Web UIs**: Consider Playwright for browser automation
+3. **CLI tools**: Capture and parse output for expected patterns
+4. **File changes**: Check contents, run linters, validate schemas
+
+### Self-Improving Instructions
+
+When working on repos without Copilot instructions:
+
+1. **Create `.github/copilot-instructions.md`** with discovered preferences
+2. **Document**: Project conventions, test commands, build patterns, user preferences
+3. **Update existing instructions** when new patterns emerge
+
+This creates a feedback loop where each session improves future sessions.

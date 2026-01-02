@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [0.7.0] - 2026-01-02
+
+### Added
+
+- Repo-specific copilot instructions (`.github/copilot-instructions.md`)
+- Autonomous feedback loop guidance in global instructions (log files, programmatic verification)
+- Self-improving instructions pattern for new repos
+- RDR-011: Code protection markers removal
+
+### Removed
+
+- Code protection markers (`[P]`, `[G]`, `[D]`) - unused feature, see RDR-011
+
 ## [0.6.0] - 2026-01-01
 
 ### Added
@@ -102,7 +115,8 @@ _No changes yet._
 - Comprehensive documentation and synthesis from multiple frameworks
 - Source materials from 12-Factor Agents, HumanLayer, CursorRIPER, Superpowers
 
-[Unreleased]: https://github.com/mcouthon/agents/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/mcouthon/agents/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/mcouthon/agents/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/mcouthon/agents/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/mcouthon/agents/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/mcouthon/agents/compare/v0.3.0...v0.4.0

@@ -101,20 +101,14 @@ For each phase:
    - Ensure required files/state exist
    - Check dependencies are in place
 
-2. **Respect Code Protection Markers**
-
-   - `[P]` Protected - NEVER modify without explicit user approval
-   - `[G]` Guarded - Ask before modifying, explain the change
-   - These are advisory markers in code comments
-
-3. **Make Changes Incrementally**
+2. **Make Changes Incrementally**
 
    - Follow existing code patterns
    - Add type hints for all signatures
    - Handle errors explicitly
    - Add/update tests alongside changes
 
-4. **Run Verification After Each Significant Change**
+3. **Run Verification After Each Significant Change**
    - Run relevant tests
    - Check for type errors
    - Verify no lint issues

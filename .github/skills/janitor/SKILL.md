@@ -40,7 +40,6 @@ Every line of code:
 - Console.log calls
 - Debug flags left on
 - Hardcoded test values
-- Code marked with `[D]` (Debug marker - remove before merge)
 
 ### Priority 3: Redundancy
 

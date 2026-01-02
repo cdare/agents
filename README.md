@@ -86,20 +86,6 @@ No manual switching required—just ask naturally.
 
 ---
 
-## Code Protection Markers
-
-Use these advisory markers in code comments:
-
-```python
-# [P] Protected - never modify without approval
-# [G] Guarded - ask before modifying
-# [D] Debug - remove before merge
-```
-
-Agents recognize and respect these markers.
-
----
-
 ## Installation Details
 
 After `./install.sh`:
@@ -244,7 +230,7 @@ Synthesized from multiple frameworks into something minimal and useful:
 
 - [12 Factor Agents](./docs/sources/12-factor-agents/) — Control flow ownership
 - [HumanLayer ACE](./docs/sources/humanlayer/) — Context engineering, human leverage points
-- [CursorRIPER](./docs/sources/cursorriper/) — Permission boundaries, protection markers
+- [CursorRIPER](./docs/sources/cursorriper/) — Permission boundaries
 - [Superpowers](https://github.com/obra/superpowers) — Skill quality, TDD for documentation
 - [Awesome Copilot](./docs/sources/awesome-copilot/) — Agent and instruction patterns
 

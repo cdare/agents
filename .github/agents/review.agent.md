@@ -115,7 +115,6 @@ Review each changed file for:
 **Safety**
 
 - [ ] No security anti-patterns
-- [ ] Protected code (`[P]`) not modified
 - [ ] No breaking changes to public APIs
 - [ ] Backwards compatibility maintained
 
@@ -233,7 +232,6 @@ Observations that may not require action:
 
 Flag for human review when:
 
-- Changes to protected code (`[P]` markers)
 - Public API modifications
 - Database schema changes
 - Configuration changes affecting production

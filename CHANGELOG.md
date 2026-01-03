@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [0.7.1] - 2026-01-03
+
+### Added
+
+- RDR-012: Manus planning-with-files pattern research
+- Attention Management section in Implement agent (goal drift prevention)
+- Goal drift prevention guidance in prevailing-wisdom.md
+- Manus/planning-with-files framework comparison
+
+### Changed
+
+- Framework comparison expanded with Manus pattern analysis
+
 ## [0.7.0] - 2026-01-02
 
 ### Added
@@ -117,7 +130,8 @@ _No changes yet._
 - Comprehensive documentation and synthesis from multiple frameworks
 - Source materials from 12-Factor Agents, HumanLayer, CursorRIPER, Superpowers
 
-[Unreleased]: https://github.com/mcouthon/agents/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/mcouthon/agents/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/mcouthon/agents/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/mcouthon/agents/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/mcouthon/agents/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/mcouthon/agents/compare/v0.4.0...v0.5.0

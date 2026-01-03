@@ -8,13 +8,13 @@ Detailed comparison of frameworks analyzed during research.
 
 ## Overview Comparison
 
-| Aspect             | HumanLayer ACE                        | CursorRIPER                | 12-Factor Agents              | Superpowers                    | Beads                         |
-| ------------------ | ------------------------------------- | -------------------------- | ----------------------------- | ------------------------------ | ----------------------------- |
-| **Primary Focus**  | Context engineering for coding agents | Structured workflow modes  | Agent architecture principles | Skills-based TDD workflow      | Agent memory system           |
-| **Target IDE**     | IDE-agnostic (concepts)               | Cursor                     | IDE-agnostic (concepts)       | Claude Code                    | IDE-agnostic                  |
-| **Workflow Model** | Research → Plan → Implement           | RIPER (5 modes)            | Flexible, principle-based     | Mandatory skill-driven         | Issue tracker metaphor        |
-| **Key Innovation** | Frequent Intentional Compaction       | Permission matrix per mode | Control flow ownership        | TDD for skills, pressure tests | Structured queries over prose |
-| **Human-in-Loop**  | At research/plan boundaries           | Mode transitions           | Tool-level interruption       | Skill enforcement              | N/A (memory, not workflow)    |
+| Aspect             | HumanLayer ACE                        | CursorRIPER                | 12-Factor Agents              | Superpowers                    | Beads                         | Manus/planning-with-files    |
+| ------------------ | ------------------------------------- | -------------------------- | ----------------------------- | ------------------------------ | ----------------------------- | ---------------------------- |
+| **Primary Focus**  | Context engineering for coding agents | Structured workflow modes  | Agent architecture principles | Skills-based TDD workflow      | Agent memory system           | Within-session goal tracking |
+| **Target IDE**     | IDE-agnostic (concepts)               | Cursor                     | IDE-agnostic (concepts)       | Claude Code                    | IDE-agnostic                  | Claude Code                  |
+| **Workflow Model** | Research → Plan → Implement           | RIPER (5 modes)            | Flexible, principle-based     | Mandatory skill-driven         | Issue tracker metaphor        | 3-file pattern per task      |
+| **Key Innovation** | Frequent Intentional Compaction       | Permission matrix per mode | Control flow ownership        | TDD for skills, pressure tests | Structured queries over prose | Read-before-decide attention |
+| **Human-in-Loop**  | At research/plan boundaries           | Mode transitions           | Tool-level interruption       | Skill enforcement              | N/A (memory, not workflow)    | N/A (within-session pattern) |
 
 ---
 
@@ -70,6 +70,20 @@ Not a workflow framework—a memory system using issue-tracker metaphor:
 | Key Insight | Structured data > prose plans for long-term memory |
 
 **Status in AGENTS**: Future consideration for multi-week features.
+
+### Manus/planning-with-files Pattern
+
+Not a workflow framework—a within-session attention management pattern:
+
+| Concept            | Description                                             |
+| ------------------ | ------------------------------------------------------- |
+| 3-File Pattern     | `task_plan.md`, `notes.md`, `[deliverable].md` per task |
+| Read-Before-Decide | Re-read plan before major decisions                     |
+| Attention Anchor   | Updating progress keeps goals in attention window       |
+| Error Persistence  | Log failures in plan file for learning                  |
+| Key Insight        | Periodic goal refresh combats "lost in the middle"      |
+
+**Status in AGENTS**: Principle adopted (use todo list + re-read handoff), not the 3-file infrastructure.
 
 ---
 
@@ -223,6 +237,15 @@ result = execute(next_step)  # Your code, your rules
 | ✅ Git-native persistence           | ❌ Implementation effort required   |
 | ✅ First-class dependencies         | ❌ Overkill for single-session work |
 
+### Manus/planning-with-files
+
+| Strengths                             | Weaknesses                             |
+| ------------------------------------- | -------------------------------------- |
+| ✅ Solves goal drift in long sessions | ❌ Claude Code-specific                |
+| ✅ Simple 3-file pattern              | ❌ Adds file overhead per task         |
+| ✅ Read-before-decide is universal    | ❌ Mandatory file creation is friction |
+| ✅ Based on proven $2B acquisition    | ❌ Overlaps with existing handoffs     |
+
 ---
 
 ## Synthesis: Best of Each
@@ -261,6 +284,13 @@ result = execute(next_step)  # Your code, your rules
 - Structured queries over prose plans
 - First-class `depends` field for explicit dependencies
 - `bd ready` pattern for "what's next?"
+
+### Adopt from Manus/planning-with-files
+
+- Read-before-decide principle for long sessions
+- Todo list as attention anchor (frequent updates refresh goals)
+- Periodic re-read of plan/handoff files (~15 tool calls)
+- Error persistence in progress tracking
 
 ---
 

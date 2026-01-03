@@ -103,6 +103,19 @@ Instead of default message arrays, use structured formats:
 </planned_changes>
 ```
 
+### Goal Drift Prevention (from Manus/planning-with-files)
+
+After 15-50+ tool calls, original goals can drift from attention ("lost in the middle" effect). Combat this:
+
+| Technique                    | How It Works                                       |
+| ---------------------------- | -------------------------------------------------- |
+| **Read-Before-Decide**       | Re-read plan/handoff before major decisions        |
+| **Todo as Attention Anchor** | Frequent todo updates force goal re-statement      |
+| **Periodic Re-Read**         | Every ~15 tool calls, re-read the original plan    |
+| **Phase Boundaries**         | Natural breakpoints; re-state goals at phase start |
+
+The key insight: updating working state (todos, progress) keeps goals in the attention window.
+
 ### Session Continuity
 
 For memory and session continuity patterns (including the Handoff pattern adopted by AGENTS), see [Memory and Session Continuity](./memory-and-continuity.md).

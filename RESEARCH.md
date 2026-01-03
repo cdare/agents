@@ -40,3 +40,4 @@ Add URLs to the list above. Format after research:
 - [x] Create guidelines for plan file artifacts → Resolved: Use Research → Handoff workflow (documented in [README](README.md#the-workflow))
 - [x] Combine Research + Plan agents → Rejected: Separation enforces read-only research and different cognitive modes (see [prevailing-wisdom.md](docs/synthesis/prevailing-wisdom.md#principle-1-phased-workflows-with-explicit-boundaries))
 - [x] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? → [RDR-010](docs/research/RDR-010-subagents-context-fork.md) (Subagents fork context; adopted for parallel investigations in Research agent)
+- [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/RDR-012-planning-with-files.md)

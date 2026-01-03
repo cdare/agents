@@ -216,6 +216,25 @@ Document why tests were skipped in the implementation notes.
 
 After completing each phase, note files changed, tests added/passing, verification results, and any deviations from plan.
 
+## Attention Management (Long Sessions)
+
+After many tool calls, original goals can drift from attention ("lost in the middle" effect). Combat this:
+
+| Trigger                | Action                                      |
+| ---------------------- | ------------------------------------------- |
+| Starting new phase     | Re-read plan/handoff, state the phase goal  |
+| Before major decision  | Update todo list (forces goal re-statement) |
+| After ~15 tool calls   | Re-read plan, confirm still on track        |
+| After unexpected issue | Re-read plan before deciding how to adapt   |
+
+**The todo list is your working memory** — updating it keeps goals in your attention window. For long tasks, update todos aggressively:
+
+1. Create todos BEFORE starting (loads goals into attention)
+2. Mark in-progress BEFORE each change (forces goal re-statement)
+3. Mark complete IMMEDIATELY after (confirms alignment)
+
+If working from a handoff file, re-read it periodically—not just at session start.
+
 ## Final Cleanup
 
 After all phases are complete and verified:

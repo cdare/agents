@@ -43,5 +43,5 @@ Add URLs to the list above. Format after research:
 - [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/RDR-012-planning-with-files.md)
 - [x] [vscode-browser-testing](https://code.visualstudio.com/docs/copilot/overview) → [RDR-013](docs/research/RDR-013-vscode-browser-testing.md)
 - [x] [vscode-copilot-settings](https://code.visualstudio.com/docs/copilot/setup) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md)
-- [ ] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/copilot-extensibility-overview) - Research ALL tools available to agents in VSCode/Copilot and evaluate if current agent tool selections are optimal
+- [x] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features) → [RDR-015](docs/research/RDR-015-copilot-agent-tools.md) (Partially Adopted: added `usages` to Research/Explore/Plan, `changes` and `testFailure` to Review/Commit)
 - [ ] Research if there's a way to make the handoff agent deterministic. Right now there's usually a difference between what the research/explore/plan agents write in the chat window vs what the handoff produces

@@ -124,12 +124,12 @@ These test that overlapping phrases go to the right skill.
 
 ## Core Workflow vs Skill
 
-| Goal                        | Use                          |
-| --------------------------- | ---------------------------- |
-| Explore → Implement         | **Custom Agents** (dropdown) |
-| Quick debugging session     | **Skill** (auto-activates)   |
-| Want enforced read-only     | **Custom Agent**             |
-| Just need a methodology     | **Skill**                    |
+| Goal                    | Use                          |
+| ----------------------- | ---------------------------- |
+| Explore → Implement     | **Custom Agents** (dropdown) |
+| Quick debugging session | **Skill** (auto-activates)   |
+| Want enforced read-only | **Custom Agent**             |
+| Just need a methodology | **Skill**                    |
 
 ---
 

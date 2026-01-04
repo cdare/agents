@@ -44,13 +44,13 @@ Explore → Implement → Review → Commit
   Handoff   (fix)     Done
 ```
 
-| Agent         | Purpose                          | Tool Access | Handoff To                    |
-| ------------- | -------------------------------- | ----------- | ----------------------------- |
-| **Explore**   | Research + create plans          | Read-only   | → Implement, → Handoff        |
-| **Implement** | Execute planned changes          | Full access | → Review                      |
-| **Review**    | Verify implementation quality    | Read + Test | → Commit / → Explore (re-plan)|
-| **Commit**    | Create semantic commits          | Git + Read  | ✅ Done                       |
-| **Handoff**   | Persist context for next session | Write       | → Implement                   |
+| Agent         | Purpose                          | Tool Access | Handoff To                     |
+| ------------- | -------------------------------- | ----------- | ------------------------------ |
+| **Explore**   | Research + create plans          | Read-only   | → Implement, → Handoff         |
+| **Implement** | Execute planned changes          | Full access | → Review                       |
+| **Review**    | Verify implementation quality    | Read + Test | → Commit / → Explore (re-plan) |
+| **Commit**    | Create semantic commits          | Git + Read  | ✅ Done                        |
+| **Handoff**   | Persist context for next session | Write       | → Implement                    |
 
 **Why agents?** Each phase has **enforced tool restrictions** (Explore can't accidentally edit code) and **handoff buttons** to guide you to the next step.
 

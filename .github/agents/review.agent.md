@@ -17,7 +17,7 @@ handoffs:
   - label: Commit Changes
     agent: Commit
     prompt: The review passed. Create semantic commits for the approved changes above.
-    send: false
+    send: true
   - label: Fix Issues
     agent: Implement
     prompt: Address the issues found in the review above and update the implementation.

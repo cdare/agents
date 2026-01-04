@@ -42,6 +42,6 @@ Add URLs to the list above. Format after research:
 - [x] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? → [RDR-010](docs/research/RDR-010-subagents-context-fork.md) (Subagents fork context; adopted for parallel investigations in Research agent)
 - [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/RDR-012-planning-with-files.md)
 - [x] [vscode-browser-testing](https://code.visualstudio.com/docs/copilot/overview) → [RDR-013](docs/research/RDR-013-vscode-browser-testing.md)
-- [ ] [vscode-copilot-settings](https://code.visualstudio.com/docs/copilot/setup) - Research recommended VSCode settings/configurations for optimal Copilot agent performance
+- [x] [vscode-copilot-settings](https://code.visualstudio.com/docs/copilot/setup) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md)
 - [ ] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/copilot-extensibility-overview) - Research ALL tools available to agents in VSCode/Copilot and evaluate if current agent tool selections are optimal
 - [ ] Research if there's a way to make the handoff agent deterministic. Right now there's usually a difference between what the research/explore/plan agents write in the chat window vs what the handoff produces

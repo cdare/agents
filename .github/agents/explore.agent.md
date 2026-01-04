@@ -2,7 +2,15 @@
 name: Explore
 description: Combined research and planning with full capability. Use for understanding codebases and creating implementation plans in a single session.
 tools:
-  ["read/problems", "read/readFile", "search", "web", "todo", "runSubagent"]
+  [
+    "read/problems",
+    "read/readFile",
+    "search",
+    "usages",
+    "web",
+    "todo",
+    "runSubagent",
+  ]
 model: Claude Opus 4.5
 handoffs:
   - label: Start Implementation

@@ -2,7 +2,15 @@
 name: Research
 description: Deep codebase exploration with read-only access. Use for understanding how code works, tracing data flow, exploring architecture, or investigating implementations.
 tools:
-  ["read/problems", "read/readFile", "search", "web", "todo", "runSubagent"]
+  [
+    "read/problems",
+    "read/readFile",
+    "search",
+    "usages",
+    "web",
+    "todo",
+    "runSubagent",
+  ]
 model: Claude Opus 4.5
 handoffs:
   - label: Create Plan

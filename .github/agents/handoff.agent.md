@@ -55,18 +55,29 @@ Then proceed directly to write the file.
 
 ### Step 1: Analyze Source Context and Generate Filename
 
-Identify the source agent and generate filename:
+Filename format: `.github/handoffs/YYYY-MM-DD-HHMMSS-<slug>.md`
 
-| Source   | Key Indicators                                            | Slug Pattern       |
-| -------- | --------------------------------------------------------- | ------------------ |
-| Research | "Research Findings", component tables, data flow diagrams | `<topic>-research` |
-| Plan     | "Implementation Plan", phases, success criteria           | `<topic>-plan`     |
+**Timestamp**: `YYYY-MM-DD-HHMMSS` in 24-hour time (e.g., `2025-01-15-143052`)
 
-Create filename: `.github/handoffs/YYYY-MM-DD-HHMMSS-<slug>.md`
+**Slug rules**:
+- 2-4 lowercase words, hyphen-separated
+- End with source suffix: `-research`, `-plan`, or `-explore`
+- Alphanumeric and hyphens only
 
-- Use current date and time (HHMMSS) for timestamp
-- Generate slug from main topic (e.g., `auth-system-research`, `api-refactor-plan`)
-- Proceed directly without confirmation
+| Source   | Key Indicators                                 | Suffix      |
+| -------- | ---------------------------------------------- | ----------- |
+| Research | Component tables, data flow, findings          | `-research` |
+| Plan     | Phases, success criteria                       | `-plan`     |
+| Explore  | Combined research + plan from Explore agent    | `-explore`  |
+
+**Examples**:
+- ✅ `2025-01-15-143052-auth-flow-research.md`
+- ✅ `2025-01-15-091530-api-refactor-plan.md`
+- ✅ `2025-01-15-180000-user-auth-explore.md`
+- ❌ `2025-01-15-143052-Authentication_System.md` (capitals, underscores)
+- ❌ `2025-01-15-143052-research.md` (no topic)
+
+Proceed directly without confirmation.
 
 ### Step 2: Transform Content
 

@@ -41,3 +41,7 @@ Add URLs to the list above. Format after research:
 - [x] Combine Research + Plan agents → Rejected: Separation enforces read-only research and different cognitive modes (see [prevailing-wisdom.md](docs/synthesis/prevailing-wisdom.md#principle-1-phased-workflows-with-explicit-boundaries))
 - [x] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? → [RDR-010](docs/research/RDR-010-subagents-context-fork.md) (Subagents fork context; adopted for parallel investigations in Research agent)
 - [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/RDR-012-planning-with-files.md)
+- [ ] [vscode-browser-testing](https://code.visualstudio.com/docs/copilot/overview) - Research VSCode/Copilot ability to utilize browsers for testing UI flows (Playwright integration, browser preview, etc.)
+- [ ] [vscode-copilot-settings](https://code.visualstudio.com/docs/copilot/setup) - Research recommended VSCode settings/configurations for optimal Copilot agent performance
+- [ ] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/copilot-extensibility-overview) - Research ALL tools available to agents in VSCode/Copilot and evaluate if current agent tool selections are optimal
+- [ ] Research if there's a way to make the handoff agent deterministic. Right now there's usually a difference between what the research/explore/plan agents write in the chat window vs what the handoff produces

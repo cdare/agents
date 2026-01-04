@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [0.7.2] - 2026-01-04
+
+### Added
+
+- Research tasks for VSCode browser testing, Copilot settings, and agent tools
+
+### Changed
+
+- Commit agent: explicit handoff file exclusion, never use force flags, require confirmation before deleting handoffs
+- Handoff agent: added Explore source type, explicit filename formatting rules
+- Implement agent: preserve handoff files until review passes (previously deleted after implementation)
+
 ## [0.7.1] - 2026-01-03
 
 ### Added

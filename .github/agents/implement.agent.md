@@ -239,17 +239,15 @@ If working from a handoff file, re-read it periodically—not just at session st
 
 After all phases are complete and verified:
 
-1. **Delete handoff files** - If implementation used a handoff file from `.github/handoffs/`, delete it
-2. **Confirm ready for review** - All tests pass, no lint errors, implementation matches plan intent
+1. **Confirm ready for review** - All tests pass, no lint errors, implementation matches plan intent
 
 ```
 ✅ Implementation complete
 
-Cleanup:
-- Deleted: .github/handoffs/YYYY-MM-DD-HHMMSS-slug.md
-
-Ready to hand off to Review.
+All phases verified. Ready to hand off to Review.
 ```
+
+Note: Handoff files are preserved until review passes, in case re-planning is needed.
 
 ## Resuming Work
 

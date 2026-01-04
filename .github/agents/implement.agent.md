@@ -109,10 +109,19 @@ For each phase:
    - Add/update tests alongside changes
 
 3. **Run Verification After Each Significant Change**
+
    - Run relevant tests
    - Check for type errors
    - Verify no lint issues
    - Don't batch verifications - catch issues early
+
+4. **Verify UI Changes** (when available and applicable)
+   - If Playwright MCP is configured and changes affect UI:
+     - Navigate to the affected pages
+     - Take screenshots to verify visual appearance
+     - Test interactions (clicking, form filling) work as expected
+     - Verify expected elements exist using assertions
+   - This reduces manual testing burden and catches issues earlier
 
 ### Step 3: Phase Completion
 
@@ -125,6 +134,7 @@ Running verification for Phase [N]:
 - Tests: [command and result]
 - Types: [command and result]
 - Lint: [command and result]
+- UI: [screenshot/assertions if applicable]
 ```
 
 2. **Fix Any Issues** before proceeding

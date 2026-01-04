@@ -60,17 +60,19 @@ Filename format: `.github/handoffs/YYYY-MM-DD-HHMMSS-<slug>.md`
 **Timestamp**: `YYYY-MM-DD-HHMMSS` in 24-hour time (e.g., `2025-01-15-143052`)
 
 **Slug rules**:
+
 - 2-4 lowercase words, hyphen-separated
 - End with source suffix: `-research`, `-plan`, or `-explore`
 - Alphanumeric and hyphens only
 
-| Source   | Key Indicators                                 | Suffix      |
-| -------- | ---------------------------------------------- | ----------- |
-| Research | Component tables, data flow, findings          | `-research` |
-| Plan     | Phases, success criteria                       | `-plan`     |
-| Explore  | Combined research + plan from Explore agent    | `-explore`  |
+| Source   | Key Indicators                              | Suffix      |
+| -------- | ------------------------------------------- | ----------- |
+| Research | Component tables, data flow, findings       | `-research` |
+| Plan     | Phases, success criteria                    | `-plan`     |
+| Explore  | Combined research + plan from Explore agent | `-explore`  |
 
 **Examples**:
+
 - ✅ `2025-01-15-143052-auth-flow-research.md`
 - ✅ `2025-01-15-091530-api-refactor-plan.md`
 - ✅ `2025-01-15-180000-user-auth-explore.md`

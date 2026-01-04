@@ -150,6 +150,7 @@ Use a single commit when all changes are part of one atomic feature.
 **Handoff files** (`.github/handoffs/*`) are temporary context files for multi-session continuity. They are gitignored and should never be committed.
 
 If you see handoff files in the changes:
+
 - Skip them entirely
 - Do not stage them with `git add`
 - If they were staged, unstage with `git reset .github/handoffs/`

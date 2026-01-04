@@ -4,6 +4,14 @@ applyTo: "**"
 
 # Terminal & CLI Instructions
 
+## CRITICAL: Inviolable Rules
+
+These rules have the highest priority and must never be violated.
+
+1. **Long terminal commands**: NEVER attempt to run ANY commands in the terminal that exceed 5-7 lines. ALWAYS either break them down into smaller commands, or use IDE file editing tools to create a script file.
+
+2. **Long outputs**: if there's a chance a terminal command might exceed 5-10 lines of output, pipe it to `head` or `tail`, or else use `cat` or `grep` to limit output.
+
 ## Shell Commands
 
 - Target shell: **zsh** on macOS
@@ -29,33 +37,3 @@ gh api repos/owner/repo/contents/path/to/file \
 # View workflow run non-interactively
 gh run view 12345 | cat
 ```
-
-## Command Chaining
-
-- Use `&&` to chain dependent commands
-- Use `;` for independent commands
-- Use `|` pipelines over temporary files
-
-```zsh
-# Good - stops on failure
-cd project && npm install && npm test
-
-# Good - pipeline
-find . -name "*.py" | xargs grep "TODO"
-
-# Avoid - continues on failure
-cd project; npm install; npm test
-```
-
-## Output Management
-
-- Use `head`, `tail`, `grep` to limit output
-- Use `| cat` for pager commands: `git --no-pager log` or `git log | cat`
-- Use `wc -l` to count before displaying large outputs
-- Redirect verbose output: `command 2>&1 | tail -100`
-
-## Background Processes
-
-- Use `&` suffix for background processes
-- Long-running processes (servers, watch mode) should be backgrounded
-- Check status with `jobs`, `fg`, `bg`

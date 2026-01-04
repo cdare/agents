@@ -25,7 +25,7 @@ Example: `['codebase', 'search', 'editFiles']`
 Example:
 
 ```
-Research → [Your Agent] → Implement
+Explore → [Your Agent] → Implement
 ```
 
 ## Agent Code

@@ -24,8 +24,8 @@ handoffs:
     agent: Implement
     prompt: Address the issues found in the review above and update the implementation.
     send: false
-  - label: Re-Plan
-    agent: Plan
+  - label: Re-Explore
+    agent: Explore
     prompt: The implementation has fundamental issues. Review the findings above and create a revised plan.
     send: false
 ---
@@ -265,4 +265,4 @@ After review is complete, use the appropriate handoff:
 
 ### Status: FAIL ❌
 
-**→ Re-Plan**: Use the "Re-Plan" handoff when the approach is fundamentally wrong or scope has grown beyond the original plan.
+**→ Re-Explore**: Use the "Re-Explore" handoff when the approach is fundamentally wrong or scope has grown beyond the original plan.

@@ -82,15 +82,14 @@ progress.md          # Task status
 
 ### 4. Handoff Pattern (Adopted)
 
-**What it is:** Persist context at natural workflow boundaries (end of Research, end of Plan) to timestamped markdown files. A dedicated Handoff agent with file-write permissions transforms conversation context into structured documents.
+**What it is:** Persist context at natural workflow boundaries (end of Explore session) to timestamped markdown files. A dedicated Handoff agent with file-write permissions copies Explore output verbatim with added YAML frontmatter.
 
 **How it works:**
 
 ```
-Research ──┬──→ Plan ──┬──→ Implement → Review → Commit
-           │           │
-           └──→ Handoff Agent (writes to .github/handoffs/)
-                       └──→ Handoff Agent
+Explore ──┬──→ Implement → Review → Commit
+          │
+          └──→ Handoff Agent (writes to .github/handoffs/)
 
 New session: Implement agent reads handoff file
 ```
@@ -129,9 +128,9 @@ Inside repository but globally gitignored to prevent accidental commits. Can be 
 
 AGENTS uses the **Handoff Pattern** for session continuity:
 
-1. **Research** or **Plan** agent completes work
-2. User clicks "Save Research" or "Save Plan" handoff button
-3. **Handoff** agent writes structured markdown to `.github/handoffs/`
+1. **Explore** agent completes research and planning
+2. User clicks "Save Context" handoff button
+3. **Handoff** agent writes markdown verbatim to `.github/handoffs/`
 4. New session: **Implement** agent reads the handoff file
 
 For implementation details, see the [Handoff agent](../../.github/agents/handoff.agent.md).

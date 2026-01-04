@@ -38,10 +38,10 @@ Add URLs to the list above. Format after research:
 - [x] [mitsuhiko-agent-stuff](https://github.com/mitsuhiko/agent-stuff/blob/main/skills/improve-skill/SKILL.md) → [RDR-007](docs/research/RDR-007-mitsuhiko-agent-stuff.md)
 - [x] Building my own tools for memory (MCP servers) → [RDR-009](docs/research/RDR-009-mcp-memory-rejected.md) (Rejected)
 - [x] Create guidelines for plan file artifacts → Resolved: Use Research → Handoff workflow (documented in [README](README.md#the-workflow))
-- [x] Combine Research + Plan agents → Rejected: Separation enforces read-only research and different cognitive modes (see [prevailing-wisdom.md](docs/synthesis/prevailing-wisdom.md#principle-1-phased-workflows-with-explicit-boundaries))
+- [x] Combine Research + Plan agents → [RDR-016](docs/research/RDR-016-agent-consolidation.md) (Adopted: consolidated into Explore agent, reversing previous rejection)
 - [x] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? → [RDR-010](docs/research/RDR-010-subagents-context-fork.md) (Subagents fork context; adopted for parallel investigations in Research agent)
 - [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/RDR-012-planning-with-files.md)
 - [x] [vscode-browser-testing](https://code.visualstudio.com/docs/copilot/overview) → [RDR-013](docs/research/RDR-013-vscode-browser-testing.md)
 - [x] [vscode-copilot-settings](https://code.visualstudio.com/docs/copilot/setup) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md)
 - [x] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features) → [RDR-015](docs/research/RDR-015-copilot-agent-tools.md) (Partially Adopted: added `usages` to Research/Explore/Plan, `changes` and `testFailure` to Review/Commit)
-- [ ] Research if there's a way to make the handoff agent deterministic. Right now there's usually a difference between what the research/explore/plan agents write in the chat window vs what the handoff produces
+- [x] Research if there's a way to make the handoff agent deterministic → [RDR-016](docs/research/RDR-016-agent-consolidation.md) (Resolved: unified Explore output format with handoff format for verbatim copying)

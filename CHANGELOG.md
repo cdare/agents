@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [0.8.0] - 2026-01-04
+
+### Added
+
+- RDR-016: Agent consolidation decision record
+
+### Changed
+
+- Consolidated Research + Plan agents into Explore agent (now 5 agents instead of 6)
+- Explore agent enhanced with all features from Research and Plan
+- Handoff agent simplified to copy Explore output verbatim (deterministic handoffs)
+- Review agent: Re-Plan → Re-Explore handoff
+
+### Removed
+
+- `research.agent.md` - functionality merged into Explore
+- `plan.agent.md` - functionality merged into Explore
+
 ## [0.7.2] - 2026-01-04
 
 ### Added

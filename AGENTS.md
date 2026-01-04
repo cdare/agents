@@ -8,7 +8,7 @@ This is an agentic coding framework. Key locations:
 
 | Path              | Contents                                                                          |
 | ----------------- | --------------------------------------------------------------------------------- |
-| `.github/agents/` | Custom agent definitions (Research, Plan, Implement, Review)                      |
+| `.github/agents/` | Custom agent definitions (Explore, Implement, Review, Commit, Handoff)            |
 | `.github/skills/` | Agent skill definitions (debug, tech-debt, architecture, mentor, janitor, critic) |
 | `instructions/`   | File-type coding standards                                                        |
 | `docs/sources/`   | Reference materials from external frameworks                                      |

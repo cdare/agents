@@ -24,19 +24,19 @@ These agents appear in the agent picker and have **enforced tool access**.
 
 | Agent       | Purpose                       | Tool Restrictions          |
 | ----------- | ----------------------------- | -------------------------- |
-| `Research`  | Deep codebase exploration     | Read-only (no editFiles)   |
-| `Plan`      | Create implementation plans   | Read-only (no editFiles)   |
+| `Explore`   | Research + create plans       | Read-only (no editFiles)   |
 | `Implement` | Execute planned changes       | Full access                |
 | `Review`    | Verify implementation quality | Read + Test (no editFiles) |
+| `Commit`    | Create semantic commits       | Git + Read                 |
 
 ### Agent Handoff Tests
 
 | Agent       | Expected Handoff Button                  |
 | ----------- | ---------------------------------------- |
-| `Research`  | "Create Plan" → Plan agent               |
-| `Plan`      | "Start Implementation" → Implement agent |
+| `Explore`   | "Start Implementation" → Implement agent |
 | `Implement` | "Review Changes" → Review agent          |
-| `Review`    | (none - workflow complete)               |
+| `Review`    | "Commit" / "Re-Explore"                  |
+| `Commit`    | (none - workflow complete)               |
 
 ---
 
@@ -126,7 +126,7 @@ These test that overlapping phrases go to the right skill.
 
 | Goal                        | Use                          |
 | --------------------------- | ---------------------------- |
-| Research → Plan → Implement | **Custom Agents** (dropdown) |
+| Explore → Implement         | **Custom Agents** (dropdown) |
 | Quick debugging session     | **Skill** (auto-activates)   |
 | Want enforced read-only     | **Custom Agent**             |
 | Just need a methodology     | **Skill**                    |

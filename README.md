@@ -14,7 +14,7 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 
 | Component        | Count | What It Does                                                             |
 | ---------------- | ----- | ------------------------------------------------------------------------ |
-| **Agents**       | 6     | Phase-based workflow with enforced tool restrictions and handoff buttons |
+| **Agents**       | 5     | Phase-based workflow with enforced tool restrictions and handoff buttons |
 | **Skills**       | 6     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
 | **Instructions** | 5     | File-type coding standards that load automatically                       |
 
@@ -32,28 +32,27 @@ That's it. Use `/agent` or the Chat menu to select agents, or just talk naturall
 
 > "The highest leverage point is at the end of research and the beginning of the plan. A human can skim 30 seconds and provide feedback that saves hours of incorrect implementation."
 
-This framework is built around that insight. **Research** and **Plan** agents are read-only—they can't accidentally edit your code. You review their output, then hand off to **Implement** when you're ready.
+This framework is built around that insight. The **Explore** agent is read-only—it can't accidentally edit your code. You review its research and plan, then hand off to **Implement** when you're ready.
 
 ---
 
 ## The Workflow
 
 ```
-Research → Plan → Implement → Review → Commit
-    ↓         ↓         ↑         ↓
-  Handoff  Handoff    (fix)     Done
+Explore → Implement → Review → Commit
+    ↓         ↑         ↓
+  Handoff   (fix)     Done
 ```
 
-| Agent         | Purpose                          | Tool Access | Handoff To                   |
-| ------------- | -------------------------------- | ----------- | ---------------------------- |
-| **Research**  | Deep codebase exploration        | Read-only   | → Plan, → Handoff            |
-| **Plan**      | Create implementation plans      | Read-only   | → Implement, → Handoff       |
-| **Implement** | Execute planned changes          | Full access | → Review                     |
-| **Review**    | Verify implementation quality    | Read + Test | → Commit / → Implement (fix) |
-| **Commit**    | Create semantic commits          | Git + Read  | ✅ Done                      |
-| **Handoff**   | Persist context for next session | Write       | → Implement                  |
+| Agent         | Purpose                          | Tool Access | Handoff To                    |
+| ------------- | -------------------------------- | ----------- | ----------------------------- |
+| **Explore**   | Research + create plans          | Read-only   | → Implement, → Handoff        |
+| **Implement** | Execute planned changes          | Full access | → Review                      |
+| **Review**    | Verify implementation quality    | Read + Test | → Commit / → Explore (re-plan)|
+| **Commit**    | Create semantic commits          | Git + Read  | ✅ Done                       |
+| **Handoff**   | Persist context for next session | Write       | → Implement                   |
 
-**Why agents?** Each phase has **enforced tool restrictions** (Plan can't accidentally edit code) and **handoff buttons** to guide you to the next step.
+**Why agents?** Each phase has **enforced tool restrictions** (Explore can't accidentally edit code) and **handoff buttons** to guide you to the next step.
 
 ---
 
@@ -166,7 +165,7 @@ Run `./install.sh` after adding agents or skills.
 
 ```
 .github/
-├── agents/           # Workflow phases (Research, Plan, Implement, Review, Commit, Handoff)
+├── agents/           # Workflow phases (Explore, Implement, Review, Commit, Handoff)
 └── skills/           # Auto-activating capabilities (debug, mentor, etc.)
 
 instructions/         # File-type coding standards

@@ -42,8 +42,8 @@ Every major framework implements some variant of: **Research → Plan → Execut
 Create distinct agent modes for each phase. Use tool restrictions to enforce boundaries:
 
 ```yaml
-# research.agent.md
-tools: ['codebase', 'search', 'fetch', 'githubRepo']  # Read-only tools
+# explore.agent.md
+tools: ['codebase', 'search', 'fetch', 'githubRepo', 'usages']  # Read-only tools
 
 # implement.agent.md
 tools: ['codebase', 'search', 'editFiles', 'runTests']  # Full access

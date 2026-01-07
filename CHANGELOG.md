@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _No changes yet._
 
+## [0.9.0] - 2026-01-07
+
+### Added
+
+- RDR-017: Agent specification compatibility research for VS Code and Claude Code
+- Claude Code slash command generation (`/project:explore`, `/project:implement`, `/project:review`, `/project:commit`)
+- Capabilities sections in all agents describing tool access levels
+- Claude Code usage documentation in README
+
+### Changed
+
+- Agents now use platform-agnostic language ("When starting this phase" vs "When this agent is activated")
+- Install script generates Claude Code commands from agent bodies by stripping YAML frontmatter
+- Handoff references updated to generic "Proceed to..." language instead of button-specific text
+- Explore agent model field corrected to "Claude Opus 4.5"
+
 ## [0.8.0] - 2026-01-04
 
 ### Added
@@ -160,7 +176,10 @@ _No changes yet._
 - Comprehensive documentation and synthesis from multiple frameworks
 - Source materials from 12-Factor Agents, HumanLayer, CursorRIPER, Superpowers
 
-[Unreleased]: https://github.com/mcouthon/agents/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/mcouthon/agents/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/mcouthon/agents/compare/v0.8.0...v0.9.0
+[0.8.0]: https://github.com/mcouthon/agents/compare/v0.7.2...v0.8.0
+[0.7.2]: https://github.com/mcouthon/agents/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/mcouthon/agents/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/mcouthon/agents/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/mcouthon/agents/compare/v0.5.0...v0.6.0

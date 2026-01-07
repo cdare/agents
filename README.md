@@ -89,13 +89,49 @@ No manual switching required—just ask naturally.
 
 After `./install.sh`:
 
-| Component            | Installed To                                          |
-| -------------------- | ----------------------------------------------------- |
-| Agents (VS Code)     | `~/Library/Application Support/Code/User/prompts/`    |
-| Agents (Claude Code) | `~/.claude/agents/`                                   |
-| Skills               | `~/.github/skills/` (with `~/.claude/skills` symlink) |
-| Instructions         | `~/Library/Application Support/Code/User/prompts/`    |
-| Handoffs gitignore   | Added to global gitignore                             |
+| Component              | Installed To                                          |
+| ---------------------- | ----------------------------------------------------- |
+| Agents (VS Code)       | `~/Library/Application Support/Code/User/prompts/`    |
+| Commands (Claude Code) | `~/.claude/commands/`                                 |
+| Skills                 | `~/.github/skills/` (with `~/.claude/skills` symlink) |
+| Instructions           | `~/Library/Application Support/Code/User/prompts/`    |
+| Handoffs gitignore     | Added to global gitignore                             |
+
+---
+
+## Claude Code Usage
+
+Agents are available as slash commands in Claude Code:
+
+| Command                   | Purpose                 |
+| ------------------------- | ----------------------- |
+| `/project:explore <task>` | Research and plan       |
+| `/project:implement`      | Execute the plan        |
+| `/project:review`         | Verify changes          |
+| `/project:commit`         | Create semantic commits |
+
+**Example workflow:**
+
+```
+$ claude
+> /project:explore add user authentication
+
+[Claude researches, produces plan]
+
+> /project:implement
+
+[Claude implements based on conversation context]
+
+> /project:review
+
+[Claude reviews changes]
+
+> /project:commit
+
+[Claude creates commits]
+```
+
+**Note:** VS Code agent features like tool restrictions, model selection, and handoff buttons are not available in Claude Code. Skills work identically on both platforms.
 
 ---
 

@@ -27,6 +27,18 @@ handoffs:
 
 Research the codebase and create an implementation plan in a single session.
 
+## Capabilities
+
+This is a **read-only** research phase. You can:
+
+- **Read files and code** to understand the codebase structure
+- **Search** for patterns, symbols, and usages across the workspace
+- **Fetch web content** for documentation or reference materials
+- **Spawn subagents** for parallel investigation of independent areas
+- **Track progress** with a todo list for complex research
+
+**Model hint:** For complex research tasks, use a high-capability model (e.g., Opus) for deeper reasoning.
+
 ## CRITICAL: Research Phase Behavior
 
 When conducting the research portion:
@@ -41,7 +53,7 @@ This constraint applies to the Research Findings section. The Implementation Pla
 
 ## Initial Response
 
-When this agent is activated:
+When starting this phase:
 
 ```
 I'll explore the codebase and create an implementation plan.
@@ -376,4 +388,4 @@ If you do need to ask: keep it to 1-3 specific questions maximum, then proceed.
 - **Be Practical**: Focus on incremental, testable changes
 - **Minimize Asks**: Only pause for user input when genuinely needed
 
-**→ Next step**: Use the "Start Implementation" or "Save Context" handoff button
+**→ Next step**: Proceed to implementation, or save context for a future session

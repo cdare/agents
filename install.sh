@@ -211,7 +211,7 @@ install() {
         [[ "$name" == "handoff" ]] && continue
         # Extract body after YAML frontmatter (everything after second ---)
         awk '/^---$/{p++; next} p>=2{print}' "$src" > "$CLAUDE_COMMANDS_DIR/$name.md"
-        success "Created command: /project:$name"
+        success "Created command: /$name"
         cmd_count=$((cmd_count + 1))
     done
     
@@ -239,7 +239,7 @@ install() {
     info "  • ~/Library/Application Support/Code/User/prompts/"
     echo ""
     info "Claude Code commands installed to:"
-    info "  • ~/.claude/commands/ (invoke with /project:<name>)"
+    info "  • ~/.claude/commands/ (invoke with /<name>)"
     echo ""
     info "Skills installed to:"
     info "  • ~/.github/skills/ (with ~/.claude/skills symlink)"
@@ -304,7 +304,7 @@ uninstall() {
         local cmd_file="$CLAUDE_COMMANDS_DIR/$name.md"
         if [[ -f "$cmd_file" ]]; then
             rm "$cmd_file"
-            success "Removed command: /project:$name"
+            success "Removed command: /$name"
             cmd_count=$((cmd_count + 1))
         fi
     done

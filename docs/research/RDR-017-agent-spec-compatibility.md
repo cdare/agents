@@ -17,7 +17,7 @@ Investigated the VS Code Copilot custom agents specification and Claude Code's c
 | Agent Frontmatter | YAML header in `.agent.md` with name, description, tools, model, handoffs      |
 | Tool Restrictions | VS Code enforces per-agent tool lists; Claude Code has global permissions only |
 | Handoffs          | VS Code feature for guided transitions between agents; no CC equivalent        |
-| Slash Commands    | Claude Code's `/project:*` commands from `.claude/commands/` directory         |
+| Slash Commands    | Claude Code's custom commands from `.claude/commands/` directory               |
 | CLAUDE.md         | Claude Code's instruction file format (equivalent to AGENTS.md)                |
 
 ## VS Code Agent Specification (Well-Defined)
@@ -47,7 +47,7 @@ Investigated the VS Code Copilot custom agents specification and Claude Code's c
 | Tool restrictions | Per-agent `tools:`    | Global only         | ❌           |
 | Model selection   | Per-agent `model:`    | CLI flag only       | ❌           |
 | Handoffs          | `handoffs:` array     | Not available       | ❌           |
-| Slash commands    | `/` from prompt files | `/project:*`        | ✅ Similar   |
+| Slash commands    | `/` from prompt files | `/<command>`        | ✅ Similar   |
 | Skills            | `~/.github/skills/`   | `~/.claude/skills/` | ✅ Symlinked |
 
 ## Decision

@@ -103,30 +103,30 @@ After `./install.sh`:
 
 Agents are available as slash commands in Claude Code:
 
-| Command                   | Purpose                 |
-| ------------------------- | ----------------------- |
-| `/project:explore <task>` | Research and plan       |
-| `/project:implement`      | Execute the plan        |
-| `/project:review`         | Verify changes          |
-| `/project:commit`         | Create semantic commits |
+| Command           | Purpose                 |
+| ----------------- | ----------------------- |
+| `/explore <task>` | Research and plan       |
+| `/implement`      | Execute the plan        |
+| `/review`         | Verify changes          |
+| `/commit`         | Create semantic commits |
 
 **Example workflow:**
 
 ```
 $ claude
-> /project:explore add user authentication
+> /explore add user authentication
 
 [Claude researches, produces plan]
 
-> /project:implement
+> /implement
 
 [Claude implements based on conversation context]
 
-> /project:review
+> /review
 
 [Claude reviews changes]
 
-> /project:commit
+> /commit
 
 [Claude creates commits]
 ```

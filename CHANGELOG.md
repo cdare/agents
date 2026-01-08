@@ -14,7 +14,7 @@ _No changes yet._
 ### Added
 
 - RDR-017: Agent specification compatibility research for VS Code and Claude Code
-- Claude Code slash command generation (`/project:explore`, `/project:implement`, `/project:review`, `/project:commit`)
+- Claude Code slash command generation (`/explore`, `/implement`, `/review`, `/commit`)
 - Capabilities sections in all agents describing tool access levels
 - Claude Code usage documentation in README
 

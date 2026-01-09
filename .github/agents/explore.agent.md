@@ -17,7 +17,7 @@ model: Claude Opus 4.5
 handoffs:
   - label: Implement
     agent: Implement
-    prompt: Read the saved research and implement the plan.
+    prompt: Implement the plan, while referencing the research.
     send: false
   - label: Plan Next Phase
     agent: Explore

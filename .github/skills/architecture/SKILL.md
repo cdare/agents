@@ -12,9 +12,11 @@ description: >
 
 High-level design and system understanding.
 
-## Scope Mantra
+## Core Constraint
 
 > "Interfaces in; interfaces out. Data in; data out. Major flows, contracts, behaviors, and failure modes only."
+
+If you find yourself describing implementation details, STOP. Zoom out.
 
 ## What to Focus On
 
@@ -26,12 +28,23 @@ High-level design and system understanding.
 - Error surfaces and failure modes
 - Key design decisions and tradeoffs
 
-❌ **Skip**:
+❌ **Never Include**:
 
-- Implementation details
+- Implementation details (how functions work internally)
 - Line-by-line code analysis
 - Minor utility functions
 - Specific algorithms (unless architecturally significant)
+- Variable names, loop structures, or conditionals
+- Database schema details (only mention "stores X in Y")
+
+## Anti-Patterns
+
+| ❌ Don't Do This                        | ✅ Do This Instead                       |
+| --------------------------------------- | ---------------------------------------- |
+| "The function iterates over items..."   | "Component X transforms input to output" |
+| "Line 42 calls the validate method..."  | "Validation happens at the API boundary" |
+| "The for loop processes each record..." | "Records flow from A → B → C"            |
+| "This uses a HashMap with..."           | "State is cached in memory"              |
 
 ## Analysis Framework
 

@@ -1,20 +1,28 @@
 ---
 name: tech-debt
 description: >
-  Identify and resolve technical debt with focus on finding and cataloging issues. Use when
-  asked to find code smells, audit TODOs, identify complexity, improve code quality, or
-  assess technical debt. Triggers on: "use tech-debt mode", "tech debt", "find TODOs",
-  "code smells", "technical debt audit", "find complexity", "code quality audit".
+  Use when asked to find code smells, audit TODOs, remove dead code, clean up unused imports,
+  delete debug statements, or assess code quality. Triggers on: "use tech-debt mode", "tech debt",
+  "code smells", "clean up", "remove dead code", "delete unused", "simplify", "eliminate waste".
   Full access mode - can modify files and run tests.
 ---
 
 # Tech Debt Mode
 
-Identify and resolve technical debt.
+Identify, catalog, and eliminate technical debt.
 
 ## Core Philosophy
 
-> "Less Code = Less Debt. Deletion is the most powerful refactoring."
+> "Deletion is the most powerful refactoring."
+
+Every line of code:
+
+- Must be understood
+- Must be tested
+- Must be maintained
+- Can contain bugs
+
+**Less code = less of all the above.**
 
 ## Debt Indicators to Find
 
@@ -132,6 +140,61 @@ except ConnectionError:
 - ✅ Verify no regressions
 - ❌ Don't mix debt fixes with new features
 - ❌ Don't "refactor" working code without reason
+
+## Safe Deletion Patterns
+
+Before removing code, verify it's unused:
+
+```bash
+# Check for usages
+ag "function_name" --python
+
+# Check imports
+ag "from module import function_name"
+```
+
+Watch for code that might be used dynamically:
+
+```python
+# ✅ Safe to delete: unused import
+from typing import List  # 'List' never used in file
+
+# ✅ Safe to delete: unused variable
+result = calculate()  # 'result' never read
+log(value)  # This is the actual intent
+
+# ✅ Safe to delete: dead branch
+if False:  # Will never execute
+    do_something()
+
+# ⚠️ Verify first: might be used dynamically
+def _helper():  # Underscore suggests private, but check usages
+    pass
+
+# ❌ Don't delete without checking: exported function
+def public_api():  # Might be called by external code
+    pass
+```
+
+Also watch for:
+
+- Dynamically called code (`getattr`, `eval`)
+- Reflection-based frameworks
+- External API contracts
+- CLI entry points
+
+## Cleaning Checklist
+
+```markdown
+- [ ] Unused imports removed
+- [ ] Unused variables removed
+- [ ] Dead functions removed
+- [ ] Commented-out code removed
+- [ ] Debug statements removed
+- [ ] Duplicate code consolidated
+- [ ] Tests still pass
+- [ ] Types still check
+```
 
 ## Debt Prevention Tips
 

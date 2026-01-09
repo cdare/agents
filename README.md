@@ -14,7 +14,7 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 
 | Component        | Count | What It Does                                                             |
 | ---------------- | ----- | ------------------------------------------------------------------------ |
-| **Agents**       | 5     | Phase-based workflow with enforced tool restrictions and handoff buttons |
+| **Agents**       | 4     | Phase-based workflow with enforced tool restrictions and handoff buttons |
 | **Skills**       | 6     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
 | **Instructions** | 5     | File-type coding standards that load automatically                       |
 
@@ -39,20 +39,50 @@ This framework is built around that insight. The **Explore** agent is read-only�
 ## The Workflow
 
 ```
-Explore → Implement → Review → Commit
-    ↓         ↑         ↓
-  Handoff   (fix)     Done
+Explore ──→ Implement ──→ Review ──→ Commit
+               │            │
+               │            └──→ Fix Issues ──→ (back to Implement)
+               │
+               └──→ Commit (skip review for small changes)
 ```
 
-| Agent         | Purpose                          | Tool Access | Handoff To                     |
-| ------------- | -------------------------------- | ----------- | ------------------------------ |
-| **Explore**   | Research + create plans          | Read-only   | → Implement, → Handoff         |
-| **Implement** | Execute planned changes          | Full access | → Review                       |
-| **Review**    | Verify implementation quality    | Read + Test | → Commit / → Explore (re-plan) |
-| **Commit**    | Create semantic commits          | Git + Read  | ✅ Done                        |
-| **Handoff**   | Persist context for next session | Write       | → Implement                    |
+| Agent         | Purpose                       | Tool Access       | Key Handoffs               |
+| ------------- | ----------------------------- | ----------------- | -------------------------- |
+| **Explore**   | Research + create plans       | Read + Task Write | Implement                  |
+| **Implement** | Execute planned changes       | Full access       | Review, Commit             |
+| **Review**    | Verify implementation quality | Read + Test       | Commit Changes, Fix Issues |
+| **Commit**    | Create semantic commits       | Git + Read        | Push                       |
 
-**Why agents?** Each phase has **enforced tool restrictions** (Explore can't accidentally edit code) and **handoff buttons** to guide you to the next step.
+**Task Write**: Explore can only write to `.tasks/` directory—not your codebase.
+
+**Automatic state persistence**: Explore saves research to `.tasks/[task-name]/` so you can resume across sessions.
+
+**In-context actions**: Each agent has handoff buttons for common next steps that keep your chat history and context intact. To switch agents, just @ mention them (e.g., `@Implement` when ready to start coding).
+
+### Handoff Buttons (In-Context Actions)
+
+Each agent has buttons that trigger common next steps **without leaving your current chat context**:
+
+| Agent         | Button            | Purpose                                   |
+| ------------- | ----------------- | ----------------------------------------- |
+| **Explore**   | Implement         | Hand off to Implement agent               |
+|               | Plan Next Phase   | Detailed plan for next unplanned phase    |
+|               | Re-explore        | Investigate further                       |
+|               | Show Plan         | Display phase status from task.md         |
+|               | Save              | Persist research to `.tasks/`             |
+| **Implement** | Review            | Hand off to Review agent                  |
+|               | Commit            | Hand off to Commit agent                  |
+|               | Check for Errors  | Run linting and type checks               |
+|               | Run Tests         | Execute the test suite                    |
+| **Review**    | Commit Changes    | Hand off to Commit agent                  |
+|               | Fix Issues        | Hand off to Implement to address problems |
+|               | Re-review         | Check again after fixes are applied       |
+|               | Check Tests       | Run tests and verify they pass            |
+| **Commit**    | Review Commits    | Show commits with git log                 |
+|               | Amend Last Commit | Amend the last commit with staged changes |
+|               | Push              | Push commits to remote                    |
+
+**Key benefit**: These buttons keep your context and chat history. No reset, no re-explaining.
 
 ---
 
@@ -89,13 +119,13 @@ No manual switching required—just ask naturally.
 
 After `./install.sh`:
 
-| Component              | Installed To                                          |
-| ---------------------- | ----------------------------------------------------- |
-| Agents (VS Code)       | `~/Library/Application Support/Code/User/prompts/`    |
+| Component            | Installed To                                          |
+| -------------------- | ----------------------------------------------------- |
+| Agents (VS Code)     | `~/Library/Application Support/Code/User/prompts/`    |
 | Commands (Claude Code) | `~/.claude/commands/`                                 |
-| Skills                 | `~/.github/skills/` (with `~/.claude/skills` symlink) |
-| Instructions           | `~/Library/Application Support/Code/User/prompts/`    |
-| Handoffs gitignore     | Added to global gitignore                             |
+| Skills               | `~/.github/skills/` (with `~/.claude/skills` symlink) |
+| Instructions         | `~/Library/Application Support/Code/User/prompts/`    |
+| Task state gitignore | Added to global gitignore (`.tasks/`)                 |
 
 ---
 
@@ -185,6 +215,35 @@ Run `./install.sh` after adding agents or skills.
 
 ---
 
+## Task Continuity
+
+Explore persists state to `.tasks/[task-name]/`:
+
+```
+.tasks/add-auth/
+  task.md                      # Research + phases + main plan
+  plan/
+    phase-1-config.md          # Detailed plan for phase 1 (optional)
+    phase-2-user-model.md      # Detailed plan for phase 2 (optional)
+```
+
+### Phase-Based Workflow
+
+1. **Initial research** → `task.md` with research findings + phase table
+2. **Plan Next Phase** (optional) → detailed plan for complex phases → `plan/phase-N-[name].md`
+3. **Implement** → picks smallest planned unit (phase plan if exists, else task.md)
+4. Mark phase ✅ Done, repeat
+
+| Agent         | Reads                   | Updates                              |
+| ------------- | ----------------------- | ------------------------------------ |
+| **Explore**   | `task.md`, `plan/*.md`  | `task.md`, `plan/*.md`, phase status |
+| **Implement** | Phase plan or `task.md` | Phase status (⬜→📋→🔄→✅)           |
+| **Review**    | All plan + implement    | —                                    |
+
+**To continue a task**: Just say "Continue working on [task-name]"
+
+---
+
 ## Agents vs Skills
 
 | Use Case                          | Use       |
@@ -201,7 +260,7 @@ Run `./install.sh` after adding agents or skills.
 
 ```
 .github/
-├── agents/           # Workflow phases (Explore, Implement, Review, Commit, Handoff)
+├── agents/           # Workflow phases (Explore, Implement, Review, Commit)
 └── skills/           # Auto-activating capabilities (debug, mentor, etc.)
 
 instructions/         # File-type coding standards

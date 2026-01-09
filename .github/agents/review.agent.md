@@ -18,16 +18,20 @@ model: Claude Sonnet 4.5
 handoffs:
   - label: Commit Changes
     agent: Commit
-    prompt: The review passed. Create semantic commits for the approved changes above.
+    prompt: Create semantic commits for the reviewed changes.
     send: true
   - label: Fix Issues
     agent: Implement
-    prompt: Address the issues found in the review above and update the implementation.
+    prompt: Address the issues found in the review.
     send: false
-  - label: Re-Explore
-    agent: Explore
-    prompt: The implementation has fundamental issues. Review the findings above and create a revised plan.
-    send: false
+  - label: Re-review
+    agent: Review
+    prompt: Review the changes again after fixes have been applied.
+    send: true
+  - label: Check Tests
+    agent: Review
+    prompt: Run the test suite and verify all tests pass.
+    send: true
 ---
 
 # Review Mode
@@ -50,13 +54,18 @@ This phase has **read and test access** for verification. You can:
 When starting this phase:
 
 ```
-I'll review the implementation. Please provide:
-1. The changes to review (or I'll check recent changes)
-2. The original plan (if applicable)
-3. Any specific concerns to focus on
-
-I'll verify against the plan, run tests, and inspect code quality.
+I'll review the implementation. What task is this for?
 ```
+
+**List available tasks** (if `.tasks/` directory exists):
+
+```
+Available tasks:
+- [task-slug-1]: [brief summary from task.md]
+- [task-slug-2]: [brief summary from task.md]
+```
+
+Or describe the changes to review if not part of a tracked task.
 
 ## Process Steps
 
@@ -74,6 +83,28 @@ I'll verify against the plan, run tests, and inspect code quality.
    - Note success criteria
    - Understand expected behavior
    - Check for any manual verification steps
+
+### Step 1.5: Read Task Context (If Task Name Provided)
+
+Before gathering git changes, read task context:
+
+1. Read `.tasks/[task]/task.md` for overview and original goals
+2. Read all files in `.tasks/[task]/explore/` for the original research/plan
+3. Read `.tasks/[task]/implement/progress.md` if exists for implementation notes
+4. If using steps, read step-specific context
+5. Present context summary:
+
+```
+Reviewing task: [task-name]
+
+Original plan/research:
+- [Key points from explore files]
+
+Implementation context:
+- [Key points from implement notes if available]
+
+Now checking git changes...
+```
 
 ### Step 2: Automated Verification
 

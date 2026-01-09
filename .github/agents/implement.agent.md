@@ -18,12 +18,24 @@ tools:
     "web",
     "todo",
   ]
-model: Claude Sonnet 4.5
+model: Claude Opus 4.5
 handoffs:
-  - label: Review Changes
+  - label: Review
     agent: Review
-    prompt: Review the implementation above against the plan and check for any issues.
-    send: false
+    prompt: Review the implementation for quality and correctness.
+    send: true
+  - label: Commit
+    agent: Commit
+    prompt: Create semantic commits for the changes made.
+    send: true
+  - label: Check for Errors
+    agent: Implement
+    prompt: Check for any type errors, lint issues, or problems in the code.
+    send: true
+  - label: Run Tests
+    agent: Implement
+    prompt: Run the tests and show me the results.
+    send: true
 ---
 
 # Implement Mode
@@ -53,19 +65,80 @@ When given a plan or context:
 If no plan provided:
 
 ```
-I'm ready to implement. Please provide:
-1. The implementation plan (or link to plan document)
-2. Which phase to start with (or confirm starting from Phase 1)
+I'm ready to implement.
 
-I'll read the plan thoroughly before beginning.
+What task should I continue? (Or provide a plan/handoff file directly)
+```
+
+**List available tasks** (if `.tasks/` directory exists):
+
+```
+Available tasks:
+- [task-slug-1]: [brief summary from task.md]
+- [task-slug-2]: [brief summary from task.md]
+```
+
+Or say "new task" if starting fresh without prior research.
+
+**When given task name:**
+
+1. Read `.tasks/[task]/task.md` for overview and **phase status table**
+2. **Determine what to implement** (smallest planned unit):
+   - If a phase has status 📋 Planned → read `plan/phase-N-[name].md` and implement that phase
+   - If a phase has status 🔄 In Progress → continue that phase
+   - If no phases are 📋 Planned but phases exist as ⬜ Not Started → implement from task.md directly (simpler task)
+   - If only task.md exists with no phase breakdown → implement the whole plan from task.md
+3. Present context summary:
+
+```
+Working on: [task-name]
+
+Phase Status:
+| # | Phase | Status |
+|---|-------|--------|
+| 1 | [name] | ✅ Done |
+| 2 | [name] | 📋 Planned ← Implementing this |
+| 3 | [name] | ⬜ Not Started |
+
+Reading: plan/phase-2-[name].md
+
+Proceeding with implementation.
+```
+
+**Or, if implementing from task.md directly:**
+
+```
+Working on: [task-name]
+
+No detailed phase plans found. Implementing from task.md.
+
+Proceeding with Phase 1: [name]
+```
+
+### After Completing a Phase
+
+1. Update `.tasks/[task]/task.md`:
+   - Change phase status from 🔄 to ✅ Done
+   - Add completion notes if relevant
+2. Ask: "Phase [N] complete. Continue to Phase [N+1]?"
+
+Research available:
+
+- explore/[file1].md: [brief description]
+- explore/[file2].md: [brief description]
+
+Proceeding with implementation.
+
 ```
 
 If pointed to a handoff file (e.g., `.github/handoffs/YYYY-MM-DD-HHMMSS-slug.md`):
 
 ```
+
 I'll read the handoff file and use it as my implementation context.
 
 Reading: .github/handoffs/[filename].md
+
 ```
 
 Then proceed with implementation using the handoff content as the plan.
@@ -89,17 +162,21 @@ Plans are carefully designed, but reality can be messy. Your job is to:
 4. **Confirm understanding** before starting:
 
 ```
+
 I've reviewed the plan. Starting with Phase [N]: [Name]
 
 This phase will:
+
 - [Change 1]
 - [Change 2]
 
 Files I'll modify:
+
 - `path/to/file.py`
 - `path/to/other.py`
 
 Proceeding with implementation.
+
 ```
 
 ### Step 2: Execute Phase
@@ -141,12 +218,15 @@ After implementing all changes in a phase:
 1. **Run All Automated Verification**
 
 ```
+
 Running verification for Phase [N]:
+
 - Tests: [command and result]
 - Types: [command and result]
 - Lint: [command and result]
 - UI: [screenshot/assertions if applicable]
-```
+
+````
 
 2. **Fix Any Issues** before proceeding
 
@@ -155,7 +235,30 @@ Running verification for Phase [N]:
    - Check off completed items in the plan
    - Note any deviations from plan
 
-4. **Pause for Manual Verification** (if plan has manual steps):
+4. **Optional: Write Implementation Notes**
+
+   After completing a significant phase, optionally write progress to `.tasks/[task]/implement/progress.md`:
+
+   ```yaml
+   ---
+   updated: YYYY-MM-DD HH:MM
+   ---
+
+   ## Phase [N]: [Name]
+
+   ### Completed
+   - [Item 1]
+   - [Item 2]
+
+   ### Current State
+   [Brief description of what's been implemented]
+
+   ### Next Steps
+   - [Item 1]
+   - [Item 2]
+````
+
+5. **Pause for Manual Verification** (if plan has manual steps):
 
 ```
 Phase [N] Complete - Ready for Manual Verification

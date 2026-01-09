@@ -24,7 +24,6 @@ CLAUDE_SKILLS_TARGET_DIR="$HOME/.claude/skills"
 
 # Agent target directories
 VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
-CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
 CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
 
 # Colors for output
@@ -108,11 +107,16 @@ unconfigure_global_gitignore() {
     gitignore_global="${gitignore_global/#\~/$HOME}"
     [[ ! -f "$gitignore_global" ]] && return 1
     
+    # Resolve symlinks for sed compatibility (macOS sed -i doesn't work on symlinks)
+    if [[ -L "$gitignore_global" ]]; then
+        gitignore_global=$(readlink -f "$gitignore_global" 2>/dev/null || greadlink -f "$gitignore_global" 2>/dev/null || echo "$gitignore_global")
+    fi
+    
     # Remove the pattern and its comment if they exist
     if grep -Fxq "$pattern" "$gitignore_global" 2>/dev/null; then
         # Use sed to remove the pattern and the comment line before it
         sed -i.bak '/# Copilot task state (personal session context)/d' "$gitignore_global"
-        sed -i.bak "/$pattern/d" "$gitignore_global"
+        sed -i.bak '\|'"$pattern"'|d' "$gitignore_global"
         rm "${gitignore_global}.bak" 2>/dev/null || true
         return 0
     fi

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.10.0] - 2026-01-09
 
 ### Added
+
 - Task-centric persistence: "Continue working on [task-name]" reads prior context
 - Descriptive filenames for research (e.g., `error_handling.md`, `auth_flow.md`)
 - Phase-based workflow with status tracking (⬜ Not Started, 📋 Planned, 🔄 In Progress, ✅ Done)
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - RDR-017: Task-centric persistence decisions
 
 ### Changed
+
 - Agent count reduced from 5 to 4 (Handoff agent removed)
 - Agent state now saved to `.tasks/[task-name]/` instead of `.github/handoffs/`
 - Explore agent asks for task name at start and saves research with descriptive filenames
@@ -31,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Install script manages `.tasks/` gitignore pattern instead of `.github/handoffs/`
 
 ### Removed
+
 - Handoff agent: functionality now handled by Explore agent with scoped write access
 - Review agent write access: now strictly read-only with test execution capability
 

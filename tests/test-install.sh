@@ -36,17 +36,6 @@ for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
 done
 success "VS Code agent symlinks created"
 
-# Verify agent symlinks exist in Claude Code agents folder
-CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
-for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
-    [[ -f "$agent" ]] || continue
-    name=$(basename "$agent")
-    if [[ ! -L "$CLAUDE_AGENTS_DIR/$name" ]]; then
-        error "Claude Code agent symlink not created: $name"
-    fi
-done
-success "Claude Code agent symlinks created"
-
 # Verify skill symlinks exist
 for skill in "$REPO_ROOT"/.github/skills/*/; do
     [[ -d "$skill" ]] || continue
@@ -56,6 +45,44 @@ for skill in "$REPO_ROOT"/.github/skills/*/; do
     fi
 done
 success "Skill symlinks created"
+
+# Verify instruction symlinks exist in VS Code prompts folder
+for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
+    [[ -f "$instr" ]] || continue
+    name=$(basename "$instr")
+    if [[ ! -L "$VSCODE_PROMPTS_DIR/$name" ]]; then
+        error "VS Code instruction symlink not created: $name"
+    fi
+done
+success "VS Code instruction symlinks created"
+
+# Verify Claude Code commands exist (generated files, not symlinks)
+CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
+command_count=0
+for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
+    [[ -f "$agent" ]] || continue
+    # Command files are named after the agent prefix (e.g., explore.agent.md -> explore.md)
+    name=$(basename "$agent" .agent.md)
+    if [[ -f "$CLAUDE_COMMANDS_DIR/$name.md" ]]; then
+        command_count=$((command_count + 1))
+    fi
+done
+if [[ $command_count -eq 0 ]]; then
+    error "No Claude Code commands created in $CLAUDE_COMMANDS_DIR"
+fi
+success "Claude Code commands created ($command_count files)"
+
+# Verify global gitignore contains .tasks/ pattern
+gitignore_global=$(git config --global core.excludesFile 2>/dev/null || echo "")
+if [[ -n "$gitignore_global" ]]; then
+    gitignore_global="${gitignore_global/#\~/$HOME}"
+    if ! grep -Fxq ".tasks/" "$gitignore_global" 2>/dev/null; then
+        error "Global gitignore does not contain .tasks/ pattern"
+    fi
+    success "Global gitignore configured with .tasks/"
+else
+    error "Global gitignore not configured"
+fi
 
 # Test uninstall
 info "Running uninstall..."
@@ -71,16 +98,6 @@ for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
 done
 success "VS Code agent symlinks removed"
 
-# Verify agent symlinks removed from Claude Code
-for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
-    [[ -f "$agent" ]] || continue
-    name=$(basename "$agent")
-    if [[ -L "$CLAUDE_AGENTS_DIR/$name" ]]; then
-        error "Claude Code agent symlink not removed: $name"
-    fi
-done
-success "Claude Code agent symlinks removed"
-
 # Verify skill symlinks removed
 for skill in "$REPO_ROOT"/.github/skills/*/; do
     [[ -d "$skill" ]] || continue
@@ -90,6 +107,26 @@ for skill in "$REPO_ROOT"/.github/skills/*/; do
     fi
 done
 success "Skill symlinks removed"
+
+# Verify instruction symlinks removed from VS Code
+for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
+    [[ -f "$instr" ]] || continue
+    name=$(basename "$instr")
+    if [[ -L "$VSCODE_PROMPTS_DIR/$name" ]]; then
+        error "VS Code instruction symlink not removed: $name"
+    fi
+done
+success "VS Code instruction symlinks removed"
+
+# Verify Claude Code commands removed
+for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
+    [[ -f "$agent" ]] || continue
+    name=$(basename "$agent" .agent.md)
+    if [[ -f "$CLAUDE_COMMANDS_DIR/$name.md" ]]; then
+        error "Claude Code command not removed: $name.md"
+    fi
+done
+success "Claude Code commands removed"
 
 # Re-install for normal use
 info "Re-installing for normal use..."

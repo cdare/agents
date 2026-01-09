@@ -119,13 +119,13 @@ No manual switching required—just ask naturally.
 
 After `./install.sh`:
 
-| Component            | Installed To                                          |
-| -------------------- | ----------------------------------------------------- |
-| Agents (VS Code)     | `~/Library/Application Support/Code/User/prompts/`    |
-| Commands (Claude Code) | `~/.claude/commands/`                                 |
-| Skills               | `~/.github/skills/` (with `~/.claude/skills` symlink) |
-| Instructions         | `~/Library/Application Support/Code/User/prompts/`    |
-| Task state gitignore | Added to global gitignore (`.tasks/`)                 |
+| Component              | Installed To                                           |
+| ---------------------- | ------------------------------------------------------ |
+| Agents (VS Code)       | `~/Library/Application Support/Code/User/prompts/`     |
+| Commands (Claude Code) | `~/.claude/commands/`                                  |
+| Skills                 | `~/.copilot/skills/` (with `~/.claude/skills` symlink) |
+| Instructions           | `~/Library/Application Support/Code/User/prompts/`     |
+| Task state gitignore   | Added to global gitignore (`.tasks/`)                  |
 
 ---
 
@@ -133,12 +133,12 @@ After `./install.sh`:
 
 Agents are available using `@agent-<Name>` syntax in Claude Code:
 
-| Command                  | Purpose                 |
-| ------------------------ | ----------------------- |
-| `@agent-Explore <task>`  | Research and plan       |
-| `@agent-Implement`       | Execute the plan        |
-| `@agent-Review`          | Verify changes          |
-| `@agent-Commit`          | Create semantic commits |
+| Command                 | Purpose                 |
+| ----------------------- | ----------------------- |
+| `@agent-Explore <task>` | Research and plan       |
+| `@agent-Implement`      | Execute the plan        |
+| `@agent-Review`         | Verify changes          |
+| `@agent-Commit`         | Create semantic commits |
 
 **Example workflow:**
 

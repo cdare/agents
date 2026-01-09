@@ -19,7 +19,7 @@ set -e
 SCRIPT_DIR="${0:A:h}"
 
 # Target directories
-SKILLS_TARGET_DIR="$HOME/.github/skills"
+SKILLS_TARGET_DIR="$HOME/.copilot/skills"
 CLAUDE_SKILLS_TARGET_DIR="$HOME/.claude/skills"
 
 # Agent target directories
@@ -171,7 +171,7 @@ install() {
         info "Creating Claude Code compatibility symlink..."
         mkdir -p "$(dirname "$CLAUDE_SKILLS_TARGET_DIR")"
         if ln -s "$SKILLS_TARGET_DIR" "$CLAUDE_SKILLS_TARGET_DIR" 2>/dev/null; then
-            success "Created: ~/.claude/skills → ~/.github/skills"
+            success "Created: ~/.claude/skills → ~/.copilot/skills"
         fi
     elif [[ "$(readlink "$CLAUDE_SKILLS_TARGET_DIR")" == "$SKILLS_TARGET_DIR" ]]; then
         info "Claude Code symlink already exists"
@@ -246,7 +246,7 @@ install() {
     info "  • ~/.claude/commands/ (invoke with @agent-<Name>)"
     echo ""
     info "Skills installed to:"
-    info "  • ~/.github/skills/ (with ~/.claude/skills symlink)"
+    info "  • ~/.copilot/skills/ (with ~/.claude/skills symlink)"
     echo ""
     info "Instructions installed to:"
     info "  • ~/Library/Application Support/Code/User/prompts/"

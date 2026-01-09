@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Explore agent: consolidated from 541 to 322 lines (40% reduction)
+  - Merged intro sections, moved Guidelines up, simplified process steps (9→6)
+  - Removed handoff-format templates (now using task.md format)
+- Implement agent: consolidated from 402 to 326 lines (19% reduction)
+  - Integrated orphaned sections (Attention Management, Resuming Work) into workflow
+  - Merged Quality Checklist + Testing Requirements with Guidelines
+
+### Removed
+
+- All handoff file references (`.github/handoffs/` patterns) from both agents
+
 ## [0.10.0] - 2026-01-09
 
 ### Added

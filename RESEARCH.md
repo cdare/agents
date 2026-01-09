@@ -47,11 +47,13 @@ Add URLs to the list above. Format after research:
 - [x] Research if there's a way to make the handoff agent deterministic → [RDR-016](docs/research/RDR-016-agent-consolidation.md) (Resolved: unified Explore output format with handoff format for verbatim copying)
 - [x] Verify which parts of the agents specification follow are well defined (eg https://code.visualstudio.com/docs/copilot/customization/custom-agents), and whether they are compatible with Claude Code OOTB (including tool/model specifications) → [RDR-017](docs/research/RDR-017-agent-spec-compatibility.md)
 - [x] Improve testing of agents, including making sure the install.sh script works, and that we're properly testing Claude Code related configurations
-- [ ] Find opportunities to trim down agents (mainly explore and implement)
+- [x] Find opportunities to trim down agents (mainly explore and implement)
+- [x] [vscode-1.108-skills](https://code.visualstudio.com/updates/v1_108) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md) (Adopted: updated install.sh to use ~/.copilot/skills, added 1.108 findings to RDR-014)
 - [ ] Review current skills. Remove bad ones, amend good ones.
 - [ ] Create a skill for creating makefiles
 - [ ] Rename explore back to research to avoid conflicts with CC?
 - [ ] Add "Save" handoff in "Implement" (for cases where the implementation is stalling/taking too long, and we want to continue execution in a new session)
-- [ ] Review addition of skills capabilities in new VSCode version 1.108, as well as any other updates in the new version that may bear on the FW. https://code.visualstudio.com/updates/v1_108. May need updating RDR-014 or RDR-015.
 - [ ] https://devscribe.app/
 - [ ] https://github.com/Dammyjay93/claude-design-skill/blob/main/skill/skill.md
+- [ ] https://www.agno.com/
+- [ ] https://github.com/OthmanAdi/planning-with-files

@@ -7,24 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-01-09
+
 ### Added
 - Task-centric persistence: "Continue working on [task-name]" reads prior context
 - Descriptive filenames for research (e.g., `error_handling.md`, `auth_flow.md`)
-- Optional step structure for complex multi-phase tasks
+- Phase-based workflow with status tracking (⬜ Not Started, 📋 Planned, 🔄 In Progress, ✅ Done)
+- Optional detailed phase plans in `.tasks/[task]/plan/phase-N-[name].md`
 - Task metadata in `.tasks/[task]/task.md`
-- Explore agent: automatic task persistence after user confirmation
-- Review agent: reads task context and persists findings
-- Implement agent: reads all prior task context automatically
+- Explore agent: scoped write access to `.tasks/` directory only
+- Explore agent: "Plan Next Phase" handoff for detailed planning
+- Implement agent: phase detection logic (picks smallest planned unit)
+- RDR-017: Task-centric persistence decisions
 
 ### Changed
-- Agent state now saved to `.tasks/[task-name]/` in addition to `.github/handoffs/`
+- Agent count reduced from 5 to 4 (Handoff agent removed)
+- Agent state now saved to `.tasks/[task-name]/` instead of `.github/handoffs/`
 - Explore agent asks for task name at start and saves research with descriptive filenames
-- Review agent reads task context before reviewing
-- Implement agent lists available tasks and reads prior research
-- Handoff agent remains available for explicit context persistence
+- Explore agent merges overview into task.md (single source of truth)
+- Implement agent reads task context from `.tasks/` directory, lists available tasks
+- Implement agent model changed to Claude Opus 4.5 for better quality
+- Review agent reads task context before reviewing (now read-only, no persistence)
+- Install script manages `.tasks/` gitignore pattern instead of `.github/handoffs/`
 
 ### Removed
-- _Nothing removed - Handoff agent kept for explicit saves_
+- Handoff agent: functionality now handled by Explore agent with scoped write access
+- Review agent write access: now strictly read-only with test execution capability
 
 ## [0.9.1] - 2026-01-08
 
@@ -200,7 +208,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation and synthesis from multiple frameworks
 - Source materials from 12-Factor Agents, HumanLayer, CursorRIPER, Superpowers
 
-[Unreleased]: https://github.com/mcouthon/agents/compare/v0.9.1...HEAD
+[Unreleased]: https://github.com/mcouthon/agents/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/mcouthon/agents/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/mcouthon/agents/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/mcouthon/agents/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/mcouthon/agents/compare/v0.7.2...v0.8.0

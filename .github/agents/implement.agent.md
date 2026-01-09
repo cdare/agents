@@ -67,7 +67,7 @@ If no plan provided:
 ```
 I'm ready to implement.
 
-What task should I continue? (Or provide a plan/handoff file directly)
+What task should I continue?
 ```
 
 **List available tasks** (if `.tasks/` directory exists):
@@ -79,6 +79,12 @@ Available tasks:
 ```
 
 Or say "new task" if starting fresh without prior research.
+
+**Resuming from previous work:**
+
+- Check plan for existing checkmarks; trust that completed work is done
+- Pick up from first unchecked item
+- Verify previous work only if something seems off
 
 **When given task name:**
 
@@ -121,27 +127,6 @@ Proceeding with Phase 1: [name]
    - Change phase status from 🔄 to ✅ Done
    - Add completion notes if relevant
 2. Ask: "Phase [N] complete. Continue to Phase [N+1]?"
-
-Research available:
-
-- explore/[file1].md: [brief description]
-- explore/[file2].md: [brief description]
-
-Proceeding with implementation.
-
-```
-
-If pointed to a handoff file (e.g., `.github/handoffs/YYYY-MM-DD-HHMMSS-slug.md`):
-
-```
-
-I'll read the handoff file and use it as my implementation context.
-
-Reading: .github/handoffs/[filename].md
-
-```
-
-Then proceed with implementation using the handoff content as the plan.
 
 ## Implementation Philosophy
 
@@ -204,12 +189,25 @@ For each phase:
    - Don't batch verifications - catch issues early
 
 4. **Verify UI Changes** (when available and applicable)
+
    - If Playwright MCP is configured and changes affect UI:
      - Navigate to the affected pages
      - Take screenshots to verify visual appearance
      - Test interactions (clicking, form filling) work as expected
      - Verify expected elements exist using assertions
-   - This reduces manual testing burden and catches issues earlier
+
+5. **Attention Management** (for long sessions)
+
+   After many tool calls, original goals can drift. Combat this:
+
+   | Trigger                | Action                                      |
+   | ---------------------- | ------------------------------------------- |
+   | Starting new phase     | Re-read plan, state the phase goal          |
+   | Before major decision  | Update todo list (forces goal re-statement) |
+   | After ~15 tool calls   | Re-read plan, confirm still on track        |
+   | After unexpected issue | Re-read plan before deciding how to adapt   |
+
+   The todo list is your working memory—updating it keeps goals in your attention window.
 
 ### Step 3: Phase Completion
 
@@ -226,7 +224,7 @@ Running verification for Phase [N]:
 - Lint: [command and result]
 - UI: [screenshot/assertions if applicable]
 
-````
+```
 
 2. **Fix Any Issues** before proceeding
 
@@ -234,46 +232,22 @@ Running verification for Phase [N]:
 
    - Check off completed items in the plan
    - Note any deviations from plan
+   - Optionally write progress to `.tasks/[task]/implement/progress.md`
 
-4. **Optional: Write Implementation Notes**
-
-   After completing a significant phase, optionally write progress to `.tasks/[task]/implement/progress.md`:
-
-   ```yaml
-   ---
-   updated: YYYY-MM-DD HH:MM
-   ---
-
-   ## Phase [N]: [Name]
-
-   ### Completed
-   - [Item 1]
-   - [Item 2]
-
-   ### Current State
-   [Brief description of what's been implemented]
-
-   ### Next Steps
-   - [Item 1]
-   - [Item 2]
-````
-
-5. **Pause for Manual Verification** (if plan has manual steps):
+4. **Confirm ready for next phase**:
 
 ```
-Phase [N] Complete - Ready for Manual Verification
+Phase [N] Complete
 
-Automated verification passed:
+Verification passed:
 - ✅ Tests pass
 - ✅ Type check clean
 - ✅ Lint clean
 
-Please perform manual verification steps from the plan:
-- [ ] [Manual step 1]
-- [ ] [Manual step 2]
-
-Let me know when manual testing is complete to proceed to Phase [N+1].
+Continue to Phase [N+1]?
 ```
+
+If plan has manual verification steps, list them and wait for confirmation.
 
 ### Step 4: Handle Mismatches
 
@@ -299,16 +273,18 @@ How should I proceed?
 
 3. **Wait for guidance** before continuing
 
-## Quality Checklist
+## Code Quality Checklist
 
 For each change verify:
 
-- [ ] **Tests added/updated and passing** (REQUIRED - see Testing Requirements below)
-- [ ] Type hints included
-- [ ] Error handling appropriate
+- [ ] Read files fully before modifying them
+- [ ] Follow existing patterns in the codebase
+- [ ] Type hints included for all signatures
+- [ ] Error handling appropriate (specific exception types)
 - [ ] No placeholder code (`TODO`, `pass`, `...`)
-- [ ] Follows existing patterns
+- [ ] Use meaningful names that reflect purpose
 - [ ] No unnecessary changes to other code
+- [ ] Stay within planned scope; stop and ask if scope needs to expand
 
 ## Testing Requirements
 
@@ -317,15 +293,17 @@ Follow the Testing Strategy defined in the plan. If no plan was provided:
 - Unit tests for all new functions/methods
 - Edge cases: null, empty, boundary values
 - Error scenario coverage
+- Test edge cases, not just happy path
+- Ensure tests actually assert meaningful behavior
 - Minimum 70% coverage for new code
+
+**Write tests alongside implementation**, not after. Never batch to the end.
 
 **Skip tests only when:**
 
 - Building an explicit throwaway prototype
 - Pure documentation or configuration changes
 - User explicitly approves skipping
-
-Document why tests were skipped in the implementation notes.
 
 ## When to STOP and Ask
 
@@ -336,66 +314,12 @@ Document why tests were skipped in the implementation notes.
 - 🔴 Tests failing in unexpected ways
 - 🔴 Unclear how to handle an edge case
 
-## Progress Tracking
-
-After completing each phase, note files changed, tests added/passing, verification results, and any deviations from plan.
-
-## Attention Management (Long Sessions)
-
-After many tool calls, original goals can drift from attention ("lost in the middle" effect). Combat this:
-
-| Trigger                | Action                                      |
-| ---------------------- | ------------------------------------------- |
-| Starting new phase     | Re-read plan/handoff, state the phase goal  |
-| Before major decision  | Update todo list (forces goal re-statement) |
-| After ~15 tool calls   | Re-read plan, confirm still on track        |
-| After unexpected issue | Re-read plan before deciding how to adapt   |
-
-**The todo list is your working memory** — updating it keeps goals in your attention window. For long tasks, update todos aggressively:
-
-1. Create todos BEFORE starting (loads goals into attention)
-2. Mark in-progress BEFORE each change (forces goal re-statement)
-3. Mark complete IMMEDIATELY after (confirms alignment)
-
-If working from a handoff file, re-read it periodically—not just at session start.
-
-## Final Cleanup
+## Final Completion
 
 After all phases are complete and verified:
-
-1. **Confirm ready for review** - All tests pass, no lint errors, implementation matches plan intent
 
 ```
 ✅ Implementation complete
 
 All phases verified. Ready for review.
 ```
-
-Note: Handoff files are preserved until review passes, in case re-planning is needed.
-
-## Resuming Work
-
-If picking up from previous work:
-
-- Check plan for existing checkmarks; trust that completed work is done
-- Pick up from first unchecked item
-- Verify previous work only if something seems off
-
-## Guidelines
-
-### Code Quality
-
-- Read files fully before modifying them
-- Follow existing patterns in the codebase
-- Use meaningful names that reflect purpose
-- Add comments only for non-obvious decisions
-- Handle errors with specific exception types
-- Stay within planned scope; stop and ask if scope needs to expand
-
-### Testing
-
-- Write tests alongside implementation, not after (never batch to the end)
-- Test edge cases, not just happy path
-- Follow existing test patterns in the codebase
-- Ensure tests actually assert meaningful behavior
-- Never skip tests to "save time"; never ignore failing tests and move on

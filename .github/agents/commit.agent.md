@@ -170,25 +170,11 @@ Use a single commit when all changes are part of one atomic feature.
 
 ## Files to Never Commit
 
-**Handoff files** (`.github/handoffs/*`) are temporary context files for multi-session continuity. They are gitignored and should never be committed.
+**Task files** (`.tasks/*`) are temporary context files for multi-session continuity. They are gitignored and should never be committed.
 
-If you see handoff files in the changes:
+If you see task files in the changes:
 
 - Skip them entirely
 - Do not stage them with `git add`
-- If they were staged, unstage with `git reset .github/handoffs/`
-
-**NEVER use force flags** (`git add -f`, `git push -f`, `git commit --no-verify`). If something is gitignored, it's intentional.
-
-## Final Cleanup
-
-If the conversation history shows a specific handoff file was used (e.g., "Reading: .github/handoffs/2025-01-15-143052-auth-flow-plan.md"), offer to delete it:
-
-```
-The handoff file used for this implementation can now be deleted:
-.github/handoffs/2025-01-15-143052-auth-flow-plan.md
-
-Delete it? (I'll wait for confirmation)
-```
-
-Only delete files explicitly referenced in the conversation. Never delete files speculatively.
+- If they were staged, unstage with `git reset .tasks/`
+  **NEVER use force flags** (`git add -f`, `git push -f`, `git commit --no-verify`). If something is gitignored, it's intentional.

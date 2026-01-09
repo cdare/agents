@@ -15,10 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implement agent: consolidated from 402 to 326 lines (19% reduction)
   - Integrated orphaned sections (Attention Management, Resuming Work) into workflow
   - Merged Quality Checklist + Testing Requirements with Guidelines
+- tech-debt skill: absorbed janitor skill content (deletion philosophy, safe deletion patterns, cleaning checklist)
+- architecture skill: strengthened constraints with anti-patterns table and "Never Include" examples
+- Skill count reduced from 6 to 5 (janitor merged into tech-debt)
 
 ### Removed
 
 - All handoff file references (`.github/handoffs/` patterns) from both agents
+- janitor skill: functionality merged into tech-debt (80% overlap)
 
 ## [0.10.0] - 2026-01-09
 

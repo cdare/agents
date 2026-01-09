@@ -15,7 +15,7 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 | Component        | Count | What It Does                                                             |
 | ---------------- | ----- | ------------------------------------------------------------------------ |
 | **Agents**       | 4     | Phase-based workflow with enforced tool restrictions and handoff buttons |
-| **Skills**       | 6     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
+| **Skills**       | 5     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
 | **Instructions** | 5     | File-type coding standards that load automatically                       |
 
 ```bash
@@ -94,9 +94,9 @@ Skills activate automatically based on what you say:
 | --------------------------- | --------------- |
 | "This test is failing"      | `debug`         |
 | "Find code smells"          | `tech-debt`     |
+| "Clean up dead code"        | `tech-debt`     |
 | "Document the architecture" | `architecture`  |
 | "Teach me how this works"   | `mentor`        |
-| "Clean up dead code"        | `janitor`       |
 | "Challenge my approach"     | `critic`        |
 
 No manual switching required—just ask naturally.

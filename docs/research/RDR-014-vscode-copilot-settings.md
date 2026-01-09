@@ -3,7 +3,7 @@
 | Field        | Value                                            |
 | ------------ | ------------------------------------------------ |
 | **Source**   | https://code.visualstudio.com/docs/copilot/setup |
-| **Reviewed** | 2026-01-04                                       |
+| **Reviewed** | 2026-01-04 (Updated 2026-01-09 for v1.108)       |
 | **Status**   | Partially Adopted                                |
 
 ## Summary
@@ -118,3 +118,46 @@ The recommended settings should be documented in one of:
 3. A dedicated docs/vscode-settings.md document
 
 This will help users optimize their VSCode configuration for AGENTS usage.
+
+## VSCode 1.108 Update (January 2026)
+
+### Agent Skills Now Official
+
+The `chat.useAgentSkills` setting is now officially documented as experimental. Skills use 3-level progressive loading:
+
+1. **Discovery** (~100 tokens): Only `name` and `description` from YAML frontmatter
+2. **Instructions** (<5000 tokens): Full SKILL.md body when skill activates
+3. **Resources** (as needed): Scripts/examples only when referenced
+
+### Updated Personal Skills Locations
+
+VSCode 1.108 reveals the complete skill discovery order:
+
+| Location            | Type     | Notes                        |
+| ------------------- | -------- | ---------------------------- |
+| `.github/skills`    | Project  | Primary workspace location   |
+| `~/.copilot/skills` | Personal | **New primary** for personal |
+| `.claude/skills`    | Project  | Legacy, backward compatible  |
+| `~/.claude/skills`  | Personal | Legacy, backward compatible  |
+
+**Action taken**: Updated `install.sh` to use `~/.copilot/skills` as primary personal skills location (was `~/.github/skills`).
+
+### Skills vs Agents (Clarification)
+
+Skills and agents are orthogonal—skills load into any active agent context:
+
+| Concept   | Selection | Purpose                              |
+| --------- | --------- | ------------------------------------ |
+| **Agent** | Explicit  | Defines tools, permissions, workflow |
+| **Skill** | Automatic | Adds domain knowledge to context     |
+
+No slash commands for skills—activation is automatic via description matching.
+
+### Terminal Auto-Approve Updates
+
+New default safe commands when `chat.tools.terminal.enableAutoApprove` is enabled:
+
+- `git ls-files`, `git --no-pager <safe_subcommand>`
+- `rg` (excluding `--pre` and `--hostname-bin`)
+- `sed` (with restrictions)
+- Workspace npm scripts via `npm`, `pnpm`, `yarn` (new: `chat.tools.terminal.autoApproveWorkspaceNpmScripts`)

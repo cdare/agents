@@ -46,7 +46,7 @@ Add URLs to the list above. Format after research:
 - [x] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features) → [RDR-015](docs/research/RDR-015-copilot-agent-tools.md) (Partially Adopted: added `usages` to Research/Explore/Plan, `changes` and `testFailure` to Review/Commit)
 - [x] Research if there's a way to make the handoff agent deterministic → [RDR-016](docs/research/RDR-016-agent-consolidation.md) (Resolved: unified Explore output format with handoff format for verbatim copying)
 - [x] Verify which parts of the agents specification follow are well defined (eg https://code.visualstudio.com/docs/copilot/customization/custom-agents), and whether they are compatible with Claude Code OOTB (including tool/model specifications) → [RDR-017](docs/research/RDR-017-agent-spec-compatibility.md)
-- [ ] Improve testing of agents, including making sure the install.sh script works, and that we're properly testing Claude Code related configurations
+- [x] Improve testing of agents, including making sure the install.sh script works, and that we're properly testing Claude Code related configurations
 - [ ] Find opportunities to trim down agents (mainly explore and implement)
 - [ ] Review current skills. Remove bad ones, amend good ones.
 - [ ] Create a skill for creating makefiles

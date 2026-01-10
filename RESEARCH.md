@@ -51,8 +51,6 @@ Add URLs to the list above. Format after research:
 - [x] [vscode-1.108-skills](https://code.visualstudio.com/updates/v1_108) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md) (Adopted: updated install.sh to use ~/.copilot/skills, added 1.108 findings to RDR-014)
 - [x] Review current skills → [RDR-019](docs/research/RDR-019-skill-review.md) (Partially Adopted: merge janitor into tech-debt, polish architecture)
 - [x] Create a skill for creating makefiles → [makefile skill](.github/skills/makefile/SKILL.md)
-- [ ] Change main task.md to show the phases table up top
-- [ ] Rename explore back to research to avoid conflicts with CC?
-- [ ] Add "Save" handoff in "Implement" (for cases where the implementation is stalling/taking too long, and we want to continue execution in a new session)
-- [ ] https://github.com/Dammyjay93/claude-design-skill/blob/main/skill/skill.md
+- [x] Add design skill → [RDR-020](docs/research/RDR-020-design-skill.md) (Adopted: created [design skill](.github/skills/design/SKILL.md))
 - [ ] https://www.agno.com/
+- [ ] Rename explore back to research to avoid conflicts with CC?

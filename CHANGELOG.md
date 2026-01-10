@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - makefile skill: AI-guided Makefile creation with process lifecycle management patterns (PID tracking, logging, status monitoring)
+- Implement agent: "Save Progress" handoff for session continuity
+- Implement agent: "Saving Progress Mid-Implementation" section for state preservation
 
 ### Changed
 
@@ -17,9 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Explore agent: consolidated from 541 to 322 lines (40% reduction)
   - Merged intro sections, moved Guidelines up, simplified process steps (9→6)
   - Removed handoff-format templates (now using task.md format)
+- Explore agent: task.md template reorganized - phases table now at top for quick reference
 - Implement agent: consolidated from 402 to 326 lines (19% reduction)
   - Integrated orphaned sections (Attention Management, Resuming Work) into workflow
   - Merged Quality Checklist + Testing Requirements with Guidelines
+- Implement agent: strengthened UI verification guidance - emphasize Playwright tests over manual verification
 - tech-debt skill: absorbed janitor skill content (deletion philosophy, safe deletion patterns, cleaning checklist)
 - architecture skill: strengthened constraints with anti-patterns table and "Never Include" examples
 - Skill count reduced from 6 to 5 (janitor merged into tech-debt)
@@ -28,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - All handoff file references (`.github/handoffs/` patterns) from both agents
 - janitor skill: functionality merged into tech-debt (80% overlap)
+- Terminal instructions: removed outdated line-count restrictions (VSCode 1.108 has better terminal handling)
 
 ## [0.10.0] - 2026-01-09
 

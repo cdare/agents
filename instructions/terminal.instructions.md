@@ -4,14 +4,6 @@ applyTo: "**"
 
 # Terminal & CLI Instructions
 
-## CRITICAL: Inviolable Rules
-
-These rules have the highest priority and must never be violated.
-
-1. **Long terminal commands**: NEVER attempt to run ANY commands in the terminal that exceed 5-7 lines. ALWAYS either break them down into smaller commands, or use IDE file editing tools to create a script file.
-
-2. **Long outputs**: if there's a chance a terminal command might exceed 5-10 lines of output, pipe it to `head` or `tail`, or else use `cat` or `grep` to limit output.
-
 ## Shell Commands
 
 - Target shell: **zsh** on macOS

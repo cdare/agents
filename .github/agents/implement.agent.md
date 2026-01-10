@@ -36,6 +36,10 @@ handoffs:
     agent: Implement
     prompt: Run the tests and show me the results.
     send: true
+  - label: Save Progress
+    agent: Implement
+    prompt: Save the current implementation progress to .tasks/ so we can continue in a new session.
+    send: true
 ---
 
 # Implement Mode
@@ -128,6 +132,18 @@ Proceeding with Phase 1: [name]
    - Add completion notes if relevant
 2. Ask: "Phase [N] complete. Continue to Phase [N+1]?"
 
+### Saving Progress Mid-Implementation
+
+When implementation is stalling, taking too long, or you need to continue in a new session:
+
+1. **Update `.tasks/[task]/task.md`:**
+   - Set current phase status to 🔄 In Progress
+   - Add notes about what's done vs remaining under the phase table
+2. **If phase plan exists** (`plan/phase-N-[name].md`):
+   - Check off completed steps
+   - Add inline notes for partial progress
+3. **Confirm saved:** "Progress saved to `.tasks/[task]/`. Ready to continue in a new session."
+
 ## Implementation Philosophy
 
 Plans are carefully designed, but reality can be messy. Your job is to:
@@ -195,6 +211,12 @@ For each phase:
      - Take screenshots to verify visual appearance
      - Test interactions (clicking, form filling) work as expected
      - Verify expected elements exist using assertions
+
+   **Important:** Manual verification is a stopgap. For UI changes, prefer writing Playwright tests that codify the verification steps. Include manual verification instructions in the plan only when:
+
+   - Tests cannot yet be written (infrastructure not set up)
+   - Subjective visual review is needed (design polish)
+   - One-time verification before writing the test
 
 5. **Attention Management** (for long sessions)
 

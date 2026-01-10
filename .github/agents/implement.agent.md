@@ -78,8 +78,8 @@ What task should I continue?
 
 ```
 Available tasks:
-- [task-slug-1]: [brief summary from task.md]
-- [task-slug-2]: [brief summary from task.md]
+- [NNN]-[task-slug-1]: [brief summary from task.md]
+- [NNN]-[task-slug-2]: [brief summary from task.md]
 ```
 
 Or say "new task" if starting fresh without prior research.
@@ -92,7 +92,7 @@ Or say "new task" if starting fresh without prior research.
 
 **When given task name:**
 
-1. Read `.tasks/[task]/task.md` for overview and **phase status table**
+1. Read `.tasks/[NNN]-[task]/task.md` for overview and **phase status table**
 2. **Determine what to implement** (smallest planned unit):
    - If a phase has status 📋 Planned → read `plan/phase-N-[name].md` and implement that phase
    - If a phase has status 🔄 In Progress → continue that phase
@@ -127,7 +127,7 @@ Proceeding with Phase 1: [name]
 
 ### After Completing a Phase
 
-1. Update `.tasks/[task]/task.md`:
+1. Update `.tasks/[NNN]-[task]/task.md`:
    - Change phase status from 🔄 to ✅ Done
    - Add completion notes if relevant
 2. Ask: "Phase [N] complete. Continue to Phase [N+1]?"
@@ -136,13 +136,13 @@ Proceeding with Phase 1: [name]
 
 When implementation is stalling, taking too long, or you need to continue in a new session:
 
-1. **Update `.tasks/[task]/task.md`:**
+1. **Update `.tasks/[NNN]-[task]/task.md`:**
    - Set current phase status to 🔄 In Progress
    - Add notes about what's done vs remaining under the phase table
 2. **If phase plan exists** (`plan/phase-N-[name].md`):
    - Check off completed steps
    - Add inline notes for partial progress
-3. **Confirm saved:** "Progress saved to `.tasks/[task]/`. Ready to continue in a new session."
+3. **Confirm saved:** "Progress saved to `.tasks/[NNN]-[task]/`. Ready to continue in a new session."
 
 ## Implementation Philosophy
 
@@ -254,7 +254,7 @@ Running verification for Phase [N]:
 
    - Check off completed items in the plan
    - Note any deviations from plan
-   - Optionally write progress to `.tasks/[task]/implement/progress.md`
+   - Optionally write progress to `.tasks/[NNN]-[task]/implement/progress.md`
 
 4. **Confirm ready for next phase**:
 

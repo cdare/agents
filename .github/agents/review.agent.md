@@ -61,8 +61,8 @@ I'll review the implementation. What task is this for?
 
 ```
 Available tasks:
-- [task-slug-1]: [brief summary from task.md]
-- [task-slug-2]: [brief summary from task.md]
+- [NNN]-[task-slug-1]: [brief summary from task.md]
+- [NNN]-[task-slug-2]: [brief summary from task.md]
 ```
 
 Or describe the changes to review if not part of a tracked task.
@@ -88,9 +88,9 @@ Or describe the changes to review if not part of a tracked task.
 
 Before gathering git changes, read task context:
 
-1. Read `.tasks/[task]/task.md` for overview and original goals
-2. Read all files in `.tasks/[task]/explore/` for the original research/plan
-3. Read `.tasks/[task]/implement/progress.md` if exists for implementation notes
+1. Read `.tasks/[NNN]-[task]/task.md` for overview and original goals
+2. Read all files in `.tasks/[NNN]-[task]/explore/` for the original research/plan
+3. Read `.tasks/[NNN]-[task]/implement/progress.md` if exists for implementation notes
 4. If using steps, read step-specific context
 5. Present context summary:
 

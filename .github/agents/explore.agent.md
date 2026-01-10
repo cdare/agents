@@ -79,11 +79,14 @@ Then wait for the user's task name input.
 
 ### Starting a Task
 
-1. **Generate task slug**: 2-4 lowercase words, hyphen-separated (e.g., "add-authentication", "refactor-api")
-2. **Check for existing task**: Look for `.tasks/[task-slug]/` directory
+1. **Generate task folder name**: `[NNN]-[slug]` where:
+   - `NNN` = next available 3-digit number (scan `.tasks/` for highest, increment; start at 001 if empty)
+   - `slug` = 2-4 lowercase words, hyphen-separated (e.g., "add-authentication", "refactor-api")
+   - Example: `001-add-authentication`, `002-refactor-api`
+2. **Check for existing task**: Look for `.tasks/[NNN]-[task-slug]/` directory matching the slug
 3. **If task exists**:
-   - Read `.tasks/[task-slug]/task.md` for overview and phase status
-   - List all files in `.tasks/[task-slug]/plan/`
+   - Read `.tasks/[NNN]-[task-slug]/task.md` for overview and phase status
+   - List all files in `.tasks/[NNN]-[task-slug]/plan/`
    - Present phase status table and ask: "Which phase would you like to plan next?"
 4. **If new task**:
    - Note that directory structure will be created after research is complete
@@ -92,12 +95,14 @@ Then wait for the user's task name input.
 ### Directory Structure
 
 ```
-.tasks/[task-slug]/
+.tasks/[NNN]-[task-slug]/
   task.md                      # Research + phase table + main plan
   plan/
     phase-1-config.md          # Detailed plan for phase 1 (optional)
     phase-2-user-model.md      # Detailed plan for phase 2 (optional)
 ```
+
+Example: `.tasks/001-add-auth/`, `.tasks/002-refactor-api/`
 
 ### Initial Research (New Task)
 
@@ -226,7 +231,7 @@ Only present design options when multiple valid approaches exist with meaningful
 If you already saved research this session, update the same file without prompting:
 
 ```
-Updating: .tasks/[task-slug]/task.md
+Updating: .tasks/[NNN]-[task-slug]/task.md
 ```
 
 **New Research (no prior file this session):**
@@ -239,7 +244,7 @@ Updating: .tasks/[task-slug]/task.md
 Save this research?
 ```
 
-**On confirmation, create `.tasks/[task-slug]/task.md`:**
+**On confirmation, create `.tasks/[NNN]-[task-slug]/task.md`:**
 
 ```markdown
 ---

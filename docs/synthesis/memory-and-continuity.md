@@ -100,7 +100,7 @@ Implement: [reads .tasks/add-auth/explore/*] → implements
 
 ```
 .tasks/
-    [task-slug]/
+    [NNN]-[task-slug]/
         task.md              # Metadata
         explore/*.md         # Research with descriptive names
         implement/*.md       # Progress notes (optional)
@@ -144,7 +144,7 @@ Implement: [reads .tasks/add-auth/explore/*] → implements
 AGENTS uses **Task-Centric Persistence** for session continuity:
 
 1. **Explore** agent researches and asks to save with descriptive filename
-2. Research is written to `.tasks/[task-slug]/explore/` directory
+2. Research is written to `.tasks/[NNN]-[task-slug]/explore/` directory (numbered for chronological ordering)
 3. **Implement** automatically reads prior task context
 4. New session: Just say "Continue working on [task-name]"
 5. Within a session, Explore updates the same file (no prompting)

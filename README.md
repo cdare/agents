@@ -55,7 +55,7 @@ Explore ──→ Implement ──→ Review ──→ Commit
 
 **Task Write**: Explore can only write to `.tasks/` directory—not your codebase.
 
-**Automatic state persistence**: Explore saves research to `.tasks/[task-name]/` so you can resume across sessions.
+**Automatic state persistence**: Explore saves research to `.tasks/[NNN]-[task-name]/` so you can resume across sessions. Tasks are numbered sequentially (001, 002, etc.) for chronological ordering.
 
 **In-context actions**: Each agent has handoff buttons for common next steps that keep your chat history and context intact. To switch agents, just @ mention them (e.g., `@Implement` when ready to start coding).
 
@@ -219,10 +219,10 @@ Run `./install.sh` after adding agents or skills.
 
 ## Task Continuity
 
-Explore persists state to `.tasks/[task-name]/`:
+Explore persists state to `.tasks/[NNN]-[task-name]/`:
 
 ```
-.tasks/add-auth/
+.tasks/001-add-auth/
   task.md                      # Research + phases + main plan
   plan/
     phase-1-config.md          # Detailed plan for phase 1 (optional)

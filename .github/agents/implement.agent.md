@@ -336,6 +336,10 @@ Follow the Testing Strategy defined in the plan. If no plan was provided:
 - 🔴 Tests failing in unexpected ways
 - 🔴 Unclear how to handle an edge case
 
+## Repo-Specific Instructions
+
+Before marking implementation complete, check if the workspace has an `AGENTS.md` file in the root. If it exists and contains a "Post-Implementation" or similar section, follow those repo-specific instructions (e.g., updating changelogs, documentation, or other repo-specific artifacts).
+
 ## Final Completion
 
 After all phases are complete and verified:

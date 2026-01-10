@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - makefile skill: AI-guided Makefile creation with process lifecycle management patterns (PID tracking, logging, status monitoring)
 - Implement agent: "Save Progress" handoff for session continuity
 - Implement agent: "Saving Progress Mid-Implementation" section for state preservation
+- Implement agent: "Repo-Specific Instructions" step to check AGENTS.md for post-implementation requirements
+- AGENTS.md: Post-Implementation section with CHANGELOG, docs, and versioning requirements
 
 ### Changed
 
@@ -27,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - tech-debt skill: absorbed janitor skill content (deletion philosophy, safe deletion patterns, cleaning checklist)
 - architecture skill: strengthened constraints with anti-patterns table and "Never Include" examples
 - Skill count reduced from 6 to 5 (janitor merged into tech-debt)
+- AGENTS.md: updated repository structure table (agents/skills count corrections)
+- copilot-instructions.md: simplified to reference AGENTS.md for cross-agent instructions
 
 ### Removed
 

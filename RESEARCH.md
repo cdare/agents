@@ -52,5 +52,5 @@ Add URLs to the list above. Format after research:
 - [x] Review current skills → [RDR-019](docs/research/RDR-019-skill-review.md) (Partially Adopted: merge janitor into tech-debt, polish architecture)
 - [x] Create a skill for creating makefiles → [makefile skill](.github/skills/makefile/SKILL.md)
 - [x] Add design skill → [RDR-020](docs/research/RDR-020-design-skill.md) (Adopted: created [design skill](.github/skills/design/SKILL.md))
-- [ ] https://www.agno.com/
+- [x] [agno-framework](https://www.agno.com/) → [RDR-021](docs/research/RDR-021-agno.md) (Rejected: Python runtime framework, not IDE-based AI instructions)
 - [ ] Rename explore back to research to avoid conflicts with CC?

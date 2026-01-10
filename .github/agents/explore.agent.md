@@ -41,7 +41,7 @@ handoffs:
 
 Research the codebase and create an implementation plan.
 
-## Overview
+## CRITICAL: Read-Only Constraint
 
 **This agent CANNOT modify your codebase.** Edit tools are restricted to `.tasks/` directory only for saving research. Use the **Implement** agent when you're ready to make code changes.
 

@@ -40,7 +40,7 @@ success "VS Code agent symlinks created"
 for skill in "$REPO_ROOT"/.github/skills/*/; do
     [[ -d "$skill" ]] || continue
     name=$(basename "$skill")
-    if [[ ! -L "$HOME/.github/skills/$name" ]]; then
+    if [[ ! -L "$HOME/.copilot/skills/$name" ]]; then
         error "Skill symlink not created: $name"
     fi
 done
@@ -102,7 +102,7 @@ success "VS Code agent symlinks removed"
 for skill in "$REPO_ROOT"/.github/skills/*/; do
     [[ -d "$skill" ]] || continue
     name=$(basename "$skill")
-    if [[ -L "$HOME/.github/skills/$name" ]]; then
+    if [[ -L "$HOME/.copilot/skills/$name" ]]; then
         error "Skill symlink not removed: $name"
     fi
 done

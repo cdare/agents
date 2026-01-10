@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run install tests
-        run: ./tests/test-install.sh
+        run: zsh ./tests/test-install.sh
 
       - name: Run skill validation
-        run: ./tests/validate-skills.sh
+        run: zsh ./tests/validate-skills.sh

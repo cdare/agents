@@ -251,21 +251,7 @@ status: planning
 
 # [Task Name]
 
-## Overview
-
-[Brief description from initial prompt]
-
-## Research Findings
-
-[Full research output - key components, architecture, data flow, etc.]
-
-## Implementation Plan
-
-### Goal
-
-[What success looks like]
-
-### Phases
+## Phases
 
 | #   | Phase        | Status         | Plan | Notes         |
 | --- | ------------ | -------------- | ---- | ------------- |
@@ -274,6 +260,18 @@ status: planning
 | 3   | [Phase name] | ⬜ Not Started | —    | [Brief scope] |
 
 **Status:** ⬜ Not Started → 📋 Planned → 🔄 In Progress → ✅ Done
+
+## Overview
+
+[Brief description from initial prompt]
+
+## Goal
+
+[What success looks like]
+
+## Research Findings
+
+[Full research output - key components, architecture, data flow, etc.]
 ```
 
 **For phase planning (Plan Next Phase):**

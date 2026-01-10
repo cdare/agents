@@ -50,7 +50,7 @@ Add URLs to the list above. Format after research:
 - [x] Find opportunities to trim down agents (mainly explore and implement)
 - [x] [vscode-1.108-skills](https://code.visualstudio.com/updates/v1_108) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md) (Adopted: updated install.sh to use ~/.copilot/skills, added 1.108 findings to RDR-014)
 - [x] Review current skills → [RDR-019](docs/research/RDR-019-skill-review.md) (Partially Adopted: merge janitor into tech-debt, polish architecture)
-- [ ] Create a skill for creating makefiles
+- [x] Create a skill for creating makefiles → [makefile skill](.github/skills/makefile/SKILL.md)
 - [ ] Change main task.md to show the phases table up top
 - [ ] Rename explore back to research to avoid conflicts with CC?
 - [ ] Add "Save" handoff in "Implement" (for cases where the implementation is stalling/taking too long, and we want to continue execution in a new session)

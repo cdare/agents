@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- makefile skill: AI-guided Makefile creation with process lifecycle management patterns (PID tracking, logging, status monitoring)
+
 ### Changed
 
+- Skill count increased from 5 to 6
 - Explore agent: consolidated from 541 to 322 lines (40% reduction)
   - Merged intro sections, moved Guidelines up, simplified process steps (9→6)
   - Removed handoff-format templates (now using task.md format)

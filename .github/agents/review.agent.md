@@ -72,7 +72,6 @@ Or describe the changes to review if not part of a tracked task.
 ### Step 1: Gather Context
 
 1. **Identify what to review**:
-
    - Check git changes if available
    - Read the implementation plan
    - Understand the intended goal
@@ -179,7 +178,21 @@ Only report issues with confidence **≥70%** in the Issues Found section. Place
 
 Use the Review Output Format below.
 
-### Step 6: Follow-up
+### Step 6: Consider Multi-Pass Review
+
+For complex changes (large scope, unfamiliar domain, high-risk areas), consider the **Rule of Five**: iterative reviews with varying scope often catch issues missed in a single pass.
+
+| Pass | Focus                                              |
+| ---- | -------------------------------------------------- |
+| 1    | Basic correctness and obvious bugs                 |
+| 2    | Edge cases and error handling                      |
+| 3    | Architecture and design patterns                   |
+| 4    | Security, performance, and maintainability         |
+| 5    | Final convergence check (is it as good as can be?) |
+
+For small changes, 1-2 passes suffice. For large or critical changes, suggest re-review with broader scope.
+
+### Step 7: Follow-up
 
 If issues found:
 

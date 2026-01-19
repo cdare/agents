@@ -15,6 +15,8 @@ Identify, catalog, and eliminate technical debt.
 
 > "Deletion is the most powerful refactoring."
 
+**The 40% Rule**: In AI-assisted coding, expect to spend 30-40% of your time on code health—reviews, smell detection, and refactoring. Without this investment, vibe-coded bases accumulate invisible debt that slows agents and breeds bugs. Schedule regular code health passes, not just reactive fixes.
+
 Every line of code:
 
 - Must be understood

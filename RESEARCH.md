@@ -53,4 +53,9 @@ Add URLs to the list above. Format after research:
 - [x] Create a skill for creating makefiles → [makefile skill](.github/skills/makefile/SKILL.md)
 - [x] Add design skill → [RDR-020](docs/research/RDR-020-design-skill.md) (Adopted: created [design skill](.github/skills/design/SKILL.md))
 - [x] [agno-framework](https://www.agno.com/) → [RDR-021](docs/research/RDR-021-agno.md) (Rejected: Python runtime framework, not IDE-based AI instructions)
+- [x] [six-tips-agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) → [RDR-022](docs/research/RDR-022-six-tips-agents.md) (Partially Adopted: 40% code health rule, Rule of Five multi-pass review)
+- [ ] Ralph Wiggum plugin + usage. Read all these FULLY: https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum, https://github.com/JeredBlu/guides/blob/main/Ralph_Wiggum_Guide.md, https://github.com/ghuntley/how-to-ralph-wiggum
+- [ ] https://github.com/TheDecipherist/claude-code-mastery
+- [ ] https://docs.github.com/en/copilot/concepts/agents/copilot-memory
+- [ ] https://github.com/JBurlison/MetaPrompts
 - [ ] Rename explore back to research to avoid conflicts with CC?

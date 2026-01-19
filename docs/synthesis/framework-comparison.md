@@ -8,13 +8,13 @@ Detailed comparison of frameworks analyzed during research.
 
 ## Overview Comparison
 
-| Aspect             | HumanLayer ACE                        | CursorRIPER                | 12-Factor Agents              | Superpowers                    | Beads                         | Manus/planning-with-files    |
-| ------------------ | ------------------------------------- | -------------------------- | ----------------------------- | ------------------------------ | ----------------------------- | ---------------------------- |
-| **Primary Focus**  | Context engineering for coding agents | Structured workflow modes  | Agent architecture principles | Skills-based TDD workflow      | Agent memory system           | Within-session goal tracking |
-| **Target IDE**     | IDE-agnostic (concepts)               | Cursor                     | IDE-agnostic (concepts)       | Claude Code                    | IDE-agnostic                  | Claude Code                  |
-| **Workflow Model** | Research → Plan → Implement           | RIPER (5 modes)            | Flexible, principle-based     | Mandatory skill-driven         | Issue tracker metaphor        | 3-file pattern per task      |
-| **Key Innovation** | Frequent Intentional Compaction       | Permission matrix per mode | Control flow ownership        | TDD for skills, pressure tests | Structured queries over prose | Read-before-decide attention |
-| **Human-in-Loop**  | At research/plan boundaries           | Mode transitions           | Tool-level interruption       | Skill enforcement              | N/A (memory, not workflow)    | N/A (within-session pattern) |
+| Aspect             | HumanLayer ACE                        | CursorRIPER                | 12-Factor Agents              | Superpowers                    | Beads                         | Manus/planning-with-files    | Ralph Wiggum                |
+| ------------------ | ------------------------------------- | -------------------------- | ----------------------------- | ------------------------------ | ----------------------------- | ---------------------------- | --------------------------- |
+| **Primary Focus**  | Context engineering for coding agents | Structured workflow modes  | Agent architecture principles | Skills-based TDD workflow      | Agent memory system           | Within-session goal tracking | Autonomous agent loops      |
+| **Target IDE**     | IDE-agnostic (concepts)               | Cursor                     | IDE-agnostic (concepts)       | Claude Code                    | IDE-agnostic                  | Claude Code                  | Claude Code CLI             |
+| **Workflow Model** | Research → Plan → Implement           | RIPER (5 modes)            | Flexible, principle-based     | Mandatory skill-driven         | Issue tracker metaphor        | 3-file pattern per task      | Bash loop, 1 task per iter  |
+| **Key Innovation** | Frequent Intentional Compaction       | Permission matrix per mode | Control flow ownership        | TDD for skills, pressure tests | Structured queries over prose | Read-before-decide attention | Fresh context per iteration |
+| **Human-in-Loop**  | At research/plan boundaries           | Mode transitions           | Tool-level interruption       | Skill enforcement              | N/A (memory, not workflow)    | N/A (within-session pattern) | Outside loop (observe/tune) |
 
 ---
 
@@ -246,6 +246,16 @@ result = execute(next_step)  # Your code, your rules
 | ✅ Read-before-decide is universal    | ❌ Mandatory file creation is friction |
 | ✅ Based on proven $2B acquisition    | ❌ Overlaps with existing handoffs     |
 
+### Ralph Wiggum
+
+| Strengths                               | Weaknesses                                |
+| --------------------------------------- | ----------------------------------------- |
+| ✅ Fresh context per task avoids bloat  | ❌ Requires CLI orchestration (bash)      |
+| ✅ Subagent fan-out preserves context   | ❌ Skip permissions = security risk       |
+| ✅ Disposable plans embrace iteration   | ❌ Minimal human oversight during run     |
+| ✅ Backpressure via tests is elegant    | ❌ Not suited for exploratory/design work |
+| ✅ Proven for greenfield overnight runs | ❌ Conflicts with IDE-based workflows     |
+
 ---
 
 ## Synthesis: Best of Each
@@ -292,6 +302,14 @@ result = execute(next_step)  # Your code, your rules
 - Periodic re-read of plan/handoff files (~15 tool calls)
 - Error persistence in progress tracking
 
+### Adopt from Ralph Wiggum
+
+- Subagent fan-out for context preservation (main agent as scheduler)
+- Disposable plans—regenerate when trajectory goes wrong
+- Backpressure via tests/lints as gates that reject invalid work
+- Operational docs separate from progress (AGENTS.md vs IMPLEMENTATION_PLAN.md)
+- 40-60% context utilization target (reinforces ACE guidance)
+
 ---
 
 ## Conflicts & Resolutions
@@ -320,3 +338,9 @@ result = execute(next_step)  # Your code, your rules
 - **ACE**: Strategic checkpoints only
 - **12-Factor**: Potentially any tool call
 - **Resolution**: Strategic checkpoints (ACE style) for workflow phases; optional per-tool approval for high-stakes operations only
+
+### Conflict 5: Autonomous vs Interactive
+
+- **Ralph**: External bash loop, skip permissions, human observes from outside
+- **AGENTS**: Human-in-loop at phase transitions, tool restrictions per mode
+- **Resolution**: AGENTS prioritizes collaboration quality over throughput. Ralph's principles (subagent fan-out, disposable plans, backpressure) are adopted without adopting autonomous bash orchestration.

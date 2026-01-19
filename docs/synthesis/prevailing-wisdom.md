@@ -81,12 +81,22 @@ Include recommendation with rationale. Wait for user choice before detailing the
 
 ### Key Guidelines
 
-| Guideline                        | Source    | Rationale                                                         |
-| -------------------------------- | --------- | ----------------------------------------------------------------- |
-| Keep context at 40-60% capacity  | ACE       | Leaves room for tool outputs and reasoning                        |
-| Own your context format          | 12-Factor | Custom XML/structures beat message arrays for information density |
-| Unify execution + business state | 12-Factor | One source of truth simplifies recovery, forking, debugging       |
-| Compact errors into context      | 12-Factor | Include failed attempts to prevent loops; limit to 2-3 retries    |
+| Guideline                        | Source     | Rationale                                                         |
+| -------------------------------- | ---------- | ----------------------------------------------------------------- |
+| Keep context at 40-60% capacity  | ACE, Ralph | Leaves room for tool outputs and reasoning                        |
+| Own your context format          | 12-Factor  | Custom XML/structures beat message arrays for information density |
+| Unify execution + business state | 12-Factor  | One source of truth simplifies recovery, forking, debugging       |
+| Compact errors into context      | 12-Factor  | Include failed attempts to prevent loops; limit to 2-3 retries    |
+| Subagent fan-out                 | Ralph      | Use main agent as scheduler; spawn subagents for heavy reads      |
+
+### Subagent Fan-Out (from Ralph Wiggum)
+
+Use the main agent context as a "scheduler" and spawn subagents for heavy file reading/searching:
+
+- Each subagent gets its own context that's garbage collected after completion
+- Main agent receives only the subagent's summary, not all file contents
+- Enables investigating 3+ independent areas without bloating main context
+- "Subagents as memory extension" - fan out to avoid polluting main context
 
 ### Custom Context Formats (from 12-Factor Factor 3)
 
@@ -204,6 +214,15 @@ Rate potential issues on confidence (0-100) to reduce noise in reviews:
 | 0-49   | Low: Uncertain; likely false positive             | Omit or brief mention         |
 
 Only report issues with confidence ≥70% in the Issues Found section. Lower-confidence observations go in a Notes section without required action.
+
+### Backpressure via Tests (from Ralph Wiggum)
+
+Tests, typechecks, and lints serve as "gates" that reject invalid work:
+
+- Prompt says "run tests" generically; configuration specifies actual commands
+- Failed tests force the agent to fix issues before proceeding
+- Creates natural iteration loop: implement → test → fix → test
+- Backpressure extends beyond code: LLM-as-judge can validate subjective criteria
 
 ---
 

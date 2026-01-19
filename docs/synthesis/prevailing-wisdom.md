@@ -279,34 +279,7 @@ Tests, typechecks, and lints serve as "gates" that reject invalid work:
 
 ---
 
-## 7. Code Protection (from RIPER)
-
-### Protection Levels
-
-Mark code with protection indicators:
-
-| Level     | Marker | Meaning                                |
-| --------- | ------ | -------------------------------------- |
-| PROTECTED | `[P]`  | Never modify without explicit approval |
-| GUARDED   | `[G]`  | Requires human review before changes   |
-| DEBUG     | `[D]`  | Temporary code, remove before merge    |
-| TEST      | `[T]`  | Test code, can modify freely           |
-
-### Implementation
-
-Add protection comments:
-
-```python
-# [P] Core authentication logic - do not modify without security review
-def verify_token(token: str) -> Claims:
-    ...
-```
-
-Agent modes should recognize and respect these markers.
-
----
-
-## 8. VSCode Copilot Customization Hierarchy
+## 7. VSCode Copilot Customization Hierarchy
 
 ### File Types and Locations
 
@@ -478,7 +451,7 @@ Before adding or keeping a skill, evaluate it against these criteria:
 ### Critical Sources (Fully Read)
 
 - [HumanLayer ACE Framework](../sources/humanlayer/ace-fca.md) - Context engineering, workflow design
-- [CursorRIPER Framework](../sources/cursorriper/) - RIPER modes, memory bank, protection levels
+- [CursorRIPER Framework](../sources/cursorriper/) - RIPER modes, memory bank
 - [12 Factor Agents](../sources/12-factor-agents/) - Control flow, context ownership, focused agents
 - [Anthropic Feature-Dev](../sources/repomirror/) - Clarifying questions, architecture options, confidence scoring
 - [Superpowers](https://github.com/obra/superpowers) - Skill quality, TDD for documentation, progressive disclosure

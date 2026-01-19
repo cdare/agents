@@ -114,7 +114,6 @@ systemPatterns.md    # Established patterns
 techContext.md       # Tech stack details
 activeContext.md     # Current focus (frequently updated)
 progress.md          # Task status tracking
-protection.md        # Code protection markers
 ```
 
 **12-Factor: Unified State**
@@ -162,7 +161,9 @@ result = execute(next_step)  # Your code, your rules
 | **Guardrails**      | Human review points | Permission matrix         | Own your control flow         |
 | **Error Handling**  | Not specified       | Not specified             | Compact errors, limit retries |
 
-### RIPER Protection Levels
+### RIPER Protection Levels (Not Adopted)
+
+RIPER uses comment-based protection markers. **AGENTS does not adopt this**—see [RDR-011](../research/archive/RDR-011-protection-markers-removed.md) for rationale (no actual usage, advisory-only, better alternatives via git/PRs).
 
 | Level     | Marker | Meaning                                |
 | --------- | ------ | -------------------------------------- |
@@ -207,8 +208,10 @@ result = execute(next_step)  # Your code, your rules
 | ---------------------------------- | ------------------------------------- |
 | ✅ Explicit permission matrix      | ❌ Cursor-specific (needs adaptation) |
 | ✅ Memory bank persistence pattern | ❌ Complex mode system                |
-| ✅ Code protection markers         | ❌ Heavy upfront setup                |
+| ⚪ Code protection markers         | ❌ Heavy upfront setup                |
 | ✅ Clear mode transitions          |                                       |
+
+> ⚪ = Evaluated but not adopted (see RDR-011)
 
 ### 12-Factor Agents
 
@@ -271,7 +274,6 @@ result = execute(next_step)  # Your code, your rules
 
 - Explicit tool restrictions per mode
 - Memory bank concept (adapted for Copilot)
-- Code protection markers
 - Clear mode transition points
 
 ### Adopt from 12-Factor
@@ -325,7 +327,7 @@ result = execute(next_step)  # Your code, your rules
 - **RIPER**: Permanent memory bank files
 - **12-Factor**: Unified state per thread
 - **Beads**: Issue tracker with structured queries
-- **Resolution**: Use Handoff pattern for session continuity (simpler than memory bank or Beads); revisit Beads when multi-week features become common. See [Memory and Session Continuity](./memory-and-continuity.md).
+- **Resolution**: Use task-centric persistence (`.tasks/` directories) for session continuity (simpler than memory bank or Beads); revisit Beads when multi-week features become common. See [Memory and Session Continuity](./memory-and-continuity.md).
 
 ### Conflict 3: Tool Control
 

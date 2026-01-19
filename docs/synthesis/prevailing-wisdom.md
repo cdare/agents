@@ -436,6 +436,25 @@ YAML `description` field should be optimized for discovery:
 
 Keep main skill files focused; split heavy reference material to avoid context bloat.
 
+### Skill Evaluation Checklist (from RDR-019)
+
+Before adding or keeping a skill, evaluate it against these criteria:
+
+| Criterion           | Question to Ask                                       | Pass Indicator                                |
+| ------------------- | ----------------------------------------------------- | --------------------------------------------- |
+| **Distinct Value**  | Does it provide guidance an agent wouldn't do anyway? | Without skill, agent clearly fails the task   |
+| **Trigger Clarity** | Are activation keywords specific and discoverable?    | Keywords in description match user vocabulary |
+| **Constraint/Mode** | Does it meaningfully change agent behavior?           | Agent acts differently with vs without skill  |
+| **Size**            | Is the skill under 500 lines?                         | Core content focused; reference split out     |
+| **Overlap**         | Does it overlap significantly with other skills?      | <20% overlap with existing skills             |
+| **TDD Testable**    | Can you observe failure without it, success with it?  | RED/GREEN test scenario documented            |
+
+**Using the checklist**:
+
+- Score 4+ criteria = strong skill, keep or add
+- Score 2-3 criteria = needs polish, strengthen weak areas
+- Score 0-1 criteria = consider removing or merging into another skill
+
 ---
 
 ## 12. Key Quotes to Remember

@@ -1,26 +1,30 @@
-# Research Decision Record: [Short Name]
+# RDR-NNN: [Short Title]
 
-| Field        | Value                                  |
-| ------------ | -------------------------------------- |
-| **Source**   | [Link to repo/article]                 |
-| **Reviewed** | YYYY-MM-DD                             |
-| **Status**   | Adopted / Partially Adopted / Rejected |
+| Field      | Value                                  |
+| ---------- | -------------------------------------- |
+| **Source** | [Link to repo/article]                 |
+| **Date**   | YYYY-MM-DD                             |
+| **Status** | Adopted / Partially Adopted / Rejected |
 
 ## Summary
 
-[2-3 sentences: What is this? What problem does it solve?]
-
-## Key Concepts
-
-| Concept | Description |
-| ------- | ----------- |
+[1-2 sentences: What is this?]
 
 ## Decision
 
-**Adopted:** [List what was taken, or "None"]
+**Adopted:** [Bullet list of what was taken]
 
-**Rationale:** [Why adopt or reject]
+**Rejected:** [What wasn't adopted and why]
 
-## Comparison to Current Framework
+## Key Insight
 
-[Optional: overlap/conflict notes]
+[Optional: 1-2 sentences of unique insight not already in synthesis docs]
+
+## See Also
+
+- [Links to relevant synthesis docs]
+- [Related RDRs if applicable]
+
+---
+
+**Target: ~50 lines.** RDRs are decision records, not documentation. Details belong in synthesis docs.

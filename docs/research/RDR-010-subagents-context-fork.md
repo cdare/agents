@@ -122,8 +122,8 @@ This extends the current framework without replacing any patterns:
 
 ## Related Decisions
 
-- [RDR-007](./RDR-007-mitsuhiko-agent-stuff.md) - Handoff pattern adoption
-- [RDR-008](./RDR-008-handoff-workspace-constraint.md) - Workspace handoff files
+- [RDR-007](./archive/RDR-007-mitsuhiko-agent-stuff.md) - Handoff pattern adoption (archived)
+- [RDR-008](./archive/RDR-008-handoff-workspace-constraint.md) - Workspace handoff files (archived)
 - [Prevailing Wisdom](../synthesis/prevailing-wisdom.md) - "Frequent Intentional Compaction"
 
 ## Open Questions

@@ -124,5 +124,5 @@ With Explore handling persistence directly to `.tasks/`, the Handoff agent becam
 
 - [PR #2](https://github.com/mcouthon/agents/pull/2) - Original proposal
 - [RDR-005](./RDR-005-beads.md) - Issue tracker memory (future consideration)
-- [RDR-009](./RDR-009-mcp-memory-rejected.md) - Why MCP memory servers were rejected
+- [RDR-009](./archive/RDR-009-mcp-memory-rejected.md) - Why MCP memory servers were rejected (archived)
 - [memory-and-continuity.md](../synthesis/memory-and-continuity.md) - Full memory strategy

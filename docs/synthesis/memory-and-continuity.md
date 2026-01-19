@@ -43,7 +43,7 @@ progress.md          # Task status
 
 **Rationale:** Different philosophy—Memory Bank focuses on persistent learning and active context; AGENTS focuses on structured workflow phases and explicit control. Session continuity is better handled by explicit handoffs at workflow boundaries than implicit memory updates.
 
-**Reference:** [RDR-002](../research/RDR-002-context-cortex.md)
+**Reference:** [RDR-002](../research/archive/RDR-002-context-cortex.md)
 
 ---
 
@@ -55,7 +55,7 @@ progress.md          # Task status
 
 **Rationale:** Adds significant complexity (Node process, mcp.json config, JSONL storage, maintenance burden) without proportional benefit. The Handoff agent achieves similar cross-session persistence with simpler architecture: markdown files, human-readable, version-controlled, no external dependencies.
 
-**Reference:** [RDR-009](../research/RDR-009-mcp-memory-rejected.md)
+**Reference:** [RDR-009](../research/archive/RDR-009-mcp-memory-rejected.md)
 
 ---
 
@@ -159,7 +159,7 @@ For implementation details, see the agent definitions in `.github/agents/`.
 
 > "Markdown files are write-only memory for agents." — Steve Yegge
 
-> "Handoffs are complementary to Beads, not competing. Use handoffs for day-to-day continuity; consider Beads when multi-week tracking becomes necessary." — RDR-007
+> "Task-centric persistence is complementary to Beads, not competing. Use task files for day-to-day continuity; consider Beads when multi-week tracking becomes necessary." — [RDR-018](../research/RDR-018-task-centric-persistence.md)
 
 ---
 

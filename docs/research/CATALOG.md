@@ -22,7 +22,7 @@ Quick reference for Research Decision Records.
 | Adopted           | 016, 018, 020                                         |
 | Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024 |
 | Future            | 005, 013                                              |
-| Informational     | 006                                                   |
+| Archived          | 001, 002, 006, 007, 008, 009, 011, 021                |
 
 ## By Topic
 
@@ -68,11 +68,21 @@ Quick reference for Research Decision Records.
 
 ### Best Practices
 
-| RDR                               | Title               | Status            | Summary                                    |
-| --------------------------------- | ------------------- | ----------------- | ------------------------------------------ |
-| [006](RDR-006-agentic-future.md)  | Agentic Future      | Informational     | Predictions; validates framework direction |
-| [022](RDR-022-six-tips-agents.md) | Six Tips for Agents | Partially Adopted | Code health 30-40%; Rule of Five review    |
+| RDR                               | Title               | Status            | Summary                                 |
+| --------------------------------- | ------------------- | ----------------- | --------------------------------------- |
+| [022](RDR-022-six-tips-agents.md) | Six Tips for Agents | Partially Adopted | Code health 30-40%; Rule of Five review |
 
 ## Archive
 
-_See [archive/](archive/) for rejected/superseded RDRs._
+Rejected, superseded, or purely informational RDRs. See [archive/](archive/) for full documents.
+
+| RDR | Title                        | Why Archived                   |
+| --- | ---------------------------- | ------------------------------ |
+| 001 | Spec-Driven                  | Rejected: spec files not used  |
+| 002 | Context Cortex               | Rejected: memory bank not used |
+| 006 | Agentic Future               | Informational only             |
+| 007 | mitsuhiko agent-stuff        | Superseded by RDR-018          |
+| 008 | Handoff Workspace Constraint | Superseded by RDR-018          |
+| 009 | MCP Memory                   | Rejected: too complex          |
+| 011 | Protection Markers           | Feature removed                |
+| 021 | Agno                         | Rejected: out of scope         |

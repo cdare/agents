@@ -94,4 +94,4 @@ code --add-mcp '{"name":"playwright","command":"npx","args":["@playwright/mcp@la
 
 ## Related Decisions
 
-- [RDR-009](RDR-009-mcp-memory-rejected.md) - MCP evaluation precedent
+- [RDR-009](archive/RDR-009-mcp-memory-rejected.md) - MCP evaluation precedent (archived)

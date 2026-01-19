@@ -89,14 +89,12 @@ The Beads insight: Don't try to make markdown files smarter. Use a different dat
 If implementing Beads-style memory:
 
 1. **Minimal Version**
-
    - Add `bd` CLI or equivalent
    - Store issues in `docs/issues/issues.jsonl`
    - Add "check issues" step to Research agent
    - Add "create issue" capability to Plan agent (via separate tool)
 
 2. **Integration Points**
-
    - Research: `bd ready --json` to see pending work
    - Plan: Creates issues and specs
    - Implement: Updates issue status
@@ -108,7 +106,7 @@ If implementing Beads-style memory:
 
 ## Related Research
 
-- **RDR-006**: "What's Next in Agentic Coding" - discusses context management evolution
+- **[RDR-006](archive/RDR-006-agentic-future.md)**: "What's Next in Agentic Coding" - discusses context management evolution
 - **Attempted Feature**: Transient MD context files - failed due to agent permission model
 
 ## References

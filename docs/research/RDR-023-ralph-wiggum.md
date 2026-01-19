@@ -56,7 +56,7 @@ Ralph Wiggum is an autonomous development methodology based on continuous AI age
 
 1. **Fresh context per task** — AGENTS uses handoff between sessions rather than bash loop. The principle applies: avoid context bloat by using task files as external memory.
 
-2. **Spec-driven development** — Similar to RDR-001. AGENTS uses task.md research findings rather than separate spec files. Both achieve "source of truth outside context."
+2. **Spec-driven development** — Similar to [RDR-001](archive/RDR-001-spec-driven.md). AGENTS uses task.md research findings rather than separate spec files. Both achieve "source of truth outside context."
 
 **Rejected:**
 

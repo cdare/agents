@@ -68,5 +68,5 @@ Instead of new files, AGENTS uses existing mechanisms:
 ## Related Decisions
 
 - [RDR-005](RDR-005-beads.md) - Beads memory (future consideration for scale)
-- [RDR-007](RDR-007-mitsuhiko-agent-stuff.md) - Handoff pattern (adopted)
-- [RDR-009](RDR-009-mcp-memory-rejected.md) - MCP memory (rejected)
+- [RDR-007](archive/RDR-007-mitsuhiko-agent-stuff.md) - Handoff pattern (archived)
+- [RDR-009](archive/RDR-009-mcp-memory-rejected.md) - MCP memory (archived)

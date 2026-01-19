@@ -2,6 +2,14 @@
 
 Research external frameworks and materials to evaluate potential improvements to this framework.
 
+## Finding RDRs
+
+See [CATALOG.md](docs/research/CATALOG.md) for:
+
+- Quick reference by topic
+- Status overview (Adopted/Rejected/etc.)
+- Links to synthesis docs with full details
+
 ## Process
 
 1. Read [README](./README.md), [prevailing wisdom](./docs/synthesis/prevailing-wisdom.md), and [framework comparison](./docs/synthesis/framework-comparison.md) IN FULL

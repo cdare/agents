@@ -10,24 +10,28 @@ See [CATALOG.md](docs/research/CATALOG.md) for:
 - Status overview (Adopted/Rejected/etc.)
 - Links to synthesis docs with full details
 
+## Philosophy
+
+**Synthesis docs are authoritative.** RDRs document _why_ we made a decision; synthesis docs document _what_ we do now.
+
+| I want to...                | Update...                     |
+| --------------------------- | ----------------------------- |
+| Record research + decision  | RDR (`docs/research/`)        |
+| Document a pattern/practice | Synthesis (`docs/synthesis/`) |
+| Add a new principle         | `prevailing-wisdom.md`        |
+| Compare frameworks          | `framework-comparison.md`     |
+| Describe continuity pattern | `memory-and-continuity.md`    |
+
+**RDRs should be slim** (~50 lines). If you're writing paragraphs of explanation, that belongs in synthesis.
+
+**One item per iteration.** Small tweaks preferred. Big changes need justification.
+
 ## Process
 
-1. Read [README](./README.md), [prevailing wisdom](./docs/synthesis/prevailing-wisdom.md), and [framework comparison](./docs/synthesis/framework-comparison.md) IN FULL
-2. Pick the next unchecked item from the Research List
-3. Read it fully—follow links as needed to grasp its insights
-4. Create an RDR (Research Decision Record) in `docs/research/` using the [template](./docs/research/TEMPLATE.md)
-5. **If adopting findings, update relevant synthesis docs:**
-   - Core principles → [prevailing-wisdom.md](./docs/synthesis/prevailing-wisdom.md)
-   - Framework comparisons → [framework-comparison.md](./docs/synthesis/framework-comparison.md)
-   - Memory/continuity patterns → [memory-and-continuity.md](./docs/synthesis/memory-and-continuity.md)
-6. Mark the item as checked and link to the RDR
-
-## Guidelines
-
-- **One item per iteration** - Don't read ahead
-- **Small tweaks preferred** - Avoid unnecessary complexity
-- **Big changes need justification** - Explain why the benefit outweighs the cost
-- **Document everything** - Even rejections are valuable for future reference
+1. **Context**: Read [README](./README.md) and relevant [synthesis docs](./docs/synthesis/)
+2. **Research**: Pick next unchecked item, read fully, follow links
+3. **Document**: Create RDR using [template](./docs/research/TEMPLATE.md) (~50 lines)
+4. **Synthesize**: If adopting, update the relevant synthesis doc (not just the RDR)
 
 ## Adding New Research Items
 
@@ -52,7 +56,6 @@ Add URLs to the list above. Format after research:
 - [x] [vscode-browser-testing](https://code.visualstudio.com/docs/copilot/overview) → [RDR-013](docs/research/RDR-013-vscode-browser-testing.md)
 - [x] [vscode-copilot-settings](https://code.visualstudio.com/docs/copilot/setup) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md)
 - [x] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features) → [RDR-015](docs/research/RDR-015-copilot-agent-tools.md) (Partially Adopted: added `usages` to Research/Explore/Plan, `changes` and `testFailure` to Review/Commit)
-- [x] Research if there's a way to make the handoff agent deterministic → [RDR-016](docs/research/RDR-016-agent-consolidation.md) (Resolved: unified Explore output format with handoff format for verbatim copying)
 - [x] Verify which parts of the agents specification follow are well defined (eg https://code.visualstudio.com/docs/copilot/customization/custom-agents), and whether they are compatible with Claude Code OOTB (including tool/model specifications) → [RDR-017](docs/research/RDR-017-agent-spec-compatibility.md)
 - [x] Improve testing of agents, including making sure the install.sh script works, and that we're properly testing Claude Code related configurations
 - [x] Find opportunities to trim down agents (mainly explore and implement)

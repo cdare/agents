@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Task folder naming: `.tasks/[slug]/` → `.tasks/[NNN]-[slug]/` (e.g., `001-add-auth`)
   - Sequential numbering for chronological ordering
   - Updated in explore, implement, review agents and documentation
+- prevailing-wisdom.md: Removed Section 7 "Code Protection" (feature was removed per RDR-011)
+- framework-comparison.md: Marked RIPER protection levels as "not adopted" with RDR-011 reference
+- framework-comparison.md: Updated "Handoff pattern" → "task-centric persistence" for consistency
+- memory-and-continuity.md: Replaced "Handoff agent" reference with "task-centric persistence"
 
 ### Fixed
 

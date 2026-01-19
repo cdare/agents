@@ -53,7 +53,7 @@ progress.md          # Task status
 
 **Status:** Rejected
 
-**Rationale:** Adds significant complexity (Node process, mcp.json config, JSONL storage, maintenance burden) without proportional benefit. The Handoff agent achieves similar cross-session persistence with simpler architecture: markdown files, human-readable, version-controlled, no external dependencies.
+**Rationale:** Adds significant complexity (Node process, mcp.json config, JSONL storage, maintenance burden) without proportional benefit. Task-centric persistence (`.tasks/` directories) achieves similar cross-session persistence with simpler architecture: markdown files, human-readable, version-controlled, no external dependencies.
 
 **Reference:** [RDR-009](../research/archive/RDR-009-mcp-memory-rejected.md)
 

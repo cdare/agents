@@ -3,7 +3,7 @@ name: design
 description: >
   Use when building dashboards, admin interfaces, SaaS UIs, or any interface needing
   polished, professional design. Triggers on: "design system", "UI design", "dashboard",
-  "admin interface", "make it look like Linear", "clean minimalist", "Stripe-style",
+  "admin interface", "make it look like Linear", "clean minimalist", "Stripe-style", "use design mode", 
   "enterprise UI", "SaaS design", "pixel-perfect", "design direction", "spacing system".
   Full access mode - can create/modify UI components and styles.
 ---
@@ -131,7 +131,8 @@ border: 0.5px solid var(--border);
 --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
 /* Layered shadow approach */
---shadow-layered: 0 0 0 0.5px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04),
+--shadow-layered:
+  0 0 0 0.5px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04),
   0 2px 4px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.02);
 ```
 

@@ -126,6 +126,22 @@ After 15-50+ tool calls, original goals can drift from attention ("lost in the m
 
 The key insight: updating working state (todos, progress) keeps goals in the attention window.
 
+### Single-Purpose Interactions (from Claude Code Mastery)
+
+Research shows significant degradation when mixing topics:
+
+| Finding                 | Impact                                    |
+| ----------------------- | ----------------------------------------- |
+| Multi-turn topic mixing | 39% performance drop                      |
+| Context rot             | Recall decreases as context grows         |
+| Early context pollution | 2% misalignment early → 40% failure later |
+
+**Implications for AGENTS:**
+
+- Phase-based workflow naturally enforces single-purpose interactions
+- Each agent (Explore, Implement, Review, Commit) has one clear purpose
+- Subagent fan-out keeps each context focused on one investigation
+
 ### Session Continuity
 
 For memory and session continuity patterns (including task-centric persistence adopted by AGENTS), see [Memory and Session Continuity](./memory-and-continuity.md).
@@ -169,6 +185,18 @@ Tools are **structured output declarations**, not function calls. Your code deci
 - How to execute
 - What to do with results
 - When to pause for human review
+
+### Advisory vs Enforcement (from Claude Code Mastery)
+
+Instruction files (CLAUDE.md, agent definitions, skills) are **advisory**—the LLM weighs them against other context and may override them. For **deterministic enforcement**, use platform-level mechanisms:
+
+| Mechanism             | Type        | Reliability                          |
+| --------------------- | ----------- | ------------------------------------ |
+| Instructions          | Advisory    | Can be overridden under pressure     |
+| **Hooks**             | Enforcement | Always executes (exit code 2 blocks) |
+| **Tool restrictions** | Enforcement | Agent can't use restricted tools     |
+
+AGENTS uses tool restrictions (VS Code agent `tools` field) for enforcement of phase boundaries. For additional enforcement (e.g., blocking secrets access), users should implement platform-specific hooks.
 
 ---
 
@@ -441,6 +469,7 @@ Keep main skill files focused; split heavy reference material to avoid context b
 - [Awesome Copilot Instructions](../sources/awesome-copilot/instructions/) - Instruction file patterns
 - [Awesome Copilot Agent Modes](../sources/awesome-copilot/agents/) - Agent mode examples
 - [VSCode Copilot Customization Docs](https://code.visualstudio.com/docs/copilot/customization/overview) - Official documentation
+- [Claude Code Mastery](https://github.com/TheDecipherist/claude-code-mastery) - Advisory vs enforcement, single-purpose chats
 
 ### Related Documents
 

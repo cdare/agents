@@ -141,7 +141,7 @@ Signals that synthesis docs may need revisiting:
 - [x] [MetaPrompts](https://github.com/JBurlison/MetaPrompts) → [RDR-026](docs/research/RDR-026-metaprompts.md) (Rejected: meta-agent for creating agents; confirms our approach but no changes needed)
 - [x] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks → [RDR-027](docs/research/RDR-027-skill-subagents.md) ⭐ (Adopted: skill-powered subagents pattern in prevailing-wisdom.md)
 - [x] [skills.sh](https://skills.sh/) ecosystem review → [RDR-028](docs/research/RDR-028-skills-sh.md) (Partially Adopted: rationalization tables, 4-phase debugging patterns from trailofbits/obra)
+- [x] [cursor-2.4](https://cursor.com/changelog/2-4) → [RDR-029](docs/research/RDR-029-cursor-support.md) (Rejected: skills compatible but agents require platform-enforced tool restrictions and mode persistence that Cursor lacks)
 - [ ] consider whether we need to supplement the existing design skill: https://github.com/Dammyjay93/interface-design
-- [ ] consider adding support to Cursor, as it now supports skills as well https://cursor.com/changelog/2-4
 - [ ] https://github.com/pcvelz/superpowers
 - [ ] Rename explore back to research to avoid conflicts with CC?

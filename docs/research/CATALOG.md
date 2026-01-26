@@ -14,12 +14,13 @@ Quick reference for Research Decision Records.
 | Memory/persistence approaches  | RDR-018, RDR-005          |
 | External framework comparisons | RDR-003, RDR-004, RDR-023 |
 | Skill creation guidance        | RDR-019, RDR-020          |
+| Skill + agent integration      | RDR-027 (skill-subagents) |
 
 ## By Status
 
 | Status            | RDRs                                                       |
 | ----------------- | ---------------------------------------------------------- |
-| Adopted           | 016, 018, 020                                              |
+| Adopted           | 016, 018, 020, 027                                         |
 | Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024, 025 |
 | Future            | 005, 013                                                   |
 | Archived          | 001, 002, 006, 007, 008, 009, 011, 021, 026                |
@@ -62,10 +63,11 @@ Quick reference for Research Decision Records.
 
 ### Skills
 
-| RDR                            | Title        | Status            | Summary                                   |
-| ------------------------------ | ------------ | ----------------- | ----------------------------------------- |
-| [019](RDR-019-skill-review.md) | Skill Review | Partially Adopted | Systematic skill evaluation               |
-| [020](RDR-020-design-skill.md) | Design Skill | Adopted           | UI/UX skill with Linear/Stripe aesthetics |
+| RDR                               | Title           | Status            | Summary                                   |
+| --------------------------------- | --------------- | ----------------- | ----------------------------------------- |
+| [019](RDR-019-skill-review.md)    | Skill Review    | Partially Adopted | Systematic skill evaluation               |
+| [020](RDR-020-design-skill.md)    | Design Skill    | Adopted           | UI/UX skill with Linear/Stripe aesthetics |
+| [027](RDR-027-skill-subagents.md) | Skill-Subagents | Adopted           | Invoke skills via subagents in agents     |
 
 ### Best Practices
 

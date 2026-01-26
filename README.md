@@ -15,7 +15,7 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 | Component        | Count | What It Does                                                             |
 | ---------------- | ----- | ------------------------------------------------------------------------ |
 | **Agents**       | 4     | Phase-based workflow with enforced tool restrictions and handoff buttons |
-| **Skills**       | 7     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
+| **Skills**       | 8     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
 | **Instructions** | 5     | File-type coding standards that load automatically                       |
 
 ```bash

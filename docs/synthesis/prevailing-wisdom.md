@@ -331,7 +331,80 @@ tools: ["codebase", "search", "problems"]
 
 ---
 
-## 9. Anti-Patterns to Avoid
+## 8. Skill-Powered Subagents
+
+### The Pattern
+
+Agents can invoke skills by spawning subagents with skill trigger keywords in the prompt. This combines:
+
+- **Skill expertise** — Specialized knowledge and behavioral constraints
+- **Context isolation** — Subagent context is garbage-collected after returning
+- **Summary-only output** — Main agent receives findings, not all intermediate reasoning
+
+### Why Subagent + Skill > Inline Skill Activation
+
+| Factor         | Inline Skill Activation           | Subagent + Skill                   |
+| -------------- | --------------------------------- | ---------------------------------- |
+| Context impact | All findings stay in main context | Subagent context garbage-collected |
+| Focus          | Mixed with other agent concerns   | Pure skill-mode operation          |
+| Output         | Full reasoning visible            | Summary only returned              |
+| Control        | Auto-triggered by keywords        | Agent decides when to invoke       |
+
+### Agent → Skill Pairings
+
+| Agent     | Skill        | When to Invoke                                         |
+| --------- | ------------ | ------------------------------------------------------ |
+| Explore   | architecture | Understanding system structure, high-level design      |
+| Implement | debug        | Tests failing, unexpected errors during implementation |
+| Review    | critic       | Stress-testing approach, finding edge cases            |
+| Review    | tech-debt    | Scanning for code smells, dead code, cleanup needs     |
+
+### Invocation Patterns
+
+**Explore → Architecture:**
+
+```
+Spawn subagent: "Use architecture mode to analyze the [component] system.
+Document high-level design, data flow, and integration points.
+Return: Component overview, key interfaces, and dependency map."
+```
+
+**Implement → Debug:**
+
+```
+Spawn subagent: "Debug: This test is failing with [error message].
+Use systematic hypothesis-driven investigation to trace the root cause.
+Return: Root cause analysis, hypothesis tested, and recommended fix."
+```
+
+**Review → Critic:**
+
+```
+Spawn subagent: "Use critic mode to challenge this approach: [brief description].
+Find weaknesses, edge cases, and what could go wrong.
+Return: Top 3-5 concerns ranked by severity."
+```
+
+**Review → Tech-Debt:**
+
+```
+Spawn subagent: "Use tech-debt mode to scan these files for code smells: [file list].
+Find dead code, missing types, TODO comments, and cleanup opportunities.
+Return: Prioritized debt items with effort estimates."
+```
+
+### Adding New Skill Integrations
+
+When creating a new skill or adding it to an agent workflow:
+
+1. **Identify the trigger scenario** — When would the agent benefit from skill expertise?
+2. **Craft the subagent prompt** — Include skill trigger keywords from the skill's `description` field
+3. **Specify return format** — Tell subagent exactly what to summarize back
+4. **Document the pairing** — Add to agent's "Skill-Powered Subagents" section if adding to agent
+
+---
+
+## 10. Anti-Patterns to Avoid
 
 ### From Research Analysis
 
@@ -354,7 +427,7 @@ tools: ["codebase", "search", "problems"]
 
 ---
 
-## 10. Recommended Agent Modes
+## 11. Recommended Agent Modes
 
 Based on synthesized patterns, these agent modes provide maximum coverage:
 
@@ -379,7 +452,7 @@ Based on synthesized patterns, these agent modes provide maximum coverage:
 
 ---
 
-## 11. Skill Quality (from Superpowers)
+## 12. Skill Quality (from Superpowers)
 
 ### TDD for Documentation
 
@@ -430,7 +503,7 @@ Before adding or keeping a skill, evaluate it against these criteria:
 
 ---
 
-## 12. Key Quotes to Remember
+## 13. Key Quotes to Remember
 
 > "Frequent Intentional Compaction" - ACE on context management
 

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- deep-research skill: Exhaustive investigation with citations, structured findings, and confidence levels
+- Explore agent: Skill-powered subagent patterns in Step 4 (architecture and deep-research skills)
+- Implement agent: Skill-powered subagent section (Step 3.5) for debug skill invocation
+- prevailing-wisdom.md Section 8: Skill-Powered Subagents pattern documentation
+- RDR-027: Skill-subagents research documenting the pattern
+- Review agent: Skill-powered subagent section (Step 4.5) for critic and tech-debt skills
 - RDR-026: MetaPrompts research (Rejected: meta-agent for creating agents; confirms our approach)
 - AGENTS.md: `## Learned Patterns` section for repository-level pattern memory
 - Implement agent: "Learning from Corrections" (Step 5) - persists user-taught patterns to AGENTS.md

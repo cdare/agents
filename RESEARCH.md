@@ -127,7 +127,7 @@ Signals that synthesis docs may need revisiting:
 - [x] [claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery) → [RDR-024](docs/research/RDR-024-claude-code-mastery.md) (Partially Adopted: reinforces single-purpose chat principle, hooks vs instructions distinction; Claude Code-specific features out of scope)
 - [x] [copilot-memory](https://docs.github.com/en/copilot/concepts/agents/copilot-memory) → [RDR-025](docs/research/RDR-025-copilot-memory.md) ⭐ (Partially Adopted: Learned Patterns in AGENTS.md, staleness warnings, pattern learning in Implement/Explore agents)
 - [x] [MetaPrompts](https://github.com/JBurlison/MetaPrompts) → [RDR-026](docs/research/RDR-026-metaprompts.md) (Rejected: meta-agent for creating agents; confirms our approach but no changes needed)
-- [ ] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks
+- [x] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks → [RDR-027](docs/research/RDR-027-skill-subagents.md) ⭐ (Adopted: skill-powered subagents pattern in prevailing-wisdom.md)
 - [ ] supplement existing design skill: https://github.com/Dammyjay93/interface-design
 - [ ] add support to Cursor, as it now supports skills as well https://cursor.com/changelog/2-4
 - [ ] https://github.com/pcvelz/superpowers

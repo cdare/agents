@@ -15,7 +15,7 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 | Component        | Count | What It Does                                                             |
 | ---------------- | ----- | ------------------------------------------------------------------------ |
 | **Agents**       | 4     | Phase-based workflow with enforced tool restrictions and handoff buttons |
-| **Skills**       | 8     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
+| **Skills**       | 9     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
 | **Instructions** | 5     | File-type coding standards that load automatically                       |
 
 ```bash
@@ -90,16 +90,17 @@ Each agent has buttons that trigger common next steps **without leaving your cur
 
 Skills activate automatically based on what you say:
 
-| You Say                     | Skill Activated |
-| --------------------------- | --------------- |
-| "This test is failing"      | `debug`         |
-| "Find code smells"          | `tech-debt`     |
-| "Clean up dead code"        | `tech-debt`     |
-| "Document the architecture" | `architecture`  |
-| "Teach me how this works"   | `mentor`        |
-| "Challenge my approach"     | `critic`        |
-| "Create a Makefile"         | `makefile`      |
-| "Build a dashboard UI"      | `design`        |
+| You Say                     | Skill Activated   |
+| --------------------------- | ----------------- |
+| "This test is failing"      | `debug`           |
+| "Find code smells"          | `tech-debt`       |
+| "Clean up dead code"        | `tech-debt`       |
+| "Document the architecture" | `architecture`    |
+| "Teach me how this works"   | `mentor`          |
+| "Challenge my approach"     | `critic`          |
+| "Create a Makefile"         | `makefile`        |
+| "Build a dashboard UI"      | `design`          |
+| "Security review this PR"   | `security-review` |
 
 No manual switching required—just ask naturally.
 

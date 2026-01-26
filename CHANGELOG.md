@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- security-review skill: Security-focused code review with attack surface mapping, risk classification, and vulnerability checklist
+- debug skill: Rationalization Prevention table and Red Flags section to prevent premature fix attempts
+- debug skill: Fix attempt counting in Phase 3 with escalation guidance
+- critic skill: Blast Radius Thinking section for downstream impact analysis
+- critic skill: Expanded security probe patterns (attacker mindset, trust boundaries)
+- critic skill: Rationalization Prevention table
+- design skill: Pre-Delivery Checklist (visual quality, interaction, responsive, accessibility)
+- Explore agent: Brainstorming skill patterns for focused design discussions
+- RDR-028: Skills.sh ecosystem research documenting patterns from trailofbits, obra, getsentry
 - deep-research skill: Exhaustive investigation with citations, structured findings, and confidence levels
 - Explore agent: Skill-powered subagent patterns in Step 4 (architecture and deep-research skills)
 - Implement agent: Skill-powered subagent section (Step 3.5) for debug skill invocation

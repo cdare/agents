@@ -29,11 +29,29 @@ See [CATALOG.md](docs/research/CATALOG.md) for quick reference by topic and stat
 
 **One item per iteration.** Small tweaks preferred. Big changes need justification.
 
+### What "Adoption" Means
+
+Adoption requires a **concrete change** to the framework:
+
+| Status                | Meaning                                                      |
+| --------------------- | ------------------------------------------------------------ |
+| **Adopted**           | Created/modified agents, skills, synthesis docs, or workflow |
+| **Partially Adopted** | Some ideas incorporated, others rejected                     |
+| **Rejected**          | Evaluated but no changes made (out of scope, doesn't fit)    |
+| **Future**            | Good idea, but blocked or deferred                           |
+
+"Validates our approach" or "confirms we're on track" = **Rejected** (informational). If nothing changed, nothing was adopted.
+
 ## Process
 
 ### 1. Find Research Candidates
 
-**From backlog:** Pick next unchecked item from Research List below.
+**From backlog:** Pick next unchecked item from Research List below. Items can be:
+
+- **External links** - repos, articles, docs to review
+- **Internal tasks** - ideas to explore, improvements to investigate
+
+Process both types the same way: research, evaluate, document decision.
 
 **From discovery sources:** When backlog is empty or you want fresh ideas:
 
@@ -108,8 +126,8 @@ Signals that synthesis docs may need revisiting:
 - [x] [ralph-wiggum](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum) → [RDR-023](docs/research/RDR-023-ralph-wiggum.md) ⭐ (Partially Adopted: reinforces subagent fan-out, disposable plans, backpressure principle; rejects autonomous bash loop)
 - [x] [claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery) → [RDR-024](docs/research/RDR-024-claude-code-mastery.md) (Partially Adopted: reinforces single-purpose chat principle, hooks vs instructions distinction; Claude Code-specific features out of scope)
 - [x] [copilot-memory](https://docs.github.com/en/copilot/concepts/agents/copilot-memory) → [RDR-025](docs/research/RDR-025-copilot-memory.md) ⭐ (Partially Adopted: Learned Patterns in AGENTS.md, staleness warnings, pattern learning in Implement/Explore agents)
+- [x] [MetaPrompts](https://github.com/JBurlison/MetaPrompts) → [RDR-026](docs/research/RDR-026-metaprompts.md) (Rejected: meta-agent for creating agents; confirms our approach but no changes needed)
 - [ ] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks
-- [ ] https://github.com/JBurlison/MetaPrompts
 - [ ] supplement existing design skill: https://github.com/Dammyjay93/interface-design
 - [ ] add support to Cursor, as it now supports skills as well https://cursor.com/changelog/2-4
 - [ ] https://github.com/pcvelz/superpowers

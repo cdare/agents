@@ -1,14 +1,17 @@
 # 🔬 Deep Research
 
-Research external frameworks and materials to evaluate potential improvements to this framework.
+**Mission:** Continuously improve the AGENTS framework by learning from external sources, adopting what works, and keeping our patterns current.
 
-## Finding RDRs
+This file is a prompt for research sessions. Use it to:
 
-See [CATALOG.md](docs/research/CATALOG.md) for:
+- **Discover** new agent frameworks, prompt patterns, and IDE features
+- **Evaluate** whether they improve our workflow, agents, or skills
+- **Adopt** useful patterns into synthesis docs and framework components
+- **Maintain** existing patterns as capabilities evolve
 
-- Quick reference by topic
-- Status overview (Adopted/Rejected/etc.)
-- Links to synthesis docs with full details
+## Finding Previous Research
+
+See [CATALOG.md](docs/research/CATALOG.md) for quick reference by topic and status.
 
 ## Philosophy
 
@@ -28,16 +31,53 @@ See [CATALOG.md](docs/research/CATALOG.md) for:
 
 ## Process
 
-1. **Context**: Read [README](./README.md) and relevant [synthesis docs](./docs/synthesis/)
-2. **Research**: Pick next unchecked item, read fully, follow links
-3. **Document**: Create RDR using [template](./docs/research/TEMPLATE.md) (~50 lines)
-4. **Synthesize**: If adopting, update the relevant synthesis doc (not just the RDR)
+### 1. Find Research Candidates
 
-## Adding New Research Items
+**From backlog:** Pick next unchecked item from Research List below.
 
-Add URLs to the list above. Format after research:
+**From discovery sources:** When backlog is empty or you want fresh ideas:
 
-- [x] short-name → RDR-NNN
+| Source           | How to Search                                                                | Examples                                                                                                                                       |
+| ---------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub           | Search `copilot instructions` or `agent prompts`, check trending             | [awesome-copilot](https://github.com/LouisShark/awesome-copilot), [claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery) |
+| Yegge's blog     | Check [steve-yegge.medium.com](https://steve-yegge.medium.com)               | Beads memory system, Six Tips for Agents                                                                                                       |
+| VS Code releases | Check [code.visualstudio.com/updates](https://code.visualstudio.com/updates) | Skills API (1.108), new Copilot tools                                                                                                          |
+| Anthropic/OpenAI | Check engineering blogs and plugin repos                                     | [ralph-wiggum](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum), feature-dev                                          |
+| Upstream repos   | Revisit repos we adopted from                                                | 12-Factor Agents, HumanLayer ACE                                                                                                               |
+
+**Manual additions welcome.** Add URLs to Research List as you discover them.
+
+### 2. Research & Evaluate
+
+1. Read [README](./README.md) and relevant [synthesis docs](./docs/synthesis/) for context
+2. Read the source fully, follow links
+3. Ask: Does this improve our agents, skills, or patterns?
+
+### 3. Document Decision
+
+Create RDR using [template](./docs/research/TEMPLATE.md) (~50 lines). Mark with ⭐ if high-impact.
+
+### 4. Synthesize (if adopting)
+
+Update the relevant synthesis doc—RDRs record decisions, synthesis docs record patterns.
+
+| Adoption Type   | Update                                                      |
+| --------------- | ----------------------------------------------------------- |
+| New principle   | [prevailing-wisdom.md](docs/synthesis/prevailing-wisdom.md) |
+| New skill       | Create in `.github/skills/`, update README counts           |
+| Agent change    | Update agent in `.github/agents/`                           |
+| Workflow change | Update README workflow section                              |
+
+## Maintenance Triggers
+
+Signals that synthesis docs may need revisiting:
+
+| Trigger                                      | Action                                           |
+| -------------------------------------------- | ------------------------------------------------ |
+| New model capabilities (tools, context size) | Review affected patterns in prevailing-wisdom.md |
+| Pattern frequently overridden in practice    | Consider if guidance needs updating              |
+| Upstream framework has major update          | Check if our adoption is stale                   |
+| 6+ months since synthesis doc update         | Skim for staleness                               |
 
 ## Research List
 
@@ -50,9 +90,9 @@ Add URLs to the list above. Format after research:
 - [x] [mitsuhiko-agent-stuff](https://github.com/mitsuhiko/agent-stuff/blob/main/skills/improve-skill/SKILL.md) → [RDR-007](docs/research/archive/RDR-007-mitsuhiko-agent-stuff.md)
 - [x] Building my own tools for memory (MCP servers) → [RDR-009](docs/research/archive/RDR-009-mcp-memory-rejected.md) (Rejected)
 - [x] Create guidelines for plan file artifacts → Resolved: Use Research → Handoff workflow (documented in [README](README.md#the-workflow))
-- [x] Combine Research + Plan agents → [RDR-016](docs/research/RDR-016-agent-consolidation.md) (Adopted: consolidated into Explore agent, reversing previous rejection)
+- [x] Combine Research + Plan agents → [RDR-016](docs/research/RDR-016-agent-consolidation.md) ⭐ (Adopted: consolidated into Explore agent, reversing previous rejection)
 - [x] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? → [RDR-010](docs/research/RDR-010-subagents-context-fork.md) (Subagents fork context; adopted for parallel investigations in Research agent)
-- [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/RDR-012-planning-with-files.md)
+- [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/RDR-012-planning-with-files.md) ⭐
 - [x] [vscode-browser-testing](https://code.visualstudio.com/docs/copilot/overview) → [RDR-013](docs/research/RDR-013-vscode-browser-testing.md)
 - [x] [vscode-copilot-settings](https://code.visualstudio.com/docs/copilot/setup) → [RDR-014](docs/research/RDR-014-vscode-copilot-settings.md)
 - [x] [copilot-agent-tools](https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features) → [RDR-015](docs/research/RDR-015-copilot-agent-tools.md) (Partially Adopted: added `usages` to Research/Explore/Plan, `changes` and `testFailure` to Review/Commit)
@@ -64,10 +104,10 @@ Add URLs to the list above. Format after research:
 - [x] Create a skill for creating makefiles → [makefile skill](.github/skills/makefile/SKILL.md)
 - [x] Add design skill → [RDR-020](docs/research/RDR-020-design-skill.md) (Adopted: created [design skill](.github/skills/design/SKILL.md))
 - [x] [agno-framework](https://www.agno.com/) → [RDR-021](docs/research/archive/RDR-021-agno.md) (Rejected: Python runtime framework, not IDE-based AI instructions)
-- [x] [six-tips-agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) → [RDR-022](docs/research/RDR-022-six-tips-agents.md) (Partially Adopted: 40% code health rule, Rule of Five multi-pass review)
-- [x] [ralph-wiggum](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum) → [RDR-023](docs/research/RDR-023-ralph-wiggum.md) (Partially Adopted: reinforces subagent fan-out, disposable plans, backpressure principle; rejects autonomous bash loop)
+- [x] [six-tips-agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) → [RDR-022](docs/research/RDR-022-six-tips-agents.md) ⭐ (Partially Adopted: 40% code health rule, Rule of Five multi-pass review)
+- [x] [ralph-wiggum](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum) → [RDR-023](docs/research/RDR-023-ralph-wiggum.md) ⭐ (Partially Adopted: reinforces subagent fan-out, disposable plans, backpressure principle; rejects autonomous bash loop)
 - [x] [claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery) → [RDR-024](docs/research/RDR-024-claude-code-mastery.md) (Partially Adopted: reinforces single-purpose chat principle, hooks vs instructions distinction; Claude Code-specific features out of scope)
-- [ ]
 - [ ] https://docs.github.com/en/copilot/concepts/agents/copilot-memory
+- [ ] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks
 - [ ] https://github.com/JBurlison/MetaPrompts
 - [ ] Rename explore back to research to avoid conflicts with CC?

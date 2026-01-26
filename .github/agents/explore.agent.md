@@ -214,6 +214,38 @@ Spawn subagents to research in parallel:
 
 Subagents return only their final summary. Incorporate these into your synthesis.
 
+**Skill-Powered Subagents:**
+
+For specialized analysis, invoke skills via subagent prompts:
+
+**Architecture Skill — Understanding System Structure:**
+
+```
+Spawn subagent: "Use architecture mode to analyze the [component] system.
+Document high-level design, data flow, and integration points.
+Return: Component overview, key interfaces, and dependency map."
+```
+
+**When to invoke:**
+
+- Understanding how a system is structured before planning changes
+- Documenting component relationships for complex areas
+- Analyzing data flow across service boundaries
+
+**Deep-Research Skill — Exhaustive Investigation:**
+
+```
+Spawn subagent: "Use deep-research mode to thoroughly investigate [topic].
+Cite all relevant files and line numbers. Cover exhaustively.
+Return: Structured findings with citations and confidence levels."
+```
+
+**When to invoke:**
+
+- Need exhaustive coverage of a topic
+- Want citations for all findings
+- Research will inform critical decisions
+
 ### Step 5: Synthesize and Plan
 
 - Compile all findings with specific file paths and line numbers

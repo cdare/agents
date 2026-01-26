@@ -161,6 +161,49 @@ Review each changed file for:
 - [ ] No breaking changes to public APIs
 - [ ] Backwards compatibility maintained
 
+### Step 4.5: Skill-Powered Subagents
+
+For deeper analysis, spawn skill-powered subagents with context isolation.
+
+**Critic Skill — Challenge the Approach:**
+
+When reviewing complex or high-risk changes:
+
+```
+Spawn subagent: "Use critic mode to challenge this approach: [brief description].
+Find weaknesses, edge cases, and what could go wrong.
+Return: Top 3-5 concerns ranked by severity."
+```
+
+**When to invoke:**
+
+- Reviewing architectural changes
+- Complex business logic
+- Security-sensitive code
+- Changes with broad impact
+
+**Tech-Debt Skill — Scan for Code Smells:**
+
+When assessing code health:
+
+```
+Spawn subagent: "Use tech-debt mode to scan these files for code smells: [file list].
+Find dead code, missing types, TODO comments, and cleanup opportunities.
+Return: Prioritized debt items with effort estimates."
+```
+
+**When to invoke:**
+
+- Large PRs touching many files
+- Code from rapid prototyping sessions
+- Before approving a PASS status on substantial changes
+
+**Benefits:**
+
+- Subagent context is garbage-collected after returning
+- Main context receives only findings, not investigation details
+- Enables thorough analysis without bloating review context
+
 ### Confidence Scoring
 
 Rate each potential issue on confidence (0-100):

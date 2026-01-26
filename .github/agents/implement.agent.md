@@ -265,6 +265,33 @@ Continue to Phase [N+1]?
 
 If plan has manual verification steps, list them and wait for confirmation.
 
+### Step 3.5: Skill-Powered Subagents
+
+When encountering difficult problems during implementation, spawn a skill-powered subagent for specialized expertise with context isolation.
+
+**Debug Skill — For Failing Tests or Unexpected Errors:**
+
+When tests fail unexpectedly or errors occur that aren't immediately obvious:
+
+```
+Spawn subagent: "Debug: This test is failing with [error message].
+Use systematic hypothesis-driven investigation to trace the root cause.
+Return: Root cause analysis, hypotheses tested, and recommended fix."
+```
+
+**When to invoke:**
+
+- Tests fail with non-obvious causes
+- Runtime errors during verification
+- Behavior doesn't match expectations after changes
+- Multiple failed fix attempts (trigger after 2nd failure)
+
+**Benefits:**
+
+- Subagent context is garbage-collected after returning
+- Main context receives only the summary, not all investigation steps
+- Keeps implementation focus clean
+
 ### Step 4: Handle Mismatches
 
 When things don't match the plan:

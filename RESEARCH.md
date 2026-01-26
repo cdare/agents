@@ -2,6 +2,14 @@
 
 **Mission:** Continuously improve the AGENTS framework by learning from external sources, adopting what works, and keeping our patterns current.
 
+## ⚠️ One Item Per Session
+
+**Process exactly ONE research item per session.** When that item is complete (RDR written, synthesis updated if adopting), stop. Do not pick up another item.
+
+Why: Deep research > shallow coverage. Each item deserves full attention.
+
+---
+
 This file is a prompt for research sessions. Use it to:
 
 - **Discover** new agent frameworks, prompt patterns, and IDE features
@@ -96,6 +104,10 @@ Signals that synthesis docs may need revisiting:
 | Pattern frequently overridden in practice    | Consider if guidance needs updating              |
 | Upstream framework has major update          | Check if our adoption is stale                   |
 | 6+ months since synthesis doc update         | Skim for staleness                               |
+
+---
+
+**⚠️ Remember: Pick ONE unchecked item below. Complete it fully before stopping.**
 
 ## Research List
 

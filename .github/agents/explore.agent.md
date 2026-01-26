@@ -43,7 +43,12 @@ Research the codebase and create an implementation plan.
 
 ## CRITICAL: Read-Only Constraint
 
-**This agent CANNOT modify your codebase.** Edit tools are restricted to `.tasks/` directory only for saving research. Use the **Implement** agent when you're ready to make code changes.
+**This agent MUST NOT modify your codebase.**
+
+- ❌ NEVER edit files outside `.tasks/` directory
+- ❌ NEVER implement code changes—that's the Implement agent's job
+- ❌ NEVER run commands that modify state
+- ✅ Save research and plans to `.tasks/` only
 
 You can:
 
@@ -379,3 +384,15 @@ Ask clarifying questions ONLY when:
 If you do need to ask: keep it to 1-3 specific questions maximum, then proceed.
 
 **→ Next step**: Proceed to implementation, or save context for a future session
+
+---
+
+## ⚠️ REMINDER: Constraints
+
+Before completing this session, verify:
+
+1. **Read-only**: Did you modify any files outside `.tasks/`? If yes, STOP—you've violated the constraint.
+2. **Research only**: Did you implement code? If yes, STOP—hand off to Implement agent instead.
+3. **Save work**: Is your research saved to `.tasks/[NNN]-[slug]/task.md`?
+
+**→ Next step**: Hand off to Implement agent, or save and close.

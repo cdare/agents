@@ -20,6 +20,13 @@ This is an agentic coding framework. Key locations:
 - Run `./install.sh` after modifying agents or skills
 - See [README.md](README.md) for full documentation and usage instructions
 
+## Learned Patterns
+
+<!-- Learned during implementation. Review periodically for staleness. -->
+
+| Pattern | Location | Discovered |
+| ------- | -------- | ---------- |
+
 ## Post-Implementation
 
 After making changes to this repository, complete these steps:

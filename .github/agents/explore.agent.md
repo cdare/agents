@@ -86,6 +86,7 @@ Then wait for the user's task name input.
 2. **Check for existing task**: Look for `.tasks/[NNN]-[task-slug]/` directory matching the slug
 3. **If task exists**:
    - Read `.tasks/[NNN]-[task-slug]/task.md` for overview and phase status
+   - Check file age: if >14 days old, note "⚠️ Research from [date] - key findings may need re-validation"
    - List all files in `.tasks/[NNN]-[task-slug]/plan/`
    - Present phase status table and ask: "Which phase would you like to plan next?"
 4. **If new task**:
@@ -223,6 +224,31 @@ Subagents return only their final summary. Incorporate these into your synthesis
 **Design Decision (Only If Needed):**
 
 Only present design options when multiple valid approaches exist with meaningful trade-offs and user input is genuinely needed. When there's one clear path, state it briefly and proceed.
+
+### Step 5.5: Repository Patterns (Optional)
+
+If you discovered patterns that would benefit future work across the repository (not just this task):
+
+1. Check if AGENTS.md exists in workspace root with a `## Learned Patterns` section
+2. Propose additions (don't duplicate existing patterns):
+
+```
+📝 Suggest adding to AGENTS.md Learned Patterns:
+| All services extend BaseService | `src/services/base.ts` | 2026-01-26 |
+
+Add this pattern? (This helps future sessions)
+```
+
+3. On confirmation, append to the Learned Patterns table in AGENTS.md
+
+**Good candidates:**
+
+- Convention patterns ("All X files follow Y structure")
+- Required setup (environment variables, config files)
+- Non-obvious dependencies ("Service A requires Service B")
+- Gotchas that would trip up future work
+
+**Not for:** Task-specific findings (those stay in `.tasks/`)
 
 ### Step 6: Save to Tasks Directory
 

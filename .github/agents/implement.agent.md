@@ -185,27 +185,23 @@ Proceeding with implementation.
 For each phase:
 
 1. **Verify Prerequisites**
-
    - Confirm previous phase complete (if applicable)
    - Ensure required files/state exist
    - Check dependencies are in place
 
 2. **Make Changes Incrementally**
-
    - Follow existing code patterns
    - Add type hints for all signatures
    - Handle errors explicitly
    - Add/update tests alongside changes
 
 3. **Run Verification After Each Significant Change**
-
    - Run relevant tests
    - Check for type errors
    - Verify no lint issues
    - Don't batch verifications - catch issues early
 
 4. **Verify UI Changes** (when available and applicable)
-
    - If Playwright MCP is configured and changes affect UI:
      - Navigate to the affected pages
      - Take screenshots to verify visual appearance
@@ -213,7 +209,6 @@ For each phase:
      - Verify expected elements exist using assertions
 
    **Important:** Manual verification is a stopgap. For UI changes, prefer writing Playwright tests that codify the verification steps. Include manual verification instructions in the plan only when:
-
    - Tests cannot yet be written (infrastructure not set up)
    - Subjective visual review is needed (design polish)
    - One-time verification before writing the test
@@ -251,7 +246,6 @@ Running verification for Phase [N]:
 2. **Fix Any Issues** before proceeding
 
 3. **Update Progress**
-
    - Check off completed items in the plan
    - Note any deviations from plan
    - Optionally write progress to `.tasks/[NNN]-[task]/implement/progress.md`
@@ -294,6 +288,30 @@ How should I proceed?
 ```
 
 3. **Wait for guidance** before continuing
+
+### Step 5: Learning from Corrections
+
+When the user teaches you a repository-specific pattern (e.g., "use X instead of Y", "always do Z in this repo"):
+
+1. **Acknowledge and apply** the correction immediately
+2. **Offer to persist** for future sessions:
+
+```
+📝 Learn this pattern for future sessions?
+| Use `winston` not `console.log` for logging | `src/**/*.ts` | 2026-01-26 |
+
+This will be added to AGENTS.md so all agents remember it.
+```
+
+3. On confirmation, append to `## Learned Patterns` table in AGENTS.md
+
+**Triggers for learning:**
+
+- User says "always...", "never...", "in this repo we..."
+- User corrects a pattern you used incorrectly
+- User explains a convention not obvious from code
+
+**Format:** `| [Pattern description] | [Location/scope] | [Today's date] |`
 
 ## Code Quality Checklist
 

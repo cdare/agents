@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- AGENTS.md: `## Learned Patterns` section for repository-level pattern memory
+- Implement agent: "Learning from Corrections" (Step 5) - persists user-taught patterns to AGENTS.md
+- Explore agent: "Repository Patterns" (Step 5.5) - discovers and suggests patterns during research
+- Explore agent: Staleness warning for task files >14 days old
+- memory-and-continuity.md: Learned Patterns section documenting the new feature
+- RDR-025: Copilot Memory research with partial adoption
+
 ### Changed
 
 - Task folder naming: `.tasks/[slug]/` → `.tasks/[NNN]-[slug]/` (e.g., `001-add-auth`)

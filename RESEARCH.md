@@ -107,7 +107,11 @@ Signals that synthesis docs may need revisiting:
 - [x] [six-tips-agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) → [RDR-022](docs/research/RDR-022-six-tips-agents.md) ⭐ (Partially Adopted: 40% code health rule, Rule of Five multi-pass review)
 - [x] [ralph-wiggum](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum) → [RDR-023](docs/research/RDR-023-ralph-wiggum.md) ⭐ (Partially Adopted: reinforces subagent fan-out, disposable plans, backpressure principle; rejects autonomous bash loop)
 - [x] [claude-code-mastery](https://github.com/TheDecipherist/claude-code-mastery) → [RDR-024](docs/research/RDR-024-claude-code-mastery.md) (Partially Adopted: reinforces single-purpose chat principle, hooks vs instructions distinction; Claude Code-specific features out of scope)
-- [ ] https://docs.github.com/en/copilot/concepts/agents/copilot-memory
+- [x] [copilot-memory](https://docs.github.com/en/copilot/concepts/agents/copilot-memory) → [RDR-025](docs/research/RDR-025-copilot-memory.md) ⭐ (Partially Adopted: Learned Patterns in AGENTS.md, staleness warnings, pattern learning in Implement/Explore agents)
 - [ ] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks
 - [ ] https://github.com/JBurlison/MetaPrompts
+- [ ] supplement existing design skill: https://github.com/Dammyjay93/interface-design
+- [ ] add support to Cursor, as it now supports skills as well https://cursor.com/changelog/2-4
+- [ ] https://github.com/pcvelz/superpowers
+- [ ] see which skills here might be worth adopting (or augmenting existing ones) https://skills.sh/
 - [ ] Rename explore back to research to avoid conflicts with CC?

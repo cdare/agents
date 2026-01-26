@@ -153,6 +153,39 @@ For implementation details, see the agent definitions in `.github/agents/`.
 
 ---
 
+### 5. Learned Patterns (Adopted)
+
+**What it is:** Repository-level pattern memory via a `## Learned Patterns` section in AGENTS.md. Agents can persist conventions learned during research or implementation.
+
+**How it works:**
+
+| Trigger                       | Agent     | Action                              |
+| ----------------------------- | --------- | ----------------------------------- |
+| User corrects/teaches pattern | Implement | Offers to persist to AGENTS.md      |
+| Discovers repo convention     | Explore   | Suggests adding to Learned Patterns |
+
+**Format:**
+
+```markdown
+## Learned Patterns
+
+| Pattern                     | Location      | Discovered |
+| --------------------------- | ------------- | ---------- |
+| Use winston not console.log | `src/**/*.ts` | 2026-01-26 |
+```
+
+**Inspired by:** GitHub Copilot Memory (citation-based validation, staleness handling)
+
+**Key differences from Copilot Memory:**
+
+- Explicit (user confirms) vs automatic
+- No auto-expiry (human curation)
+- IDE-focused vs GitHub platform
+
+**Reference:** [RDR-025](../research/RDR-025-copilot-memory.md)
+
+---
+
 ## Key Quotes
 
 > "The problem we all face with coding agents is that they have no memory between sessions." — Steve Yegge

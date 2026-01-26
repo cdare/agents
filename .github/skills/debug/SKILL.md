@@ -59,6 +59,12 @@ Systematic bug investigation and resolution.
 - Add regression test
 - Verify fix doesn't break other things
 
+**If fix doesn't work:**
+
+- Count: How many fixes attempted?
+- If < 3: Return to Phase 1, re-analyze with new information
+- If ≥ 3: STOP. Question your understanding of the system.
+
 ### Phase 4: Quality ✅
 
 **Goal**: Prevent recurrence
@@ -97,6 +103,24 @@ Systematic bug investigation and resolution.
 | Wrong output               | Logic error, wrong variable, off-by-one       |
 | Crash/exception            | Null/None access, type mismatch, missing data |
 | Performance issue          | N+1 queries, missing index, memory leak       |
+
+## Rationalization Prevention
+
+| Excuse                                         | Reality                                              |
+| ---------------------------------------------- | ---------------------------------------------------- |
+| "I'll just add a quick fix"                    | Quick fixes hide root cause. Follow Phase 1 first.   |
+| "It's probably X"                              | "Probably" isn't evidence. Test the hypothesis.      |
+| "This is too simple to debug formally"         | Simple bugs waste the most time when undiagnosed.    |
+| "I've tried 3 things, might as well try a 4th" | STOP. Return to Phase 1. Re-analyze with new info.   |
+| "It works now, not sure why"                   | If you don't know why it works, it will break again. |
+
+## Red Flags - STOP and Re-Assess
+
+- Adding a 3rd fix attempt without returning to Phase 1
+- Saying "should work now" without verification
+- Fixing a symptom because root cause is unclear
+- Skipping reproduction because "I know what's wrong"
+- Multiple hypotheses being tested simultaneously
 
 ## Debug Report Format
 

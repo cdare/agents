@@ -243,3 +243,47 @@ Every interface should look designed by a team that obsesses over 1-pixel differ
 Different products want different things. A developer tool wants precision and density. A collaborative product wants warmth and space. A financial product wants trust and sophistication. Let the product context guide the aesthetic.
 
 The goal: **intricate minimalism with appropriate personality**. Same quality bar, context-driven execution.
+
+---
+
+## Pre-Delivery Checklist
+
+Before shipping UI:
+
+### Visual Quality
+
+- [ ] No emojis as icons (use SVG)
+- [ ] Consistent icon set throughout
+- [ ] Hover states don't cause layout shift
+- [ ] All elements on 4px grid
+- [ ] Typography hierarchy is consistent
+- [ ] Color used for meaning, not decoration
+
+### Interaction
+
+- [ ] Clickable elements have `cursor: pointer`
+- [ ] Loading states for async operations
+- [ ] Transitions are 150-300ms
+- [ ] Error states are clear and actionable
+- [ ] Focus states visible for keyboard navigation
+
+### Interaction Feedback
+
+- [ ] Buttons show pressed/active state
+- [ ] Forms validate on blur or submit
+- [ ] Success feedback for completed actions
+
+### Responsive
+
+- [ ] Works at 375px, 768px, 1024px, 1440px
+- [ ] No horizontal scroll on mobile
+- [ ] Content not hidden behind fixed elements
+- [ ] Touch targets minimum 44px
+- [ ] Text readable without zooming
+
+### Accessibility
+
+- [ ] Color contrast meets WCAG AA (4.5:1 for text)
+- [ ] Interactive elements are keyboard accessible
+- [ ] Form inputs have visible labels
+- [ ] Images have alt text where meaningful

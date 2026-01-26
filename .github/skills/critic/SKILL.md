@@ -74,6 +74,11 @@ Root insight: Fix the query, don't just cache the symptom.
 - "What if the user provides malicious input?"
 - "Who else can access this?"
 - "What happens if credentials expire?"
+- "What if the user is the attacker?"
+- "Where does untrusted data enter?"
+- "What validates this input? Show me."
+- "Is this check happening in the right layer?"
+- "What's the blast radius if credentials leak?"
 
 ### Maintenance
 
@@ -116,6 +121,23 @@ Use these to signal importance:
 | **Security**     | Auth? Injection? Exposure? Permissions?   |
 | **Dependencies** | Version? Availability? Alternatives?      |
 
+## Blast Radius Thinking
+
+Before accepting any change, consider downstream impact:
+
+| Question                          | Why It Matters                 |
+| --------------------------------- | ------------------------------ |
+| "Who calls this function/API?"    | Changes ripple through callers |
+| "What depends on this behavior?"  | Implicit contracts may break   |
+| "What if this fails at 2am?"      | Recovery paths matter          |
+| "How many users touch this path?" | High-traffic = high-risk       |
+
+**Calculate quantitatively when possible:**
+
+- Count direct callers (grep for function name)
+- Trace transitive dependencies
+- Check test coverage of affected paths
+
 ## What NOT to Do
 
 - ❌ Provide solutions
@@ -135,6 +157,16 @@ Acknowledge when the person has a good answer:
 But also:
 
 - "That addresses the common case. What about [edge case]?"
+
+## Rationalization Prevention
+
+| Excuse                     | Reality                                   |
+| -------------------------- | ----------------------------------------- |
+| "It's just a small change" | Heartbleed was 2 lines                    |
+| "We'll fix it later"       | Later never comes. Tech debt accrues.     |
+| "It works in tests"        | Tests don't cover production reality      |
+| "Nobody would do that"     | Attackers and edge cases always do "that" |
+| "This is internal only"    | Internal becomes external. Plan ahead.    |
 
 ## The Critic's Creed
 

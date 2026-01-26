@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- RDR-026: MetaPrompts research (Rejected: meta-agent for creating agents; confirms our approach)
 - AGENTS.md: `## Learned Patterns` section for repository-level pattern memory
 - Implement agent: "Learning from Corrections" (Step 5) - persists user-taught patterns to AGENTS.md
 - Explore agent: "Repository Patterns" (Step 5.5) - discovers and suggests patterns during research

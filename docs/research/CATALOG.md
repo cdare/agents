@@ -17,12 +17,12 @@ Quick reference for Research Decision Records.
 
 ## By Status
 
-| Status            | RDRs                                                  |
-| ----------------- | ----------------------------------------------------- |
-| Adopted           | 016, 018, 020                                         |
-| Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024 |
-| Future            | 005, 013                                              |
-| Archived          | 001, 002, 006, 007, 008, 009, 011, 021                |
+| Status            | RDRs                                                       |
+| ----------------- | ---------------------------------------------------------- |
+| Adopted           | 016, 018, 020                                              |
+| Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024, 025 |
+| Future            | 005, 013                                                   |
+| Archived          | 001, 002, 006, 007, 008, 009, 011, 021, 026                |
 
 ## By Topic
 
@@ -35,6 +35,7 @@ Quick reference for Research Decision Records.
 | [005](RDR-005-beads.md)               | Beads Memory          | Future            | JSONL memory system for multi-session continuity      |
 | [023](RDR-023-ralph-wiggum.md)        | Ralph Wiggum          | Partially Adopted | Bash loop methodology; reinforces subagent fan-out    |
 | [024](RDR-024-claude-code-mastery.md) | Claude Code Mastery   | Partially Adopted | CLAUDE.md guide; reinforces phase-based workflow      |
+| [025](RDR-025-copilot-memory.md)      | Copilot Memory        | Partially Adopted | Learned Patterns table; staleness warnings            |
 
 ### Context Management
 
@@ -76,13 +77,14 @@ Quick reference for Research Decision Records.
 
 Rejected, superseded, or purely informational RDRs. See [archive/](archive/) for full documents.
 
-| RDR | Title                        | Why Archived                   |
-| --- | ---------------------------- | ------------------------------ |
-| 001 | Spec-Driven                  | Rejected: spec files not used  |
-| 002 | Context Cortex               | Rejected: memory bank not used |
-| 006 | Agentic Future               | Informational only             |
-| 007 | mitsuhiko agent-stuff        | Superseded by RDR-018          |
-| 008 | Handoff Workspace Constraint | Superseded by RDR-018          |
-| 009 | MCP Memory                   | Rejected: too complex          |
-| 011 | Protection Markers           | Feature removed                |
-| 021 | Agno                         | Rejected: out of scope         |
+| RDR | Title                        | Why Archived                         |
+| --- | ---------------------------- | ------------------------------------ |
+| 001 | Spec-Driven                  | Rejected: spec files not used        |
+| 002 | Context Cortex               | Rejected: memory bank not used       |
+| 006 | Agentic Future               | Informational only                   |
+| 007 | mitsuhiko agent-stuff        | Superseded by RDR-018                |
+| 008 | Handoff Workspace Constraint | Superseded by RDR-018                |
+| 009 | MCP Memory                   | Rejected: too complex                |
+| 011 | Protection Markers           | Feature removed                      |
+| 021 | Agno                         | Rejected: out of scope               |
+| 026 | MetaPrompts                  | Rejected: confirms existing approach |

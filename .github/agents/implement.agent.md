@@ -16,6 +16,7 @@ tools:
     "edit/editFiles",
     "search",
     "web",
+    "agent",
     "todo",
   ]
 model: Claude Opus 4.5

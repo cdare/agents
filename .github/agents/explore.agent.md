@@ -65,15 +65,13 @@ You can:
 
 ## Initial Response
 
-When starting:
+When starting, infer the task from available context:
 
-```
-I'll explore the codebase and create an implementation plan.
+- User's message or prompt
+- Selected code or open files
+- Recent conversation history
 
-What task are you working on? (e.g., "add authentication", "refactor API")
-```
-
-Then wait for the user's task name input.
+If the task is clear, proceed directly with research. Only ask for clarification when the task is genuinely ambiguous.
 
 ## Task Workflow
 

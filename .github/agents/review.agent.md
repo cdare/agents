@@ -3,15 +3,15 @@ name: Review
 description: Verify implementation quality with read and test access. Use for reviewing changes, checking code quality, verifying implementations, or auditing work before merge.
 tools:
   [
-    "changes",
+    "execute/testFailure",
     "execute/getTerminalOutput",
     "execute/runTests",
-    "execute/testFailure",
     "read/problems",
     "read/readFile",
     "read/terminalSelection",
     "read/terminalLastCommand",
     "search",
+    "agent",
     "todo",
   ]
 model: Claude Sonnet 4.5

@@ -83,7 +83,7 @@ If the task is clear, proceed directly with research. Only ask for clarification
 ### Starting a Task
 
 1. **Generate task folder name**: `[NNN]-[slug]` where:
-   - `NNN` = next available 3-digit number (scan `.tasks/` for highest, increment; start at 001 if empty)
+   - `NNN` = next 3-digit number (scan `.tasks/` for highest, increment; start at 001 if empty; always use 1 + highest existing number)
    - `slug` = 2-4 lowercase words, hyphen-separated (e.g., "add-authentication", "refactor-api")
    - Example: `001-add-authentication`, `002-refactor-api`
 2. **Check for existing task**: Look for `.tasks/[NNN]-[task-slug]/` directory matching the slug

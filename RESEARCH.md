@@ -142,6 +142,10 @@ Signals that synthesis docs may need revisiting:
 - [x] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks → [RDR-027](docs/research/RDR-027-skill-subagents.md) ⭐ (Adopted: skill-powered subagents pattern in prevailing-wisdom.md)
 - [x] [skills.sh](https://skills.sh/) ecosystem review → [RDR-028](docs/research/RDR-028-skills-sh.md) (Partially Adopted: rationalization tables, 4-phase debugging patterns from trailofbits/obra)
 - [x] [cursor-2.4](https://cursor.com/changelog/2-4) → [RDR-029](docs/research/RDR-029-cursor-support.md) (Rejected: skills compatible but agents require platform-enforced tool restrictions and mode persistence that Cursor lacks)
-- [ ] consider whether we need to supplement the existing design skill: https://github.com/Dammyjay93/interface-design
+- [ ] https://github.com/bigguy345/Github-Copilot-Atlas
+- [ ] https://github.com/ShepAlderson/copilot-orchestra
+- [ ] consider whether we need to supplement the existing design skill: https://github.com/Dammyjay93/interface-design or https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+- [] https://allenai.org/blog/open-coding-agents
 - [ ] https://github.com/pcvelz/superpowers
 - [ ] Rename explore back to research to avoid conflicts with CC?
+- [ ] https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals

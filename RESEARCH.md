@@ -149,3 +149,4 @@ Signals that synthesis docs may need revisiting:
 - [ ] https://github.com/pcvelz/superpowers
 - [ ] Rename explore back to research to avoid conflicts with CC?
 - [ ] https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals
+- https://www.reddit.com/r/GithubCopilot/s/qxQCZ0cP4S

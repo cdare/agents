@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- consolidate-task skill: Summarize completed tasks into architectural decision records (ADRs)
+- phase-review skill: Review phase plans for flaws before implementation
+- RDR-029: Cursor 2.4 support research (Rejected: lacks platform-enforced tool restrictions)
+- RDR-024: Claude Code Mastery research (single-purpose chat, hooks vs instructions)
+- RDR-023: Ralph Wiggum research (subagent fan-out, disposable plans, 40-60% context zone)
+- RDR-022: Steve Yegge's six tips for agents (Partially Adopted: 40% rule, Rule of Five)
+- docs/research/CATALOG.md: Topic-based navigation for research documents
+- prevailing-wisdom.md: Skill evaluation checklist
+- design skill: "use design mode" trigger phrase
 - security-review skill: Security-focused code review with attack surface mapping, risk classification, and vulnerability checklist
 - debug skill: Rationalization Prevention table and Red Flags section to prevent premature fix attempts
 - debug skill: Fix attempt counting in Phase 3 with escalation guidance
@@ -31,24 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Explore agent: Staleness warning for task files >14 days old
 - memory-and-continuity.md: Learned Patterns section documenting the new feature
 - RDR-025: Copilot Memory research with partial adoption
-
-### Changed
-
-- Task folder naming: `.tasks/[slug]/` → `.tasks/[NNN]-[slug]/` (e.g., `001-add-auth`)
-  - Sequential numbering for chronological ordering
-  - Updated in explore, implement, review agents and documentation
-- prevailing-wisdom.md: Removed Section 7 "Code Protection" (feature was removed per RDR-011)
-- framework-comparison.md: Marked RIPER protection levels as "not adopted" with RDR-011 reference
-- framework-comparison.md: Updated "Handoff pattern" → "task-centric persistence" for consistency
-- memory-and-continuity.md: Replaced "Handoff agent" reference with "task-centric persistence"
-
-### Fixed
-
-- test-install.sh: skill symlink path check now matches install.sh (`~/.copilot/skills/` instead of `~/.github/skills/`)
-- test.yml: explicit zsh invocation for shell compatibility on GHA macOS runners
-
-### Added
-
 - design skill: UI/UX design principles for dashboards, admin interfaces, SaaS products (4px grid, depth strategy, typography hierarchy)
 - makefile skill: AI-guided Makefile creation with process lifecycle management patterns (PID tracking, logging, status monitoring)
 - Implement agent: "Save Progress" handoff for session continuity
@@ -58,7 +49,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Skill count increased from 5 to 6
+- Skill count increased from 5 to 8 (added design, makefile, consolidate-task, phase-review; merged janitor into tech-debt)
+- Agents: Sandwich pattern for constraint adherence (early + late reinforcement)
+- Explore agent: Reduced question-asking behavior for smoother workflow
 - Explore agent: consolidated from 541 to 322 lines (40% reduction)
   - Merged intro sections, moved Guidelines up, simplified process steps (9→6)
   - Removed handoff-format templates (now using task.md format)
@@ -67,11 +60,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Integrated orphaned sections (Attention Management, Resuming Work) into workflow
   - Merged Quality Checklist + Testing Requirements with Guidelines
 - Implement agent: strengthened UI verification guidance - emphasize Playwright tests over manual verification
+- RDR TEMPLATE: Slimmed format for research documents
+- RDRs 003-019: Slimmed to 29-46 lines each (from 60-183 lines)
+- 8 RDRs archived to docs/research/archive/ (RDR-001, 002, 006-009, 011, 021)
+- Task folder naming: `.tasks/[slug]/` → `.tasks/[NNN]-[slug]/` (e.g., `001-add-auth`)
+  - Sequential numbering for chronological ordering
+  - Updated in explore, implement, review agents and documentation
+- prevailing-wisdom.md: Removed Section 7 "Code Protection" (feature was removed per RDR-011)
+- framework-comparison.md: Marked RIPER protection levels as "not adopted" with RDR-011 reference
+- framework-comparison.md: Updated "Handoff pattern" → "task-centric persistence" for consistency
+- memory-and-continuity.md: Replaced "Handoff agent" reference with "task-centric persistence"
 - tech-debt skill: absorbed janitor skill content (deletion philosophy, safe deletion patterns, cleaning checklist)
 - architecture skill: strengthened constraints with anti-patterns table and "Never Include" examples
-- Skill count reduced from 6 to 5 (janitor merged into tech-debt)
 - AGENTS.md: updated repository structure table (agents/skills count corrections)
 - copilot-instructions.md: simplified to reference AGENTS.md for cross-agent instructions
+
+### Fixed
+
+- test-install.sh: skill symlink path check now matches install.sh (`~/.copilot/skills/` instead of `~/.github/skills/`)
+- test.yml: explicit zsh invocation for shell compatibility on GHA macOS runners
 
 ### Removed
 

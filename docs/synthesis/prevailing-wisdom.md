@@ -98,6 +98,28 @@ Use the main agent context as a "scheduler" and spawn subagents for heavy file r
 - Enables investigating 3+ independent areas without bloating main context
 - "Subagents as memory extension" - fan out to avoid polluting main context
 
+### Retrieval Over Recall (from Vercel Evals)
+
+> "Prefer retrieval-led reasoning over pre-training-led reasoning"
+
+Agents trained on older data will generate outdated patterns. Combat this by:
+
+- **Read actual files** before suggesting patterns—don't assume you know the codebase
+- **Check config files** rather than guessing structure or defaults
+- **Trace imports and dependencies** rather than relying on training knowledge
+- **Consult existing code** to match project conventions
+
+Vercel's evals showed 100% pass rate with docs available in context vs 53% baseline. The key: passive context (always available) beats on-demand retrieval (agent must decide to look it up).
+
+**Horizontal vs Vertical Context:**
+
+| Type           | Mechanism          | Use For                                      |
+| -------------- | ------------------ | -------------------------------------------- |
+| **Horizontal** | AGENTS.md          | Always-on baseline context, project patterns |
+| **Vertical**   | Skills (on-demand) | Explicit workflows users trigger             |
+
+Our skills use explicit triggers ("use debug mode") to avoid the 56% non-invocation rate Vercel observed with agent-decided skill loading.
+
 ### Custom Context Formats (from 12-Factor Factor 3)
 
 Instead of default message arrays, use structured formats:

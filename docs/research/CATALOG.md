@@ -19,12 +19,12 @@ Quick reference for Research Decision Records.
 
 ## By Status
 
-| Status            | RDRs                                                            |
-| ----------------- | --------------------------------------------------------------- |
-| Adopted           | 016, 018, 020, 027                                              |
-| Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024, 025, 028 |
-| Future            | 005, 013                                                        |
-| Archived          | 001, 002, 006, 007, 008, 009, 011, 021, 026                     |
+| Status            | RDRs                                                                 |
+| ----------------- | -------------------------------------------------------------------- |
+| Adopted           | 016, 018, 020, 027                                                   |
+| Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024, 025, 028, 030 |
+| Future            | 005, 013                                                             |
+| Archived          | 001, 002, 006, 007, 008, 009, 011, 021, 026                          |
 
 ## By Topic
 
@@ -73,9 +73,10 @@ Quick reference for Research Decision Records.
 
 ### Best Practices
 
-| RDR                               | Title               | Status            | Summary                                 |
-| --------------------------------- | ------------------- | ----------------- | --------------------------------------- |
-| [022](RDR-022-six-tips-agents.md) | Six Tips for Agents | Partially Adopted | Code health 30-40%; Rule of Five review |
+| RDR                                      | Title                 | Status            | Summary                                    |
+| ---------------------------------------- | --------------------- | ----------------- | ------------------------------------------ |
+| [022](RDR-022-six-tips-agents.md)        | Six Tips for Agents   | Partially Adopted | Code health 30-40%; Rule of Five review    |
+| [030](RDR-030-vercel-agents-md-evals.md) | Vercel AGENTS.md Eval | Partially Adopted | Retrieval-over-recall; horizontal/vertical |
 
 ## Archive
 

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- RDR-030: Vercel AGENTS.md eval study (Partially Adopted: retrieval-over-recall principle, horizontal vs vertical context)
+- prevailing-wisdom.md: "Retrieval Over Recall" section with horizontal vs vertical context distinction
 - scripts/configure-vscode-settings.js: Safe JSONC manipulation for VS Code settings (insert-only, preserves comments)
 - scripts/test-configure-settings.sh: Test suite for settings configuration
 - consolidate-task skill: Summarize completed tasks into architectural decision records (ADRs)

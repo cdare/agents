@@ -22,15 +22,31 @@ const os = require("os");
 
 // Settings to configure
 const SETTINGS = [
+  // Object-type settings (add entry to existing object)
   {
+    type: "object",
     key: "chat.agentFilesLocations",
     entry: "~/.copilot/agents",
     value: "true",
   },
   {
+    type: "object",
     key: "chat.instructionsFilesLocations",
     entry: "~/.copilot/instructions",
     value: "true",
+  },
+  // Boolean settings (VS Code 1.109)
+  { type: "boolean", key: "chat.customAgentInSubagent.enabled", value: true },
+  {
+    type: "boolean",
+    key: "github.copilot.chat.copilotMemory.enabled",
+    value: true,
+  },
+  { type: "boolean", key: "chat.askQuestions.enabled", value: true },
+  {
+    type: "boolean",
+    key: "github.copilot.chat.searchSubagent.enabled",
+    value: true,
   },
 ];
 
@@ -92,6 +108,28 @@ function addToSetting(content, settingKey, entryKey, entryValue) {
   return { content: newContent, changed: true };
 }
 
+/**
+ * Add a top-level boolean setting to JSONC content.
+ */
+function addBooleanSetting(content, settingKey, value) {
+  // Already has this setting?
+  if (content.includes(`"${settingKey}"`)) {
+    return { content, changed: false };
+  }
+
+  // Add before final }
+  const lastBrace = content.lastIndexOf("}");
+  if (lastBrace === -1) {
+    return { content, changed: false, error: "No closing } found" };
+  }
+
+  const before = content.slice(0, lastBrace).trimEnd();
+  const needsComma = /[}\]"'\d]$|true$|false$|null$/.test(before);
+  const insert = (needsComma ? "," : "") + `\n  "${settingKey}": ${value}`;
+
+  return { content: before + insert + "\n}", changed: true };
+}
+
 function main() {
   // Get settings file path
   const defaultPath = path.join(
@@ -117,17 +155,29 @@ function main() {
 
   // Apply each setting
   let anyChanged = false;
-  for (const { key, entry, value } of SETTINGS) {
-    const result = addToSetting(content, key, entry, value);
+  for (const setting of SETTINGS) {
+    let result;
+    if (setting.type === "boolean") {
+      result = addBooleanSetting(content, setting.key, setting.value);
+      if (result.changed) {
+        console.log(`Added: ${setting.key} = ${setting.value}`);
+      } else {
+        console.log(`Already configured: ${setting.key}`);
+      }
+    } else {
+      result = addToSetting(content, setting.key, setting.entry, setting.value);
+      if (result.changed) {
+        console.log(`Added: ${setting.key} → ${setting.entry}`);
+      } else {
+        console.log(`Already configured: ${setting.entry}`);
+      }
+    }
     if (result.error) {
       console.error(`Warning: ${result.error}`);
     }
     if (result.changed) {
       content = result.content;
       anyChanged = true;
-      console.log(`Added: ${key} → ${entry}`);
-    } else {
-      console.log(`Already configured: ${entry}`);
     }
   }
 

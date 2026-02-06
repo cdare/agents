@@ -19,7 +19,7 @@ tools:
     "agent",
     "todo",
   ]
-model: Claude Opus 4.6
+model: Claude Opus 4.5
 handoffs:
   - label: Review
     agent: Review

@@ -13,7 +13,7 @@ tools:
     "agent",
     "todo",
   ]
-model: Claude Opus 4.5
+model: ["Claude Opus 4.5 (copilot)", "Claude Opus 4.6 (copilot)"]
 handoffs:
   - label: Implement
     agent: Implement

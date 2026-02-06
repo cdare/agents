@@ -12,7 +12,7 @@ tools:
     "search",
     "todo",
   ]
-model: Claude Sonnet 4.5
+model: ["Claude Sonnet 4.5 (copilot)", "Gemini 3 Pro (Preview) (copilot)"]
 handoffs:
   - label: Review Commits
     agent: Commit

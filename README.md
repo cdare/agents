@@ -15,7 +15,7 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 | Component        | Count | What It Does                                                             |
 | ---------------- | ----- | ------------------------------------------------------------------------ |
 | **Agents**       | 4     | Phase-based workflow with enforced tool restrictions and handoff buttons |
-| **Skills**       | 9     | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
+| **Skills**       | 11    | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
 | **Instructions** | 5     | File-type coding standards that load automatically                       |
 
 ```bash
@@ -124,11 +124,13 @@ After `./install.sh`:
 
 | Component              | Installed To                                           |
 | ---------------------- | ------------------------------------------------------ |
-| Agents (VS Code)       | `~/Library/Application Support/Code/User/prompts/`     |
-| Commands (Claude Code) | `~/.claude/commands/`                                  |
+| Agents (VS Code)       | `~/.copilot/agents/`                                   |
+| Instructions           | `~/.copilot/instructions/`                             |
 | Skills                 | `~/.copilot/skills/` (with `~/.claude/skills` symlink) |
-| Instructions           | `~/Library/Application Support/Code/User/prompts/`     |
+| Commands (Claude Code) | `~/.claude/commands/`                                  |
 | Task state gitignore   | Added to global gitignore (`.tasks/`)                  |
+
+The installer also configures VS Code settings (`chat.agentFilesLocations`, `chat.instructionsFilesLocations`) to discover agents and instructions from these locations.
 
 ---
 

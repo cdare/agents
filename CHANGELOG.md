@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- All skill descriptions: standardized YAML frontmatter format to single-line with consistent quote usage
+- scripts/configure-vscode-settings.js: Safe JSONC manipulation for VS Code settings (insert-only, preserves comments)
+- scripts/test-configure-settings.sh: Test suite for settings configuration
 - consolidate-task skill: Summarize completed tasks into architectural decision records (ADRs)
 - phase-review skill: Review phase plans for flaws before implementation
 - RDR-029: Cursor 2.4 support research (Rejected: lacks platform-enforced tool restrictions)
@@ -50,6 +51,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- install.sh: Agents now install to `~/.copilot/agents/` (was `~/Library/.../prompts/`)
+- install.sh: Instructions now install to `~/.copilot/instructions/` (was `~/Library/.../prompts/`)
+- install.sh: Automatically migrates old symlinks from deprecated prompts folder
+- install.sh: Configures `chat.agentFilesLocations` and `chat.instructionsFilesLocations` in VS Code settings
+- tests/test-install.sh: Updated to verify new installation paths
 - Skill count increased from 5 to 8 (added design, makefile, consolidate-task, phase-review; merged janitor into tech-debt)
 - Agents: Sandwich pattern for constraint adherence (early + late reinforcement)
 - Explore agent: Reduced question-asking behavior for smoother workflow
@@ -78,6 +84,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- All skill descriptions: Standardized to start with "Use when" and include proper `'use X mode'` triggers
+- validate-skills.sh: Fixed regex to accept single-quoted trigger phrases
+- configure-vscode-settings.js: Fixed trailing comma issue when setting has empty dict
 - test-install.sh: skill symlink path check now matches install.sh (`~/.copilot/skills/` instead of `~/.github/skills/`)
 - test.yml: explicit zsh invocation for shell compatibility on GHA macOS runners
 

@@ -1,6 +1,6 @@
 ---
 name: architecture
-description: "Document architecture, understand system structure, create diagrams, or analyze component relationships. Focuses on interfaces and high-level design. Triggers on: 'use architecture mode', 'architecture', 'system design', 'how is this structured', 'document the system', 'create a diagram', 'high-level overview', 'component diagram'. Read-only mode for analysis, can create documentation files."
+description: "Use when documenting architecture, understanding system structure, creating diagrams, or analyzing component relationships. Focuses on interfaces and high-level design. Triggers on: 'use architecture mode', 'architecture', 'system design', 'how is this structured', 'document the system', 'create a diagram', 'high-level overview'. Read-only mode."
 ---
 
 # Architecture Mode

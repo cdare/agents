@@ -98,13 +98,14 @@ for skill_dir in "$SKILLS_DIR"/*/; do
         warn "$skill_name: No 'Triggers on:' in description"
     fi
     
-    # Check for unique "use X mode" trigger
-    if ! grep -q '"use [a-z-]* mode"' "$skill_file"; then
+    # Check for unique "use X mode" trigger (accepts single or double quotes)
+    if ! grep -qE "'use [a-z-]+ mode'|\"use [a-z-]+ mode\"" "$skill_file"; then
         warn "$skill_name: Missing unique 'use X mode' trigger"
     fi
     
-    # Check description starts with "Use when" (CSO pattern)
-    if ! grep -A1 "^description:" "$skill_file" | grep -qi "use when"; then
+    # Check description contains "Use when" (in first ~100 chars of description)
+    desc_start=$(sed -n '/^description:/p' "$skill_file" | head -c 150)
+    if ! echo "$desc_start" | grep -qi "use when"; then
         warn "$skill_name: Description should start with 'Use when' (focus on triggers, not workflow)"
     fi
     

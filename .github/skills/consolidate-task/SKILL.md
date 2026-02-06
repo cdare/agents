@@ -1,6 +1,6 @@
 ---
 name: consolidate-task
-description: "Summarize a completed task into an architectural decision record. Used to reduce the need to keep unnecessary tasks in the .tasks/ directory. Triggers on: 'consolidate-task', 'consolidate task', 'summarize task', 'use consolidate task mode'."
+description: "Use when you need to summarize a completed task into an architectural decision record, reducing clutter in .tasks/. Triggers on: 'use consolidate-task mode', 'consolidate-task', 'consolidate task', 'summarize task'."
 ---
 
 # Summarize Task to Architectural Decision Record

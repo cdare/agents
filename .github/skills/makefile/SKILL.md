@@ -1,11 +1,6 @@
 ---
 name: makefile
-description: >
-  Use when creating or amending Makefiles for process lifecycle management. Best for
-  projects needing background process management, PID tracking, logging, and status
-  monitoring. Triggers on: "use makefile mode", "makefile", "create makefile",
-  "process management", "background jobs", "start/stop services".
-  Full access mode - can create/modify Makefiles and supporting files.
+description: "Create Makefiles for process lifecycle management with PID tracking and logging. Best for projects needing background process management, PID tracking, logging, and status monitoring. Triggers on: 'use makefile mode', 'makefile', 'create makefile', 'process management', 'background jobs', 'start/stop services'. Full access mode - can create/modify Makefiles and supporting files."
 ---
 
 # Makefile Mode

@@ -1,11 +1,6 @@
 ---
 name: debug
-description: >
-  Systematic debugging with hypothesis-driven investigation. Use when something is broken,
-  tests are failing, unexpected behavior occurs, or errors need investigation. Triggers on:
-  "this is broken", "debug", "why is this failing", "unexpected error", "not working",
-  "bug", "fix this issue", "investigate", "tests failing", "trace the error", "use debug mode".
-  Full access mode - can run commands, add logging, and fix issues.
+description: "Systematic debugging with hypothesis-driven investigation. Use when something is broken, tests are failing, unexpected behavior occurs, or errors need investigation. Triggers on: 'this is broken', 'debug', 'why is this failing', 'unexpected error', 'not working', 'bug', 'fix this issue', 'investigate', 'tests failing', 'trace the error', 'use debug mode'. Full access mode - can run commands, add logging, and fix issues."
 ---
 
 # Debug Mode

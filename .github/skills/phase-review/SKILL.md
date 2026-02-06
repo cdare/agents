@@ -1,9 +1,6 @@
 ---
 name: phase-review
-description: >
-  Review implementation plans for a particular phase in a larger plan for flaws before committing to them. Use when reviewing phase plans from .tasks/ directory.
-
-  Triggers on: "use phase mode", "review phase", "review the plan", "check phase", "validate phase", "review phase N", "check the plan for phase".
+description: "Review implementation plans for a particular phase in a larger plan for flaws before committing to them. Use when reviewing phase plans from .tasks/ directory. Triggers on: 'use phase mode', 'review phase', 'review the plan', 'check phase', 'validate phase', 'review phase N', 'check the plan for phase'."
 ---
 
 # Phase Plan Review

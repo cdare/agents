@@ -1,11 +1,6 @@
 ---
 name: security-review
-description: >
-  Use when reviewing PRs for security, auditing code changes, or analyzing potential
-  vulnerabilities. Security-focused code review with attack surface mapping and risk
-  classification. Triggers on: "security review", "use security mode", "audit this",
-  "check for vulnerabilities", "is this secure", "attack surface", "threat model",
-  "security check". Read-only mode - identifies issues but doesn't fix them.
+description: "Security-focused code review with attack surface mapping and risk classification. Use when reviewing PRs for security, auditing code changes, or analyzing potential vulnerabilities. Triggers on: 'security review', 'use security mode', 'audit this', 'check for vulnerabilities', 'is this secure', 'attack surface', 'threat model', 'security check'. Read-only mode - identifies issues but doesn't fix them."
 ---
 
 # Security Review

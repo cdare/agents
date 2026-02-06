@@ -1,11 +1,6 @@
 ---
 name: deep-research
-description: >
-  Exhaustive investigation with citations and structured findings. Use when thorough coverage
-  is needed, all sources must be cited, or research will inform critical decisions. Triggers on:
-  "use deep-research mode", "deep research", "exhaustive investigation", "thorough research",
-  "cite all sources", "comprehensive analysis", "leave no stone unturned", "research everything".
-  Read-only mode - investigates and documents but doesn't modify code.
+description: "Exhaustive investigation with citations and structured findings. Use when thorough coverage is needed, all sources must be cited, or research will inform critical decisions. Triggers on: 'use deep-research mode', 'deep research', 'exhaustive investigation', 'thorough research', 'cite all sources', 'comprehensive analysis', 'leave no stone unturned', 'research everything'. Read-only mode - investigates and documents but doesn't modify code."
 ---
 
 # Deep-Research Mode

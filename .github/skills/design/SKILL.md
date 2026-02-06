@@ -1,11 +1,6 @@
 ---
 name: design
-description: >
-  Use when building dashboards, admin interfaces, SaaS UIs, or any interface needing
-  polished, professional design. Triggers on: "design system", "UI design", "dashboard",
-  "admin interface", "make it look like Linear", "clean minimalist", "Stripe-style", "use design mode", 
-  "enterprise UI", "SaaS design", "pixel-perfect", "design direction", "spacing system".
-  Full access mode - can create/modify UI components and styles.
+description: "Polished, professional design for dashboards, admin interfaces, SaaS UIs, or any interface needing professional design. Triggers on: 'design system', 'UI design', 'dashboard', 'admin interface', 'make it look like Linear', 'clean minimalist', 'Stripe-style', 'use design mode', 'enterprise UI', 'SaaS design', 'pixel-perfect', 'design direction', 'spacing system'. Full access mode - can create/modify UI components and styles."
 ---
 
 # Design Principles

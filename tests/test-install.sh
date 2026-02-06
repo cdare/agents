@@ -25,16 +25,16 @@ echo ""
 info "Running install..."
 "$REPO_ROOT/install.sh" > /dev/null
 
-# Verify agent symlinks exist in VS Code prompts folder
-VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
+# Verify agent symlinks exist in global agents directory
+VSCODE_AGENTS_DIR="$HOME/.copilot/agents"
 for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
     [[ -f "$agent" ]] || continue
     name=$(basename "$agent")
-    if [[ ! -L "$VSCODE_PROMPTS_DIR/$name" ]]; then
-        error "VS Code agent symlink not created: $name"
+    if [[ ! -L "$VSCODE_AGENTS_DIR/$name" ]]; then
+        error "Agent symlink not created: $name"
     fi
 done
-success "VS Code agent symlinks created"
+success "Agent symlinks created"
 
 # Verify skill symlinks exist
 for skill in "$REPO_ROOT"/.github/skills/*/; do
@@ -46,15 +46,16 @@ for skill in "$REPO_ROOT"/.github/skills/*/; do
 done
 success "Skill symlinks created"
 
-# Verify instruction symlinks exist in VS Code prompts folder
+# Verify instruction symlinks exist in global instructions directory
+VSCODE_INSTRUCTIONS_DIR="$HOME/.copilot/instructions"
 for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
     [[ -f "$instr" ]] || continue
     name=$(basename "$instr")
-    if [[ ! -L "$VSCODE_PROMPTS_DIR/$name" ]]; then
-        error "VS Code instruction symlink not created: $name"
+    if [[ ! -L "$VSCODE_INSTRUCTIONS_DIR/$name" ]]; then
+        error "Instruction symlink not created: $name"
     fi
 done
-success "VS Code instruction symlinks created"
+success "Instruction symlinks created"
 
 # Verify Claude Code commands exist (generated files, not symlinks)
 CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
@@ -88,15 +89,15 @@ fi
 info "Running uninstall..."
 "$REPO_ROOT/install.sh" uninstall > /dev/null
 
-# Verify agent symlinks removed from VS Code
+# Verify agent symlinks removed
 for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
     [[ -f "$agent" ]] || continue
     name=$(basename "$agent")
-    if [[ -L "$VSCODE_PROMPTS_DIR/$name" ]]; then
-        error "VS Code agent symlink not removed: $name"
+    if [[ -L "$VSCODE_AGENTS_DIR/$name" ]]; then
+        error "Agent symlink not removed: $name"
     fi
 done
-success "VS Code agent symlinks removed"
+success "Agent symlinks removed"
 
 # Verify skill symlinks removed
 for skill in "$REPO_ROOT"/.github/skills/*/; do
@@ -108,15 +109,15 @@ for skill in "$REPO_ROOT"/.github/skills/*/; do
 done
 success "Skill symlinks removed"
 
-# Verify instruction symlinks removed from VS Code
+# Verify instruction symlinks removed
 for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
     [[ -f "$instr" ]] || continue
     name=$(basename "$instr")
-    if [[ -L "$VSCODE_PROMPTS_DIR/$name" ]]; then
-        error "VS Code instruction symlink not removed: $name"
+    if [[ -L "$VSCODE_INSTRUCTIONS_DIR/$name" ]]; then
+        error "Instruction symlink not removed: $name"
     fi
 done
-success "VS Code instruction symlinks removed"
+success "Instruction symlinks removed"
 
 # Verify Claude Code commands removed
 for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do

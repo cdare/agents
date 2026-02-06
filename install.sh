@@ -22,9 +22,13 @@ SCRIPT_DIR="${0:A:h}"
 SKILLS_TARGET_DIR="$HOME/.copilot/skills"
 CLAUDE_SKILLS_TARGET_DIR="$HOME/.claude/skills"
 
-# Agent target directories
-VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
+# Agent and instruction target directories (VS Code 1.109+)
+VSCODE_AGENTS_DIR="$HOME/.copilot/agents"
+VSCODE_INSTRUCTIONS_DIR="$HOME/.copilot/instructions"
 CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
+
+# Old location (for migration cleanup)
+OLD_VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
 
 # Colors for output
 RED='\033[0;31m'
@@ -185,17 +189,39 @@ install() {
         info "Global gitignore already configured for task state"
     fi
 
-    # Install agents to VS Code prompts folder
-    info "Installing agents to VS Code prompts folder..."
-    if [[ ! -d "$VSCODE_PROMPTS_DIR" ]]; then
-        mkdir -p "$VSCODE_PROMPTS_DIR"
+    # Migrate: Remove old symlinks from deprecated prompts folder
+    if [[ -d "$OLD_VSCODE_PROMPTS_DIR" ]]; then
+        local migrated=0
+        for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
+            [[ -f "$src" ]] || continue
+            local name=$(basename "$src")
+            if unlink_if_ours "$src" "$OLD_VSCODE_PROMPTS_DIR/$name"; then
+                migrated=$((migrated + 1))
+            fi
+        done
+        for src in "$SCRIPT_DIR"/instructions/*.instructions.md; do
+            [[ -f "$src" ]] || continue
+            local name=$(basename "$src")
+            if unlink_if_ours "$src" "$OLD_VSCODE_PROMPTS_DIR/$name"; then
+                migrated=$((migrated + 1))
+            fi
+        done
+        if [[ $migrated -gt 0 ]]; then
+            info "Migrated $migrated files from old prompts folder"
+        fi
+    fi
+
+    # Install agents to global agents directory
+    info "Installing agents to global agents directory..."
+    if [[ ! -d "$VSCODE_AGENTS_DIR" ]]; then
+        mkdir -p "$VSCODE_AGENTS_DIR"
     fi
     
     local agent_count=0
     for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
         [[ -f "$src" ]] || continue
         local name=$(basename "$src")
-        if link_file "$src" "$VSCODE_PROMPTS_DIR/$name" "$name"; then
+        if link_file "$src" "$VSCODE_AGENTS_DIR/$name" "$name"; then
             success "Linked agent: $name"
             agent_count=$((agent_count + 1))
         fi
@@ -219,17 +245,44 @@ install() {
         cmd_count=$((cmd_count + 1))
     done
     
-    # Install instructions to VS Code prompts folder
-    info "Installing instructions to VS Code prompts folder..."
+    # Install instructions to global instructions directory
+    info "Installing instructions to global instructions directory..."
+    if [[ ! -d "$VSCODE_INSTRUCTIONS_DIR" ]]; then
+        mkdir -p "$VSCODE_INSTRUCTIONS_DIR"
+    fi
+    
     local instruction_count=0
     for src in "$SCRIPT_DIR"/instructions/*.instructions.md; do
         [[ -f "$src" ]] || continue
         local name=$(basename "$src")
-        if link_file "$src" "$VSCODE_PROMPTS_DIR/$name" "$name"; then
+        if link_file "$src" "$VSCODE_INSTRUCTIONS_DIR/$name" "$name"; then
             success "Linked instruction: $name"
             instruction_count=$((instruction_count + 1))
         fi
     done
+    
+    # Configure VS Code settings for agent/instruction file locations
+    info "Configuring VS Code settings..."
+    if command -v node &>/dev/null; then
+        if node "$SCRIPT_DIR/scripts/configure-vscode-settings.js" 2>/dev/null; then
+            success "Configured VS Code settings for agent discovery"
+        else
+            local exit_code=$?
+            if [[ $exit_code -eq 1 ]]; then
+                info "VS Code settings already configured"
+            else
+                warn "Could not auto-configure VS Code settings"
+                info "Add to settings.json:"
+                echo '  "chat.agentFilesLocations": { "~/.copilot/agents": true }'
+                echo '  "chat.instructionsFilesLocations": { "~/.copilot/instructions": true }'
+            fi
+        fi
+    else
+        warn "Node.js not found - cannot auto-configure VS Code settings"
+        info "Add to settings.json:"
+        echo '  "chat.agentFilesLocations": { "~/.copilot/agents": true }'
+        echo '  "chat.instructionsFilesLocations": { "~/.copilot/instructions": true }'
+    fi
     
     echo ""
     success "Installation complete!"
@@ -239,17 +292,21 @@ install() {
     echo "${YELLOW}  Agents are now available globally${NC}"
     echo "${YELLOW}═══════════════════════════════════════════════════════════════${NC}"
     echo ""
-    info "VS Code agents installed to:"
-    info "  • ~/Library/Application Support/Code/User/prompts/"
+    info "Agents installed to:"
+    info "  • ~/.copilot/agents/"
     echo ""
-    info "Claude Code commands installed to:"
-    info "  • ~/.claude/commands/ (invoke with @agent-<Name>)"
+    info "Instructions installed to:"
+    info "  • ~/.copilot/instructions/"
     echo ""
     info "Skills installed to:"
     info "  • ~/.copilot/skills/ (with ~/.claude/skills symlink)"
     echo ""
-    info "Instructions installed to:"
-    info "  • ~/Library/Application Support/Code/User/prompts/"
+    info "Claude Code commands installed to:"
+    info "  • ~/.claude/commands/ (invoke with @agent-<Name>)"
+    echo ""
+    info "VS Code settings configured:"
+    info "  • chat.agentFilesLocations → ~/.copilot/agents"
+    info "  • chat.instructionsFilesLocations → ~/.copilot/instructions"
     echo ""
     info "Task state location:"
     info "  • .tasks/ (in each workspace, gitignored globally)"
@@ -287,12 +344,12 @@ uninstall() {
         fi
     fi
     
-    # Remove agents from VS Code prompts folder
-    info "Removing agents from VS Code prompts folder..."
+    # Remove agents from global agents directory
+    info "Removing agents from global agents directory..."
     for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
         [[ -f "$src" ]] || continue
         local name=$(basename "$src")
-        if unlink_if_ours "$src" "$VSCODE_PROMPTS_DIR/$name"; then
+        if unlink_if_ours "$src" "$VSCODE_AGENTS_DIR/$name"; then
             success "Removed agent: $name"
             agent_count=$((agent_count + 1))
         fi
@@ -313,12 +370,12 @@ uninstall() {
         fi
     done
     
-    # Remove instructions from VS Code prompts folder
-    info "Removing instructions from VS Code prompts folder..."
+    # Remove instructions from global instructions directory
+    info "Removing instructions from global instructions directory..."
     for src in "$SCRIPT_DIR"/instructions/*.instructions.md; do
         [[ -f "$src" ]] || continue
         local name=$(basename "$src")
-        if unlink_if_ours "$src" "$VSCODE_PROMPTS_DIR/$name"; then
+        if unlink_if_ours "$src" "$VSCODE_INSTRUCTIONS_DIR/$name"; then
             success "Removed instruction: $name"
             instruction_count=$((instruction_count + 1))
         fi

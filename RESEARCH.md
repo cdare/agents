@@ -79,11 +79,29 @@ Process both types the same way: research, evaluate, document decision.
 2. Read the source fully, follow links
 3. Ask: Does this improve our agents, skills, or patterns?
 
-### 3. Document Decision
+### 3. Discuss & Decide
+
+Present findings to user before making any decision:
+
+1. **Summary**: What the source contains and key insights
+2. **Relevance**: How it relates to our current agents/skills/patterns
+3. **Recommendation**: Adopt / Partially Adopt / Reject, with specific rationale
+4. **If adopting**: What concrete changes would be made
+
+**Wait for user agreement before proceeding.** The user may:
+
+- Ask clarifying questions
+- Suggest a different adoption approach
+- Request deeper investigation of specific aspects
+- Agree to proceed
+
+Only after explicit agreement, move to step 4 (Document Decision).
+
+### 4. Document Decision
 
 Create RDR using [template](./docs/research/TEMPLATE.md) (~50 lines). Mark with ⭐ if high-impact.
 
-### 4. Synthesize (if adopting)
+### 5. Synthesize (if adopting)
 
 Update the relevant synthesis doc—RDRs record decisions, synthesis docs record patterns.
 
@@ -142,6 +160,7 @@ Signals that synthesis docs may need revisiting:
 - [x] Utilizing skills in agents to empower existing agents with extra firepower for targeted tasks → [RDR-027](docs/research/RDR-027-skill-subagents.md) ⭐ (Adopted: skill-powered subagents pattern in prevailing-wisdom.md)
 - [x] [skills.sh](https://skills.sh/) ecosystem review → [RDR-028](docs/research/RDR-028-skills-sh.md) (Partially Adopted: rationalization tables, 4-phase debugging patterns from trailofbits/obra)
 - [x] [cursor-2.4](https://cursor.com/changelog/2-4) → [RDR-029](docs/research/RDR-029-cursor-support.md) (Rejected: skills compatible but agents require platform-enforced tool restrictions and mode persistence that Cursor lacks)
+- [ ] New changes in VSCode copilot https://code.visualstudio.com/updates/v1_109. Especially: agent orchestration, support for claude code, custom subagents, copilot memory
 - [ ] https://github.com/bigguy345/Github-Copilot-Atlas
 - [ ] https://github.com/ShepAlderson/copilot-orchestra
 - [ ] consider whether we need to supplement the existing design skill: https://github.com/Dammyjay93/interface-design or https://github.com/nextlevelbuilder/ui-ux-pro-max-skill

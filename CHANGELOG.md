@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- All skill descriptions: standardized YAML frontmatter format to single-line with consistent quote usage
 - consolidate-task skill: Summarize completed tasks into architectural decision records (ADRs)
 - phase-review skill: Review phase plans for flaws before implementation
 - RDR-029: Cursor 2.4 support research (Rejected: lacks platform-enforced tool restrictions)

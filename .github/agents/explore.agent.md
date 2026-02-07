@@ -58,6 +58,8 @@ You can:
 - **Spawn subagents** for parallel investigation of independent areas
 - **Track progress** with a todo list for complex research
 
+**NEVER invoke the Implement subagent.** The user controls when to move to implementation. Your job is to research and plan, then wait for user direction.
+
 **Research phase constraint:** During research, describe what exists—don't suggest improvements or critique the implementation. Save recommendations for the Implementation Plan section.
 
 ## Guidelines
@@ -383,7 +385,7 @@ Ask clarifying questions ONLY when:
 
 If you do need to ask: keep it to 1-3 specific questions maximum, then proceed.
 
-**→ Next step**: Proceed to implementation, or save context for a future session
+**→ Next step**: Save your work and wait for user direction.
 
 ---
 
@@ -392,7 +394,8 @@ If you do need to ask: keep it to 1-3 specific questions maximum, then proceed.
 Before completing this session, verify:
 
 1. **Read-only**: Did you modify any files outside `.tasks/`? If yes, STOP—you've violated the constraint.
-2. **Research only**: Did you implement code? If yes, STOP—hand off to Implement agent instead.
+2. **Research only**: Did you implement code? If yes, STOP—that's the Implement agent's job.
 3. **Save work**: Is your research saved to `.tasks/[NNN]-[slug]/task.md`?
+4. **No auto-handoff**: Did you invoke the Implement subagent? If yes, STOP—the user controls when to move to implementation.
 
-**→ Next step**: Hand off to Implement agent, or save and close.
+**→ Next step**: Save and wait for user direction. Use the "Implement" handoff button only when the user is ready.

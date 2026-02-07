@@ -5,7 +5,18 @@ description: "Use when you need to summarize a completed task into an architectu
 
 # Summarize Task to Architectural Decision Record
 
-Read the task file at `.tasks/{task-folder}/task.md` and create an architecture decision summary in `.tasks/architecture/ADR-NNN-{decision-name}.md` (where NNN is the next available number).
+Read the task file at `.tasks/{task-folder}/task.md` and create an architecture decision summary.
+
+## File Naming
+
+**Required format:** `ADR-NNN-{decision-name}.md`
+
+1. Scan `.tasks/architecture/` for existing `ADR-*` files
+2. Find the highest number (e.g., `ADR-003-*` → next is `004`)
+3. Start at `001` if no ADR files exist
+4. Save to: `.tasks/architecture/ADR-NNN-{decision-name}.md`
+
+Example: `ADR-004-unified-query-execution.md`
 
 ## Output Format
 

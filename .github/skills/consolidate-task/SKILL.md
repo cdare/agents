@@ -7,14 +7,40 @@ description: "Use when you need to summarize a completed task into an architectu
 
 Read the task file at `.tasks/{task-folder}/task.md` and create an architecture decision summary.
 
+## When to Create an ADR
+
+Not every completed task needs an ADR. ADRs document **architectural decisions**, not implementation work.
+
+**Skip ADR entirely when:**
+
+- Task adds a minor feature within existing patterns
+- Task fixes bugs or refines implementation details
+- Task is routine maintenance or cleanup
+- Changes follow conventions already documented elsewhere
+
+**Update existing ADR when:**
+
+- Task extends or modifies patterns documented in a prior ADR
+- Task adds significant new component to an existing architectural area
+- Changes affect how future developers should approach that area
+
+**Create new ADR when:**
+
+- Task introduces new architectural patterns
+- Task reverses or significantly modifies a prior decision
+- Task establishes new conventions for the codebase
+
+When updating, add an entry to the "Updates" table and integrate changes into relevant sections.
+
 ## File Naming
 
 **Required format:** `ADR-NNN-{decision-name}.md`
 
 1. Scan `.tasks/architecture/` for existing `ADR-*` files
-2. Find the highest number (e.g., `ADR-003-*` → next is `004`)
-3. Start at `001` if no ADR files exist
-4. Save to: `.tasks/architecture/ADR-NNN-{decision-name}.md`
+2. Check if any existing ADR covers the same architectural area (update if so)
+3. For new ADRs: find the highest number (e.g., `ADR-003-*` → next is `004`)
+4. Start at `001` if no ADR files exist
+5. Save to: `.tasks/architecture/ADR-NNN-{decision-name}.md`
 
 Example: `ADR-004-unified-query-execution.md`
 
@@ -73,6 +99,12 @@ relevant/directory/
 ## Deleted
 
 - List of deleted files/code (shows what was replaced)
+
+## Updates (for existing ADRs only)
+
+| Date         | Task  | Summary                              |
+| ------------ | ----- | ------------------------------------ |
+| {Month Year} | {NNN} | One-line description of what changed |
 ````
 
 ## Guidelines
@@ -83,7 +115,8 @@ relevant/directory/
 4. **Code examples** — Only for patterns that repeat across the codebase
 5. **Keep it scannable** — Tables and bullets over paragraphs
 
-## After Creating
+## After Saving
 
 1. Update `.tasks/architecture/README.md` (create if missing with a decisions table)
 2. Delete or archive the original task folder
+3. If updating an existing ADR: add entry to the Updates table at the bottom

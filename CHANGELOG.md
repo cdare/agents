@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-02-07
+
 ### Added
 
+- consolidate-task skill: Skip/Update/Create decision tree to prevent ADR bloat
+- Agents: Multi-model configuration support (Commit/Review: Sonnet 4.5 + Gemini 3 Pro; Explore/Implement: Opus 4.5 + Opus 4.6)
+- scripts/configure-vscode-settings.js: VS Code 1.109 boolean settings support (customAgentInSubagent, copilotMemory, askQuestions, searchSubagent)
 - RDR-030: Vercel AGENTS.md eval study (Partially Adopted: retrieval-over-recall principle, horizontal vs vertical context)
 - prevailing-wisdom.md: "Retrieval Over Recall" section with horizontal vs vertical context distinction
 - scripts/configure-vscode-settings.js: Safe JSONC manipulation for VS Code settings (insert-only, preserves comments)
@@ -302,7 +307,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation and synthesis from multiple frameworks
 - Source materials from 12-Factor Agents, HumanLayer, CursorRIPER, Superpowers
 
-[Unreleased]: https://github.com/mcouthon/agents/compare/v0.10.0...HEAD
+[Unreleased]: https://github.com/mcouthon/agents/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/mcouthon/agents/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/mcouthon/agents/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/mcouthon/agents/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/mcouthon/agents/compare/v0.8.0...v0.9.0

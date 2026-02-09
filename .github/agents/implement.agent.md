@@ -95,7 +95,7 @@ Or say "new task" if starting fresh without prior research.
 
 1. Read `.tasks/[NNN]-[task]/task.md` for overview and **phase status table**
 2. **Determine what to implement** (smallest planned unit):
-   - If a phase has status 📋 Planned → read `plan/phase-N-[name].md` and implement that phase
+   - If a phase has status 🔍 Reviewed or 📋 Planned → read `plan/phase-N-[name].md` and implement that phase
    - If a phase has status 🔄 In Progress → continue that phase
    - If no phases are 📋 Planned but phases exist as ⬜ Not Started → implement from task.md directly (simpler task)
    - If only task.md exists with no phase breakdown → implement the whole plan from task.md
@@ -108,7 +108,7 @@ Phase Status:
 | # | Phase | Status |
 |---|-------|--------|
 | 1 | [name] | ✅ Done |
-| 2 | [name] | 📋 Planned ← Implementing this |
+| 2 | [name] | 🔍 Reviewed ← Implementing this |
 | 3 | [name] | ⬜ Not Started |
 
 Reading: plan/phase-2-[name].md

@@ -6,3 +6,10 @@ description: "Review implementation plans for a particular phase in a larger pla
 # Phase Plan Review
 
 Go over the plan for the provided phase in the linked task, and make sure it doesn't have any flaws in it. Make suggestions if you think there are changes you'd consider making (keep the full context for the task in mind).
+
+## After Review
+
+When the review is complete and the plan is approved:
+
+1. Update the phase status in `task.md` from `📋 Planned` to `🔍 Reviewed`
+2. Add any review notes to the phase's Notes column if relevant

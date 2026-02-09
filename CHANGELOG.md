@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Consolidated design + ui-transformation skills into single `design` skill
+  - Merged design philosophy (direction, personality, craft) with 9-phase implementation
+  - ui-transformation folder now contains the unified skill with name "design"
+  - Deleted standalone design skill folder
+
 ## [0.11.0] - 2026-02-07
 
 ### Added

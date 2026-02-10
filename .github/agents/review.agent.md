@@ -5,13 +5,15 @@ tools:
   [
     "execute/testFailure",
     "execute/getTerminalOutput",
+    "execute/awaitTerminal",
+    "execute/runInTerminal",
     "execute/runTests",
     "read/problems",
     "read/readFile",
     "read/terminalSelection",
     "read/terminalLastCommand",
-    "search",
     "agent",
+    "search",
     "todo",
   ]
 model: ["Claude Sonnet 4.5 (copilot)", "Gemini 3 Pro (Preview) (copilot)"]

@@ -5,18 +5,19 @@ tools:
   [
     "execute/testFailure",
     "execute/getTerminalOutput",
+    "execute/awaitTerminal",
     "execute/runInTerminal",
     "execute/runTests",
     "read/problems",
     "read/readFile",
     "read/terminalSelection",
     "read/terminalLastCommand",
+    "agent",
     "edit/createDirectory",
     "edit/createFile",
     "edit/editFiles",
     "search",
     "web",
-    "agent",
     "todo",
   ]
 model: ["Claude Opus 4.5 (copilot)", "Claude Opus 4.6 (copilot)"]

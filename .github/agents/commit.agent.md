@@ -3,8 +3,8 @@ name: Commit
 description: Create meaningful commits with logical file grouping. Use after implementation is reviewed and approved to commit changes with semantic, well-structured commit messages.
 tools:
   [
-    "changes",
     "execute/getTerminalOutput",
+    "execute/awaitTerminal",
     "execute/runInTerminal",
     "read/readFile",
     "read/terminalSelection",

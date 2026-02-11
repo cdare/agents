@@ -162,6 +162,7 @@ Signals that synthesis docs may need revisiting:
 - [x] [cursor-2.4](https://cursor.com/changelog/2-4) → [RDR-029](docs/research/RDR-029-cursor-support.md) (Rejected: skills compatible but agents require platform-enforced tool restrictions and mode persistence that Cursor lacks)
 - [x] [vercel-agents-md-evals](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) → [RDR-030](docs/research/RDR-030-vercel-agents-md-evals.md) (Partially Adopted: retrieval-over-recall principle, horizontal vs vertical context distinction)
 - [ ] https://github.blog/changelog/2026-01-15-agentic-memory-for-github-copilot-is-in-public-preview/
+- [ ] https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents
 - [ ] New changes in VSCode copilot https://code.visualstudio.com/updates/v1_109. Especially: agent orchestration, support for claude code, custom subagents, copilot memory
 - [ ] https://github.com/bigguy345/Github-Copilot-Atlas
 - [ ] https://github.com/ShepAlderson/copilot-orchestra

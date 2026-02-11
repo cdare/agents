@@ -11,5 +11,5 @@ Go over the plan for the provided phase in the linked task, and make sure it doe
 
 When the review is complete and the plan is approved:
 
-1. Update the phase status in `task.md` from `📋 Planned` to `🔍 Reviewed`
+1. Update the phase status in `task.md` from `📋 Planned` to `👀 Reviewed`
 2. Add any review notes to the phase's Notes column if relevant

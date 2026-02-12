@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- IntelliJ IDEA support: installs global instructions to `~/.config/github-copilot/intellij/`
+  - Note: Agents and skills are VS Code-specific (require tool restrictions and agent discovery)
+
 ### Changed
 
 - Consolidated design + ui-transformation skills into single `design` skill

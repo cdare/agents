@@ -122,13 +122,16 @@ No manual switching required—just ask naturally.
 
 After `./install.sh`:
 
-| Component              | Installed To                                           |
-| ---------------------- | ------------------------------------------------------ |
-| Agents (VS Code)       | `~/.copilot/agents/`                                   |
-| Instructions           | `~/.copilot/instructions/`                             |
-| Skills                 | `~/.copilot/skills/` (with `~/.claude/skills` symlink) |
-| Commands (Claude Code) | `~/.claude/commands/`                                  |
-| Task state gitignore   | Added to global gitignore (`.tasks/`)                  |
+| Component               | Installed To                                           |
+| ----------------------- | ------------------------------------------------------ |
+| Agents (VS Code)        | `~/.copilot/agents/`                                   |
+| Instructions (VS Code)  | `~/.copilot/instructions/`                             |
+| Instructions (IntelliJ) | `~/.config/github-copilot/intellij/`                   |
+| Skills                  | `~/.copilot/skills/` (with `~/.claude/skills` symlink) |
+| Commands (Claude Code)  | `~/.claude/commands/`                                  |
+| Task state gitignore    | Added to global gitignore (`.tasks/`)                  |
+
+**IntelliJ users:** Only global instructions are installed. Agents and skills require VS Code's agent discovery mechanism and tool restrictions, which IntelliJ doesn't support.
 
 The installer also configures VS Code settings (`chat.agentFilesLocations`, `chat.instructionsFilesLocations`) to discover agents and instructions from these locations.
 

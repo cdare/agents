@@ -21,6 +21,7 @@ tools:
     "todo",
   ]
 model: ["Claude Opus 4.5 (copilot)", "Claude Opus 4.6 (copilot)"]
+agents: ["Worker"]
 handoffs:
   - label: Review
     agent: Review
@@ -276,9 +277,9 @@ When encountering difficult problems during implementation, spawn a skill-powere
 When tests fail unexpectedly or errors occur that aren't immediately obvious:
 
 ```
-Spawn subagent: "Debug: This test is failing with [error message].
+Run the Worker agent as a subagent: Debug this test failing with [error message].
 Use systematic hypothesis-driven investigation to trace the root cause.
-Return: Root cause analysis, hypotheses tested, and recommended fix."
+Return: Root cause analysis, hypotheses tested, and recommended fix.
 ```
 
 **When to invoke:**
@@ -287,6 +288,15 @@ Return: Root cause analysis, hypotheses tested, and recommended fix."
 - Runtime errors during verification
 - Behavior doesn't match expectations after changes
 - Multiple failed fix attempts (trigger after 2nd failure)
+
+**Isolated Task Execution:**
+
+For small, focused fixes that would clutter your main context:
+
+```
+Use the Worker agent in a subagent to fix the linting errors in src/utils/helpers.ts.
+Run the linter after fixing. Return: files modified and verification result.
+```
 
 **Benefits:**
 

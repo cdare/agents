@@ -14,6 +14,7 @@ tools:
     "todo",
   ]
 model: ["Claude Opus 4.5 (copilot)", "Claude Opus 4.6 (copilot)"]
+agents: ["Explore", "Research"]
 handoffs:
   - label: Implement
     agent: Implement
@@ -206,15 +207,19 @@ For complex research, **autonomously spawn subagents** to investigate independen
 **How to invoke:**
 
 ```
-# Single subagent for deep tracing
-Use #runSubagent to trace all usages of the User model.
+# Single subagent for deep codebase tracing
+Run the Explore agent as a subagent to trace all usages of the User model.
 Return a summary of where it's used and key patterns.
 
-# Multiple subagents for parallel investigation
-Spawn subagents to research in parallel:
-1. Authentication patterns → return summary
-2. Test infrastructure → return summary
-3. API structure → return summary
+# Single subagent for external docs or semantic analysis
+Use the Research agent in a subagent to read the VS Code 1.109 release notes
+and summarize new agent-related features. Return: bullet list of features.
+
+# Multiple parallel investigations
+Run these subagents in parallel:
+1. Use Research to analyze authentication patterns → return summary
+2. Use Research to investigate test infrastructure → return summary
+3. Use Research to document API structure → return summary
 ```
 
 Subagents return only their final summary. Incorporate these into your synthesis.
@@ -226,9 +231,9 @@ For specialized analysis, invoke skills via subagent prompts:
 **Architecture Skill — Understanding System Structure:**
 
 ```
-Spawn subagent: "Use architecture mode to analyze the [component] system.
+Run the Research agent as a subagent: Use architecture mode to analyze the [component] system.
 Document high-level design, data flow, and integration points.
-Return: Component overview, key interfaces, and dependency map."
+Return: Component overview, key interfaces, and dependency map.
 ```
 
 **When to invoke:**
@@ -240,9 +245,9 @@ Return: Component overview, key interfaces, and dependency map."
 **Deep-Research Skill — Exhaustive Investigation:**
 
 ```
-Spawn subagent: "Use deep-research mode to thoroughly investigate [topic].
+Use the Research agent in a subagent: Use deep-research mode to thoroughly investigate [topic].
 Cite all relevant files and line numbers. Cover exhaustively.
-Return: Structured findings with citations and confidence levels."
+Return: Structured findings with citations and confidence levels.
 ```
 
 **When to invoke:**

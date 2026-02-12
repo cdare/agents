@@ -17,6 +17,7 @@ tools:
     "todo",
   ]
 model: ["Claude Sonnet 4.5 (copilot)", "Gemini 3 Pro (Preview) (copilot)"]
+agents: ["Worker"]
 handoffs:
   - label: Commit Changes
     agent: Commit
@@ -205,6 +206,21 @@ Return: Prioritized debt items with effort estimates."
 - Subagent context is garbage-collected after returning
 - Main context receives only findings, not investigation details
 - Enables thorough analysis without bloating review context
+
+**Test Verification:**
+
+For running tests with context isolation:
+
+```
+Run the Worker agent as a subagent to run the test suite for src/auth/
+and verify all tests pass. Return: test count, pass/fail status, and any failure details.
+```
+
+**When to invoke:**
+
+- Large test suites that produce verbose output
+- Tests requiring setup/teardown that clutters context
+- Verifying specific test files after changes
 
 ### Confidence Scoring
 

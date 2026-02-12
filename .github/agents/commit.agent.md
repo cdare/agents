@@ -11,8 +11,10 @@ tools:
     "read/terminalLastCommand",
     "search",
     "todo",
+    "agent",
   ]
 model: ["Claude Sonnet 4.5 (copilot)", "Gemini 3 Pro (Preview) (copilot)"]
+agents: ["Research"]
 handoffs:
   - label: Review Commits
     agent: Commit
@@ -41,6 +43,24 @@ This phase has **git and read access** for committing. You can:
 - **Read files** to understand change context
 - **Search** for patterns to verify change scope
 - **Track progress** with a todo list for multi-commit sequences
+
+## Subagent Usage
+
+**Semantic Change Analysis:**
+
+For understanding complex changes before crafting commit messages:
+
+```
+Run the Research agent as a subagent to analyze the changes in these files: [file list].
+What is the semantic intent? What problem do they solve?
+Return: 1-2 sentence summary of the change's purpose.
+```
+
+**When to invoke:**
+
+- Large changesets spanning multiple files
+- Refactoring where the intent isn't immediately obvious
+- Changes that touch unfamiliar areas of the codebase
 
 ## Initial Response
 

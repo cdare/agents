@@ -100,7 +100,9 @@ Save to .tasks/ directory. Return: task slug, number of phases, phase summaries.
 
 ---
 
-### 🛑 CHECKPOINT: Task Created
+### Step 1b: PAUSE — Await Task Approval
+
+#### 🛑 CHECKPOINT: Task Created
 
 **STOP. You must pause here.**
 
@@ -110,7 +112,7 @@ Call `askQuestions` with these options:
 - [Modify] Revise the task structure first
 - [Abort] Cancel the workflow
 
-**DO NOT proceed to phase planning until user responds.**
+**DO NOT proceed to Step 2 until user responds.**
 
 ---
 
@@ -142,22 +144,24 @@ Return: review findings, suggested improvements, approval status.
 
 ---
 
-### 🛑 CHECKPOINT: Plan Review Complete
+### Step 2b: PAUSE — Await Plan Approval
+
+#### 🛑 CHECKPOINT: Plan Review Complete
 
 **STOP. You must pause here.**
 
 Call `askQuestions` with these options:
 
-- [Continue] Approve plan and proceed to implementation
+- [Continue] Approve plan and proceed to Step 2c (Implementation)
 - [Adopt Suggestions] Apply review suggestions first
 - [Modify Plan] Make manual adjustments
 - [Skip Phase] Move to next phase
 
-**DO NOT proceed to implementation until user responds.**
+**DO NOT proceed to Step 2c until user responds.**
 
 ---
 
-#### 2b. Implement Phase
+#### 2c. Implement Phase
 
 **Actions:**
 
@@ -200,21 +204,23 @@ After fix attempts fail, diagnose the root cause:
 
 ---
 
-### 🛑 CHECKPOINT: Implementation Complete
+### Step 2d: PAUSE — Await Implementation Approval
+
+#### 🛑 CHECKPOINT: Implementation Complete
 
 **STOP. You must pause here.**
 
 Call `askQuestions` with these options:
 
-- [Commit] Approve changes and proceed to commit
+- [Commit] Approve changes and proceed
 - [More Changes] Request additional modifications first
 - [Abort] Stop the workflow
 
-**DO NOT proceed to commit until user responds.**
+**DO NOT proceed to Step 2e until user responds.**
 
 ---
 
-#### 2c. Update Documentation
+#### 2e. Update Documentation
 
 **Skip criteria (Orchestrate decides, not Implement):**
 
@@ -239,7 +245,7 @@ Run the Implement agent as a subagent to update documentation:
 Return: files updated.
 ```
 
-#### 2d. Commit Phase
+#### 2f. Commit Phase
 
 **Actions (SEQUENTIAL - wait for each to complete):**
 
@@ -265,7 +271,7 @@ Run the Implement agent as a subagent to update .tasks/[slug]/task.md:
 Return: confirmation.
 ```
 
-#### 2e. Consolidate Task (Final Phase Only)
+#### 2g. Consolidate Task (Final Phase Only)
 
 **Trigger:** All phases are ✅ Done
 
@@ -320,12 +326,16 @@ When all phases are ✅ Done:
 Use todo list to track orchestration state:
 
 ```
-1. Create task          [completed]
-2. Phase 1: Plan        [in-progress]
-3. Phase 1: Implement   [not-started]
-4. Phase 1: Commit      [not-started]
+1. Create task                [completed]
+1b. Await task approval       [completed]
+2a. Phase 1: Plan             [in-progress]
+2b. Await plan approval       [not-started]
+2c. Phase 1: Implement        [not-started]
+2d. Await implementation OK   [not-started]
+2e. Update docs               [not-started]
+2f. Phase 1: Commit           [not-started]
 ...
-N. Consolidate to ADR   [not-started]
+2g. Consolidate to ADR        [not-started]
 ```
 
 Update status as you progress. Show todo list at each pause point.
@@ -373,14 +383,14 @@ The workflow is designed to survive session breaks. All state lives in `.tasks/`
 
 Read task.md phase table and infer position:
 
-| Phase Status   | Plan File Exists?     | Next Step                                       |
-| -------------- | --------------------- | ----------------------------------------------- |
-| ⬜ Not Started | No                    | 2a. Plan Phase                                  |
-| ⬜ Not Started | Yes (no review notes) | Phase-review, then pause                        |
-| 📋 Planned     | Yes                   | 2b. Implement Phase                             |
-| ⭐ Reviewed    | Yes                   | Pause for user approval, then 2b                |
-| 🔄 In Progress | Yes                   | Check for uncommitted changes, resume implement |
-| ✅ Done        | Yes                   | Move to next phase                              |
+| Phase Status   | Plan File Exists?     | Next Step                                |
+| -------------- | --------------------- | ---------------------------------------- |
+| ⬜ Not Started | No                    | 2a. Plan Phase                           |
+| ⬜ Not Started | Yes (no review notes) | Phase-review, then 2b. PAUSE             |
+| 📋 Planned     | Yes                   | 2b. PAUSE — Await Plan Approval          |
+| ⭐ Reviewed    | Yes                   | 2c. Implement Phase                      |
+| 🔄 In Progress | Yes                   | Check for uncommitted changes, resume 2c |
+| ✅ Done        | Yes                   | Move to next phase                       |
 
 **Check for uncommitted work:**
 

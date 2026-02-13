@@ -98,11 +98,21 @@ Break into numbered phases. Each phase should be independently implementable.
 Save to .tasks/ directory. Return: task slug, number of phases, phase summaries.
 ```
 
-**PAUSE:** Use askQuestions to present options:
+---
 
-- [Continue] Approve and proceed to phase planning
-- [Modify] Revise the task structure
+### 🛑 CHECKPOINT: Task Created
+
+**STOP. You must pause here.**
+
+Call `askQuestions` with these options:
+
+- [Continue] Approve task structure and proceed to phase planning
+- [Modify] Revise the task structure first
 - [Abort] Cancel the workflow
+
+**DO NOT proceed to phase planning until user responds.**
+
+---
 
 ### Step 2: Phase Loop
 
@@ -130,12 +140,22 @@ Run the Explore agent as a subagent: use phase-review mode to review phase [N] i
 Return: review findings, suggested improvements, approval status.
 ```
 
-**PAUSE:** Use askQuestions to present options:
+---
+
+### 🛑 CHECKPOINT: Plan Review Complete
+
+**STOP. You must pause here.**
+
+Call `askQuestions` with these options:
 
 - [Continue] Approve plan and proceed to implementation
 - [Adopt Suggestions] Apply review suggestions first
 - [Modify Plan] Make manual adjustments
 - [Skip Phase] Move to next phase
+
+**DO NOT proceed to implementation until user responds.**
+
+---
 
 #### 2b. Implement Phase
 
@@ -178,11 +198,21 @@ After fix attempts fail, diagnose the root cause:
 | Different errors each time | Plan is flawed          | Ask: [Revise Plan] [Simplify Scope] [Get User Input] |
 | Tests fail unexpectedly    | Missing context in plan | Ask: [Research First] [Update Tests] [Revise Plan]   |
 
-**PAUSE:** Use askQuestions to present options:
+---
 
-- [Commit] Approve changes and commit
-- [More Changes] Request additional modifications
+### 🛑 CHECKPOINT: Implementation Complete
+
+**STOP. You must pause here.**
+
+Call `askQuestions` with these options:
+
+- [Commit] Approve changes and proceed to commit
+- [More Changes] Request additional modifications first
 - [Abort] Stop the workflow
+
+**DO NOT proceed to commit until user responds.**
+
+---
 
 #### 2c. Update Documentation
 

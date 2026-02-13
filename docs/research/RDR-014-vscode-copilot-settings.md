@@ -8,7 +8,7 @@
 
 ## Summary
 
-VSCode Copilot has ~50+ configurable settings. Key finding: VSCode natively supports AGENTS.md and has adopted the agentskills.io standard for skills.
+VSCode Copilot has ~50+ configurable settings. Key finding: VSCode natively supports AGENTS.md and has adopted the agentskills.io standard for skills. **For 1.109+ orchestration features, see [RDR-031](RDR-031-vscode-1109-orchestration.md).**
 
 ## Decision
 

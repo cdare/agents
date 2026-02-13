@@ -21,7 +21,7 @@ Quick reference for Research Decision Records.
 
 | Status            | RDRs                                                                 |
 | ----------------- | -------------------------------------------------------------------- |
-| Adopted           | 016, 018, 020, 027                                                   |
+| Adopted           | 016, 018, 020, 027, 031                                              |
 | Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024, 025, 028, 030 |
 | Future            | 005, 013                                                             |
 | Archived          | 001, 002, 006, 007, 008, 009, 011, 021, 026                          |
@@ -48,12 +48,13 @@ Quick reference for Research Decision Records.
 
 ### VSCode / Platform
 
-| RDR                                        | Title              | Status            | Summary                                  |
-| ------------------------------------------ | ------------------ | ----------------- | ---------------------------------------- |
-| [013](RDR-013-vscode-browser-testing.md)   | Browser Testing    | Future            | Playwright MCP for browser automation    |
-| [014](RDR-014-vscode-copilot-settings.md)  | Copilot Settings   | Partially Adopted | ~50 settings; documented recommendations |
-| [015](RDR-015-copilot-agent-tools.md)      | Agent Tools        | Partially Adopted | 30+ tools; validated current selections  |
-| [017](RDR-017-agent-spec-compatibility.md) | Spec Compatibility | Partially Adopted | VS Code vs Claude Code spec alignment    |
+| RDR                                         | Title               | Status            | Summary                                  |
+| ------------------------------------------- | ------------------- | ----------------- | ---------------------------------------- |
+| [013](RDR-013-vscode-browser-testing.md)    | Browser Testing     | Future            | Playwright MCP for browser automation    |
+| [014](RDR-014-vscode-copilot-settings.md)   | Copilot Settings    | Partially Adopted | ~50 settings; documented recommendations |
+| [015](RDR-015-copilot-agent-tools.md)       | Agent Tools         | Partially Adopted | 30+ tools; validated current selections  |
+| [017](RDR-017-agent-spec-compatibility.md)  | Spec Compatibility  | Partially Adopted | VS Code vs Claude Code spec alignment    |
+| [031](RDR-031-vscode-1109-orchestration.md) | 1.109 Orchestration | Adopted           | Orchestrate agent, subagent frontmatter  |
 
 ### Agent Workflow
 

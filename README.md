@@ -12,11 +12,11 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 
 ## What You Get
 
-| Component        | Count | What It Does                                                             |
-| ---------------- | ----- | ------------------------------------------------------------------------ |
-| **Agents**       | 4     | Phase-based workflow with enforced tool restrictions and handoff buttons |
-| **Skills**       | 11    | Auto-activate based on your prompts (debug, mentor, architecture, etc.)  |
-| **Instructions** | 5     | File-type coding standards that load automatically                       |
+| Component        | Count | What It Does                                                                |
+| ---------------- | ----- | --------------------------------------------------------------------------- |
+| **Agents**       | 7     | Phase-based workflow with orchestration (4 core + Orchestrate + 2 internal) |
+| **Skills**       | 11    | Auto-activate based on your prompts (debug, mentor, architecture, etc.)     |
+| **Instructions** | 5     | File-type coding standards that load automatically                          |
 
 ```bash
 git clone https://github.com/mcouthon/agents.git
@@ -38,6 +38,8 @@ This framework is built around that insight. The **Explore** agent is read-only�
 
 ## The Workflow
 
+**Manual workflow** (use agents directly):
+
 ```
 Explore ──→ Implement ──→ Review ──→ Commit
                │            │
@@ -46,12 +48,28 @@ Explore ──→ Implement ──→ Review ──→ Commit
                └──→ Commit (skip review for small changes)
 ```
 
-| Agent         | Purpose                       | Tool Access       | Key Handoffs               |
-| ------------- | ----------------------------- | ----------------- | -------------------------- |
-| **Explore**   | Research + create plans       | Read + Task Write | Implement                  |
-| **Implement** | Execute planned changes       | Full access       | Review, Commit             |
-| **Review**    | Verify implementation quality | Read + Test       | Commit Changes, Fix Issues |
-| **Commit**    | Create semantic commits       | Git + Read        | Push                       |
+**Orchestrated workflow** (use `@Orchestrate`):
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│            ORCHESTRATE (conductor agent)                    │
+│  Task → For each phase: Plan → Review → Implement → Commit  │
+└───────────┬───────────────────────────────────────────┬─────┘
+            ↓                                           ↓
+        Explore ──→ Implement ──→ Review ──→ Commit
+```
+
+Orchestrate automates multi-phase workflows with pause points for user approval.
+
+| Agent           | Purpose                       | Tool Access       | Key Handoffs               |
+| --------------- | ----------------------------- | ----------------- | -------------------------- |
+| **Orchestrate** | Automate multi-phase workflow | Read + Agent      | (coordinates other agents) |
+| **Explore**     | Research + create plans       | Read + Task Write | Implement                  |
+| **Implement**   | Execute planned changes       | Full access       | Review, Commit             |
+| **Review**      | Verify implementation quality | Read + Test       | Commit Changes, Fix Issues |
+| **Commit**      | Create semantic commits       | Git + Read        | Push                       |
+
+**Internal agents (not user-invokable):** Research (read + web), Worker (full access) — used by other agents for context-isolated subtasks.
 
 **Task Write**: Explore can only write to `.tasks/` directory—not your codebase.
 
@@ -63,24 +81,27 @@ Explore ──→ Implement ──→ Review ──→ Commit
 
 Each agent has buttons that trigger common next steps **without leaving your current chat context**:
 
-| Agent         | Button            | Purpose                                   |
-| ------------- | ----------------- | ----------------------------------------- |
-| **Explore**   | Implement         | Hand off to Implement agent               |
-|               | Plan Next Phase   | Detailed plan for next unplanned phase    |
-|               | Re-explore        | Investigate further                       |
-|               | Show Plan         | Display phase status from task.md         |
-|               | Save              | Persist research to `.tasks/`             |
-| **Implement** | Review            | Hand off to Review agent                  |
-|               | Commit            | Hand off to Commit agent                  |
-|               | Check for Errors  | Run linting and type checks               |
-|               | Run Tests         | Execute the test suite                    |
-| **Review**    | Commit Changes    | Hand off to Commit agent                  |
-|               | Fix Issues        | Hand off to Implement to address problems |
-|               | Re-review         | Check again after fixes are applied       |
-|               | Check Tests       | Run tests and verify they pass            |
-| **Commit**    | Review Commits    | Show commits with git log                 |
-|               | Amend Last Commit | Amend the last commit with staged changes |
-|               | Push              | Push commits to remote                    |
+| Agent           | Button            | Purpose                                   |
+| --------------- | ----------------- | ----------------------------------------- |
+| **Orchestrate** | Continue          | Proceed to next workflow step             |
+|                 | Skip Phase        | Skip current phase, move to next          |
+|                 | Implement Now     | Jump directly to implementation           |
+| **Explore**     | Implement         | Hand off to Implement agent               |
+|                 | Plan Next Phase   | Detailed plan for next unplanned phase    |
+|                 | Re-explore        | Investigate further                       |
+|                 | Show Plan         | Display phase status from task.md         |
+|                 | Save              | Persist research to `.tasks/`             |
+| **Implement**   | Review            | Hand off to Review agent                  |
+|                 | Commit            | Hand off to Commit agent                  |
+|                 | Check for Errors  | Run linting and type checks               |
+|                 | Run Tests         | Execute the test suite                    |
+| **Review**      | Commit Changes    | Hand off to Commit agent                  |
+|                 | Fix Issues        | Hand off to Implement to address problems |
+|                 | Re-review         | Check again after fixes are applied       |
+|                 | Check Tests       | Run tests and verify they pass            |
+| **Commit**      | Review Commits    | Show commits with git log                 |
+|                 | Amend Last Commit | Amend the last commit with staged changes |
+|                 | Push              | Push commits to remote                    |
 
 **Key benefit**: These buttons keep your context and chat history. No reset, no re-explaining.
 

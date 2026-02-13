@@ -314,6 +314,19 @@ Tests, typechecks, and lints serve as "gates" that reject invalid work:
 | Prompt Files           | `*.prompt.md`             | `.github/prompts/`                                 | Reusable task prompts                |
 | Cross-Agent            | `AGENTS.md`               | Workspace root                                     | Instructions for all AI agents       |
 
+**Custom Agent Locations (1.109+):**
+
+```json
+{
+  "chat.agentFilesLocations": {
+    "~/.copilot/agents": true,
+    "shared/team-agents": true
+  }
+}
+```
+
+Agents are discovered from workspace `.github/agents/` by default. Use `chat.agentFilesLocations` for user-global or shared team agents.
+
 ### Frontmatter Fields
 
 **Instructions:**
@@ -350,6 +363,25 @@ agent: "ask" # or "edit", "agent", or custom agent name
 tools: ["codebase", "search", "problems"]
 ---
 ```
+
+**New in 1.109:**
+
+```yaml
+---
+name: "Orchestrator"
+agents: ["Explore", "Implement"] # Restrict subagent access
+user-invokable: false # Hide from user UI (internal agent)
+disable-model-invocation: true # Must be explicitly invoked
+model: ["Claude Sonnet 4.5", "Gemini 3 Pro"] # Fallback chain
+---
+```
+
+| Attribute                  | Purpose                           |
+| -------------------------- | --------------------------------- |
+| `agents`                   | Whitelist of allowed subagents    |
+| `user-invokable`           | false hides from user selection   |
+| `disable-model-invocation` | Prevents auto-invocation by LLM   |
+| `model` (array)            | Ordered fallback if first unavail |
 
 ---
 
@@ -423,6 +455,45 @@ When creating a new skill or adding it to an agent workflow:
 2. **Craft the subagent prompt** — Include skill trigger keywords from the skill's `description` field
 3. **Specify return format** — Tell subagent exactly what to summarize back
 4. **Document the pairing** — Add to agent's "Skill-Powered Subagents" section if adding to agent
+
+---
+
+## 9. Conductor/Orchestration Pattern
+
+### The Pattern
+
+A "conductor" agent coordinates specialized agents without doing work directly:
+
+| Agent         | Role             | Scope                      |
+| ------------- | ---------------- | -------------------------- |
+| **Conductor** | Coordinates      | Reads state, spawns agents |
+| **Explore**   | Research + Plan  | Read + .tasks/ write       |
+| **Implement** | Execute changes  | Full access                |
+| **Review**    | Verify quality   | Read + tests               |
+| **Commit**    | Semantic commits | Git + read                 |
+| **Research**  | Context-isolated | Read + web (internal)      |
+| **Worker**    | Context-isolated | Full access (internal)     |
+
+### Pause Points
+
+Human-in-the-loop at leverage points (from Section 4):
+
+- After task creation (validate phases)
+- After phase planning (approve approach)
+- After implementation (approve changes)
+- Before commit (verify semantics)
+
+Use `askQuestions` tool for dynamic pause menus. Handoff buttons provide fast-forward shortcuts.
+
+### Context Isolation
+
+The conductor stays lean by delegating research and execution:
+
+- Heavy file reading → spawn Research subagent
+- Focused changes → spawn Worker subagent
+- Full phases → spawn Explore/Implement
+
+Each subagent's context is garbage-collected after returning. Only summaries persist in conductor context.
 
 ---
 

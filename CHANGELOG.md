@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-02-13
+
 ### Added
 
+- RDR-031: VS Code 1.109 orchestration features (Adopted — documents Orchestrate agent, subagent frontmatter)
+- prevailing-wisdom.md Section 9: Conductor/Orchestration Pattern documentation
 - IntelliJ IDEA support: installs global instructions to `~/.config/github-copilot/intellij/`
   - Note: Agents and skills are VS Code-specific (require tool restrictions and agent discovery)
 
 ### Changed
 
+- Agent count 4 → 7: Orchestrate (conductor), Research (internal), Worker (internal)
+- README: Updated workflow diagrams showing manual vs orchestrated workflows
 - Consolidated design + ui-transformation skills into single `design` skill
   - Merged design philosophy (direction, personality, craft) with 9-phase implementation
   - ui-transformation folder now contains the unified skill with name "design"
@@ -319,7 +325,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation and synthesis from multiple frameworks
 - Source materials from 12-Factor Agents, HumanLayer, CursorRIPER, Superpowers
 
-[Unreleased]: https://github.com/mcouthon/agents/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/mcouthon/agents/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/mcouthon/agents/compare/v0.11.0...v1.0.0
 [0.11.0]: https://github.com/mcouthon/agents/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/mcouthon/agents/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/mcouthon/agents/compare/v0.9.0...v0.9.1

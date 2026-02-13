@@ -332,7 +332,7 @@ status: planning
 | 2   | [Phase name] | ⬜ Not Started | —    | [Brief scope] |
 | 3   | [Phase name] | ⬜ Not Started | —    | [Brief scope] |
 
-**Status:** ⬜ Not Started → 📋 Planned → 👀 Reviewed → 🔄 In Progress → ✅ Done
+**Status:** ⬜ Not Started → 📋 Planned → ⭐ Reviewed → 🔄 In Progress → ✅ Done
 
 ## Overview
 

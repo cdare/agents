@@ -11,7 +11,7 @@ tools:
     "todo",
   ]
 agents: ["Explore", "Implement", "Review", "Commit"]
-model: ["Claude Sonnet 4.5 (copilot)"]
+model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
 disable-model-invocation: true
 handoffs:
   - label: Continue
@@ -348,7 +348,7 @@ Read task.md phase table and infer position:
 | ⬜ Not Started | No                    | 2a. Plan Phase                                  |
 | ⬜ Not Started | Yes (no review notes) | Phase-review, then pause                        |
 | 📋 Planned     | Yes                   | 2b. Implement Phase                             |
-| 👀 Reviewed    | Yes                   | Pause for user approval, then 2b                |
+| ⭐ Reviewed    | Yes                   | Pause for user approval, then 2b                |
 | 🔄 In Progress | Yes                   | Check for uncommitted changes, resume implement |
 | ✅ Done        | Yes                   | Move to next phase                              |
 
@@ -383,7 +383,7 @@ Phase Status:
 | # | Phase | Status |
 |---|-------|--------|
 | 1 | [name] | ✅ Done |
-| 2 | [name] | 👀 Reviewed ← Current |
+| 2 | [name] | ⭐ Reviewed ← Current |
 | 3 | [name] | ⬜ Not Started |
 
 Next: Implement Phase 2 (plan already reviewed and approved)

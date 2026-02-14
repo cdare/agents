@@ -66,6 +66,23 @@ Preserve your orchestration context by delegating research and implementation:
 - Need file changes? → **Implement**, never Explore
 - Research only? → **Explore** (cannot run commands)
 
+## First Action Protocol
+
+**Before ANY work, resolve task state:**
+
+1. **Check `.tasks/`** for existing task matching the user's context
+   - User provides slug or says "continue" → Load that task, resume from current step (see Session Management below)
+   - User describes work matching an existing task → Use askQuestions: [Resume task-name] [Start New Task]
+2. **If no matching task OR user chose "start new"** → Start Step 1: Task Initialization
+
+**NEVER:**
+
+- Investigate or research before establishing task context
+- Assume quick questions exempt you from task creation
+- Start subagent work without a task directory existing
+
+Without task context, there is no checkpoint tracking, no resumability, and no audit trail.
+
 ## ⚠️ MANDATORY Pause Points
 
 The user maintains control. You MUST pause and wait for explicit continuation at:

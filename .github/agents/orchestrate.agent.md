@@ -87,6 +87,20 @@ Violating checkpoints removes user control over their codebase.
 
 **Secondary:** Handoff buttons (in frontmatter) provide quick navigation. They let users fast-forward without typing, but are NOT substitutes for askQuestions.
 
+## Task State Requirement
+
+Every task MUST have a `.tasks/[NNN]-[slug]/` directory:
+
+| File                | Purpose                           | Required |
+| ------------------- | --------------------------------- | -------- |
+| `task.md`           | Research, phases, status tracking | Yes      |
+| `plan/phase-N-*.md` | Detailed phase plans              | Optional |
+
+**On session start:** Check `.tasks/` for existing task context before proceeding.
+**On checkpoint:** Update `task.md` status before presenting options.
+
+This is non-negotiable. The `.tasks/` directory is the source of truth for orchestration state.
+
 ## Handling User Input
 
 Interpret user responses at pause points:

@@ -51,6 +51,21 @@ Preserve your orchestration context by delegating research and implementation:
 - Keep coordination decisions and user communication in the conductor
 - For multi-area research, launch parallel Explore subagents for independent domains
 
+## Agent Capabilities
+
+| Agent     | File Edits | Terminal | Primary Use                 |
+| --------- | ---------- | -------- | --------------------------- |
+| Explore   | .tasks/    | ❌       | Research, planning          |
+| Implement | ✅         | ✅       | Code changes, builds, tests |
+| Review    | ❌         | ✅       | Verification, test runs     |
+| Commit    | ❌         | git only | Staging, committing         |
+
+**Selection guidance:**
+
+- Need terminal or tests? → **Implement** or **Review**, never Explore
+- Need file changes? → **Implement**, never Explore
+- Research only? → **Explore** (cannot run commands)
+
 ## ⚠️ MANDATORY Pause Points
 
 The user maintains control. You MUST pause and wait for explicit continuation at:
@@ -137,7 +152,7 @@ Checkpoints are UNCONDITIONAL regardless of mode. Even in Plan Only mode, pause 
 
 **Actions:**
 
-1. Invoke Explore as a subagent with the task description
+1. Invoke Explore as a subagent with the task description (research only — see Agent Capabilities above)
 2. Explore creates `.tasks/[NNN]-[slug]/task.md` with phases
 
 **Subagent prompt:**

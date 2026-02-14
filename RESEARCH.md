@@ -161,11 +161,11 @@ Signals that synthesis docs may need revisiting:
 - [x] [skills.sh](https://skills.sh/) ecosystem review → [RDR-028](docs/research/RDR-028-skills-sh.md) (Partially Adopted: rationalization tables, 4-phase debugging patterns from trailofbits/obra)
 - [x] [cursor-2.4](https://cursor.com/changelog/2-4) → [RDR-029](docs/research/RDR-029-cursor-support.md) (Rejected: skills compatible but agents require platform-enforced tool restrictions and mode persistence that Cursor lacks)
 - [x] [vercel-agents-md-evals](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) → [RDR-030](docs/research/RDR-030-vercel-agents-md-evals.md) (Partially Adopted: retrieval-over-recall principle, horizontal vs vertical context distinction)
+- [x] New changes in VSCode copilot https://code.visualstudio.com/updates/v1_109 → [RDR-031](docs/research/RDR-031-vscode-1109-orchestration.md) (already researched)
+- [x] https://github.com/bigguy345/Github-Copilot-Atlas → [RDR-032](docs/research/RDR-032-atlas-orchestra.md) (Partially Adopted: context conservation guidance, TDD enforcement)
+- [x] https://github.com/ShepAlderson/copilot-orchestra → [RDR-032](docs/research/RDR-032-atlas-orchestra.md) (Partially Adopted: combined with Atlas research)
 - [ ] https://github.blog/changelog/2026-01-15-agentic-memory-for-github-copilot-is-in-public-preview/
 - [ ] https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents
-- [ ] New changes in VSCode copilot https://code.visualstudio.com/updates/v1_109. Especially: agent orchestration, support for claude code, custom subagents, copilot memory
-- [ ] https://github.com/bigguy345/Github-Copilot-Atlas
-- [ ] https://github.com/ShepAlderson/copilot-orchestra
 - [ ] consider whether we need to supplement the existing design skill: https://github.com/Dammyjay93/interface-design or https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
 - [] https://allenai.org/blog/open-coding-agents
 - [ ] https://github.com/pcvelz/superpowers

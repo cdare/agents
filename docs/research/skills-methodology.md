@@ -1,0 +1,155 @@
+# Skills Methodology
+
+| Field      | Value             |
+| ---------- | ----------------- |
+| **Date**   | 2026-02-14        |
+| **Status** | Partially Adopted |
+
+## Summary
+
+How to create, test, review, and invoke skills. Consolidates methodology from TDD testing, systematic review, subagent integration, and ecosystem analysis.
+
+---
+
+## TDD Skill Testing (from RDR-004)
+
+**Source:** [obra/superpowers](https://github.com/obra/superpowers)
+
+Skills-based workflow framework for AI agents with TDD-inspired skill creation methodology. Skills are tested using "pressure scenarios" before deployment.
+
+### Methodology
+
+| Step        | Action                            |
+| ----------- | --------------------------------- |
+| 🔴 RED      | Watch agent fail without skill    |
+| 🟢 GREEN    | Write skill                       |
+| 🔵 REFACTOR | Close loopholes, tighten triggers |
+
+### What We Adopted
+
+- TDD-based skill testing (validate with test scenarios)
+- Rich skill descriptions with trigger keywords for discovery
+- Progressive disclosure (<500 lines for main skill file)
+- Skill namespace (personal skills override framework skills)
+
+### Rejected
+
+- Mandatory workflow enforcement (too prescriptive for advisory philosophy)
+- Emphatic/forceful tone ("YOU MUST")
+- Command system (`/superpowers:brainstorm`)—we use agent modes
+- Subagent-driven development (platform-specific)
+
+### Key Insight
+
+Skills should be TDD-tested: watch agent fail without skill (RED), write skill (GREEN), close loopholes (REFACTOR). This is unit testing for documentation.
+
+---
+
+## Skill Review Criteria (from RDR-019)
+
+**Source:** Internal review
+
+Systematic review of 6 existing skills against quality criteria from Superpowers and prevailing wisdom.
+
+### Quality Checklist
+
+- [ ] Distinct behavioral constraints (not just format guidance)
+- [ ] Minimal overlap with existing skills
+- [ ] Clear trigger conditions
+- [ ] Under 500 lines
+
+### Review Results
+
+| Skill          | Verdict   | Rationale                                      |
+| -------------- | --------- | ---------------------------------------------- |
+| `debug`        | ✅ Keep   | Strong: hypothesis-driven investigation        |
+| `mentor`       | ✅ Keep   | Strong: Socratic questions-only mode           |
+| `critic`       | ✅ Keep   | Strong: adversarial probing, no solutions      |
+| `architecture` | ⚠️ Polish | Strengthen scope constraint, add anti-patterns |
+| `tech-debt`    | ⚠️ Expand | Absorb janitor's deletion philosophy           |
+| `janitor`      | 🔴 Remove | 80% overlap with tech-debt                     |
+
+### Actions Taken
+
+- Merged janitor into tech-debt (added deletion philosophy, safe deletion patterns)
+- Polished architecture (strengthened "interfaces in, interfaces out" constraint)
+- Skills reduced from 6 → 5
+
+### Key Insight
+
+Future skills should pass the overlap test before creation. Strong skills have distinct behavioral constraints that change how agents work, not just format guidance.
+
+---
+
+## Skill-Powered Subagents (from RDR-027)
+
+**Source:** Internal design
+
+Agents can invoke skills via subagents by including skill trigger keywords in the subagent prompt. This combines skill expertise with context isolation.
+
+### Pattern
+
+| Factor         | Inline Skill                      | Subagent + Skill                   |
+| -------------- | --------------------------------- | ---------------------------------- |
+| Context impact | All findings stay in main context | Subagent context garbage-collected |
+| Focus          | Mixed with other agent concerns   | Pure skill mode operation          |
+| Output         | Full reasoning visible            | Summary only returned              |
+| Control        | Auto-triggered by keywords        | Agent decides when to invoke       |
+
+### Agent → Skill Pairings
+
+| Agent     | Skill        | Trigger Scenario                    |
+| --------- | ------------ | ----------------------------------- |
+| Explore   | architecture | Understanding system structure      |
+| Implement | debug        | Tests failing during implementation |
+| Review    | critic       | Stress-testing implementation       |
+| Review    | tech-debt    | Code quality scanning               |
+
+### Key Insight
+
+Subagents act as "skill invokers"—by crafting prompts with skill trigger keywords, agents get specialized behavior without bloating their own context. The skill's progressive loading (discovery → instructions → resources) happens in the subagent's isolated context.
+
+---
+
+## Skills Ecosystem (from RDR-028)
+
+**Source:** [skills.sh](https://skills.sh/), [trailofbits/skills](https://github.com/trailofbits/skills), [getsentry/skills](https://github.com/getsentry/skills), [obra/superpowers](https://github.com/obra/superpowers)
+
+Reviewed ~80 skills across the skills.sh ecosystem. Our SKILL.md format is fully compatible—same YAML frontmatter, markdown body, progressive disclosure pattern.
+
+### High-Value Discoveries
+
+| Repo                   | Notable Skills                                           | Relevance                                          |
+| ---------------------- | -------------------------------------------------------- | -------------------------------------------------- |
+| **obra/superpowers**   | systematic-debugging, test-driven-development            | 4-phase process, rationalization prevention tables |
+| **trailofbits/skills** | differential-review, sharp-edges, code-maturity-assessor | Security review patterns, "blast radius" concept   |
+| **getsentry/skills**   | commit, create-pr, iterate-pr, find-bugs                 | Git workflow automation, PR iteration patterns     |
+
+### Patterns Worth Adopting
+
+1. **Rationalization Prevention Tables** (obra/trailofbits)
+   - `| Excuse | Reality | Required Action |` format
+   - Explicit counters to agent shortcuts
+
+2. **Four-Phase Debugging** (obra)
+   - Root Cause → Pattern Analysis → Hypothesis Testing → Implementation
+   - "NEVER fix symptom" mandate with redundancy
+
+3. **Blast Radius Calculation** (trailofbits)
+   - Quantify change impact by counting callers
+   - Risk classification (HIGH/MEDIUM/LOW)
+
+### Not Adopted
+
+- Framework-specific skills (React, Vue, Next.js, etc.)—out of scope
+- Document format skills (pdf, docx, pptx)—proprietary/source-available
+- Claude Code-specific plugin mechanics—different runtime
+- Direct skill imports (format compatible but context differs)
+
+---
+
+## See Also
+
+- [prevailing-wisdom.md](../synthesis/prevailing-wisdom.md) — Skill evaluation checklist
+- [RDR-020-design-skill.md](RDR-020-design-skill.md) — Skill creation example
+- [agentskills.io](https://agentskills.io/specification) — Skills format specification

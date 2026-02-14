@@ -4,93 +4,71 @@ Quick reference for Research Decision Records.
 
 > **Synthesis docs are authoritative** — RDRs document decisions, synthesis docs document the resulting patterns. When in doubt, consult [prevailing-wisdom.md](../synthesis/prevailing-wisdom.md).
 
+## Consolidated Files
+
+Themed consolidations of multiple RDRs. Original RDRs preserved in [archive/](archive/).
+
+| File                                           | Source RDRs        | Theme                      |
+| ---------------------------------------------- | ------------------ | -------------------------- |
+| [vscode-platform.md](vscode-platform.md)       | 014, 015, 031      | VS Code features           |
+| [external-patterns.md](external-patterns.md)   | 003, 022, 023, 024 | Industry best practices    |
+| [context-management.md](context-management.md) | 010, 012, 025      | Context and memory         |
+| [skills-methodology.md](skills-methodology.md) | 004, 019, 027, 028 | Skill creation and testing |
+| [ide-compatibility.md](ide-compatibility.md)   | 017, 029           | Multi-IDE support          |
+
+## Standalone Files
+
+| File                                                                       | Status            | Summary                    |
+| -------------------------------------------------------------------------- | ----------------- | -------------------------- |
+| [RDR-005-beads.md](RDR-005-beads.md)                                       | Future            | Beads JSONL memory         |
+| [RDR-013-vscode-browser-testing.md](RDR-013-vscode-browser-testing.md)     | Future            | Playwright browser testing |
+| [RDR-016-agent-consolidation.md](RDR-016-agent-consolidation.md)           | → ADR-003         | Agent consolidation        |
+| [RDR-018-task-centric-persistence.md](RDR-018-task-centric-persistence.md) | → ADR-002         | Task-centric persistence   |
+| [RDR-020-design-skill.md](RDR-020-design-skill.md)                         | Adopted           | Design skill creation      |
+| [RDR-030-vercel-agents-md-evals.md](RDR-030-vercel-agents-md-evals.md)     | Partially Adopted | Vercel eval study          |
+| [RDR-032-atlas-orchestra.md](RDR-032-atlas-orchestra.md)                   | Partially Adopted | Orchestra patterns         |
+
 ## Quick Reference
 
-| I want to understand...        | Start with                    |
-| ------------------------------ | ----------------------------- |
-| How agents hand off context    | RDR-018 (task-centric)        |
-| Why we have 5 agents not 6     | RDR-016 (consolidation)       |
-| What tools Copilot provides    | RDR-015 (agent tools)         |
-| Memory/persistence approaches  | RDR-018, RDR-005              |
-| External framework comparisons | RDR-003, RDR-004, RDR-023     |
-| Skill creation guidance        | RDR-019, RDR-020              |
-| Skill + agent integration      | RDR-027 (skill-subagents)     |
-| Skills ecosystem / skills.sh   | RDR-028 (trailofbits, sentry) |
-
-## By Status
-
-| Status            | RDRs                                                                 |
-| ----------------- | -------------------------------------------------------------------- |
-| Adopted           | 016, 018, 020, 027, 031                                              |
-| Partially Adopted | 003, 004, 010, 012, 014, 015, 017, 019, 022, 023, 024, 025, 028, 030 |
-| Future            | 005, 013                                                             |
-| Archived          | 001, 002, 006, 007, 008, 009, 011, 021, 026                          |
-
-## By Topic
-
-### External Frameworks
-
-| RDR                                   | Title                 | Status            | Summary                                               |
-| ------------------------------------- | --------------------- | ----------------- | ----------------------------------------------------- |
-| [003](RDR-003-feature-dev.md)         | Anthropic Feature-Dev | Partially Adopted | 7-phase workflow; adopted clarifying Qs, arch options |
-| [004](RDR-004-superpowers.md)         | Superpowers           | Partially Adopted | Skills-based TDD; adopted skill testing methodology   |
-| [005](RDR-005-beads.md)               | Beads Memory          | Future            | JSONL memory system for multi-session continuity      |
-| [023](RDR-023-ralph-wiggum.md)        | Ralph Wiggum          | Partially Adopted | Bash loop methodology; reinforces subagent fan-out    |
-| [024](RDR-024-claude-code-mastery.md) | Claude Code Mastery   | Partially Adopted | CLAUDE.md guide; reinforces phase-based workflow      |
-| [025](RDR-025-copilot-memory.md)      | Copilot Memory        | Partially Adopted | Learned Patterns table; staleness warnings            |
-
-### Context Management
-
-| RDR                                      | Title                  | Status            | Summary                                      |
-| ---------------------------------------- | ---------------------- | ----------------- | -------------------------------------------- |
-| [010](RDR-010-subagents-context-fork.md) | Subagents Context Fork | Partially Adopted | Subagents fork context; handoffs preserve it |
-| [012](RDR-012-planning-with-files.md)    | Planning with Files    | Partially Adopted | 3-file pattern; adopted read-before-decide   |
-
-### VSCode / Platform
-
-| RDR                                         | Title               | Status            | Summary                                  |
-| ------------------------------------------- | ------------------- | ----------------- | ---------------------------------------- |
-| [013](RDR-013-vscode-browser-testing.md)    | Browser Testing     | Future            | Playwright MCP for browser automation    |
-| [014](RDR-014-vscode-copilot-settings.md)   | Copilot Settings    | Partially Adopted | ~50 settings; documented recommendations |
-| [015](RDR-015-copilot-agent-tools.md)       | Agent Tools         | Partially Adopted | 30+ tools; validated current selections  |
-| [017](RDR-017-agent-spec-compatibility.md)  | Spec Compatibility  | Partially Adopted | VS Code vs Claude Code spec alignment    |
-| [031](RDR-031-vscode-1109-orchestration.md) | 1.109 Orchestration | Adopted           | Orchestrate agent, subagent frontmatter  |
-
-### Agent Workflow
-
-| RDR                                        | Title                    | Status  | Summary                                      |
-| ------------------------------------------ | ------------------------ | ------- | -------------------------------------------- |
-| [016](RDR-016-agent-consolidation.md)      | Agent Consolidation      | Adopted | Merged Research+Plan → Explore               |
-| [018](RDR-018-task-centric-persistence.md) | Task-Centric Persistence | Adopted | `.tasks/` persistence; removed Handoff agent |
-
-### Skills
-
-| RDR                               | Title               | Status            | Summary                                   |
-| --------------------------------- | ------------------- | ----------------- | ----------------------------------------- |
-| [019](RDR-019-skill-review.md)    | Skill Review        | Partially Adopted | Systematic skill evaluation               |
-| [020](RDR-020-design-skill.md)    | Design Skill        | Adopted           | UI/UX skill with Linear/Stripe aesthetics |
-| [027](RDR-027-skill-subagents.md) | Skill-Subagents     | Adopted           | Invoke skills via subagents in agents     |
-| [028](RDR-028-skills-sh.md)       | Skills.sh Ecosystem | Partially Adopted | Rationalization tables, 4-phase debugging |
-
-### Best Practices
-
-| RDR                                      | Title                 | Status            | Summary                                    |
-| ---------------------------------------- | --------------------- | ----------------- | ------------------------------------------ |
-| [022](RDR-022-six-tips-agents.md)        | Six Tips for Agents   | Partially Adopted | Code health 30-40%; Rule of Five review    |
-| [030](RDR-030-vercel-agents-md-evals.md) | Vercel AGENTS.md Eval | Partially Adopted | Retrieval-over-recall; horizontal/vertical |
+| I want to understand...     | Start with                                     |
+| --------------------------- | ---------------------------------------------- |
+| VS Code settings & tools    | [vscode-platform.md](vscode-platform.md)       |
+| External framework patterns | [external-patterns.md](external-patterns.md)   |
+| Context/memory/subagents    | [context-management.md](context-management.md) |
+| Skill creation & testing    | [skills-methodology.md](skills-methodology.md) |
+| Multi-IDE compatibility     | [ide-compatibility.md](ide-compatibility.md)   |
+| Why 5 agents not 6          | RDR-016 (consolidation)                        |
+| Task persistence approach   | RDR-018 (task-centric)                         |
+| Skill creation example      | RDR-020 (design skill)                         |
 
 ## Archive
 
-Rejected, superseded, or purely informational RDRs. See [archive/](archive/) for full documents.
+Originals of consolidated RDRs, plus rejected/superseded research. See [archive/](archive/) for full documents.
 
 | RDR | Title                        | Why Archived                         |
 | --- | ---------------------------- | ------------------------------------ |
 | 001 | Spec-Driven                  | Rejected: spec files not used        |
 | 002 | Context Cortex               | Rejected: memory bank not used       |
+| 003 | Feature-Dev                  | Consolidated → external-patterns.md  |
+| 004 | Superpowers                  | Consolidated → skills-methodology.md |
 | 006 | Agentic Future               | Informational only                   |
 | 007 | mitsuhiko agent-stuff        | Superseded by RDR-018                |
 | 008 | Handoff Workspace Constraint | Superseded by RDR-018                |
 | 009 | MCP Memory                   | Rejected: too complex                |
+| 010 | Subagents Context Fork       | Consolidated → context-management.md |
 | 011 | Protection Markers           | Feature removed                      |
+| 012 | Planning with Files          | Consolidated → context-management.md |
+| 014 | VSCode Copilot Settings      | Consolidated → vscode-platform.md    |
+| 015 | Copilot Agent Tools          | Consolidated → vscode-platform.md    |
+| 017 | Agent Spec Compatibility     | Consolidated → ide-compatibility.md  |
+| 019 | Skill Review                 | Consolidated → skills-methodology.md |
 | 021 | Agno                         | Rejected: out of scope               |
+| 022 | Six Tips for Agents          | Consolidated → external-patterns.md  |
+| 023 | Ralph Wiggum                 | Consolidated → external-patterns.md  |
+| 024 | Claude Code Mastery          | Consolidated → external-patterns.md  |
+| 025 | Copilot Memory               | Consolidated → context-management.md |
 | 026 | MetaPrompts                  | Rejected: confirms existing approach |
+| 027 | Skill Subagents              | Consolidated → skills-methodology.md |
+| 028 | Skills.sh                    | Consolidated → skills-methodology.md |
+| 029 | Alternative IDE Support      | Consolidated → ide-compatibility.md  |
+| 031 | 1.109 Orchestration          | Consolidated → vscode-platform.md    |

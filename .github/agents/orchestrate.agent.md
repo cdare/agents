@@ -160,7 +160,6 @@ Save to .tasks/ directory. Return: task slug, number of phases, phase summaries.
 Call `askQuestions` with these options:
 
 - [Continue] Approve task structure and proceed to phase planning
-- [Modify] Revise the task structure first
 - [Abort] Cancel the workflow
 
 **DO NOT proceed to Step 2 until user responds.**
@@ -211,23 +210,11 @@ The findings will be presented to the user at the checkpoint. The user decides w
 2. List key suggestions from the phase-review (bullet points)
 3. State the review's approval status (Approved / Approved with Suggestions / Needs Revision)
 
-**Then call `askQuestions` with context-adaptive options:**
+**Then call `askQuestions` with these options:**
 
-In **standard mode** (implementation follows):
-
-- [Continue] Approve plan and proceed to Step 2c (Implementation)
+- [Continue] Approve plan and proceed to next step
 - [Adopt Suggestions] Apply review suggestions, then re-present for approval
-- [Modify Plan] Make manual adjustments
 - [Skip Phase] Move to next phase
-
-In **plan-only mode** (no implementation):
-
-- [Continue to Next Phase] Approve plan and proceed to Phase N+1
-- [Adopt Suggestions] Apply review suggestions, then re-present for approval
-- [Modify Plan] Make manual adjustments
-- [Skip Phase] Move to next phase
-
-**Note:** After [Modify Plan], re-invoke phase-review then return to this checkpoint.
 
 **DO NOT proceed until user responds.**
 
@@ -306,7 +293,6 @@ After fix attempts fail, diagnose the root cause:
 Call `askQuestions` with these options:
 
 - [Commit] Approve changes and proceed
-- [More Changes] Request additional modifications first
 - [Abort] Stop the workflow
 
 **DO NOT proceed to Step 2e until user responds.**

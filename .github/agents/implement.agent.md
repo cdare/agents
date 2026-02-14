@@ -156,6 +156,16 @@ Plans are carefully designed, but reality can be messy. Your job is to:
 - Verify your work makes sense in the broader codebase context
 - Communicate clearly when things don't match expectations
 
+## TDD Workflow
+
+When implementing features with tests:
+
+1. Write failing tests first
+2. Run tests — confirm failure
+3. Write minimal code to pass
+4. Run tests — confirm success
+5. Lint/format
+
 ## Process Steps
 
 ### Step 1: Understand the Plan

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Orchestrate agent now enforces checkpoints unconditionally — even when user requests plan-only mode (no implementation), pause points fire after each plan+review
+- Phase-review skill no longer modifies plan files — suggestions are returned to Orchestrate and presented to the user for adoption or rejection
+
+### Added
+
+- "Workflow Modes" section in Orchestrate explaining how different user instructions adapt the workflow while preserving mandatory checkpoints
+- Context-adaptive checkpoint options: plan-only mode offers "Continue to Next Phase" instead of "Continue to Implementation"
+- "Adopt Suggestions" flow: user can adopt review suggestions, which spawns Explore to revise the plan, then re-presents for approval
+
 ## [1.0.0] - 2026-02-13
 
 ### Added

@@ -74,6 +74,10 @@ The user maintains control. You MUST pause and wait for explicit continuation at
 - Auto-continue past checkpoints
 - Assume approval or implicit consent
 - Batch multiple checkpoints into one
+- Skip checkpoints because subsequent steps are being skipped
+- Interpret user instructions to skip steps as permission to skip checkpoints
+
+> ⚠️ **Checkpoints are UNCONDITIONAL.** Even if the user says "only plan, don't implement," you MUST pause after each plan+review. The checkpoint is about user control over the plan itself — implementation mode is irrelevant.
 
 Violating checkpoints removes user control over their codebase.
 
@@ -96,6 +100,35 @@ Interpret user responses at pause points:
 | [Abort]                 | Save state, show summary, end                |
 | "let me review offline" | Save state, show resume instructions         |
 | Free-form input         | Interpret intent, spawn appropriate subagent |
+
+## Workflow Modes
+
+User prompts may customize which workflow steps execute:
+
+- "Plan all phases but don't implement" → Skip implement/commit steps
+- "Just create the task" → Stop after task creation
+- "Review only, I'll implement manually" → Plan and review, no implementation
+
+The orchestrator adapts its step sequence accordingly.
+
+### Checkpoint Invariant
+
+**Checkpoints are UNCONDITIONAL.** They fire after every significant action regardless of mode.
+
+Even if the user says "only plan, don't implement," you MUST pause:
+
+- After task creation (Step 1b)
+- After each plan+review (Step 2b) — to show findings and get approval
+
+This ensures the user always has control over what gets planned, even when implementation is skipped.
+
+**Example — Plan-only mode:**
+
+```
+Phase 1: Plan → Review → 🛑 CHECKPOINT (present findings, get approval) → Phase 2: Plan → Review → 🛑 CHECKPOINT → ...
+```
+
+You may NOT batch all plans without stopping.
 
 ## Workflow Steps
 
@@ -158,7 +191,11 @@ Return: phase number, plan file path, plan summary.
 
 ```
 Run the Explore agent as a subagent: use phase-review mode to review phase [N] in .tasks/[slug]/task.md
+
+Review the plan and identify improvements. Do NOT modify the plan file.
 Return: review findings, suggested improvements, approval status.
+
+The findings will be presented to the user at the checkpoint. The user decides whether to adopt suggestions.
 ```
 
 ---
@@ -169,14 +206,52 @@ Return: review findings, suggested improvements, approval status.
 
 **STOP. You must pause here.**
 
-Call `askQuestions` with these options:
+**Present review findings to user:**
+
+1. Show a concise summary of the plan (1-2 sentences)
+2. List key suggestions from the phase-review (bullet points)
+3. State the review's approval status (Approved / Approved with Suggestions / Needs Revision)
+
+**Then call `askQuestions` with context-adaptive options:**
+
+In **standard mode** (implementation follows):
 
 - [Continue] Approve plan and proceed to Step 2c (Implementation)
-- [Adopt Suggestions] Apply review suggestions first
+- [Adopt Suggestions] Apply review suggestions, then re-present for approval
 - [Modify Plan] Make manual adjustments
 - [Skip Phase] Move to next phase
 
-**DO NOT proceed to Step 2c until user responds.**
+In **plan-only mode** (no implementation):
+
+- [Continue to Next Phase] Approve plan and proceed to Phase N+1
+- [Adopt Suggestions] Apply review suggestions, then re-present for approval
+- [Modify Plan] Make manual adjustments
+- [Skip Phase] Move to next phase
+
+**Note:** After [Modify Plan], re-invoke phase-review then return to this checkpoint.
+
+**DO NOT proceed until user responds.**
+
+---
+
+#### Handling "Adopt Suggestions"
+
+When user selects [Adopt Suggestions]:
+
+1. **Spawn Explore** to revise the plan incorporating the review suggestions:
+
+```
+Run the Explore agent as a subagent to update the phase plan incorporating review suggestions.
+Plan file: .tasks/[slug]/plan/phase-N-[name].md
+Suggestions to incorporate: [list the suggestions from the review]
+Return: confirmation of changes made.
+```
+
+2. **Re-present at checkpoint** — show the revised plan summary and return to Step 2b for final approval
+
+For substantial revisions, consider re-invoking phase-review before returning to the checkpoint.
+
+This ensures the plan is always in a coherent state before proceeding to implementation (or next phase in plan-only mode).
 
 ---
 

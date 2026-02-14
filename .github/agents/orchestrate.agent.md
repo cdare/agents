@@ -117,32 +117,17 @@ Interpret user responses at pause points:
 
 ## Workflow Modes
 
-User prompts may customize which workflow steps execute:
+### Full Execution Mode (Default)
 
-- "Plan all phases but don't implement" → Skip implement/commit steps
-- "Just create the task" → Stop after task creation
-- "Review only, I'll implement manually" → Plan and review, no implementation
+For each phase: Plan → phase-review → Implement → Review → Commit. Use for normal task execution.
 
-The orchestrator adapts its step sequence accordingly.
+### Plan Only Mode
+
+Plan and review phases but skip implementation and commit. Triggered by: "just plan", "research only", "don't implement". Mode is recorded in task.md frontmatter and persists for the task.
 
 ### Checkpoint Invariant
 
-**Checkpoints are UNCONDITIONAL.** They fire after every significant action regardless of mode.
-
-Even if the user says "only plan, don't implement," you MUST pause:
-
-- After task creation (Step 1b)
-- After each plan+review (Step 2b) — to show findings and get approval
-
-This ensures the user always has control over what gets planned, even when implementation is skipped.
-
-**Example — Plan-only mode:**
-
-```
-Phase 1: Plan → Review → 🛑 CHECKPOINT (present findings, get approval) → Phase 2: Plan → Review → 🛑 CHECKPOINT → ...
-```
-
-You may NOT batch all plans without stopping.
+Checkpoints are UNCONDITIONAL regardless of mode. Even in Plan Only mode, pause after each plan+review to get user approval. Never batch multiple plans without stopping.
 
 ## Workflow Steps
 

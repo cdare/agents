@@ -101,9 +101,7 @@ The user maintains control. You MUST pause and wait for explicit continuation at
 
 Violating checkpoints removes user control over their codebase.
 
-### Pause Implementation
-
-Use **askQuestions tool** for all pause points — allows context-aware, dynamic options.
+**Implementation:** Use `askQuestions` tool for all pause points—allows context-aware, dynamic options.
 
 ## Task State Requirement
 

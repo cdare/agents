@@ -170,14 +170,9 @@ Call `askQuestions` with these options:
 
 For each phase (starting with next ⬜ Not Started):
 
-#### 2a. Plan Phase
+#### 2a.1. Create Phase Plan
 
-**Actions:**
-
-1. Invoke Explore as a subagent for detailed research and planning
-2. Invoke Explore as a subagent with phase-review trigger to review the plan
-
-**Subagent prompt (Explore - planning):**
+Invoke Explore to generate detailed implementation plan:
 
 ```
 Run the Explore agent as a subagent to plan the next unplanned phase (⬜ Not Started) in the task.
@@ -185,16 +180,16 @@ Include: detailed file changes, implementation steps, success criteria.
 Return: phase number, plan file path, plan summary.
 ```
 
-**Subagent prompt (Explore - phase-review skill):**
+#### 2a.2. Review Phase Plan
+
+Invoke Explore with phase-review skill:
 
 ```
 Run the Explore agent as a subagent: use phase-review mode to review phase [N] in .tasks/[slug]/task.md
-
-Review the plan and identify improvements. Do NOT modify the plan file.
 Return: review findings, suggested improvements, approval status.
-
-The findings will be presented to the user at the checkpoint. The user decides whether to adopt suggestions.
 ```
+
+Review findings are presented to the user at the checkpoint.
 
 ---
 
@@ -241,14 +236,9 @@ This ensures the plan is always in a coherent state before proceeding to impleme
 
 ---
 
-#### 2c. Implement Phase
+#### 2c.1. Implement Changes
 
-**Actions:**
-
-1. Invoke Implement as a subagent with the approved phase plan
-2. Invoke Review as a subagent to verify implementation
-
-**Subagent prompt (Implement):**
+Invoke Implement with the approved phase plan:
 
 ```
 Run the Implement agent as a subagent to implement Phase N from the task plan.
@@ -257,7 +247,9 @@ Follow the implementation checklist exactly.
 Return: summary of changes made, any issues encountered.
 ```
 
-**Subagent prompt (Review):**
+#### 2c.2. Verify Implementation
+
+Invoke Review to verify changes:
 
 ```
 Run the Review agent as a subagent to verify the implementation of Phase N.
@@ -265,16 +257,13 @@ Verify: changes match plan, tests pass, no regressions.
 Return: review status (PASS/ISSUES), issue list if any.
 ```
 
-**If Review reports ISSUES (max 2 fix attempts):**
+**On ISSUES (max 2 fix attempts):**
 
-- Show issues to user
-- Use askQuestions: "Address these issues? [Fix] [Skip] [Abort]"
-- If Fix: Invoke Implement as a subagent with issue list, then Review again
-- After 2 failed fix attempts: PAUSE, show accumulated issues, require user intervention
+- Use askQuestions: "Address issues? [Fix] [Skip] [Abort]"
+- If Fix: Re-invoke Implement with issue list, then Review again
+- After 2 failed attempts: PAUSE, require user intervention
 
 **Escalation: Plan vs Implementation issues**
-
-After fix attempts fail, diagnose the root cause:
 
 | Symptom                    | Likely Cause            | Escalation                                           |
 | -------------------------- | ----------------------- | ---------------------------------------------------- |
@@ -407,9 +396,11 @@ Use todo list to track orchestration state:
 ```
 1. Create task                [completed]
 1b. Await task approval       [completed]
-2a. Phase 1: Plan             [in-progress]
+2a.1. Phase 1: Create Plan    [in-progress]
+2a.2. Phase 1: Review Plan    [not-started]
 2b. Await plan approval       [not-started]
-2c. Phase 1: Implement        [not-started]
+2c.1. Phase 1: Implement      [not-started]
+2c.2. Phase 1: Verify         [not-started]
 2d. Await implementation OK   [not-started]
 2e. Update docs               [not-started]
 2f. Phase 1: Commit           [not-started]
@@ -461,11 +452,11 @@ Read task.md phase table and infer position:
 
 | Phase Status   | Plan Exists? | Next Step                       |
 | -------------- | ------------ | ------------------------------- |
-| ⬜ Not Started | No           | 2a. Plan Phase                  |
-| ⬜ Not Started | Yes          | Phase-review, then 2b. PAUSE    |
+| ⬜ Not Started | No           | 2a.1. Create Phase Plan         |
+| ⬜ Not Started | Yes          | 2a.2. Review, then 2b. PAUSE    |
 | 📋 Planned     | Yes          | 2b. PAUSE — Await Plan Approval |
-| ⭐ Reviewed    | Yes          | 2c. Implement Phase             |
-| 🔄 In Progress | Yes          | Check git status, resume 2c     |
+| ⭐ Reviewed    | Yes          | 2c.1. Implement Changes         |
+| 🔄 In Progress | Yes          | Check git status, resume 2c.1   |
 | ✅ Done        | Yes          | Move to next phase              |
 
 **Check for uncommitted work:** `git status --porcelain | grep -E "(src/|lib/|tests/|.tasks/)" || true`

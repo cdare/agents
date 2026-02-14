@@ -263,16 +263,6 @@ Return: review status (PASS/ISSUES), issue list if any.
 - If Fix: Re-invoke Implement with issue list, then Review again
 - After 2 failed attempts: PAUSE, require user intervention
 
-**Escalation: Plan vs Implementation issues**
-
-| Symptom                    | Likely Cause            | Escalation                                           |
-| -------------------------- | ----------------------- | ---------------------------------------------------- |
-| Same error repeats         | Implementation bug      | Ask: [Debug Deeper] [Skip This Part]                 |
-| Different errors each time | Plan is flawed          | Ask: [Revise Plan] [Simplify Scope] [Get User Input] |
-| Tests fail unexpectedly    | Missing context in plan | Ask: [Research First] [Update Tests] [Revise Plan]   |
-
----
-
 ### Step 2d: PAUSE — Await Implementation Approval
 
 #### 🛑 CHECKPOINT: Implementation Complete
@@ -353,31 +343,6 @@ Return: confirmation.
 Run the Explore agent as a subagent: use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
 Determine if this warrants a new ADR, updates an existing one, or should be skipped.
 Return: ADR path created/updated, or "skipped" with reason.
-```
-
-### Abandoned Task Handling
-
-**Trigger:** User says "abandon task", "cancel task", or task has been 🔄 In Progress for multiple sessions without progress.
-
-**Actions:**
-
-1. Check if any completed phases contain architectural decisions worth preserving
-2. If yes, offer consolidation:
-
-```
-Use askQuestions:
-"Task has [N] completed phases with potential architectural decisions. Consolidate before abandoning?"
-- [Consolidate] Create ADR from completed work, then archive task
-- [Archive Only] Move to .tasks/archive/ without ADR
-- [Delete] Remove task entirely
-```
-
-3. Update task.md with abandonment note:
-
-```markdown
-**Status:** ⏹️ Abandoned (YYYY-MM-DD)
-**Reason:** [user's reason or "no progress"]
-**Preserved in:** [ADR path if consolidated]
 ```
 
 ### Step 3: Completion
@@ -488,18 +453,6 @@ Next: Implement Phase 2 (plan already reviewed and approved)
 
 [Continue] [Show Plan First] [Start Phase Over]
 ```
-
-### Saving State Before Session End
-
-If ending mid-workflow (user says "stop", "pause", "continue later"):
-
-1. Update task.md with current phase status (🔄 In Progress if mid-phase)
-2. Add notes under phase table if helpful:
-   ```markdown
-   **Session note (YYYY-MM-DD):** Paused after implementing auth middleware.
-   Remaining: Add tests, update docs.
-   ```
-3. Confirm: "Progress saved. Say 'continue [task-slug]' to resume."
 
 ### Context Independence
 

@@ -182,7 +182,7 @@ For implementation details, see the agent definitions in `.github/agents/`.
 - No auto-expiry (human curation)
 - IDE-focused vs GitHub platform
 
-**Reference:** [RDR-025](../research/RDR-025-copilot-memory.md)
+**Reference:** [context-management.md](../research/context-management.md) (consolidated from RDR-025)
 
 ---
 

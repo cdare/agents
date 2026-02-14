@@ -36,11 +36,11 @@ When updating, add an entry to the "Updates" table and integrate changes into re
 
 **Required format:** `ADR-NNN-{decision-name}.md`
 
-1. Scan `.tasks/architecture/` for existing `ADR-*` files
+1. Scan `docs/architecture/` for existing `ADR-*` files
 2. Check if any existing ADR covers the same architectural area (update if so)
 3. For new ADRs: find the highest number (e.g., `ADR-003-*` → next is `004`)
 4. Start at `001` if no ADR files exist
-5. Save to: `.tasks/architecture/ADR-NNN-{decision-name}.md`
+5. Save to: `docs/architecture/ADR-NNN-{decision-name}.md`
 
 Example: `ADR-004-unified-query-execution.md`
 
@@ -117,6 +117,6 @@ relevant/directory/
 
 ## After Saving
 
-1. Update `.tasks/architecture/README.md` (create if missing with a decisions table)
+1. Update `docs/architecture/README.md` (create if missing with a decisions table)
 2. Delete or archive the original task folder
 3. If updating an existing ADR: add entry to the Updates table at the bottom

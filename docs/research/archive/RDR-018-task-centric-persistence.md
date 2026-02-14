@@ -6,6 +6,8 @@
 | **Date**   | 2026-01-09                                         |
 | **Status** | Adopted                                            |
 
+> **Superseded by [ADR-002](../../architecture/ADR-002-task-centric-persistence.md)**
+
 ## Summary
 
 Research persisted to `.tasks/[task-slug]/` directories with descriptive filenames. Explore has scoped write access (only to `.tasks/`), not to codebase.

@@ -138,7 +138,7 @@ Signals that synthesis docs may need revisiting:
 - [x] [mitsuhiko-agent-stuff](https://github.com/mitsuhiko/agent-stuff/blob/main/skills/improve-skill/SKILL.md) → [RDR-007](docs/research/archive/RDR-007-mitsuhiko-agent-stuff.md)
 - [x] Building my own tools for memory (MCP servers) → [RDR-009](docs/research/archive/RDR-009-mcp-memory-rejected.md) (Rejected)
 - [x] Create guidelines for plan file artifacts → Resolved: Use Research → Handoff workflow (documented in [README](README.md#the-workflow))
-- [x] Combine Research + Plan agents → [RDR-016](docs/research/RDR-016-agent-consolidation.md) ⭐ (Adopted: consolidated into Explore agent, reversing previous rejection)
+- [x] Combine Research + Plan agents → [RDR-016](docs/research/archive/RDR-016-agent-consolidation.md) ⭐ (Adopted: consolidated into Explore agent, reversing previous rejection)
 - [x] Research whether Copilot subagents in VSCode fork the context, and start with a clean context. What of the main agent's context is being passed to those subagents? → [RDR-010](docs/research/archive/RDR-010-subagents-context-fork.md) (consolidated → [context-management.md](docs/research/context-management.md))
 - [x] [planning-with-files](https://github.com/OthmanAdi/planning-with-files) → [RDR-012](docs/research/archive/RDR-012-planning-with-files.md) ⭐ (consolidated → [context-management.md](docs/research/context-management.md))
 - [x] [vscode-browser-testing](https://code.visualstudio.com/docs/copilot/overview) → [RDR-013](docs/research/RDR-013-vscode-browser-testing.md)

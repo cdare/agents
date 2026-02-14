@@ -192,7 +192,7 @@ For implementation details, see the agent definitions in `.github/agents/`.
 
 > "Markdown files are write-only memory for agents." — Steve Yegge
 
-> "Task-centric persistence is complementary to Beads, not competing. Use task files for day-to-day continuity; consider Beads when multi-week tracking becomes necessary." — [RDR-018](../research/RDR-018-task-centric-persistence.md)
+> "Task-centric persistence is complementary to Beads, not competing. Use task files for day-to-day continuity; consider Beads when multi-week tracking becomes necessary." — [ADR-002](../architecture/ADR-002-task-centric-persistence.md)
 
 ---
 

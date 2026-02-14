@@ -6,6 +6,8 @@
 | **Date**   | 2026-01-04                          |
 | **Status** | Adopted                             |
 
+> **Superseded by [ADR-003](../../architecture/ADR-003-agent-consolidation.md)**
+
 ## Summary
 
 Merged Research and Plan agents into Explore. Simplified workflow from 6 agents to 5.

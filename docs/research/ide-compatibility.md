@@ -157,6 +157,8 @@ The AGENTS workflow (Explore → Implement → Review → Commit) depends on VS 
 
 ## See Also
 
+**Architectural Decision:** [ADR-005](../architecture/ADR-005-ide-compatibility.md)
+
 - [Cursor Docs](https://cursor.com/docs/agent/modes) — Built-in modes
 - [IntelliJ Custom Instructions](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions) — Official guide
 - [Custom Instructions Support Matrix](https://docs.github.com/en/copilot/reference/custom-instructions-support) — Feature comparison

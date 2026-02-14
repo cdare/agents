@@ -31,4 +31,4 @@ Markdown files are "write-only memory"—agents can write them but can't query t
 ## See Also
 
 - [memory-and-continuity.md](../synthesis/memory-and-continuity.md) — Current memory strategy
-- [RDR-018](RDR-018-task-centric-persistence.md) — Adopted task-centric persistence (complementary)
+- [ADR-002](../architecture/ADR-002-task-centric-persistence.md) — Adopted task-centric persistence (complementary)

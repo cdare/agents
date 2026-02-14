@@ -83,7 +83,8 @@ Future skills should pass the overlap test before creation. Strong skills have d
 
 ## Skill-Powered Subagents (from RDR-027)
 
-**Source:** Internal design
+**Source:** Internal design  
+**See:** [ADR-004](../architecture/ADR-004-skill-powered-subagents.md) for the architectural decision.
 
 Agents can invoke skills via subagents by including skill trigger keywords in the subagent prompt. This combines skill expertise with context isolation.
 

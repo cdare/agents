@@ -18,28 +18,30 @@ Themed consolidations of multiple RDRs. Original RDRs preserved in [archive/](ar
 
 ## Standalone Files
 
-| File                                                                       | Status            | Summary                    |
-| -------------------------------------------------------------------------- | ----------------- | -------------------------- |
-| [RDR-005-beads.md](RDR-005-beads.md)                                       | Future            | Beads JSONL memory         |
-| [RDR-013-vscode-browser-testing.md](RDR-013-vscode-browser-testing.md)     | Future            | Playwright browser testing |
-| [RDR-016-agent-consolidation.md](RDR-016-agent-consolidation.md)           | → ADR-003         | Agent consolidation        |
-| [RDR-018-task-centric-persistence.md](RDR-018-task-centric-persistence.md) | → ADR-002         | Task-centric persistence   |
-| [RDR-020-design-skill.md](RDR-020-design-skill.md)                         | Adopted           | Design skill creation      |
-| [RDR-030-vercel-agents-md-evals.md](RDR-030-vercel-agents-md-evals.md)     | Partially Adopted | Vercel eval study          |
-| [RDR-032-atlas-orchestra.md](RDR-032-atlas-orchestra.md)                   | Partially Adopted | Orchestra patterns         |
+| File                                                                   | Status            | Summary                    |
+| ---------------------------------------------------------------------- | ----------------- | -------------------------- |
+| [RDR-005-beads.md](RDR-005-beads.md)                                   | Future            | Beads JSONL memory         |
+| [RDR-013-vscode-browser-testing.md](RDR-013-vscode-browser-testing.md) | Future            | Playwright browser testing |
+| [RDR-020-design-skill.md](RDR-020-design-skill.md)                     | Adopted           | Design skill creation      |
+| [RDR-030-vercel-agents-md-evals.md](RDR-030-vercel-agents-md-evals.md) | Partially Adopted | Vercel eval study          |
+| [RDR-032-atlas-orchestra.md](RDR-032-atlas-orchestra.md)               | Partially Adopted | Orchestra patterns         |
+
+**Note:** RDR-016 and RDR-018 superseded by ADRs. See [docs/architecture/](../architecture/) for ADR-002 (task persistence) and ADR-003 (agent consolidation).
 
 ## Quick Reference
 
-| I want to understand...     | Start with                                     |
-| --------------------------- | ---------------------------------------------- |
-| VS Code settings & tools    | [vscode-platform.md](vscode-platform.md)       |
-| External framework patterns | [external-patterns.md](external-patterns.md)   |
-| Context/memory/subagents    | [context-management.md](context-management.md) |
-| Skill creation & testing    | [skills-methodology.md](skills-methodology.md) |
-| Multi-IDE compatibility     | [ide-compatibility.md](ide-compatibility.md)   |
-| Why 5 agents not 6          | RDR-016 (consolidation)                        |
-| Task persistence approach   | RDR-018 (task-centric)                         |
-| Skill creation example      | RDR-020 (design skill)                         |
+| I want to understand...     | Start with                                                     |
+| --------------------------- | -------------------------------------------------------------- |
+| VS Code settings & tools    | [vscode-platform.md](vscode-platform.md)                       |
+| External framework patterns | [external-patterns.md](external-patterns.md)                   |
+| Context/memory/subagents    | [context-management.md](context-management.md)                 |
+| Skill creation & testing    | [skills-methodology.md](skills-methodology.md)                 |
+| Multi-IDE compatibility     | [ide-compatibility.md](ide-compatibility.md)                   |
+| Why 4 agents not 6          | [ADR-003](../architecture/ADR-003-agent-consolidation.md)      |
+| Task persistence approach   | [ADR-002](../architecture/ADR-002-task-centric-persistence.md) |
+| Skill-powered subagents     | [ADR-004](../architecture/ADR-004-skill-powered-subagents.md)  |
+| IDE support strategy        | [ADR-005](../architecture/ADR-005-ide-compatibility.md)        |
+| Skill creation example      | RDR-020 (design skill)                                         |
 
 ## Archive
 
@@ -60,7 +62,9 @@ Originals of consolidated RDRs, plus rejected/superseded research. See [archive/
 | 012 | Planning with Files          | Consolidated → context-management.md |
 | 014 | VSCode Copilot Settings      | Consolidated → vscode-platform.md    |
 | 015 | Copilot Agent Tools          | Consolidated → vscode-platform.md    |
+| 016 | Agent Consolidation          | Superseded by ADR-003                |
 | 017 | Agent Spec Compatibility     | Consolidated → ide-compatibility.md  |
+| 018 | Task-Centric Persistence     | Superseded by ADR-002                |
 | 019 | Skill Review                 | Consolidated → skills-methodology.md |
 | 021 | Agno                         | Rejected: out of scope               |
 | 022 | Six Tips for Agents          | Consolidated → external-patterns.md  |

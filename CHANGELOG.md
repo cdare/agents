@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Orchestrate agent: Position Lock Protocol — todo list is now a hard execution cursor
+- Orchestrate agent: Detour Recovery protocol for handling interruptions
+- Orchestrate agent: Conductor constraints preventing self-research
+
+### Changed
+
+- Orchestrate agent streamlined from 479 to 419 lines (removed redundant sections, consolidated session management)
+
+### Removed
+
+- Orchestrate agent `search` tool (forces delegation to subagents for research tasks)
+
 ### Fixed
 
 - Orchestrate agent now enforces checkpoints unconditionally — even when user requests plan-only mode (no implementation), pause points fire after each plan+review

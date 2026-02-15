@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- orchestrate.agent.md: Added Entry Gate pre-flight checklist, tool-coupled first action, and anti-bypass language for reliable First Action Protocol enforcement
 - Orchestrate agent streamlined from 479 to 419 lines (removed redundant sections, consolidated session management)
 
 ### Removed

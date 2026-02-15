@@ -193,15 +193,16 @@ detours, or subagent results. Root cause: advisory tracking sections weren't enf
 
 **Solutions implemented:**
 
-| Mechanism            | Implementation                                                         |
-| -------------------- | ---------------------------------------------------------------------- |
-| Tool restriction     | Removed `search` tool — prevents self-research tangents                |
-| Conductor constraints| Explicit prohibitions: "NEVER research", "NEVER edit files directly"   |
-| Position Lock        | Exactly ONE `[in-progress]` todo item = current instruction            |
-| Embedded reminders   | `> Before invoking: Verify this matches your [in-progress] todo item.` |
-| Detour recovery      | Protocol to return to workflow after handling interruptions            |
+| Mechanism             | Implementation                                                         |
+| --------------------- | ---------------------------------------------------------------------- |
+| Tool restriction      | Removed `search` tool — prevents self-research tangents                |
+| Conductor constraints | Explicit prohibitions: "NEVER research", "NEVER edit files directly"   |
+| Position Lock         | Exactly ONE `[in-progress]` todo item = current instruction            |
+| Embedded reminders    | `> Before invoking: Verify this matches your [in-progress] todo item.` |
+| Detour recovery       | Protocol to return to workflow after handling interruptions            |
 
 **Position Lock format:**
+
 ```
 → 2a.1. Phase 1: Create Plan    [in-progress]  ← CURRENT INSTRUCTION
   2a.2. Phase 1: Review Plan    [not-started]
@@ -229,6 +230,7 @@ This transforms the todo list from advisory to enforcement mechanism.
 | February 2026 | 010  | Simplified to two modes; 544→450 lines; made task state mandatory                      |
 | February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines |
 | February 2026 | 013  | Drift prevention: Position Lock, removed `search` tool, detour recovery; 479→420 lines |
+| February 2026 | 014  | FAP enforcement: Entry Gate at primacy position, tool-coupled first action, anti-bypass language; 427→438 lines |
 
 ## Related
 

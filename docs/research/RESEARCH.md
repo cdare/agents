@@ -19,8 +19,8 @@ This file is a prompt for research sessions. Use it to:
 
 ## Finding Previous Research
 
-- [CATALOG.md](docs/research/CATALOG.md) — Quick reference by topic and status
-- [BACKLOG.md](docs/research/BACKLOG.md) — Unchecked research items by category
+- [CATALOG.md](CATALOG.md) — Quick reference by topic and status
+- [BACKLOG.md](BACKLOG.md) — Unchecked research items by category
 
 ## Philosophy
 
@@ -61,27 +61,27 @@ This file is a prompt for research sessions. Use it to:
 
 ### Consolidated Files Reference
 
-| Theme              | File                                                         | Update When                                         |
-| ------------------ | ------------------------------------------------------------ | --------------------------------------------------- |
-| VS Code Platform   | [vscode-platform.md](docs/research/vscode-platform.md)       | New VS Code features, Copilot updates, tool changes |
-| External Patterns  | [external-patterns.md](docs/research/external-patterns.md)   | Industry frameworks, external best practices        |
-| Context Management | [context-management.md](docs/research/context-management.md) | Memory, subagents, context passing                  |
-| Skills             | [skills-methodology.md](docs/research/skills-methodology.md) | Skill creation, testing, skill ecosystems           |
-| IDE Compatibility  | [ide-compatibility.md](docs/research/ide-compatibility.md)   | Multi-IDE support, Cursor, Windsurf, Claude Code    |
+| Theme                | File                                                              | Update When                                         |
+| -------------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
+| VS Code Platform     | [vscode-platform.md](../synthesis/vscode-platform.md)             | New VS Code features, Copilot updates, tool changes |
+| Framework Comparison | [framework-comparison.md](../synthesis/framework-comparison.md)   | Industry frameworks, external best practices        |
+| Memory & Context     | [memory-and-continuity.md](../synthesis/memory-and-continuity.md) | Memory, subagents, context passing                  |
+| Skills               | [skills.md](../synthesis/skills.md)                               | Skill creation, testing, skill ecosystems           |
+| IDE Compatibility    | [ide-compatibility.md](../synthesis/ide-compatibility.md)         | Multi-IDE support, Cursor, Windsurf, Claude Code    |
 
 ### Documentation Hierarchy
 
-| I want to...                         | Update...                                 |
-| ------------------------------------ | ----------------------------------------- |
-| Add findings to existing theme       | Consolidated file (see table above)       |
-| Record major architectural decision  | ADR in `docs/architecture/`               |
-| Document a novel topic (rare)        | New RDR in `docs/research/`               |
-| Document a pattern/practice          | Synthesis doc in `docs/synthesis/`        |
-| Add a new principle                  | `prevailing-wisdom.md`                    |
-| Compare frameworks                   | `framework-comparison.md`                 |
-| Describe continuity pattern          | `memory-and-continuity.md`                |
+| I want to...                        | Update...                          |
+| ----------------------------------- | ---------------------------------- |
+| Add findings to existing theme      | Synthesis doc (see table above)    |
+| Record major architectural decision | ADR in `docs/architecture/`        |
+| Document a novel topic (rare)       | New RDR in `docs/research/`        |
+| Document a pattern/practice         | Synthesis doc in `docs/synthesis/` |
+| Add a new principle                 | `prevailing-wisdom.md`             |
+| Compare frameworks                  | `framework-comparison.md`          |
+| Describe continuity pattern         | `memory-and-continuity.md`         |
 
-**RDRs should be slim** (~50 lines). If you're writing paragraphs, that belongs in synthesis or a consolidated file.
+**RDRs should be slim** (~50 lines). If you're writing paragraphs, that belongs in synthesis docs.
 
 ### What "Adoption" Means
 
@@ -130,6 +130,7 @@ Present findings to user before making any decision:
 4. **If adopting**: What concrete changes would be made
 
 Use `askQuestions` to present options:
+
 - **[Adopt]** Proceed with adoption changes
 - **[Reject]** Document as rejected, no changes
 - **[Investigate Further]** Deeper dive needed
@@ -140,11 +141,11 @@ The user may also ask clarifying questions or suggest a different approach. Only
 
 Choose the appropriate documentation approach:
 
-| Action                    | When                                      |
-| ------------------------- | ----------------------------------------- |
-| Update existing file      | Topic fits a consolidated file or ADR     |
-| Add to synthesis doc      | New pattern or principle to document      |
-| Create new RDR            | Novel topic that needs its own record     |
+| Action               | When                                  |
+| -------------------- | ------------------------------------- |
+| Update existing file | Topic fits a consolidated file or ADR |
+| Add to synthesis doc | New pattern or principle to document  |
+| Create new RDR       | Novel topic that needs its own record |
 
 When creating a new RDR, use [template](./docs/research/TEMPLATE.md) (~50 lines). Mark with ⭐ if high-impact.
 
@@ -172,4 +173,4 @@ Signals that synthesis docs may need revisiting:
 
 ---
 
-**⚠️ Remember: Pick ONE unchecked item from [BACKLOG.md](docs/research/BACKLOG.md). Complete it fully before stopping.**
+**⚠️ Remember: Pick ONE unchecked item from [BACKLOG.md](BACKLOG.md). Complete it fully before stopping.**

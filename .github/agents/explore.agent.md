@@ -3,14 +3,16 @@ name: Explore
 description: "READ-ONLY research and planning. Cannot modify code—only saves work to .tasks/ directory. Use for understanding codebases and creating implementation plans."
 tools:
   [
+    "vscode/askQuestions",
+    "vscode/vscodeAPI",
     "read/problems",
     "read/readFile",
+    "agent",
     "edit/createDirectory",
     "edit/createFile",
     "edit/editFiles",
     "search",
     "web",
-    "agent",
     "todo",
   ]
 model: ["Claude Opus 4.5 (copilot)", "Claude Opus 4.6 (copilot)"]

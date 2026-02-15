@@ -113,4 +113,4 @@ Context isolation via subagents is the key capability. Parent agents stay focuse
 - [VS Code Copilot Features](https://code.visualstudio.com/docs/copilot/reference/copilot-vscode-features) — Tool reference
 - [VS Code 1.109 Release Notes](https://code.visualstudio.com/updates/v1_109) — Orchestration features
 - [agentskills.io](https://agentskills.io/) — Open standard for agent skills
-- [context-management.md](context-management.md) — Subagent context isolation patterns
+- [memory-and-continuity.md](memory-and-continuity.md) — Subagent context isolation patterns

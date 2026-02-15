@@ -182,7 +182,64 @@ For implementation details, see the agent definitions in `.github/agents/`.
 - No auto-expiry (human curation)
 - IDE-focused vs GitHub platform
 
-**Reference:** [context-management.md](../research/context-management.md) (consolidated from RDR-025)
+**Reference:** [RDR-025](../research/archive/RDR-025-copilot-memory.md)
+
+---
+
+### 6. Context Isolation Patterns (Subagents)
+
+**What it is:** VS Code supports **handoffs** (preserve context) and **subagents** (fork to isolated context). Subagents return only final summaries, compacting context automatically.
+
+**Key Distinction:**
+
+| Pattern   | Use Case                | Context Behavior            |
+| --------- | ----------------------- | --------------------------- |
+| Handoffs  | Phase transitions       | Preserves context           |
+| Subagents | Parallel investigations | Forks, returns summary only |
+
+**What we adopted:**
+
+- Enabled `runSubagent` tool in Explore agent
+- Use subagents for context-heavy explorations (file tracing, dependency analysis)
+- Subagents auto-compact: main context receives summaries, not intermediate reads
+
+**When NOT to use subagents:**
+
+- Phase transitions—use handoffs to preserve needed context
+- Tasks requiring user interaction—subagents can't prompt
+
+**Key insight:** Subagents complement handoffs, don't replace them. Use handoffs for phase transitions (Explore→Implement); use subagents for parallel investigations within a phase.
+
+**Reference:** [RDR-010](../research/archive/RDR-010-subagents-context-fork.md)
+
+---
+
+### 7. Planning with Files (Goal Drift Prevention)
+
+**What it is:** Re-reading the plan before major decisions combats goal drift during long sessions.
+
+**How it works:**
+
+| Pattern              | Implementation                                     |
+| -------------------- | -------------------------------------------------- |
+| Read-before-decide   | Re-read plan before major decisions                |
+| Todo list as anchor  | Frequent updates refresh goals in attention window |
+| Goal drift awareness | Documented in prevailing-wisdom.md                 |
+
+After 15-50+ tool calls, original goals can drift from attention ("lost in the middle" effect). Updating working state (todos, progress) keeps goals in the attention window.
+
+**What we adopted:**
+
+- "Attention Management" section in Implement agent
+- Periodic re-read of plan/handoff files (~15 tool calls)
+- Todo list updates as attention anchor
+
+**What we rejected:**
+
+- Mandatory 3-file infrastructure (too much friction)
+- New skill/agent for this (absorbed into existing guidance)
+
+**Reference:** [RDR-012](../research/archive/RDR-012-planning-with-files.md)
 
 ---
 

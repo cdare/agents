@@ -4,19 +4,19 @@ Quick reference for Research Decision Records.
 
 > **Synthesis docs are authoritative** — RDRs document decisions, synthesis docs document the resulting patterns. When in doubt, consult [prevailing-wisdom.md](../synthesis/prevailing-wisdom.md).
 
-## Consolidated Files
+## Synthesis Documents
 
-Themed consolidations of multiple RDRs. Original RDRs preserved in [archive/](archive/).
+Research was consolidated into synthesis docs. These are the authoritative references:
 
-| File                                           | Source RDRs        | Theme                      |
-| ---------------------------------------------- | ------------------ | -------------------------- |
-| [vscode-platform.md](vscode-platform.md)       | 014, 015, 031      | VS Code features           |
-| [external-patterns.md](external-patterns.md)   | 003, 022, 023, 024 | Industry best practices    |
-| [context-management.md](context-management.md) | 010, 012, 025      | Context and memory         |
-| [skills-methodology.md](skills-methodology.md) | 004, 019, 027, 028 | Skill creation and testing |
-| [ide-compatibility.md](ide-compatibility.md)   | 017, 029           | Multi-IDE support          |
+| File                                                              | Source RDRs        | Theme                      |
+| ----------------------------------------------------------------- | ------------------ | -------------------------- |
+| [vscode-platform.md](../synthesis/vscode-platform.md)             | 014, 015, 031      | VS Code features           |
+| [framework-comparison.md](../synthesis/framework-comparison.md)   | 003, 022, 023, 024 | Industry best practices    |
+| [memory-and-continuity.md](../synthesis/memory-and-continuity.md) | 010, 012, 025      | Context and memory         |
+| [skills.md](../synthesis/skills.md)                               | 004, 019, 027, 028 | Skill creation and testing |
+| [ide-compatibility.md](../synthesis/ide-compatibility.md)         | 017, 029           | Multi-IDE support          |
 
-## Standalone Files
+## Standalone RDRs
 
 | File                                                                   | Status            | Summary                    |
 | ---------------------------------------------------------------------- | ----------------- | -------------------------- |
@@ -30,18 +30,18 @@ Themed consolidations of multiple RDRs. Original RDRs preserved in [archive/](ar
 
 ## Quick Reference
 
-| I want to understand...     | Start with                                                     |
-| --------------------------- | -------------------------------------------------------------- |
-| VS Code settings & tools    | [vscode-platform.md](vscode-platform.md)                       |
-| External framework patterns | [external-patterns.md](external-patterns.md)                   |
-| Context/memory/subagents    | [context-management.md](context-management.md)                 |
-| Skill creation & testing    | [skills-methodology.md](skills-methodology.md)                 |
-| Multi-IDE compatibility     | [ide-compatibility.md](ide-compatibility.md)                   |
-| Why 4 agents not 6          | [ADR-003](../architecture/ADR-003-agent-consolidation.md)      |
-| Task persistence approach   | [ADR-002](../architecture/ADR-002-task-centric-persistence.md) |
-| Skill-powered subagents     | [ADR-004](../architecture/ADR-004-skill-powered-subagents.md)  |
-| IDE support strategy        | [ADR-005](../architecture/ADR-005-ide-compatibility.md)        |
-| Skill creation example      | RDR-020 (design skill)                                         |
+| I want to understand...     | Start with                                                        |
+| --------------------------- | ----------------------------------------------------------------- |
+| VS Code settings & tools    | [vscode-platform.md](../synthesis/vscode-platform.md)             |
+| External framework patterns | [framework-comparison.md](../synthesis/framework-comparison.md)   |
+| Context/memory/subagents    | [memory-and-continuity.md](../synthesis/memory-and-continuity.md) |
+| Skill creation & testing    | [skills.md](../synthesis/skills.md)                               |
+| Multi-IDE compatibility     | [ide-compatibility.md](../synthesis/ide-compatibility.md)         |
+| Why 4 agents not 6          | [ADR-003](../architecture/ADR-003-agent-consolidation.md)         |
+| Task persistence approach   | [ADR-002](../architecture/ADR-002-task-centric-persistence.md)    |
+| Skill-powered subagents     | [ADR-004](../architecture/ADR-004-skill-powered-subagents.md)     |
+| IDE support strategy        | [ADR-005](../architecture/ADR-005-ide-compatibility.md)           |
+| Skill creation example      | [RDR-020](RDR-020-design-skill.md)                                |
 
 ## Research Backlog
 
@@ -55,28 +55,28 @@ Originals of consolidated RDRs, plus rejected/superseded research. See [archive/
 | --- | ---------------------------- | ------------------------------------ |
 | 001 | Spec-Driven                  | Rejected: spec files not used        |
 | 002 | Context Cortex               | Rejected: memory bank not used       |
-| 003 | Feature-Dev                  | Consolidated → external-patterns.md  |
-| 004 | Superpowers                  | Consolidated → skills-methodology.md |
+| 003 | Feature-Dev                  | Merged → framework-comparison.md     |
+| 004 | Superpowers                  | Merged → skills.md                   |
 | 006 | Agentic Future               | Informational only                   |
 | 007 | mitsuhiko agent-stuff        | Superseded by RDR-018                |
 | 008 | Handoff Workspace Constraint | Superseded by RDR-018                |
 | 009 | MCP Memory                   | Rejected: too complex                |
-| 010 | Subagents Context Fork       | Consolidated → context-management.md |
+| 010 | Subagents Context Fork       | Merged → memory-and-continuity.md    |
 | 011 | Protection Markers           | Feature removed                      |
-| 012 | Planning with Files          | Consolidated → context-management.md |
-| 014 | VSCode Copilot Settings      | Consolidated → vscode-platform.md    |
-| 015 | Copilot Agent Tools          | Consolidated → vscode-platform.md    |
+| 012 | Planning with Files          | Merged → memory-and-continuity.md    |
+| 014 | VSCode Copilot Settings      | Merged → vscode-platform.md          |
+| 015 | Copilot Agent Tools          | Merged → vscode-platform.md          |
 | 016 | Agent Consolidation          | Superseded by ADR-003                |
-| 017 | Agent Spec Compatibility     | Consolidated → ide-compatibility.md  |
+| 017 | Agent Spec Compatibility     | Merged → ide-compatibility.md        |
 | 018 | Task-Centric Persistence     | Superseded by ADR-002                |
-| 019 | Skill Review                 | Consolidated → skills-methodology.md |
+| 019 | Skill Review                 | Merged → skills.md                   |
 | 021 | Agno                         | Rejected: out of scope               |
-| 022 | Six Tips for Agents          | Consolidated → external-patterns.md  |
-| 023 | Ralph Wiggum                 | Consolidated → external-patterns.md  |
-| 024 | Claude Code Mastery          | Consolidated → external-patterns.md  |
-| 025 | Copilot Memory               | Consolidated → context-management.md |
+| 022 | Six Tips for Agents          | Merged → framework-comparison.md     |
+| 023 | Ralph Wiggum                 | Merged → framework-comparison.md     |
+| 024 | Claude Code Mastery          | Merged → framework-comparison.md     |
+| 025 | Copilot Memory               | Merged → memory-and-continuity.md    |
 | 026 | MetaPrompts                  | Rejected: confirms existing approach |
-| 027 | Skill Subagents              | Consolidated → skills-methodology.md |
-| 028 | Skills.sh                    | Consolidated → skills-methodology.md |
-| 029 | Alternative IDE Support      | Consolidated → ide-compatibility.md  |
-| 031 | 1.109 Orchestration          | Consolidated → vscode-platform.md    |
+| 027 | Skill Subagents              | Merged → skills.md                   |
+| 028 | Skills.sh                    | Merged → skills.md                   |
+| 029 | Alternative IDE Support      | Merged → ide-compatibility.md        |
+| 031 | 1.109 Orchestration          | Merged → vscode-platform.md          |

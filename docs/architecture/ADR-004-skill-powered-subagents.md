@@ -18,12 +18,12 @@ Agents invoke skills via subagents by including skill trigger keywords in prompt
 
 Skills auto-activate based on keywords in the user's request. But what about agent-to-agent communication?
 
-| Scenario | Problem |
-| -------- | ------- |
-| Inline skill activation | All findings stay in main context, consuming capacity |
-| Some explorations are throwaway | Shouldn't persist or pollute parent context |
-| Different agents need different skills | No mechanism for agent → skill → agent flow |
-| Parent context bloat | Long debug sessions fill context with hypotheses |
+| Scenario                               | Problem                                               |
+| -------------------------------------- | ----------------------------------------------------- |
+| Inline skill activation                | All findings stay in main context, consuming capacity |
+| Some explorations are throwaway        | Shouldn't persist or pollute parent context           |
+| Different agents need different skills | No mechanism for agent → skill → agent flow           |
+| Parent context bloat                   | Long debug sessions fill context with hypotheses      |
 
 Skills provide specialized behavior (debug methodology, architecture analysis, Socratic mentoring), but loading them inline adds to the main context window.
 
@@ -33,6 +33,7 @@ Skills provide specialized behavior (debug methodology, architecture analysis, S
 
 ```markdown
 # Explore invoking architecture skill
+
 Run the Research agent as a subagent: Use architecture mode to analyze
 the payment system. Document high-level design and data flow.
 Return: Component overview and dependency map.
@@ -40,6 +41,7 @@ Return: Component overview and dependency map.
 
 ```markdown
 # Implement invoking debug skill when tests fail
+
 Run the Worker agent as a subagent: Debug this failing test.
 Use systematic hypothesis-driven investigation to trace the root cause.
 Return: Root cause analysis, hypotheses tested, and recommended fix.
@@ -59,15 +61,15 @@ The subagent inherits the skill (via trigger keywords), executes with specialize
 
 ### Common Agent → Skill Pairings
 
-| Agent     | Skill        | Trigger Scenario                        |
-| --------- | ------------ | --------------------------------------- |
-| Explore   | architecture | Understanding system structure          |
-| Explore   | deep-research| Exhaustive investigation with citations |
-| Implement | debug        | Tests failing during implementation     |
-| Implement | mentor       | Learning while implementing             |
-| Review    | critic       | Stress-testing implementation           |
-| Review    | tech-debt    | Code quality and smell detection        |
-| Review    | security     | Attack surface analysis                 |
+| Agent     | Skill         | Trigger Scenario                        |
+| --------- | ------------- | --------------------------------------- |
+| Explore   | architecture  | Understanding system structure          |
+| Explore   | deep-research | Exhaustive investigation with citations |
+| Implement | debug         | Tests failing during implementation     |
+| Implement | mentor        | Learning while implementing             |
+| Review    | critic        | Stress-testing implementation           |
+| Review    | tech-debt     | Code quality and smell detection        |
+| Review    | security      | Attack surface analysis                 |
 
 ### Subagent Prompt Structure
 
@@ -78,6 +80,7 @@ Return: [What the parent agent needs back].
 ```
 
 **Key elements:**
+
 1. **Agent choice:** Worker (full access) or Research (read-only)
 2. **Skill trigger:** Keywords that activate the relevant skill
 3. **Context:** What the subagent needs to know
@@ -93,6 +96,6 @@ This pattern enables deep specialization (multi-phase debugging, exhaustive rese
 
 ## See Also
 
-- [skills-methodology.md](../../docs/research/skills-methodology.md) — Skill creation and testing
+- [skills.md](../synthesis/skills.md) — Skill creation and testing
 - [ADR-001](ADR-001-orchestration-and-subagents.md) — Subagent architecture
 - [prevailing-wisdom.md](../../docs/synthesis/prevailing-wisdom.md) — Skill evaluation criteria

@@ -3,6 +3,7 @@ name: Implement
 description: Execute implementation plans with full code access. Use for implementing planned features, executing technical plans, building what was designed, or making planned changes.
 tools:
   [
+    "vscode/askQuestions",
     "execute/testFailure",
     "execute/getTerminalOutput",
     "execute/awaitTerminal",

@@ -149,8 +149,29 @@ Reviewed ~80 skills across the skills.sh ecosystem. Our SKILL.md format is fully
 
 ---
 
+## Skill Evaluation Checklist
+
+Before adding or keeping a skill, evaluate it against these criteria:
+
+| Criterion           | Question to Ask                                       | Pass Indicator                                |
+| ------------------- | ----------------------------------------------------- | --------------------------------------------- |
+| **Distinct Value**  | Does it provide guidance an agent wouldn't do anyway? | Without skill, agent clearly fails the task   |
+| **Trigger Clarity** | Are activation keywords specific and discoverable?    | Keywords in description match user vocabulary |
+| **Constraint/Mode** | Does it meaningfully change agent behavior?           | Agent acts differently with vs without skill  |
+| **Size**            | Is the skill under 500 lines?                         | Core content focused; reference split out     |
+| **Overlap**         | Does it overlap significantly with other skills?      | <20% overlap with existing skills             |
+| **TDD Testable**    | Can you observe failure without it, success with it?  | RED/GREEN test scenario documented            |
+
+**Scoring:**
+
+- 4+ criteria = strong skill, keep or add
+- 2-3 criteria = needs polish, strengthen weak areas
+- 0-1 criteria = consider removing or merging into another skill
+
+---
+
 ## See Also
 
-- [prevailing-wisdom.md](../synthesis/prevailing-wisdom.md) — Skill evaluation checklist
-- [RDR-020-design-skill.md](RDR-020-design-skill.md) — Skill creation example
+- [ADR-004](../architecture/ADR-004-skill-powered-subagents.md) — Skill-powered subagent pattern
+- [RDR-020-design-skill.md](../research/RDR-020-design-skill.md) — Skill creation example
 - [agentskills.io](https://agentskills.io/specification) — Skills format specification

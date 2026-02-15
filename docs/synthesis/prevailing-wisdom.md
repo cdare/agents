@@ -301,108 +301,32 @@ Tests, typechecks, and lints serve as "gates" that reject invalid work:
 
 ---
 
-## 7. VSCode Copilot Customization Hierarchy
+## 7. VSCode Copilot Customization
 
-### File Types and Locations
+VS Code provides multiple customization layers. Key file types:
 
-| File Type              | Extension                 | Location                                           | Purpose                              |
-| ---------------------- | ------------------------- | -------------------------------------------------- | ------------------------------------ |
-| Global Instructions    | `.instructions.md`        | `~/Library/Application Support/Code/User/prompts/` | Apply to all workspaces              |
-| Workspace Instructions | `copilot-instructions.md` | `.github/`                                         | Apply to this workspace              |
-| Targeted Instructions  | `*.instructions.md`       | `.github/instructions/`                            | Apply to matched files via `applyTo` |
-| Agent Modes            | `*.agent.md`              | `.github/agents/` or user prompts folder           | Switchable personas                  |
-| Prompt Files           | `*.prompt.md`             | `.github/prompts/`                                 | Reusable task prompts                |
-| Cross-Agent            | `AGENTS.md`               | Workspace root                                     | Instructions for all AI agents       |
+| File Type              | Location                   | Purpose                              |
+| ---------------------- | -------------------------- | ------------------------------------ |
+| Global Instructions    | `~/.copilot/instructions/` | Apply to all workspaces              |
+| Workspace Instructions | `.github/`                 | Apply to this workspace              |
+| Agent Modes            | `.github/agents/`          | Switchable personas with tool limits |
+| Cross-Agent            | `AGENTS.md`                | Instructions for all AI agents       |
 
-**Custom Agent Locations (1.109+):**
-
-```json
-{
-  "chat.agentFilesLocations": {
-    "~/.copilot/agents": true,
-    "shared/team-agents": true
-  }
-}
-```
-
-Agents are discovered from workspace `.github/agents/` by default. Use `chat.agentFilesLocations` for user-global or shared team agents.
-
-### Frontmatter Fields
-
-**Instructions:**
+**Key frontmatter (agents):**
 
 ```yaml
----
-applyTo: "**/*.py" # Glob pattern
-description: "Python coding standards"
----
+tools: ["codebase", "search"] # Tool restrictions
+handoffs: [...] # Phase transitions
+agents: ["Explore"] # Subagent whitelist (1.109+)
 ```
 
-**Agent Modes:**
-
-```yaml
----
-name: "Researcher"
-description: "Deep codebase exploration without modifications"
-tools: ["codebase", "search", "fetch", "githubRepo", "usages"]
-model: "claude-sonnet-4" # Optional
-handoffs:
-  - label: "Create Plan"
-    agent: planner
-    prompt: "Based on the research above, create an implementation plan."
----
-```
-
-**Prompt Files:**
-
-```yaml
----
-name: "security-review"
-description: "Perform security review of code"
-agent: "ask" # or "edit", "agent", or custom agent name
-tools: ["codebase", "search", "problems"]
----
-```
-
-**New in 1.109:**
-
-```yaml
----
-name: "Orchestrator"
-agents: ["Explore", "Implement"] # Restrict subagent access
-user-invokable: false # Hide from user UI (internal agent)
-disable-model-invocation: true # Must be explicitly invoked
-model: ["Claude Sonnet 4.5", "Gemini 3 Pro"] # Fallback chain
----
-```
-
-| Attribute                  | Purpose                           |
-| -------------------------- | --------------------------------- |
-| `agents`                   | Whitelist of allowed subagents    |
-| `user-invokable`           | false hides from user selection   |
-| `disable-model-invocation` | Prevents auto-invocation by LLM   |
-| `model` (array)            | Ordered fallback if first unavail |
+For detailed settings and frontmatter reference, see [vscode-platform.md](./vscode-platform.md).
 
 ---
 
 ## 8. Skill-Powered Subagents
 
-### The Pattern
-
-Agents can invoke skills by spawning subagents with skill trigger keywords in the prompt. This combines:
-
-- **Skill expertise** — Specialized knowledge and behavioral constraints
-- **Context isolation** — Subagent context is garbage-collected after returning
-- **Summary-only output** — Main agent receives findings, not all intermediate reasoning
-
-### Why Subagent + Skill > Inline Skill Activation
-
-| Factor         | Inline Skill Activation           | Subagent + Skill                   |
-| -------------- | --------------------------------- | ---------------------------------- |
-| Context impact | All findings stay in main context | Subagent context garbage-collected |
-| Focus          | Mixed with other agent concerns   | Pure skill-mode operation          |
-| Output         | Full reasoning visible            | Summary only returned              |
-| Control        | Auto-triggered by keywords        | Agent decides when to invoke       |
+Agents invoke skills by spawning subagents with skill trigger keywords. This combines skill expertise with context isolation—subagent context is garbage-collected, returning only summaries.
 
 ### Agent → Skill Pairings
 
@@ -413,87 +337,27 @@ Agents can invoke skills by spawning subagents with skill trigger keywords in th
 | Review    | critic       | Stress-testing approach, finding edge cases            |
 | Review    | tech-debt    | Scanning for code smells, dead code, cleanup needs     |
 
-### Invocation Patterns
-
-**Explore → Architecture:**
-
-```
-Spawn subagent: "Use architecture mode to analyze the [component] system.
-Document high-level design, data flow, and integration points.
-Return: Component overview, key interfaces, and dependency map."
-```
-
-**Implement → Debug:**
-
-```
-Spawn subagent: "Debug: This test is failing with [error message].
-Use systematic hypothesis-driven investigation to trace the root cause.
-Return: Root cause analysis, hypothesis tested, and recommended fix."
-```
-
-**Review → Critic:**
-
-```
-Spawn subagent: "Use critic mode to challenge this approach: [brief description].
-Find weaknesses, edge cases, and what could go wrong.
-Return: Top 3-5 concerns ranked by severity."
-```
-
-**Review → Tech-Debt:**
-
-```
-Spawn subagent: "Use tech-debt mode to scan these files for code smells: [file list].
-Find dead code, missing types, TODO comments, and cleanup opportunities.
-Return: Prioritized debt items with effort estimates."
-```
-
-### Adding New Skill Integrations
-
-When creating a new skill or adding it to an agent workflow:
-
-1. **Identify the trigger scenario** — When would the agent benefit from skill expertise?
-2. **Craft the subagent prompt** — Include skill trigger keywords from the skill's `description` field
-3. **Specify return format** — Tell subagent exactly what to summarize back
-4. **Document the pairing** — Add to agent's "Skill-Powered Subagents" section if adding to agent
+For invocation patterns and adding new pairings, see [ADR-004](../architecture/ADR-004-skill-powered-subagents.md).
 
 ---
 
-## 9. Conductor/Orchestration Pattern
+## 9. Orchestration Pattern
 
-### The Pattern
+The Orchestrate agent coordinates specialized agents without doing work directly:
 
-A "conductor" agent coordinates specialized agents without doing work directly:
+| Agent           | Role             | Scope                      |
+| --------------- | ---------------- | -------------------------- |
+| **Orchestrate** | Coordinates      | Reads state, spawns agents |
+| **Explore**     | Research + Plan  | Read + .tasks/ write       |
+| **Implement**   | Execute changes  | Full access                |
+| **Review**      | Verify quality   | Read + tests               |
+| **Commit**      | Semantic commits | Git + read                 |
+| **Research**    | Context-isolated | Read + web (internal)      |
+| **Worker**      | Context-isolated | Full access (internal)     |
 
-| Agent         | Role             | Scope                      |
-| ------------- | ---------------- | -------------------------- |
-| **Conductor** | Coordinates      | Reads state, spawns agents |
-| **Explore**   | Research + Plan  | Read + .tasks/ write       |
-| **Implement** | Execute changes  | Full access                |
-| **Review**    | Verify quality   | Read + tests               |
-| **Commit**    | Semantic commits | Git + read                 |
-| **Research**  | Context-isolated | Read + web (internal)      |
-| **Worker**    | Context-isolated | Full access (internal)     |
+Human-in-the-loop at leverage points: after task creation, after phase planning, after implementation, before commit.
 
-### Pause Points
-
-Human-in-the-loop at leverage points (from Section 4):
-
-- After task creation (validate phases)
-- After phase planning (approve approach)
-- After implementation (approve changes)
-- Before commit (verify semantics)
-
-Use `askQuestions` tool for dynamic pause menus. Handoff buttons provide fast-forward shortcuts.
-
-### Context Isolation
-
-The conductor stays lean by delegating research and execution:
-
-- Heavy file reading → spawn Research subagent
-- Focused changes → spawn Worker subagent
-- Full phases → spawn Explore/Implement
-
-Each subagent's context is garbage-collected after returning. Only summaries persist in conductor context.
+For detailed orchestration patterns and evolution, see [ADR-001](../architecture/ADR-001-orchestration-and-subagents.md).
 
 ---
 
@@ -520,95 +384,54 @@ Each subagent's context is garbage-collected after returning. Only summaries per
 
 ---
 
-## 11. Recommended Agent Modes
+## 11. AGENTS Framework Structure
 
-Based on synthesized patterns, these agent modes provide maximum coverage:
+### Core Agents (User-Invokable)
 
-### Tier 1: Core Workflow
+| Agent           | Purpose                       | Tool Access       |
+| --------------- | ----------------------------- | ----------------- |
+| **Orchestrate** | Automate multi-phase workflow | Read + Agent      |
+| **Explore**     | Research + create plans       | Read + Task Write |
+| **Implement**   | Execute planned changes       | Full access       |
+| **Review**      | Verify implementation quality | Read + Test       |
+| **Commit**      | Create semantic commits       | Git + Read        |
 
-1. **Research** - Read-only exploration, no modifications
-2. **Plan** - Create structured implementation plans
-3. **Implement** - Execute planned changes with tests
-4. **Review** - Verify changes, check for issues
+### Internal Agents (Not User-Invokable)
 
-### Tier 2: Specialized Tasks
+| Agent        | Purpose                  | Used By              |
+| ------------ | ------------------------ | -------------------- |
+| **Research** | Context-isolated reading | Orchestrate, Explore |
+| **Worker**   | Context-isolated changes | Orchestrate          |
 
-5. **Tech Debt** - Identify and fix technical debt
-6. **Debug** - Systematic bug investigation and fixing
-7. **Architecture** - High-level design and documentation
-8. **Mentor** - Teaching mode with Socratic questioning
+### Skills (Auto-Activate)
 
-### Tier 3: Utility
+Skills provide specialized capabilities without needing agent switches:
 
-9. **Janitor** - Cleanup, simplification, dead code removal
-10. **Critic** - Challenge assumptions, play devil's advocate
+- `debug` — Hypothesis-driven investigation
+- `tech-debt` — Code smell detection, cleanup
+- `architecture` — System structure documentation
+- `mentor` — Socratic teaching
+- `critic` — Adversarial probing
 
 ---
 
-## 12. Skill Quality (from Superpowers)
+## 12. Skill Quality
 
 ### TDD for Documentation
 
-Skills should be validated before deployment using a test-driven approach:
+Skills should be validated before deployment:
 
-1. **RED**: Run a representative task WITHOUT the skill, note failures or suboptimal behavior
-2. **GREEN**: Add the skill, run the same task, verify improvement
-3. **REFACTOR**: If the agent rationalizes around the skill, strengthen the guidance
+1. **RED**: Run task WITHOUT skill, note failures
+2. **GREEN**: Add skill, verify improvement
+3. **REFACTOR**: If agent rationalizes around skill, strengthen guidance
 
-> If you didn't see it fail without the skill, you don't know if the skill helps.
-
-### Skill Description Optimization
-
-YAML `description` field should be optimized for discovery:
+### Description Optimization
 
 - ✅ Include trigger keywords ("debug", "failing test", "broken")
 - ✅ Describe symptoms that activate the skill
-- ❌ Don't summarize the workflow (agent may follow description instead of skill content)
+- ❌ Don't summarize workflow (agent may follow description instead of skill content)
 
-### Progressive Disclosure
-
-| Content Type       | Location        | Guideline                     |
-| ------------------ | --------------- | ----------------------------- |
-| Core instructions  | Main SKILL.md   | <500 lines                    |
-| Reference material | Separate files  | APIs, syntax guides, examples |
-| Code patterns      | Inline in skill | Only for illustration         |
-
-Keep main skill files focused; split heavy reference material to avoid context bloat.
-
-### Skill Evaluation Checklist (from RDR-019)
-
-Before adding or keeping a skill, evaluate it against these criteria:
-
-| Criterion           | Question to Ask                                       | Pass Indicator                                |
-| ------------------- | ----------------------------------------------------- | --------------------------------------------- |
-| **Distinct Value**  | Does it provide guidance an agent wouldn't do anyway? | Without skill, agent clearly fails the task   |
-| **Trigger Clarity** | Are activation keywords specific and discoverable?    | Keywords in description match user vocabulary |
-| **Constraint/Mode** | Does it meaningfully change agent behavior?           | Agent acts differently with vs without skill  |
-| **Size**            | Is the skill under 500 lines?                         | Core content focused; reference split out     |
-| **Overlap**         | Does it overlap significantly with other skills?      | <20% overlap with existing skills             |
-| **TDD Testable**    | Can you observe failure without it, success with it?  | RED/GREEN test scenario documented            |
-
-**Using the checklist**:
-
-- Score 4+ criteria = strong skill, keep or add
-- Score 2-3 criteria = needs polish, strengthen weak areas
-- Score 0-1 criteria = consider removing or merging into another skill
-
----
-
-## 13. Key Quotes to Remember
-
-> "Frequent Intentional Compaction" - ACE on context management
-
-> "A bad line of plan could lead to hundreds of bad lines of code" - ACE on planning
-
-> "Own your prompts. Own your context window. Own your control flow." - 12-Factor philosophy
-
-> "Just because an LLM called a tool doesn't mean you have to execute it the same way every time" - 12-Factor on tool flexibility
-
-> "Less Code = Less Debt. Deletion is the most powerful refactoring." - Janitor mode philosophy
-
-> "The magic number is probably 3-20 tool calls" - 12-Factor on agent scope
+For the full evaluation checklist, see [skills.md](./skills.md).
 
 ---
 

@@ -201,6 +201,36 @@ detours, or subagent results. Root cause: advisory tracking sections weren't enf
 | Embedded reminders    | `> Before invoking: Verify this matches your [in-progress] todo item.` |
 | Detour recovery       | Protocol to return to workflow after handling interruptions            |
 
+### First Action Protocol Enforcement (Task 014)
+
+The agent skipped the First Action Protocol (checking `.tasks/` before any work) when requests
+felt urgent. Root cause: the FAP section was buried at line 51, after the agent had already
+formed an execution plan from the user's message.
+
+**Solutions implemented:**
+
+| Mechanism                | Implementation                                                                           |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
+| Entry Gate at primacy    | New section immediately after frontmatter — first thing LLM sees                         |
+| Tool-coupled first action | "Your FIRST tool call MUST be `list_dir` on `.tasks/`" — forces mechanical compliance    |
+| Anti-bypass language     | "Even to: urgent bugs, production issues, 'quick' questions" — addresses rationalization |
+
+**Entry Gate pattern:**
+
+```markdown
+## ⚠️ Entry Gate
+
+**BEFORE responding to ANY user message:**
+
+1. Read `.tasks/` directory
+2. Resolve task state (existing task or new)
+3. ONLY THEN proceed with workflow
+```
+
+This applies the Checkpoint Enforcement insight (visual markers, commands before actions) to
+the entry point of the workflow. Tool-coupling mirrors how checkpoints force `askQuestions`
+calls — now extended to the very first action.
+
 **Position Lock format:**
 
 ```

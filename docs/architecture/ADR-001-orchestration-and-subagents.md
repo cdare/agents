@@ -209,11 +209,11 @@ formed an execution plan from the user's message.
 
 **Solutions implemented:**
 
-| Mechanism                | Implementation                                                                           |
-| ------------------------ | ---------------------------------------------------------------------------------------- |
-| Entry Gate at primacy    | New section immediately after frontmatter — first thing LLM sees                         |
+| Mechanism                 | Implementation                                                                           |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
+| Entry Gate at primacy     | New section immediately after frontmatter — first thing LLM sees                         |
 | Tool-coupled first action | "Your FIRST tool call MUST be `list_dir` on `.tasks/`" — forces mechanical compliance    |
-| Anti-bypass language     | "Even to: urgent bugs, production issues, 'quick' questions" — addresses rationalization |
+| Anti-bypass language      | "Even to: urgent bugs, production issues, 'quick' questions" — addresses rationalization |
 
 **Entry Gate pattern:**
 
@@ -252,14 +252,14 @@ This transforms the todo list from advisory to enforcement mechanism.
 
 ## Updates
 
-| Date          | Task | Summary                                                                                |
-| ------------- | ---- | -------------------------------------------------------------------------------------- |
-| February 2026 | 007  | Added 🛑 CHECKPOINT headers, strengthened enforcement; pause compliance fixed          |
-| February 2026 | 008  | Validated patterns against Atlas/Orchestra; confirmed context conservation approach    |
-| February 2026 | 009  | Made checkpoints unconditional; review returns findings (doesn't modify plans)         |
-| February 2026 | 010  | Simplified to two modes; 544→450 lines; made task state mandatory                      |
-| February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines |
-| February 2026 | 013  | Drift prevention: Position Lock, removed `search` tool, detour recovery; 479→420 lines |
+| Date          | Task | Summary                                                                                                         |
+| ------------- | ---- | --------------------------------------------------------------------------------------------------------------- |
+| February 2026 | 007  | Added 🛑 CHECKPOINT headers, strengthened enforcement; pause compliance fixed                                   |
+| February 2026 | 008  | Validated patterns against Atlas/Orchestra; confirmed context conservation approach                             |
+| February 2026 | 009  | Made checkpoints unconditional; review returns findings (doesn't modify plans)                                  |
+| February 2026 | 010  | Simplified to two modes; 544→450 lines; made task state mandatory                                               |
+| February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines                          |
+| February 2026 | 013  | Drift prevention: Position Lock, removed `search` tool, detour recovery; 479→420 lines                          |
 | February 2026 | 014  | FAP enforcement: Entry Gate at primacy position, tool-coupled first action, anti-bypass language; 427→438 lines |
 
 ## Related

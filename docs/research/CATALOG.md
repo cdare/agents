@@ -43,6 +43,10 @@ Themed consolidations of multiple RDRs. Original RDRs preserved in [archive/](ar
 | IDE support strategy        | [ADR-005](../architecture/ADR-005-ide-compatibility.md)        |
 | Skill creation example      | RDR-020 (design skill)                                         |
 
+## Research Backlog
+
+See [BACKLOG.md](BACKLOG.md) for unchecked research items organized by category.
+
 ## Archive
 
 Originals of consolidated RDRs, plus rejected/superseded research. See [archive/](archive/) for full documents.

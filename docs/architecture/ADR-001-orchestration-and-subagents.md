@@ -186,6 +186,30 @@ Agent skipped task creation when given direct questions. Added explicit decision
 
 This ensures state persistence across sessions.
 
+### Drift Prevention (Task 013)
+
+The agent consistently "drifted" — losing track of execution position after clarifying questions,
+detours, or subagent results. Root cause: advisory tracking sections weren't enforced.
+
+**Solutions implemented:**
+
+| Mechanism            | Implementation                                                         |
+| -------------------- | ---------------------------------------------------------------------- |
+| Tool restriction     | Removed `search` tool — prevents self-research tangents                |
+| Conductor constraints| Explicit prohibitions: "NEVER research", "NEVER edit files directly"   |
+| Position Lock        | Exactly ONE `[in-progress]` todo item = current instruction            |
+| Embedded reminders   | `> Before invoking: Verify this matches your [in-progress] todo item.` |
+| Detour recovery      | Protocol to return to workflow after handling interruptions            |
+
+**Position Lock format:**
+```
+→ 2a.1. Phase 1: Create Plan    [in-progress]  ← CURRENT INSTRUCTION
+  2a.2. Phase 1: Review Plan    [not-started]
+```
+
+Before ANY action, agent must verify the in-progress item matches the intended action.
+This transforms the todo list from advisory to enforcement mechanism.
+
 ## Frontmatter Reference (VS Code 1.109+)
 
 | Attribute                  | Purpose                                  | Example                                    |
@@ -204,6 +228,7 @@ This ensures state persistence across sessions.
 | February 2026 | 009  | Made checkpoints unconditional; review returns findings (doesn't modify plans)         |
 | February 2026 | 010  | Simplified to two modes; 544→450 lines; made task state mandatory                      |
 | February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines |
+| February 2026 | 013  | Drift prevention: Position Lock, removed `search` tool, detour recovery; 479→420 lines |
 
 ## Related
 

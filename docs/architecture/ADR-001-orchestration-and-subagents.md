@@ -142,6 +142,50 @@ Selection guidance: "Need terminal? → Implement/Review, NOT Explore"
 └── worker.agent.md       # Internal: context-isolated execution (user-invokable: false)
 ```
 
+## Evolution Insights
+
+Key learnings from iterative refinements (Tasks 007-011):
+
+### Checkpoint Enforcement
+
+Initial PAUSE markers were buried as notes at the end of action sequences. The agent
+read ahead and treated them as descriptive text, not blocking instructions.
+
+**Solution:** Visual `### 🛑 CHECKPOINT` headers as distinct workflow steps. Checkpoints
+fire **unconditionally**—even if user says "plan only" or "skip implementation",
+the checkpoint still presents options.
+
+### LLM Instruction Patterns
+
+Discovered that LLMs follow instructions more reliably when:
+
+| Pattern                     | Example                                 |
+| --------------------------- | --------------------------------------- |
+| Commands before actions     | STOP block precedes action steps        |
+| Visual markers stand out    | Emoji headers, horizontal rules         |
+| Consequences are explicit   | "Violating this defeats the purpose..." |
+| Structure enforces behavior | Separate sections that can't be skipped |
+
+### Mode Simplification
+
+Ambiguous examples ("plan all phases", "just create", "review only") caused
+inconsistent behavior. Replaced with two explicit modes:
+
+- **Full Execution:** Plan → Implement → Commit per phase
+- **Plan Only:** Create task.md with phases, stop after planning
+
+Mode is set once per task and recorded in frontmatter.
+
+### First Action Protocol
+
+Agent skipped task creation when given direct questions. Added explicit decision tree:
+
+1. Check `.tasks/` for existing task matching context
+2. If found → Resume existing task
+3. If not found → Create new task (Step 1)
+
+This ensures state persistence across sessions.
+
 ## Frontmatter Reference (VS Code 1.109+)
 
 | Attribute                  | Purpose                                  | Example                                    |
@@ -155,6 +199,10 @@ Selection guidance: "Need terminal? → Implement/Review, NOT Explore"
 
 | Date          | Task | Summary                                                                                |
 | ------------- | ---- | -------------------------------------------------------------------------------------- |
+| February 2026 | 007  | Added 🛑 CHECKPOINT headers, strengthened enforcement; pause compliance fixed          |
+| February 2026 | 008  | Validated patterns against Atlas/Orchestra; confirmed context conservation approach    |
+| February 2026 | 009  | Made checkpoints unconditional; review returns findings (doesn't modify plans)         |
+| February 2026 | 010  | Simplified to two modes; 544→450 lines; made task state mandatory                      |
 | February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines |
 
 ## Related

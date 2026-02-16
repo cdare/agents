@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Orchestrate agent: Detour Recovery protocol for handling interruptions
 - Orchestrate agent: Conductor constraints preventing self-research
 - Presentation slide deck (`docs/presentation/agents-slides.md`) — 10-slide Marp presentation for live demos
+- Companion cheat-sheet (`docs/presentation/agents-cheatsheet.md`) — 1-page reference card for audience takeaway
 
 ### Changed
 

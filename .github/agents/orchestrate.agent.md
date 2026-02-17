@@ -10,7 +10,7 @@ tools:
     "search/listDirectory",
     "todo",
   ]
-agents: ["Explore", "Implement", "Review", "Commit"]
+agents: ["Explore", "Implement", "Review", "Commit", "Worker"]
 model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
 disable-model-invocation: true
 ---
@@ -261,6 +261,18 @@ This ensures the plan is always in a coherent state before proceeding to impleme
 
 ---
 
+#### 2c.0. Mark Phase In Progress
+
+Before implementation begins, update the phase status:
+
+```
+Run the Worker agent as a subagent to update .tasks/[slug]/task.md:
+- Change phase N status from ⭐ Reviewed to 🔄 In Progress
+Return: confirmation.
+```
+
+---
+
 #### 2c.1. Implement Changes
 
 Invoke Implement with the approved phase plan:
@@ -350,8 +362,8 @@ Return: commit list (hashes, messages).
 **Update task status (after commit completes):**
 
 ```
-Run the Implement agent as a subagent to update .tasks/[slug]/task.md:
-- Change phase N status from 🔄 In Progress to ✅ Done
+Run the Worker agent as a subagent to update .tasks/[slug]/task.md:
+- Change phase N status to ✅ Done
 - Add any completion notes if relevant
 Return: confirmation.
 ```

@@ -42,7 +42,12 @@ const CC_AGENT_CONFIG = {
       "WebSearch",
       "Edit",
       "Write",
-      "Task",
+      "Task(explore)",
+      "TaskList",
+      "TaskGet",
+      "TaskCreate",
+      "TaskUpdate",
+      "LSP",
     ],
     disallowedTools: ["Bash"],
     model: "opus",
@@ -60,14 +65,28 @@ const CC_AGENT_CONFIG = {
       "Glob",
       "WebFetch",
       "WebSearch",
-      "Task",
+      "TaskList",
+      "TaskGet",
+      "TaskCreate",
+      "TaskUpdate",
+      "LSP",
     ],
     model: "opus",
   },
   review: {
     name: "Review",
     description: "Verify implementation quality with read and test access.",
-    tools: ["Read", "Grep", "Glob", "Bash", "WebFetch", "WebSearch", "Task"],
+    tools: [
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash",
+      "WebFetch",
+      "WebSearch",
+      "TaskList",
+      "TaskGet",
+      "LSP",
+    ],
     disallowedTools: ["Edit", "Write"],
     model: "sonnet",
     skills: ["critic", "tech-debt", "security-review"],
@@ -75,7 +94,7 @@ const CC_AGENT_CONFIG = {
   commit: {
     name: "Commit",
     description: "Create meaningful commits with logical file grouping.",
-    tools: ["Read", "Grep", "Glob", "Bash"],
+    tools: ["Read", "Grep", "Glob", "Bash", "TaskList", "TaskGet"],
     disallowedTools: ["Edit", "Write"],
     model: "sonnet",
   },
@@ -83,8 +102,21 @@ const CC_AGENT_CONFIG = {
     name: "Orchestrate",
     description:
       "Conductor for multi-phase task execution. Coordinates specialized agents.",
-    tools: ["Read", "Grep", "Glob", "Task"],
-    disallowedTools: ["Edit", "Write", "Bash"],
+    tools: [
+      "Read",
+      "Glob",
+      "Task(explore)",
+      "Task(implement)",
+      "Task(review)",
+      "Task(commit)",
+      "AskUserQuestion",
+      "TaskList",
+      "TaskGet",
+      "TaskCreate",
+      "TaskUpdate",
+    ],
+    disallowedTools: ["Edit", "Write", "Bash", "Grep"],
+    permissionMode: "plan",
     model: "opus",
   },
 };
@@ -155,12 +187,11 @@ In Claude Code, subagents cannot spawn other subagents. The agents you invoke
 delegate to sub-subagents like Research or Worker.
 
 ### Checkpoints
-CC does not have an \`askQuestions\` tool. At checkpoint pauses, simply state
-that you are waiting for user input and present the options as text. The user
-will respond in the conversation.
+Use the AskUserQuestion tool at checkpoint pauses to explicitly request user
+input. Present options clearly and wait for a response before proceeding.
 
 ### Agent Invocation
-To spawn agents, use the Task tool. For example:
+To spawn agents, use the Task tool with the specific agent name:
 - Task(explore, "Create a task and phased plan for: [description]")
 - Task(implement, "Implement Phase N from: [plan path]")
 - Task(review, "Verify implementation of Phase N")
@@ -218,6 +249,9 @@ function buildCCFrontmatter(config) {
     yaml += `disallowedTools: [${config.disallowedTools.join(", ")}]\n`;
   }
   yaml += `model: ${config.model}\n`;
+  if (config.permissionMode) {
+    yaml += `permissionMode: ${config.permissionMode}\n`;
+  }
   if (config.skills) {
     yaml += `skills: [${config.skills.join(", ")}]\n`;
   }

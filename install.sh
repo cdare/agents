@@ -26,6 +26,7 @@ CLAUDE_SKILLS_TARGET_DIR="$HOME/.claude/skills"
 VSCODE_AGENTS_DIR="$HOME/.copilot/agents"
 VSCODE_INSTRUCTIONS_DIR="$HOME/.copilot/instructions"
 CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
+CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
 
 # Old location (for migration cleanup)
 OLD_VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
@@ -230,23 +231,46 @@ install() {
         fi
     done
     
-    # Generate Claude Code slash commands from agent bodies
-    info "Generating Claude Code slash commands..."
-    if [[ ! -d "$CLAUDE_COMMANDS_DIR" ]]; then
-        mkdir -p "$CLAUDE_COMMANDS_DIR"
+    # Generate Claude Code native subagents
+    info "Generating Claude Code subagents..."
+    local cc_agent_count=0
+    if command -v node &>/dev/null; then
+        if node "$SCRIPT_DIR/scripts/generate-cc-agents.js" "$CLAUDE_AGENTS_DIR" "$SCRIPT_DIR/.github/agents" 2>&1; then
+            success "Generated Claude Code native subagents"
+            cc_agent_count=$(ls "$CLAUDE_AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
+        else
+            local exit_code=$?
+            if [[ $exit_code -eq 1 ]]; then
+                info "Claude Code agents already up to date"
+                cc_agent_count=$(ls "$CLAUDE_AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
+            else
+                warn "Could not generate Claude Code agents"
+            fi
+        fi
+    else
+        warn "Node.js not found — cannot generate Claude Code agents"
+        info "Install Node.js and re-run to enable Claude Code agent generation"
     fi
-    
-    local cmd_count=0
-    for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
-        [[ -f "$src" ]] || continue
-        local name=$(basename "$src" .agent.md)
-        # Skip handoff (doesn't make sense as standalone command)
-        [[ "$name" == "handoff" ]] && continue
-        # Extract body after YAML frontmatter (everything after second ---)
-        awk '/^---$/{p++; next} p>=2{print}' "$src" > "$CLAUDE_COMMANDS_DIR/$name.md"
-        success "Created command: /$name"
-        cmd_count=$((cmd_count + 1))
-    done
+
+    # Clean up old slash commands if they exist
+    if [[ -d "$CLAUDE_COMMANDS_DIR" ]]; then
+        local has_old_cmds=false
+        for old_cmd in "$CLAUDE_COMMANDS_DIR"/*.md; do
+            [[ -f "$old_cmd" ]] || continue
+            has_old_cmds=true
+            break
+        done
+        if [[ "$has_old_cmds" == true ]]; then
+            info "Migrating from slash commands to native agents..."
+            for old_cmd in "$CLAUDE_COMMANDS_DIR"/*.md; do
+                [[ -f "$old_cmd" ]] || continue
+                local old_name=$(basename "$old_cmd" .md)
+                rm "$old_cmd"
+                info "Removed old command: /$old_name"
+            done
+            rmdir "$CLAUDE_COMMANDS_DIR" 2>/dev/null || true
+        fi
+    fi
     
     # Install instructions to global instructions directory
     info "Installing instructions to global instructions directory..."
@@ -304,7 +328,7 @@ install() {
     
     echo ""
     success "Installation complete!"
-    info "Installed $agent_count agents, $skill_count skills, $instruction_count instructions, and $cmd_count Claude Code commands"
+    info "Installed $agent_count agents, $skill_count skills, $instruction_count instructions, and $cc_agent_count CC agents"
     echo ""
     echo "${YELLOW}═══════════════════════════════════════════════════════════════${NC}"
     echo "${YELLOW}  Agents are now available globally${NC}"
@@ -323,8 +347,8 @@ install() {
     info "Skills installed to:"
     info "  • ~/.copilot/skills/ (with ~/.claude/skills symlink)"
     echo ""
-    info "Claude Code commands installed to:"
-    info "  • ~/.claude/commands/ (invoke with @agent-<Name>)"
+    info "Claude Code agents installed to:"
+    info "  • ~/.claude/agents/ (invoke with @agent-<Name>)"
     echo ""
     info "VS Code settings configured:"
     info "  • chat.agentFilesLocations → ~/.copilot/agents"
@@ -377,20 +401,30 @@ uninstall() {
         fi
     done
     
-    # Remove Claude Code slash commands
-    info "Removing Claude Code commands..."
+    # Remove Claude Code native agents
+    info "Removing Claude Code agents..."
+    local cc_agent_count=0
+    if [[ -d "$CLAUDE_AGENTS_DIR" ]]; then
+        for agent_file in "$CLAUDE_AGENTS_DIR"/*.md; do
+            [[ -f "$agent_file" ]] || continue
+            local agent_name=$(basename "$agent_file")
+            rm "$agent_file"
+            success "Removed CC agent: $agent_name"
+            cc_agent_count=$((cc_agent_count + 1))
+        done
+        rmdir "$CLAUDE_AGENTS_DIR" 2>/dev/null || true
+    fi
+
+    # Remove old Claude Code slash commands (migration cleanup)
     local cmd_count=0
-    for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
-        [[ -f "$src" ]] || continue
-        local name=$(basename "$src" .agent.md)
-        [[ "$name" == "handoff" ]] && continue
-        local cmd_file="$CLAUDE_COMMANDS_DIR/$name.md"
-        if [[ -f "$cmd_file" ]]; then
+    if [[ -d "$CLAUDE_COMMANDS_DIR" ]]; then
+        for cmd_file in "$CLAUDE_COMMANDS_DIR"/*.md; do
+            [[ -f "$cmd_file" ]] || continue
             rm "$cmd_file"
-            success "Removed command: /$name"
             cmd_count=$((cmd_count + 1))
-        fi
-    done
+        done
+        rmdir "$CLAUDE_COMMANDS_DIR" 2>/dev/null || true
+    fi
     
     # Remove instructions from global instructions directory
     info "Removing instructions from global instructions directory..."
@@ -421,7 +455,7 @@ uninstall() {
     
     echo ""
     success "Uninstallation complete!"
-    info "Removed $agent_count agents, $skill_count skills, $instruction_count instructions, and $cmd_count Claude Code commands"
+    info "Removed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, and $cmd_count old commands"
 }
 
 # Main

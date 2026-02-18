@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Claude Code native subagent generation via `scripts/generate-cc-agents.js`
+- 5 CC subagent files generated to `~/.claude/agents/` (explore, implement, review, commit, orchestrate) with proper CC frontmatter (tools, disallowedTools, model, skills)
+- CC Platform Notes appended to each agent body (embedded Research/Worker capabilities, handoff guidance)
+- Migration logic in `install.sh` to clean up old slash commands from `~/.claude/commands/`
 - Orchestrate agent: Position Lock Protocol — todo list is now a hard execution cursor
 - Orchestrate agent: Detour Recovery protocol for handling interruptions
 - Orchestrate agent: Conductor constraints preventing self-research
@@ -17,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `install.sh`: Replaced slash command generation (`~/.claude/commands/`) with native CC subagent generation (`~/.claude/agents/`) via Node.js script
+- `install.sh`: Uninstall now cleans up `~/.claude/agents/` directory
 - orchestrate.agent.md: Added Entry Gate pre-flight checklist, tool-coupled first action, and anti-bypass language for reliable First Action Protocol enforcement
 - Orchestrate agent streamlined from 479 to 419 lines (removed redundant sections, consolidated session management)
 

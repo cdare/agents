@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Claude Code native subagent generation via `scripts/generate-cc-agents.js`
+- Claude Code native subagent generation via `scripts/generate-cc-files.js`
+- CC skill generation: `generate-cc-files.js skills` reads source SKILL.md files and merges CC-specific frontmatter (allowed-tools, context) at install time
+- 11 CC-enhanced skill files generated to `~/.claude/skills/` with per-skill tool restrictions and context isolation
 - 5 CC subagent files generated to `~/.claude/agents/` (explore, implement, review, commit, orchestrate) with proper CC frontmatter (tools, disallowedTools, model, skills)
 - CC Platform Notes appended to each agent body (embedded Research/Worker capabilities, handoff guidance)
 - Migration logic in `install.sh` to clean up old slash commands from `~/.claude/commands/`
@@ -22,7 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `install.sh`: Replaced slash command generation (`~/.claude/commands/`) with native CC subagent generation (`~/.claude/agents/`) via Node.js script
-- `install.sh`: Uninstall now cleans up `~/.claude/agents/` directory
+- `install.sh`: CC skills are now generated files (not symlinks) at `~/.claude/skills/`, while Copilot skills remain symlinked to source
+- `install.sh`: Uninstall now cleans up `~/.claude/agents/` directory and `~/.claude/skills/` generated files
+- Renamed `scripts/generate-cc-agents.js` → `scripts/generate-cc-files.js` with subcommand interface (`agents`, `skills`)
+- SKILL.md files no longer contain CC-specific frontmatter — CC fields are injected at install time
 - orchestrate.agent.md: Added Entry Gate pre-flight checklist, tool-coupled first action, and anti-bypass language for reliable First Action Protocol enforcement
 - Orchestrate agent streamlined from 479 to 419 lines (removed redundant sections, consolidated session management)
 

@@ -1,23 +1,25 @@
 #!/usr/bin/env node
 /**
- * Generate Claude Code native subagent files from Copilot agent definitions.
+ * Generate Claude Code native files from Copilot definitions.
  *
- * Usage:
- *   node scripts/generate-cc-agents.js <output-dir> [source-dir]
+ * Subcommands:
+ *   agents <output-dir> [source-dir]  - Generate CC agent files
+ *   skills <output-dir> [source-dir]  - Generate CC-enhanced skill files
  *
- * Arguments:
- *   output-dir  - Target directory for generated CC agent files (e.g., ~/.claude/agents)
- *   source-dir  - Source directory containing *.agent.md files (default: .github/agents/)
+ * Agents:
+ *   Reads *.agent.md from source-dir (default: .github/agents/)
+ *   Maps Copilot frontmatter → CC frontmatter (tools, model, permissions)
+ *   Appends CC Platform Notes sections per agent
+ *   Skips Research and Worker (embedded into parent agents)
  *
- * Features:
- * - Proper YAML frontmatter parsing (handles --- in body content)
- * - Maps Copilot frontmatter → CC frontmatter (tools, model, permissions)
- * - Appends CC Platform Notes sections per agent
- * - Skips Research and Worker (embedded into parent agents)
- * - Idempotent (safe to run multiple times)
+ * Skills:
+ *   Reads SKILL.md from source-dir subdirectories (default: .github/skills/)
+ *   Merges CC-specific frontmatter (allowed-tools, context) from config
+ *   Outputs enhanced skill files preserving directory structure
+ *   Skills not in config are copied as-is
  *
  * Exit codes:
- *   0 - Agents generated
+ *   0 - Files generated
  *   1 - No changes needed
  *   2 - Error
  */
@@ -125,6 +127,53 @@ const CC_AGENT_CONFIG = {
 const SKIP_AGENTS = ["research", "worker"];
 
 // ---------------------------------------------------------------------------
+// CC Skill Configuration
+// ---------------------------------------------------------------------------
+
+const CC_SKILL_CONFIG = {
+  architecture: {
+    context: "fork",
+    "allowed-tools": ["Read", "Grep", "Glob", "LSP"],
+  },
+  critic: { context: "fork", "allowed-tools": ["Read", "Grep", "Glob", "LSP"] },
+  mentor: { context: "fork", "allowed-tools": ["Read", "Grep", "Glob", "LSP"] },
+  "deep-research": {
+    context: "fork",
+    "allowed-tools": ["Read", "Grep", "Glob", "WebFetch", "WebSearch", "LSP"],
+  },
+  "security-review": {
+    context: "fork",
+    "allowed-tools": ["Read", "Grep", "Glob", "LSP"],
+  },
+  "phase-review": { "allowed-tools": ["Read", "Grep", "Glob", "Edit", "LSP"] },
+  debug: {
+    "allowed-tools": ["Read", "Edit", "Write", "Bash", "Grep", "Glob", "LSP"],
+  },
+  "tech-debt": {
+    "allowed-tools": ["Read", "Edit", "Write", "Bash", "Grep", "Glob", "LSP"],
+  },
+  "consolidate-task": {
+    "allowed-tools": ["Read", "Edit", "Write", "Grep", "Glob"],
+  },
+  makefile: {
+    "allowed-tools": ["Read", "Edit", "Write", "Bash", "Grep", "Glob"],
+  },
+  design: {
+    "allowed-tools": [
+      "Read",
+      "Edit",
+      "Write",
+      "Bash",
+      "Grep",
+      "Glob",
+      "WebFetch",
+      "WebSearch",
+      "LSP",
+    ],
+  },
+};
+
+// ---------------------------------------------------------------------------
 // CC Platform Notes (appended to body)
 // ---------------------------------------------------------------------------
 
@@ -212,7 +261,7 @@ function parseFrontmatter(content) {
 
   // Must start with ---
   if (lines[0].trim() !== "---") {
-    return { frontmatter: {}, body: content };
+    return { frontmatterLines: [], body: content };
   }
 
   // Find the closing --- (second occurrence, scanning from line 1)
@@ -225,12 +274,13 @@ function parseFrontmatter(content) {
   }
 
   if (closingIndex === -1) {
-    return { frontmatter: {}, body: content };
+    return { frontmatterLines: [], body: content };
   }
 
+  const frontmatterLines = lines.slice(1, closingIndex);
   const body = lines.slice(closingIndex + 1).join("\n");
 
-  return { body };
+  return { frontmatterLines, body };
 }
 
 // ---------------------------------------------------------------------------
@@ -292,33 +342,54 @@ function generateCCAgent(sourceContent, agentName) {
 }
 
 // ---------------------------------------------------------------------------
+// Skill Generation
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate a CC-enhanced skill file from a Copilot skill source.
+ * Merges CC-specific frontmatter fields (allowed-tools, context) into existing frontmatter.
+ * Returns the complete file content, or the original content if no CC config exists.
+ */
+function generateCCSkill(sourceContent, skillName) {
+  const ccConfig = CC_SKILL_CONFIG[skillName];
+
+  // No CC enhancement needed — return as-is
+  if (!ccConfig) {
+    return sourceContent;
+  }
+
+  const { frontmatterLines, body } = parseFrontmatter(sourceContent);
+
+  // Build enhanced frontmatter by appending CC fields
+  const enhancedLines = [...frontmatterLines];
+  if (ccConfig.context) {
+    enhancedLines.push(`context: ${ccConfig.context}`);
+  }
+  if (ccConfig["allowed-tools"]) {
+    enhancedLines.push(
+      `allowed-tools: [${ccConfig["allowed-tools"].join(", ")}]`,
+    );
+  }
+
+  return "---\n" + enhancedLines.join("\n") + "\n---" + body;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
-function main() {
-  const outputDir = process.argv[2];
-  const sourceDir =
-    process.argv[3] || path.join(__dirname, "..", ".github", "agents");
+function generateAgents(outputDir, sourceDir) {
+  sourceDir = sourceDir || path.join(__dirname, "..", ".github", "agents");
 
-  if (!outputDir) {
-    console.error(
-      "Usage: node generate-cc-agents.js <output-dir> [source-dir]",
-    );
-    process.exit(2);
-  }
-
-  // Verify source directory exists
   if (!fs.existsSync(sourceDir)) {
     console.error(`Source directory not found: ${sourceDir}`);
     process.exit(2);
   }
 
-  // Create output directory if needed
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  // Find all agent source files
   const sourceFiles = fs
     .readdirSync(sourceDir)
     .filter((f) => f.endsWith(".agent.md"))
@@ -347,7 +418,93 @@ function main() {
   }
 
   console.log(`\n${generated} agents generated, ${skipped} skipped.`);
-  process.exit(generated > 0 ? 0 : 1);
+  return generated;
+}
+
+function generateSkills(outputDir, sourceDir) {
+  sourceDir = sourceDir || path.join(__dirname, "..", ".github", "skills");
+
+  if (!fs.existsSync(sourceDir)) {
+    console.error(`Source directory not found: ${sourceDir}`);
+    process.exit(2);
+  }
+
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  // Find skill subdirectories (each has a SKILL.md)
+  const skillDirs = fs
+    .readdirSync(sourceDir)
+    .filter((d) => {
+      const skillPath = path.join(sourceDir, d, "SKILL.md");
+      return (
+        fs.statSync(path.join(sourceDir, d)).isDirectory() &&
+        fs.existsSync(skillPath)
+      );
+    })
+    .sort();
+
+  let generated = 0;
+  let copied = 0;
+
+  for (const skillName of skillDirs) {
+    const sourcePath = path.join(sourceDir, skillName, "SKILL.md");
+    const content = fs.readFileSync(sourcePath, "utf8");
+
+    const result = generateCCSkill(content, skillName);
+
+    // Create output subdirectory
+    const outSubdir = path.join(outputDir, skillName);
+    if (!fs.existsSync(outSubdir)) {
+      fs.mkdirSync(outSubdir, { recursive: true });
+    }
+
+    const outputPath = path.join(outSubdir, "SKILL.md");
+    fs.writeFileSync(outputPath, result);
+
+    if (CC_SKILL_CONFIG[skillName]) {
+      console.log(`Generated: ${skillName}/SKILL.md (CC-enhanced)`);
+      generated++;
+    } else {
+      console.log(`Copied: ${skillName}/SKILL.md (no CC config)`);
+      copied++;
+    }
+  }
+
+  console.log(`\n${generated} skills enhanced, ${copied} copied as-is.`);
+  return generated + copied;
+}
+
+function main() {
+  const subcommand = process.argv[2];
+  const outputDir = process.argv[3];
+  const sourceDir = process.argv[4];
+
+  if (!subcommand || !outputDir) {
+    console.error(
+      "Usage: node generate-cc-files.js <agents|skills> <output-dir> [source-dir]",
+    );
+    process.exit(2);
+  }
+
+  let count;
+  switch (subcommand) {
+    case "agents":
+      count = generateAgents(outputDir, sourceDir);
+      break;
+    case "skills":
+      count = generateSkills(outputDir, sourceDir);
+      break;
+    default:
+      console.error(`Unknown subcommand: ${subcommand}`);
+      console.error(
+        "Usage: node generate-cc-files.js <agents|skills> <output-dir> [source-dir]",
+      );
+      process.exit(2);
+  }
+
+  process.exit(count > 0 ? 0 : 1);
 }
 
 main();

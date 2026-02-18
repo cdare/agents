@@ -174,15 +174,30 @@ install() {
         fi
     done
     
-    # Create Claude Code compatibility symlink
-    if [[ ! -L "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
-        info "Creating Claude Code compatibility symlink..."
-        mkdir -p "$(dirname "$CLAUDE_SKILLS_TARGET_DIR")"
-        if ln -s "$SKILLS_TARGET_DIR" "$CLAUDE_SKILLS_TARGET_DIR" 2>/dev/null; then
-            success "Created: ~/.claude/skills → ~/.copilot/skills"
+    # Generate CC-enhanced skills (with CC-specific frontmatter)
+    info "Generating Claude Code enhanced skills..."
+    # Remove old compatibility symlink if it exists
+    if [[ -L "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
+        rm "$CLAUDE_SKILLS_TARGET_DIR"
+        info "Removed old Claude Code skills symlink"
+    fi
+    local cc_skill_count=0
+    if command -v node &>/dev/null; then
+        if node "$SCRIPT_DIR/scripts/generate-cc-files.js" skills "$CLAUDE_SKILLS_TARGET_DIR" "$SCRIPT_DIR/.github/skills" 2>&1; then
+            success "Generated Claude Code enhanced skills"
+            cc_skill_count=$(find "$CLAUDE_SKILLS_TARGET_DIR" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
+        else
+            local exit_code=$?
+            if [[ $exit_code -eq 1 ]]; then
+                info "Claude Code skills already up to date"
+                cc_skill_count=$(find "$CLAUDE_SKILLS_TARGET_DIR" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
+            else
+                warn "Could not generate Claude Code skills"
+            fi
         fi
-    elif [[ "$(readlink "$CLAUDE_SKILLS_TARGET_DIR")" == "$SKILLS_TARGET_DIR" ]]; then
-        info "Claude Code symlink already exists"
+    else
+        warn "Node.js not found — cannot generate Claude Code skills"
+        info "Install Node.js and re-run to enable Claude Code skill generation"
     fi
     
     # Configure global gitignore for tasks
@@ -235,7 +250,7 @@ install() {
     info "Generating Claude Code subagents..."
     local cc_agent_count=0
     if command -v node &>/dev/null; then
-        if node "$SCRIPT_DIR/scripts/generate-cc-agents.js" "$CLAUDE_AGENTS_DIR" "$SCRIPT_DIR/.github/agents" 2>&1; then
+        if node "$SCRIPT_DIR/scripts/generate-cc-files.js" agents "$CLAUDE_AGENTS_DIR" "$SCRIPT_DIR/.github/agents" 2>&1; then
             success "Generated Claude Code native subagents"
             cc_agent_count=$(ls "$CLAUDE_AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
         else
@@ -328,7 +343,7 @@ install() {
     
     echo ""
     success "Installation complete!"
-    info "Installed $agent_count agents, $skill_count skills, $instruction_count instructions, and $cc_agent_count CC agents"
+    info "Installed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, and $cc_skill_count CC skills"
     echo ""
     echo "${YELLOW}═══════════════════════════════════════════════════════════════${NC}"
     echo "${YELLOW}  Agents are now available globally${NC}"
@@ -345,7 +360,8 @@ install() {
     info "  (Note: Agents and skills require VS Code—see README)"
     echo ""
     info "Skills installed to:"
-    info "  • ~/.copilot/skills/ (with ~/.claude/skills symlink)"
+    info "  • ~/.copilot/skills/ (Copilot, symlinked)"
+    info "  • ~/.claude/skills/ (Claude Code, generated with CC frontmatter)"
     echo ""
     info "Claude Code agents installed to:"
     info "  • ~/.claude/agents/ (invoke with @agent-<Name>)"
@@ -381,13 +397,23 @@ uninstall() {
         fi
     done
     
-    # Remove Claude Code compatibility symlink
-    if [[ -L "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
-        local current_target=$(readlink "$CLAUDE_SKILLS_TARGET_DIR")
-        if [[ "$current_target" == "$SKILLS_TARGET_DIR" ]]; then
-            rm "$CLAUDE_SKILLS_TARGET_DIR"
-            success "Removed: Claude Code compatibility symlink"
+    # Remove Claude Code generated skills
+    if [[ -d "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
+        local cc_skill_removed=0
+        for skill_dir in "$CLAUDE_SKILLS_TARGET_DIR"/*/; do
+            [[ -d "$skill_dir" ]] || continue
+            local sname=$(basename "$skill_dir")
+            rm -rf "$skill_dir"
+            cc_skill_removed=$((cc_skill_removed + 1))
+        done
+        rmdir "$CLAUDE_SKILLS_TARGET_DIR" 2>/dev/null || true
+        if [[ $cc_skill_removed -gt 0 ]]; then
+            success "Removed $cc_skill_removed CC skills"
         fi
+    elif [[ -L "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
+        # Handle old compatibility symlink
+        rm "$CLAUDE_SKILLS_TARGET_DIR"
+        success "Removed: Claude Code compatibility symlink"
     fi
     
     # Remove agents from global agents directory

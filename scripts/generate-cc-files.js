@@ -5,6 +5,7 @@
  * Subcommands:
  *   agents <output-dir> [source-dir]  - Generate CC agent files
  *   skills <output-dir> [source-dir]  - Generate CC-enhanced skill files
+ *   rules  <output-dir> [source-dir]  - Generate CC rule files from instructions
  *
  * Agents:
  *   Reads *.agent.md from source-dir (default: .github/agents/)
@@ -17,6 +18,12 @@
  *   Merges CC-specific frontmatter (allowed-tools, context) from config
  *   Outputs enhanced skill files preserving directory structure
  *   Skills not in config are copied as-is
+ *
+ * Rules:
+ *   Reads *.instructions.md from source-dir (default: instructions/)
+ *   Translates applyTo frontmatter → paths frontmatter
+ *   applyTo: "**" becomes unconditional (no paths frontmatter)
+ *   Output filenames drop the .instructions suffix
  *
  * Exit codes:
  *   0 - Files generated
@@ -375,6 +382,81 @@ function generateCCSkill(sourceContent, skillName) {
 }
 
 // ---------------------------------------------------------------------------
+// Rule Generation
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate a CC rule file from a Copilot instruction file.
+ * Translates applyTo frontmatter → paths frontmatter.
+ * Returns the complete file content.
+ */
+function generateCCRule(sourceContent) {
+  const { frontmatterLines, body } = parseFrontmatter(sourceContent);
+
+  // Extract applyTo value from frontmatter
+  let applyTo = null;
+  for (const line of frontmatterLines) {
+    const match = line.match(/^applyTo:\s*["']?(.+?)["']?\s*$/);
+    if (match) {
+      applyTo = match[1];
+      break;
+    }
+  }
+
+  // If applyTo is "**" (global), omit paths entirely (unconditional rule)
+  if (!applyTo || applyTo === "**") {
+    // Return body without any frontmatter
+    return body.replace(/^\n+/, "");
+  }
+
+  // Build CC paths frontmatter
+  let output = "---\n";
+  output += "paths:\n";
+  output += `  - "${applyTo}"\n`;
+  output += "---\n";
+  output += body;
+
+  return output;
+}
+
+function generateRules(outputDir, sourceDir) {
+  sourceDir = sourceDir || path.join(__dirname, "..", "instructions");
+
+  if (!fs.existsSync(sourceDir)) {
+    console.error(`Source directory not found: ${sourceDir}`);
+    process.exit(2);
+  }
+
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  const sourceFiles = fs
+    .readdirSync(sourceDir)
+    .filter((f) => f.endsWith(".instructions.md"))
+    .sort();
+
+  let generated = 0;
+
+  for (const file of sourceFiles) {
+    const sourcePath = path.join(sourceDir, file);
+    const content = fs.readFileSync(sourcePath, "utf8");
+
+    const result = generateCCRule(content);
+
+    // Output filename: strip .instructions suffix
+    const outputName = file.replace(".instructions.md", ".md");
+    const outputPath = path.join(outputDir, outputName);
+    fs.writeFileSync(outputPath, result);
+    console.log(`Generated: ${outputName}`);
+    generated++;
+  }
+
+  console.log(`\n${generated} rules generated.`);
+  return generated;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -483,7 +565,7 @@ function main() {
 
   if (!subcommand || !outputDir) {
     console.error(
-      "Usage: node generate-cc-files.js <agents|skills> <output-dir> [source-dir]",
+      "Usage: node generate-cc-files.js <agents|skills|rules> <output-dir> [source-dir]",
     );
     process.exit(2);
   }
@@ -496,10 +578,13 @@ function main() {
     case "skills":
       count = generateSkills(outputDir, sourceDir);
       break;
+    case "rules":
+      count = generateRules(outputDir, sourceDir);
+      break;
     default:
       console.error(`Unknown subcommand: ${subcommand}`);
       console.error(
-        "Usage: node generate-cc-files.js <agents|skills> <output-dir> [source-dir]",
+        "Usage: node generate-cc-files.js <agents|skills|rules> <output-dir> [source-dir]",
       );
       process.exit(2);
   }

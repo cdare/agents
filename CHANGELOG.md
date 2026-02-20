@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Orchestrate agent: Conductor constraints preventing self-research
 - Presentation slide deck (`docs/presentation/agents-slides.md`) — 10-slide Marp presentation for live demos
 - Companion cheat-sheet (`docs/presentation/agents-cheatsheet.md`) — 1-page reference card for audience takeaway
+- CC rule generation: `generate-cc-files.js rules` translates `instructions/*.instructions.md` (Copilot `applyTo` frontmatter) to `~/.claude/rules/*.md` (CC `paths:` frontmatter)
 
 ### Changed
 
@@ -30,10 +31,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SKILL.md files no longer contain CC-specific frontmatter — CC fields are injected at install time
 - orchestrate.agent.md: Added Entry Gate pre-flight checklist, tool-coupled first action, and anti-bypass language for reliable First Action Protocol enforcement
 - Orchestrate agent streamlined from 479 to 419 lines (removed redundant sections, consolidated session management)
+- `install.sh`: Uninstall now cleans up `~/.claude/rules/` generated files
+- Instructions made platform-neutral: removed Copilot-specific language from `global.instructions.md`
 
 ### Removed
 
 - Orchestrate agent `search` tool (forces delegation to subagents for research tasks)
+- "Self-Improving Instructions" section from `global.instructions.md` (framework should not modify its own instruction files)
 
 ### Fixed
 

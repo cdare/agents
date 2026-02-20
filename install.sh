@@ -27,6 +27,7 @@ VSCODE_AGENTS_DIR="$HOME/.copilot/agents"
 VSCODE_INSTRUCTIONS_DIR="$HOME/.copilot/instructions"
 CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
 CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
+CLAUDE_RULES_DIR="$HOME/.claude/rules"
 
 # Old location (for migration cleanup)
 OLD_VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
@@ -286,6 +287,27 @@ install() {
             rmdir "$CLAUDE_COMMANDS_DIR" 2>/dev/null || true
         fi
     fi
+
+    # Generate Claude Code rules from instructions
+    info "Generating Claude Code rules..."
+    local cc_rule_count=0
+    if command -v node &>/dev/null; then
+        if node "$SCRIPT_DIR/scripts/generate-cc-files.js" rules "$CLAUDE_RULES_DIR" "$SCRIPT_DIR/instructions" 2>&1; then
+            success "Generated Claude Code rules"
+            cc_rule_count=$(ls "$CLAUDE_RULES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
+        else
+            local exit_code=$?
+            if [[ $exit_code -eq 1 ]]; then
+                info "Claude Code rules already up to date"
+                cc_rule_count=$(ls "$CLAUDE_RULES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
+            else
+                warn "Could not generate Claude Code rules"
+            fi
+        fi
+    else
+        warn "Node.js not found — cannot generate Claude Code rules"
+        info "Install Node.js and re-run to enable Claude Code rule generation"
+    fi
     
     # Install instructions to global instructions directory
     info "Installing instructions to global instructions directory..."
@@ -343,7 +365,7 @@ install() {
     
     echo ""
     success "Installation complete!"
-    info "Installed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, and $cc_skill_count CC skills"
+    info "Installed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, $cc_skill_count CC skills, and $cc_rule_count CC rules"
     echo ""
     echo "${YELLOW}═══════════════════════════════════════════════════════════════${NC}"
     echo "${YELLOW}  Agents are now available globally${NC}"
@@ -365,6 +387,9 @@ install() {
     echo ""
     info "Claude Code agents installed to:"
     info "  • ~/.claude/agents/ (invoke with @agent-<Name>)"
+    echo ""
+    info "Claude Code rules installed to:"
+    info "  • ~/.claude/rules/ (user-level instruction rules)"
     echo ""
     info "VS Code settings configured:"
     info "  • chat.agentFilesLocations → ~/.copilot/agents"
@@ -441,6 +466,18 @@ uninstall() {
         rmdir "$CLAUDE_AGENTS_DIR" 2>/dev/null || true
     fi
 
+    # Remove generated Claude Code rules
+    local cc_rule_count=0
+    for rule_file in global.md python.md typescript.md testing.md terminal.md; do
+        if [[ -f "$CLAUDE_RULES_DIR/$rule_file" ]]; then
+            rm "$CLAUDE_RULES_DIR/$rule_file"
+            cc_rule_count=$((cc_rule_count + 1))
+        fi
+    done
+    if [[ $cc_rule_count -gt 0 ]]; then
+        info "Removed $cc_rule_count CC rules"
+    fi
+
     # Remove old Claude Code slash commands (migration cleanup)
     local cmd_count=0
     if [[ -d "$CLAUDE_COMMANDS_DIR" ]]; then
@@ -481,7 +518,7 @@ uninstall() {
     
     echo ""
     success "Uninstallation complete!"
-    info "Removed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, and $cmd_count old commands"
+    info "Removed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, $cc_rule_count CC rules, and $cmd_count old commands"
 }
 
 # Main

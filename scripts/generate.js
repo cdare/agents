@@ -2,12 +2,12 @@
 // Bidirectional template generator.
 //
 // Generates platform-specific output files from templates:
-//   templates/agents/*.template.md          -> .github/agents/*.agent.md (Copilot)
-//                                           -> .claude/agents/*.md (CC)
-//   templates/skills/{name}/SKILL.template.md -> .github/skills/{name}/SKILL.md (Copilot)
-//                                             -> .claude/skills/{name}/SKILL.md (CC)
-//   templates/instructions/*.template.md    -> instructions/*.instructions.md (Copilot)
-//                                           -> .claude/rules/*.md (CC)
+//   templates/agents/*.template.md          -> generated/copilot/agents/*.agent.md (Copilot)
+//                                           -> generated/claude/agents/*.md (CC)
+//   templates/skills/{name}/SKILL.template.md -> generated/copilot/skills/{name}/SKILL.md (Copilot)
+//                                             -> generated/claude/skills/{name}/SKILL.md (CC)
+//   templates/instructions/*.template.md    -> generated/copilot/instructions/*.instructions.md (Copilot)
+//                                           -> generated/claude/rules/*.md (CC)
 //
 // Commands:
 //   node scripts/generate.js copilot [--source templates/] [--dry-run]
@@ -603,32 +603,32 @@ function discoverInstructionTemplates(sourceDir) {
 
 function getCopilotAgentPath(templateFile) {
   const name = path.basename(templateFile).replace(".template.md", "");
-  return `.github/agents/${name}.agent.md`;
+  return `generated/copilot/agents/${name}.agent.md`;
 }
 
 function getCCAgentPath(templateFile) {
   const name = path.basename(templateFile).replace(".template.md", "");
-  return `.claude/agents/${name}.md`;
+  return `generated/claude/agents/${name}.md`;
 }
 
 function getCopilotSkillPath(templateFile) {
   const skillDir = path.basename(path.dirname(templateFile));
-  return `.github/skills/${skillDir}/SKILL.md`;
+  return `generated/copilot/skills/${skillDir}/SKILL.md`;
 }
 
 function getCCSkillPath(templateFile) {
   const skillDir = path.basename(path.dirname(templateFile));
-  return `.claude/skills/${skillDir}/SKILL.md`;
+  return `generated/claude/skills/${skillDir}/SKILL.md`;
 }
 
 function getCopilotInstructionPath(templateFile) {
   const name = path.basename(templateFile).replace(".template.md", "");
-  return `instructions/${name}.instructions.md`;
+  return `generated/copilot/instructions/${name}.instructions.md`;
 }
 
 function getCCRulePath(templateFile) {
   const name = path.basename(templateFile).replace(".template.md", "");
-  return `.claude/rules/${name}.md`;
+  return `generated/claude/rules/${name}.md`;
 }
 
 // ---------------------------------------------------------------------------
@@ -806,8 +806,8 @@ Usage:
   node scripts/generate.js <command> [options]
 
 Commands:
-  copilot   Generate Copilot files (.github/agents/, .github/skills/, instructions/)
-  cc        Generate CC files (.claude/agents/, .claude/skills/, .claude/rules/)
+  copilot   Generate Copilot files (generated/copilot/agents/, skills/, instructions/)
+  cc        Generate CC files (generated/claude/agents/, skills/, rules/)
   all       Generate both Copilot and CC files
 
 Options:

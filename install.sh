@@ -207,32 +207,32 @@ check_generated_files() {
 
     # CC agents (7 files)
     for agent in Commit Explore Implement Orchestrate Research Review Worker; do
-        [[ -f "$SCRIPT_DIR/.claude/agents/${agent}.md" ]] || missing+=(".claude/agents/${agent}.md")
+        [[ -f "$SCRIPT_DIR/generated/claude/agents/${agent}.md" ]] || missing+=("generated/claude/agents/${agent}.md")
     done
 
     # CC skills (11 directories)
     for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt; do
-        [[ -f "$SCRIPT_DIR/.claude/skills/${skill}/SKILL.md" ]] || missing+=(".claude/skills/${skill}/SKILL.md")
+        [[ -f "$SCRIPT_DIR/generated/claude/skills/${skill}/SKILL.md" ]] || missing+=("generated/claude/skills/${skill}/SKILL.md")
     done
 
     # CC rules (5 files)
     for rule in global python terminal testing typescript; do
-        [[ -f "$SCRIPT_DIR/.claude/rules/${rule}.md" ]] || missing+=(".claude/rules/${rule}.md")
+        [[ -f "$SCRIPT_DIR/generated/claude/rules/${rule}.md" ]] || missing+=("generated/claude/rules/${rule}.md")
     done
 
     # Copilot agents (7 files)
     for agent in commit explore implement orchestrate research review worker; do
-        [[ -f "$SCRIPT_DIR/.github/agents/${agent}.agent.md" ]] || missing+=(".github/agents/${agent}.agent.md")
+        [[ -f "$SCRIPT_DIR/generated/copilot/agents/${agent}.agent.md" ]] || missing+=("generated/copilot/agents/${agent}.agent.md")
     done
 
     # Copilot skills (11 directories)
     for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt; do
-        [[ -f "$SCRIPT_DIR/.github/skills/${skill}/SKILL.md" ]] || missing+=(".github/skills/${skill}/SKILL.md")
+        [[ -f "$SCRIPT_DIR/generated/copilot/skills/${skill}/SKILL.md" ]] || missing+=("generated/copilot/skills/${skill}/SKILL.md")
     done
 
     # Copilot instructions (5 files)
     for instr in global python terminal testing typescript; do
-        [[ -f "$SCRIPT_DIR/instructions/${instr}.instructions.md" ]] || missing+=(".github/skills/instructions/${instr}.instructions.md")
+        [[ -f "$SCRIPT_DIR/generated/copilot/instructions/${instr}.instructions.md" ]] || missing+=("generated/copilot/instructions/${instr}.instructions.md")
     done
 
     if [[ ${#missing[@]} -gt 0 ]]; then
@@ -245,12 +245,12 @@ check_generated_files() {
 # Show what will be linked
 show_files() {
     echo "\n${BLUE}Custom Agents (workflow modes):${NC}"
-    for f in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
+    for f in "$SCRIPT_DIR"/generated/copilot/agents/*.agent.md; do
         [[ -f "$f" ]] && echo "    - $(basename "$f")"
     done
     
     echo "\n${BLUE}Agent Skills (auto-activated capabilities):${NC}"
-    for d in "$SCRIPT_DIR"/.github/skills/*/; do
+    for d in "$SCRIPT_DIR"/generated/copilot/skills/*/; do
         [[ -d "$d" ]] && echo "    - $(basename "$d")/"
     done
     echo ""
@@ -264,34 +264,34 @@ install() {
     check_generated_files
 
     # Copilot skills (directory symlinks)
-    link_dirs "$SCRIPT_DIR/.github/skills/*/" "$SKILLS_TARGET_DIR" "skill"
+    link_dirs "$SCRIPT_DIR/generated/copilot/skills/*/" "$SKILLS_TARGET_DIR" "skill"
     local copilot_skills=$LINK_COUNT
 
     # CC skills (directory symlinks — same pattern as Copilot)
     # Remove old compatibility symlink if it still exists
     [[ -L "$CLAUDE_SKILLS_TARGET_DIR" ]] && rm "$CLAUDE_SKILLS_TARGET_DIR"
-    link_dirs "$SCRIPT_DIR/.claude/skills/*/" "$CLAUDE_SKILLS_TARGET_DIR" "CC skill"
+    link_dirs "$SCRIPT_DIR/generated/claude/skills/*/" "$CLAUDE_SKILLS_TARGET_DIR" "CC skill"
     local cc_skills=$LINK_COUNT
 
     # Copilot agents
-    link_files "$SCRIPT_DIR/.github/agents/*.agent.md" "$VSCODE_AGENTS_DIR" "agent"
+    link_files "$SCRIPT_DIR/generated/copilot/agents/*.agent.md" "$VSCODE_AGENTS_DIR" "agent"
     local copilot_agents=$LINK_COUNT
 
     # CC agents
-    link_files "$SCRIPT_DIR/.claude/agents/*.md" "$CLAUDE_AGENTS_DIR" "CC agent"
+    link_files "$SCRIPT_DIR/generated/claude/agents/*.md" "$CLAUDE_AGENTS_DIR" "CC agent"
     local cc_agents=$LINK_COUNT
 
     # Copilot instructions
-    link_files "$SCRIPT_DIR/instructions/*.instructions.md" "$VSCODE_INSTRUCTIONS_DIR" "instruction"
+    link_files "$SCRIPT_DIR/generated/copilot/instructions/*.instructions.md" "$VSCODE_INSTRUCTIONS_DIR" "instruction"
     local copilot_instructions=$LINK_COUNT
 
     # CC rules
-    link_files "$SCRIPT_DIR/.claude/rules/*.md" "$CLAUDE_RULES_DIR" "CC rule"
+    link_files "$SCRIPT_DIR/generated/claude/rules/*.md" "$CLAUDE_RULES_DIR" "CC rule"
     local cc_rules=$LINK_COUNT
 
     # IntelliJ global instructions (one-off, keep inline)
     mkdir -p "$INTELLIJ_COPILOT_DIR"
-    local intellij_src="$SCRIPT_DIR/instructions/global.instructions.md"
+    local intellij_src="$SCRIPT_DIR/generated/copilot/instructions/global.instructions.md"
     local intellij_dest="$INTELLIJ_COPILOT_DIR/global-copilot-instructions.md"
     if [[ -f "$intellij_src" ]]; then
         if link_file "$intellij_src" "$intellij_dest" "global-copilot-instructions.md"; then
@@ -307,7 +307,7 @@ install() {
     # Migrate old prompts folder (temporary — remove after all users have migrated)
     if [[ -d "$OLD_VSCODE_PROMPTS_DIR" ]]; then
         local migrated=0
-        for src in "$SCRIPT_DIR"/.github/agents/*.agent.md "$SCRIPT_DIR"/instructions/*.instructions.md; do
+        for src in "$SCRIPT_DIR"/generated/copilot/agents/*.agent.md "$SCRIPT_DIR"/generated/copilot/instructions/*.instructions.md; do
             [[ -f "$src" ]] || continue
             unlink_if_ours "$src" "$OLD_VSCODE_PROMPTS_DIR/$(basename "$src")" && migrated=$((migrated + 1))
         done
@@ -347,28 +347,28 @@ uninstall() {
     info "Uninstalling Agentic Coding Framework..."
 
     # Copilot skills
-    unlink_dirs "$SCRIPT_DIR/.github/skills/*/" "$SKILLS_TARGET_DIR" "skill"
+    unlink_dirs "$SCRIPT_DIR/generated/copilot/skills/*/" "$SKILLS_TARGET_DIR" "skill"
     local copilot_skills=$LINK_COUNT
 
     # CC skills
-    unlink_dirs "$SCRIPT_DIR/.claude/skills/*/" "$CLAUDE_SKILLS_TARGET_DIR" "CC skill"
+    unlink_dirs "$SCRIPT_DIR/generated/claude/skills/*/" "$CLAUDE_SKILLS_TARGET_DIR" "CC skill"
     local cc_skills=$LINK_COUNT
 
     # Copilot agents
-    unlink_files "$SCRIPT_DIR/.github/agents/*.agent.md" "$VSCODE_AGENTS_DIR" "agent"
+    unlink_files "$SCRIPT_DIR/generated/copilot/agents/*.agent.md" "$VSCODE_AGENTS_DIR" "agent"
     local copilot_agents=$LINK_COUNT
 
     # CC agents
-    unlink_files "$SCRIPT_DIR/.claude/agents/*.md" "$CLAUDE_AGENTS_DIR" "CC agent"
+    unlink_files "$SCRIPT_DIR/generated/claude/agents/*.md" "$CLAUDE_AGENTS_DIR" "CC agent"
     local cc_agents=$LINK_COUNT
     rmdir "$CLAUDE_AGENTS_DIR" 2>/dev/null || true
 
     # Copilot instructions
-    unlink_files "$SCRIPT_DIR/instructions/*.instructions.md" "$VSCODE_INSTRUCTIONS_DIR" "instruction"
+    unlink_files "$SCRIPT_DIR/generated/copilot/instructions/*.instructions.md" "$VSCODE_INSTRUCTIONS_DIR" "instruction"
     local copilot_instructions=$LINK_COUNT
 
     # CC rules
-    unlink_files "$SCRIPT_DIR/.claude/rules/*.md" "$CLAUDE_RULES_DIR" "CC rule"
+    unlink_files "$SCRIPT_DIR/generated/claude/rules/*.md" "$CLAUDE_RULES_DIR" "CC rule"
     local cc_rules=$LINK_COUNT
     rmdir "$CLAUDE_RULES_DIR" 2>/dev/null || true
 
@@ -384,7 +384,7 @@ uninstall() {
     fi
 
     # IntelliJ
-    local intellij_src="$SCRIPT_DIR/instructions/global.instructions.md"
+    local intellij_src="$SCRIPT_DIR/generated/copilot/instructions/global.instructions.md"
     unlink_if_ours "$intellij_src" "$INTELLIJ_COPILOT_DIR/global-copilot-instructions.md" && success "Removed IntelliJ global instructions"
 
     echo ""

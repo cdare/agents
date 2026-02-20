@@ -1,5 +1,5 @@
 # Makefile for agents framework
-# Generates platform-specific files from templates/
+# Generates platform-specific files from templates/ into generated/
 
 .PHONY: all copilot cc validate clean build gen generate
 
@@ -11,11 +11,11 @@ node_modules: package.json
 	npm install
 	@touch node_modules
 
-# Generate Copilot files to .github/
+# Generate Copilot files to generated/copilot/
 copilot: node_modules
 	@node scripts/generate.js copilot
 
-# Generate CC files to .claude/
+# Generate CC files to generated/claude/
 cc: node_modules
 	@node scripts/generate.js cc
 

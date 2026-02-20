@@ -9,8 +9,9 @@
 # For GitHub Copilot (coding agent, CLI, VS Code, IntelliJ) and Claude Code
 #
 # Usage:
-#   ./install.sh              # Install agents and skills
-#   ./install.sh uninstall    # Uninstall
+#   make                  # Generate output files first
+#   ./install.sh          # Install agents and skills
+#   ./install.sh uninstall  # Uninstall
 #
 
 set -e
@@ -73,6 +74,74 @@ unlink_if_ours() {
     return 1
 }
 
+# Link all files matching a glob to a destination directory.
+# Sets LINK_COUNT to the number of new links created.
+# Usage: link_files "glob_pattern" "dest_dir" "label"
+link_files() {
+    local glob="$1" dest_dir="$2" label="$3"
+    LINK_COUNT=0
+    mkdir -p "$dest_dir"
+    for src in ${~glob}; do
+        [[ -f "$src" ]] || continue
+        local name=$(basename "$src")
+        if link_file "$src" "$dest_dir/$name" "$name"; then
+            success "Linked $label: $name"
+            LINK_COUNT=$((LINK_COUNT + 1))
+        fi
+    done
+}
+
+# Link all directories matching a glob to a destination directory.
+# Sets LINK_COUNT to the number of new links created.
+# Usage: link_dirs "glob_pattern" "dest_dir" "label"
+link_dirs() {
+    local glob="$1" dest_dir="$2" label="$3"
+    LINK_COUNT=0
+    mkdir -p "$dest_dir"
+    for src in ${~glob}; do
+        [[ -d "$src" ]] || continue
+        local name=$(basename "$src")
+        if link_file "${src%/}" "$dest_dir/$name" "$name"; then
+            success "Linked $label: $name"
+            LINK_COUNT=$((LINK_COUNT + 1))
+        fi
+    done
+}
+
+# Unlink all files matching a glob from a destination directory.
+# Sets LINK_COUNT to the number of links removed.
+# Usage: unlink_files "glob_pattern" "dest_dir" "label"
+unlink_files() {
+    local glob="$1" dest_dir="$2" label="$3"
+    LINK_COUNT=0
+    for src in ${~glob}; do
+        [[ -f "$src" ]] || continue
+        local name=$(basename "$src")
+        if unlink_if_ours "$src" "$dest_dir/$name"; then
+            success "Removed $label: $name"
+            LINK_COUNT=$((LINK_COUNT + 1))
+        fi
+    done
+}
+
+# Unlink all directories matching a glob from a destination directory.
+# Sets LINK_COUNT to the number of links removed.
+# Cleans up empty parent directory.
+# Usage: unlink_dirs "glob_pattern" "dest_dir" "label"
+unlink_dirs() {
+    local glob="$1" dest_dir="$2" label="$3"
+    LINK_COUNT=0
+    for src in ${~glob}; do
+        [[ -d "$src" ]] || continue
+        local name=$(basename "$src")
+        if unlink_if_ours "${src%/}" "$dest_dir/$name"; then
+            success "Removed $label: $name"
+            LINK_COUNT=$((LINK_COUNT + 1))
+        fi
+    done
+    rmdir "$dest_dir" 2>/dev/null || true
+}
+
 # Configure global gitignore to exclude .tasks/
 configure_global_gitignore() {
     local pattern=".tasks/"
@@ -132,6 +201,47 @@ unconfigure_global_gitignore() {
     return 1
 }
 
+# Verify all expected generated files exist (must run 'make' first)
+check_generated_files() {
+    local missing=()
+
+    # CC agents (7 files)
+    for agent in Commit Explore Implement Orchestrate Research Review Worker; do
+        [[ -f "$SCRIPT_DIR/.claude/agents/${agent}.md" ]] || missing+=(".claude/agents/${agent}.md")
+    done
+
+    # CC skills (11 directories)
+    for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt; do
+        [[ -f "$SCRIPT_DIR/.claude/skills/${skill}/SKILL.md" ]] || missing+=(".claude/skills/${skill}/SKILL.md")
+    done
+
+    # CC rules (5 files)
+    for rule in global python terminal testing typescript; do
+        [[ -f "$SCRIPT_DIR/.claude/rules/${rule}.md" ]] || missing+=(".claude/rules/${rule}.md")
+    done
+
+    # Copilot agents (7 files)
+    for agent in commit explore implement orchestrate research review worker; do
+        [[ -f "$SCRIPT_DIR/.github/agents/${agent}.agent.md" ]] || missing+=(".github/agents/${agent}.agent.md")
+    done
+
+    # Copilot skills (11 directories)
+    for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt; do
+        [[ -f "$SCRIPT_DIR/.github/skills/${skill}/SKILL.md" ]] || missing+=(".github/skills/${skill}/SKILL.md")
+    done
+
+    # Copilot instructions (5 files)
+    for instr in global python terminal testing typescript; do
+        [[ -f "$SCRIPT_DIR/instructions/${instr}.instructions.md" ]] || missing+=(".github/skills/instructions/${instr}.instructions.md")
+    done
+
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        echo "${RED}✗${NC} Required generated files not found. Run 'make' before install.sh."
+        echo "  Missing: $(IFS=', '; echo "${missing[*]}")"
+        exit 1
+    fi
+}
+
 # Show what will be linked
 show_files() {
     echo "\n${BLUE}Custom Agents (workflow modes):${NC}"
@@ -149,378 +259,138 @@ show_files() {
 # Install: Create symlinks for skills globally
 install() {
     info "Installing Agentic Coding Framework..."
-    info "Source: $SCRIPT_DIR/.github/"
-    info "Target: ~/.github/"
-    
+    info "Source: $SCRIPT_DIR"
     show_files
-    
-    local skill_count=0
-    local skipped=0
-    
-    # Create global skills directory if it doesn't exist
-    if [[ ! -d "$SKILLS_TARGET_DIR" ]]; then
-        info "Creating global skills directory..."
-        mkdir -p "$SKILLS_TARGET_DIR"
-    fi
-    
-    # Link Agent Skills directories
-    for src in "$SCRIPT_DIR"/.github/skills/*/; do
-        [[ -d "$src" ]] || continue
-        local name=$(basename "$src")
-        if link_file "${src%/}" "$SKILLS_TARGET_DIR/$name" "$name"; then
-            success "Linked skill: $name"
-            skill_count=$((skill_count + 1))
-        else
-            skipped=$((skipped + 1))
-        fi
-    done
-    
-    # Generate CC-enhanced skills (with CC-specific frontmatter)
-    info "Generating Claude Code enhanced skills..."
-    # Remove old compatibility symlink if it exists
-    if [[ -L "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
-        rm "$CLAUDE_SKILLS_TARGET_DIR"
-        info "Removed old Claude Code skills symlink"
-    fi
-    local cc_skill_count=0
-    if command -v node &>/dev/null; then
-        # Generate all CC files from templates
-        local gen_exit=0
-        node "$SCRIPT_DIR/scripts/generate.js" cc --source "$SCRIPT_DIR/templates" 2>&1 || gen_exit=$?
-        if [[ $gen_exit -eq 0 || $gen_exit -eq 1 ]]; then
-            # Copy generated skills to target dir
-            for src in "$SCRIPT_DIR/.claude/skills"/*/; do
-                [[ -d "$src" ]] || continue
-                local skill_name=$(basename "$src")
-                mkdir -p "$CLAUDE_SKILLS_TARGET_DIR/$skill_name"
-                cp "$src/SKILL.md" "$CLAUDE_SKILLS_TARGET_DIR/$skill_name/SKILL.md" 2>/dev/null || true
-            done
-            success "Generated Claude Code enhanced skills"
-            cc_skill_count=$(find "$CLAUDE_SKILLS_TARGET_DIR" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
-        else
-            warn "Could not generate Claude Code skills"
-        fi
-    else
-        warn "Node.js not found — cannot generate Claude Code skills"
-        info "Install Node.js and re-run to enable Claude Code skill generation"
-    fi
-    
-    # Configure global gitignore for tasks
-    info "Configuring global gitignore for task state..."
-    if configure_global_gitignore; then
-        success "Added .tasks/ to global gitignore"
-    else
-        info "Global gitignore already configured for task state"
-    fi
+    check_generated_files
 
-    # Migrate: Remove old symlinks from deprecated prompts folder
-    if [[ -d "$OLD_VSCODE_PROMPTS_DIR" ]]; then
-        local migrated=0
-        for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
-            [[ -f "$src" ]] || continue
-            local name=$(basename "$src")
-            if unlink_if_ours "$src" "$OLD_VSCODE_PROMPTS_DIR/$name"; then
-                migrated=$((migrated + 1))
-            fi
-        done
-        for src in "$SCRIPT_DIR"/instructions/*.instructions.md; do
-            [[ -f "$src" ]] || continue
-            local name=$(basename "$src")
-            if unlink_if_ours "$src" "$OLD_VSCODE_PROMPTS_DIR/$name"; then
-                migrated=$((migrated + 1))
-            fi
-        done
-        if [[ $migrated -gt 0 ]]; then
-            info "Migrated $migrated files from old prompts folder"
-        fi
-    fi
+    # Copilot skills (directory symlinks)
+    link_dirs "$SCRIPT_DIR/.github/skills/*/" "$SKILLS_TARGET_DIR" "skill"
+    local copilot_skills=$LINK_COUNT
 
-    # Install agents to global agents directory
-    info "Installing agents to global agents directory..."
-    if [[ ! -d "$VSCODE_AGENTS_DIR" ]]; then
-        mkdir -p "$VSCODE_AGENTS_DIR"
-    fi
-    
-    local agent_count=0
-    for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
-        [[ -f "$src" ]] || continue
-        local name=$(basename "$src")
-        if link_file "$src" "$VSCODE_AGENTS_DIR/$name" "$name"; then
-            success "Linked agent: $name"
-            agent_count=$((agent_count + 1))
-        fi
-    done
-    
-    # Generate Claude Code native subagents
-    info "Generating Claude Code subagents..."
-    local cc_agent_count=0
-    if command -v node &>/dev/null; then
-        # Copy pre-generated CC agents to target dir (generated above with skills)
-        mkdir -p "$CLAUDE_AGENTS_DIR"
-        for src in "$SCRIPT_DIR/.claude/agents"/*.md; do
-            [[ -f "$src" ]] || continue
-            local agent_dest="$CLAUDE_AGENTS_DIR/$(basename "$src")"
-            if [[ ! -f "$agent_dest" ]] || ! diff -q "$src" "$agent_dest" &>/dev/null; then
-                cp "$src" "$agent_dest"
-            fi
-        done
-        success "Installed Claude Code native subagents"
-        cc_agent_count=$(ls "$CLAUDE_AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
-    else
-        warn "Node.js not found — cannot install Claude Code agents"
-        info "Install Node.js and re-run to enable Claude Code agent generation"
-    fi
+    # CC skills (directory symlinks — same pattern as Copilot)
+    # Remove old compatibility symlink if it still exists
+    [[ -L "$CLAUDE_SKILLS_TARGET_DIR" ]] && rm "$CLAUDE_SKILLS_TARGET_DIR"
+    link_dirs "$SCRIPT_DIR/.claude/skills/*/" "$CLAUDE_SKILLS_TARGET_DIR" "CC skill"
+    local cc_skills=$LINK_COUNT
 
-    # Clean up old slash commands if they exist
-    if [[ -d "$CLAUDE_COMMANDS_DIR" ]]; then
-        local has_old_cmds=false
-        for old_cmd in "$CLAUDE_COMMANDS_DIR"/*.md; do
-            [[ -f "$old_cmd" ]] || continue
-            has_old_cmds=true
-            break
-        done
-        if [[ "$has_old_cmds" == true ]]; then
-            info "Migrating from slash commands to native agents..."
-            for old_cmd in "$CLAUDE_COMMANDS_DIR"/*.md; do
-                [[ -f "$old_cmd" ]] || continue
-                local old_name=$(basename "$old_cmd" .md)
-                rm "$old_cmd"
-                info "Removed old command: /$old_name"
-            done
-            rmdir "$CLAUDE_COMMANDS_DIR" 2>/dev/null || true
-        fi
-    fi
+    # Copilot agents
+    link_files "$SCRIPT_DIR/.github/agents/*.agent.md" "$VSCODE_AGENTS_DIR" "agent"
+    local copilot_agents=$LINK_COUNT
 
-    # Generate Claude Code rules from instructions
-    info "Generating Claude Code rules..."
-    local cc_rule_count=0
-    if command -v node &>/dev/null; then
-        # Copy pre-generated CC rules to target dir (generated above with skills)
-        mkdir -p "$CLAUDE_RULES_DIR"
-        for src in "$SCRIPT_DIR/.claude/rules"/*.md; do
-            [[ -f "$src" ]] || continue
-            local rule_dest="$CLAUDE_RULES_DIR/$(basename "$src")"
-            if [[ ! -f "$rule_dest" ]] || ! diff -q "$src" "$rule_dest" &>/dev/null; then
-                cp "$src" "$rule_dest"
-            fi
-        done
-        success "Installed Claude Code rules"
-        cc_rule_count=$(ls "$CLAUDE_RULES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
-    else
-        warn "Node.js not found — cannot install Claude Code rules"
-        info "Install Node.js and re-run to enable Claude Code rule generation"
-    fi
-    
-    # Install instructions to global instructions directory
-    info "Installing instructions to global instructions directory..."
-    if [[ ! -d "$VSCODE_INSTRUCTIONS_DIR" ]]; then
-        mkdir -p "$VSCODE_INSTRUCTIONS_DIR"
-    fi
-    
-    local instruction_count=0
-    for src in "$SCRIPT_DIR"/instructions/*.instructions.md; do
-        [[ -f "$src" ]] || continue
-        local name=$(basename "$src")
-        if link_file "$src" "$VSCODE_INSTRUCTIONS_DIR/$name" "$name"; then
-            success "Linked instruction: $name"
-            instruction_count=$((instruction_count + 1))
-        fi
-    done
-    
-    # Install global instructions to IntelliJ
-    info "Installing global instructions to IntelliJ..."
-    if [[ ! -d "$INTELLIJ_COPILOT_DIR" ]]; then
-        mkdir -p "$INTELLIJ_COPILOT_DIR"
-    fi
+    # CC agents
+    link_files "$SCRIPT_DIR/.claude/agents/*.md" "$CLAUDE_AGENTS_DIR" "CC agent"
+    local cc_agents=$LINK_COUNT
+
+    # Copilot instructions
+    link_files "$SCRIPT_DIR/instructions/*.instructions.md" "$VSCODE_INSTRUCTIONS_DIR" "instruction"
+    local copilot_instructions=$LINK_COUNT
+
+    # CC rules
+    link_files "$SCRIPT_DIR/.claude/rules/*.md" "$CLAUDE_RULES_DIR" "CC rule"
+    local cc_rules=$LINK_COUNT
+
+    # IntelliJ global instructions (one-off, keep inline)
+    mkdir -p "$INTELLIJ_COPILOT_DIR"
     local intellij_src="$SCRIPT_DIR/instructions/global.instructions.md"
     local intellij_dest="$INTELLIJ_COPILOT_DIR/global-copilot-instructions.md"
     if [[ -f "$intellij_src" ]]; then
         if link_file "$intellij_src" "$intellij_dest" "global-copilot-instructions.md"; then
             success "Linked IntelliJ global instructions"
-        else
-            info "IntelliJ global instructions already linked"
         fi
     fi
-    
-    # Configure VS Code settings for agent/instruction file locations
-    info "Configuring VS Code settings..."
+
+    # Configure global gitignore
+    if configure_global_gitignore; then
+        success "Added .tasks/ to global gitignore"
+    fi
+
+    # Migrate old prompts folder (temporary — remove after all users have migrated)
+    if [[ -d "$OLD_VSCODE_PROMPTS_DIR" ]]; then
+        local migrated=0
+        for src in "$SCRIPT_DIR"/.github/agents/*.agent.md "$SCRIPT_DIR"/instructions/*.instructions.md; do
+            [[ -f "$src" ]] || continue
+            unlink_if_ours "$src" "$OLD_VSCODE_PROMPTS_DIR/$(basename "$src")" && migrated=$((migrated + 1))
+        done
+        [[ $migrated -gt 0 ]] && info "Migrated $migrated files from old prompts folder"
+    fi
+
+    # Configure VS Code settings
     if command -v node &>/dev/null; then
         if node "$SCRIPT_DIR/scripts/configure-vscode-settings.js" 2>/dev/null; then
             success "Configured VS Code settings for agent discovery"
-        else
-            local exit_code=$?
-            if [[ $exit_code -eq 1 ]]; then
-                info "VS Code settings already configured"
-            else
-                warn "Could not auto-configure VS Code settings"
-                info "Add to settings.json:"
-                echo '  "chat.agentFilesLocations": { "~/.copilot/agents": true }'
-                echo '  "chat.instructionsFilesLocations": { "~/.copilot/instructions": true }'
-            fi
         fi
     else
         warn "Node.js not found - cannot auto-configure VS Code settings"
-        info "Add to settings.json:"
+        info "Add to VS Code settings.json:"
         echo '  "chat.agentFilesLocations": { "~/.copilot/agents": true }'
         echo '  "chat.instructionsFilesLocations": { "~/.copilot/instructions": true }'
     fi
-    
+
     echo ""
     success "Installation complete!"
-    info "Installed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, $cc_skill_count CC skills, and $cc_rule_count CC rules"
+    info "Copilot: $copilot_agents agents, $copilot_skills skills, $copilot_instructions instructions"
+    info "Claude Code: $cc_agents agents, $cc_skills skills, $cc_rules rules"
     echo ""
     echo "${YELLOW}═══════════════════════════════════════════════════════════════${NC}"
     echo "${YELLOW}  Agents are now available globally${NC}"
     echo "${YELLOW}═══════════════════════════════════════════════════════════════${NC}"
     echo ""
-    info "Agents installed to:"
-    info "  • ~/.copilot/agents/"
-    echo ""
-    info "Instructions installed to:"
-    info "  • ~/.copilot/instructions/"
-    echo ""
-    info "IntelliJ global instructions installed to:"
-    info "  • ~/.config/github-copilot/intellij/"
-    info "  (Note: Agents and skills require VS Code—see README)"
-    echo ""
-    info "Skills installed to:"
-    info "  • ~/.copilot/skills/ (Copilot, symlinked)"
-    info "  • ~/.claude/skills/ (Claude Code, generated with CC frontmatter)"
-    echo ""
-    info "Claude Code agents installed to:"
-    info "  • ~/.claude/agents/ (invoke with @agent-<Name>)"
-    echo ""
-    info "Claude Code rules installed to:"
-    info "  • ~/.claude/rules/ (user-level instruction rules)"
-    echo ""
-    info "VS Code settings configured:"
-    info "  • chat.agentFilesLocations → ~/.copilot/agents"
-    info "  • chat.instructionsFilesLocations → ~/.copilot/instructions"
-    echo ""
-    info "Task state location:"
-    info "  • .tasks/ (in each workspace, gitignored globally)"
+    info "Copilot:     ~/.copilot/{agents,skills,instructions}/"
+    info "Claude Code: ~/.claude/{agents,skills,rules}/"
+    info "IntelliJ:    ~/.config/github-copilot/intellij/"
+    info "Tasks:       .tasks/ (per workspace, gitignored globally)"
     echo ""
 }
 
-# Uninstall: Remove symlinks (skills only)
+# Uninstall: Remove symlinks
 uninstall() {
     info "Uninstalling Agentic Coding Framework..."
-    
-    local skill_count=0
-    local agent_count=0
-    local instruction_count=0
-    
-    # Remove global gitignore configuration
-    unconfigure_global_gitignore
-    
-    # Remove Agent Skills symlinks
-    info "Removing skills from $SKILLS_TARGET_DIR..."
-    for src in "$SCRIPT_DIR"/.github/skills/*/; do
-        [[ -d "$src" ]] || continue
-        local name=$(basename "$src")
-        if unlink_if_ours "${src%/}" "$SKILLS_TARGET_DIR/$name"; then
-            success "Removed skill: $name"
-            skill_count=$((skill_count + 1))
-        fi
-    done
-    
-    # Remove Claude Code generated skills
-    if [[ -d "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
-        local cc_skill_removed=0
-        for skill_dir in "$CLAUDE_SKILLS_TARGET_DIR"/*/; do
-            [[ -d "$skill_dir" ]] || continue
-            local sname=$(basename "$skill_dir")
-            rm -rf "$skill_dir"
-            cc_skill_removed=$((cc_skill_removed + 1))
-        done
-        rmdir "$CLAUDE_SKILLS_TARGET_DIR" 2>/dev/null || true
-        if [[ $cc_skill_removed -gt 0 ]]; then
-            success "Removed $cc_skill_removed CC skills"
-        fi
-    elif [[ -L "$CLAUDE_SKILLS_TARGET_DIR" ]]; then
-        # Handle old compatibility symlink
-        rm "$CLAUDE_SKILLS_TARGET_DIR"
-        success "Removed: Claude Code compatibility symlink"
-    fi
-    
-    # Remove agents from global agents directory
-    info "Removing agents from global agents directory..."
-    for src in "$SCRIPT_DIR"/.github/agents/*.agent.md; do
-        [[ -f "$src" ]] || continue
-        local name=$(basename "$src")
-        if unlink_if_ours "$src" "$VSCODE_AGENTS_DIR/$name"; then
-            success "Removed agent: $name"
-            agent_count=$((agent_count + 1))
-        fi
-    done
-    
-    # Remove Claude Code native agents
-    info "Removing Claude Code agents..."
-    local cc_agent_count=0
-    if [[ -d "$CLAUDE_AGENTS_DIR" ]]; then
-        for agent_file in "$CLAUDE_AGENTS_DIR"/*.md; do
-            [[ -f "$agent_file" ]] || continue
-            local agent_name=$(basename "$agent_file")
-            rm "$agent_file"
-            success "Removed CC agent: $agent_name"
-            cc_agent_count=$((cc_agent_count + 1))
-        done
-        rmdir "$CLAUDE_AGENTS_DIR" 2>/dev/null || true
-    fi
 
-    # Remove generated Claude Code rules
-    local cc_rule_count=0
-    for rule_file in global.md python.md typescript.md testing.md terminal.md; do
-        if [[ -f "$CLAUDE_RULES_DIR/$rule_file" ]]; then
-            rm "$CLAUDE_RULES_DIR/$rule_file"
-            cc_rule_count=$((cc_rule_count + 1))
-        fi
-    done
-    if [[ $cc_rule_count -gt 0 ]]; then
-        info "Removed $cc_rule_count CC rules"
-    fi
+    # Copilot skills
+    unlink_dirs "$SCRIPT_DIR/.github/skills/*/" "$SKILLS_TARGET_DIR" "skill"
+    local copilot_skills=$LINK_COUNT
 
-    # Remove old Claude Code slash commands (migration cleanup)
-    local cmd_count=0
+    # CC skills
+    unlink_dirs "$SCRIPT_DIR/.claude/skills/*/" "$CLAUDE_SKILLS_TARGET_DIR" "CC skill"
+    local cc_skills=$LINK_COUNT
+
+    # Copilot agents
+    unlink_files "$SCRIPT_DIR/.github/agents/*.agent.md" "$VSCODE_AGENTS_DIR" "agent"
+    local copilot_agents=$LINK_COUNT
+
+    # CC agents
+    unlink_files "$SCRIPT_DIR/.claude/agents/*.md" "$CLAUDE_AGENTS_DIR" "CC agent"
+    local cc_agents=$LINK_COUNT
+    rmdir "$CLAUDE_AGENTS_DIR" 2>/dev/null || true
+
+    # Copilot instructions
+    unlink_files "$SCRIPT_DIR/instructions/*.instructions.md" "$VSCODE_INSTRUCTIONS_DIR" "instruction"
+    local copilot_instructions=$LINK_COUNT
+
+    # CC rules
+    unlink_files "$SCRIPT_DIR/.claude/rules/*.md" "$CLAUDE_RULES_DIR" "CC rule"
+    local cc_rules=$LINK_COUNT
+    rmdir "$CLAUDE_RULES_DIR" 2>/dev/null || true
+
+    # Old slash commands cleanup
     if [[ -d "$CLAUDE_COMMANDS_DIR" ]]; then
-        for cmd_file in "$CLAUDE_COMMANDS_DIR"/*.md; do
-            [[ -f "$cmd_file" ]] || continue
-            rm "$cmd_file"
-            cmd_count=$((cmd_count + 1))
-        done
+        rm -f "$CLAUDE_COMMANDS_DIR"/*.md
         rmdir "$CLAUDE_COMMANDS_DIR" 2>/dev/null || true
     fi
-    
-    # Remove instructions from global instructions directory
-    info "Removing instructions from global instructions directory..."
-    for src in "$SCRIPT_DIR"/instructions/*.instructions.md; do
-        [[ -f "$src" ]] || continue
-        local name=$(basename "$src")
-        if unlink_if_ours "$src" "$VSCODE_INSTRUCTIONS_DIR/$name"; then
-            success "Removed instruction: $name"
-            instruction_count=$((instruction_count + 1))
-        fi
-    done
-    
-    # Remove task state pattern from global gitignore
-    info "Removing task state pattern from global gitignore..."
+
+    # Gitignore
     if unconfigure_global_gitignore; then
         success "Removed .tasks/ from global gitignore"
-    else
-        info "Task state pattern not found in global gitignore"
     fi
-    
-    # Remove global instructions from IntelliJ
-    info "Removing global instructions from IntelliJ..."
+
+    # IntelliJ
     local intellij_src="$SCRIPT_DIR/instructions/global.instructions.md"
-    local intellij_dest="$INTELLIJ_COPILOT_DIR/global-copilot-instructions.md"
-    if unlink_if_ours "$intellij_src" "$intellij_dest"; then
-        success "Removed IntelliJ global instructions"
-    fi
-    
+    unlink_if_ours "$intellij_src" "$INTELLIJ_COPILOT_DIR/global-copilot-instructions.md" && success "Removed IntelliJ global instructions"
+
     echo ""
     success "Uninstallation complete!"
-    info "Removed $agent_count agents, $skill_count skills, $instruction_count instructions, $cc_agent_count CC agents, $cc_rule_count CC rules, and $cmd_count old commands"
+    info "Removed: $copilot_agents agents, $copilot_skills skills, $copilot_instructions instructions"
+    info "Removed: $cc_agents CC agents, $cc_skills CC skills, $cc_rules CC rules"
 }
 
 # Main

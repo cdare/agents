@@ -1,0 +1,324 @@
+# Template Format Specification
+
+Templates encode platform-agnostic content with conditional platform-specific sections. A single template generates outputs for both VS Code Copilot and Claude Code (CC).
+
+## Overview
+
+```
+templates/
+├── agents/           → Copilot: .github/agents/*.agent.md
+│                     → CC: .claude/agents/*.md
+├── skills/           → Copilot: .github/skills/*/SKILL.md
+│                     → CC: .claude/skills/*/SKILL.md
+└── instructions/     → Copilot: instructions/*.instructions.md
+                      → CC: .claude/rules/*.md
+```
+
+---
+
+## Frontmatter Structure
+
+Templates use YAML frontmatter with shared metadata and platform-keyed sections.
+
+### Agent Template Frontmatter
+
+```yaml
+---
+# === SHARED METADATA ===
+name: Explore
+description: "READ-ONLY research and planning..."
+
+# === COPILOT-SPECIFIC ===
+copilot:
+  tools: ["vscode/askQuestions", "read/readFile", "edit/editFiles", ...]
+  model: ["Claude Opus 4.5 (copilot)", "Claude Opus 4.6 (copilot)"]
+  agents: ["Explore", "Research"] # Available subagents
+  handoffs: # Handoff buttons (Copilot UI)
+    - label: Implement
+      agent: Implement
+      prompt: "Implement the plan..."
+      send: false
+  # Optional:
+  # user-invokable: false               # Hide from user invocation (Research, Worker)
+  # disable-model-invocation: true      # Model cannot invoke (Orchestrate)
+
+# === CC-SPECIFIC ===
+cc:
+  tools: [Read, Grep, Glob, Edit, Write, Task(explore), LSP, ...]
+  disallowedTools: [Bash] # Explicit tool restrictions
+  model: opus
+  skills: [deep-research, architecture, critic]
+  # Optional:
+  # permissionMode: plan                # For Orchestrate
+---
+```
+
+**Generation Rules:**
+
+- **Copilot output:** `name`, `description` + all `copilot:` fields (flattened to top level)
+- **CC output:** `name`, `description` + all `cc:` fields (flattened to top level)
+
+### Skill Template Frontmatter
+
+Skills have simpler structure—Copilot uses only `name` and `description`:
+
+```yaml
+---
+name: architecture
+description: "Use when documenting architecture... Triggers on: 'architecture', 'system design'..."
+
+# CC enhancements (Copilot has no equivalent)
+cc:
+  context: fork
+  allowed-tools: [Read, Grep, Glob, LSP]
+---
+```
+
+**Generation Rules:**
+
+- **Copilot output:** `name`, `description` only
+- **CC output:** `name`, `description` + all `cc:` fields (flattened)
+
+### Instruction Template Frontmatter
+
+Instructions map `applyTo` (Copilot) to `paths` (CC):
+
+```yaml
+---
+applyTo: "**/*.py"
+---
+```
+
+**Generation Rules:**
+
+- **Copilot output:** `applyTo: "**/*.py"` (as-is)
+- **CC output:** `paths: ["**/*.py"]` (array format)
+
+**Special Case — Global Instructions:**
+When `applyTo: "**"`:
+
+- Copilot: Outputs `applyTo: "**"`
+- CC: **No frontmatter at all** (unconditional rule, omit `---` block entirely)
+
+---
+
+## Body Content Directives
+
+HTML comment directives mark platform-specific content sections.
+
+### Syntax
+
+| Directive                | Meaning                               |
+| ------------------------ | ------------------------------------- |
+| `<!-- SHARED -->`        | Content for both platforms (explicit) |
+| `<!-- COPILOT-ONLY -->`  | Start Copilot-only section            |
+| `<!-- /COPILOT-ONLY -->` | End Copilot-only section              |
+| `<!-- CC-ONLY -->`       | Start CC-only section                 |
+| `<!-- /CC-ONLY -->`      | End CC-only section                   |
+
+### Rules
+
+1. **Content before any directive is SHARED** (implicit default)
+2. **`<!-- SHARED -->`** opens explicit shared section
+3. **Platform blocks require closing tags** (`<!-- /CC-ONLY -->`)
+4. **Closing a platform block returns to SHARED** implicitly
+5. **No nesting** — directives cannot contain other directives
+6. **Unknown directives are errors** (e.g., `<!-- WINDOWS-ONLY -->`)
+
+### Example
+
+```markdown
+# Agent Mode
+
+This content appears in BOTH Copilot and CC output.
+
+## Core Instructions
+
+Shared instructions here.
+
+<!-- COPILOT-ONLY -->
+
+## Handoff Buttons
+
+Click the "Implement" button when ready.
+
+<!-- /COPILOT-ONLY -->
+
+<!-- CC-ONLY -->
+
+## CC Platform Notes
+
+Use `@agent-Implement` to proceed.
+
+<!-- /CC-ONLY -->
+
+## More Shared Content
+
+This section appears in both outputs.
+```
+
+**Copilot Output:**
+
+```markdown
+# Agent Mode
+
+This content appears in BOTH Copilot and CC output.
+
+## Core Instructions
+
+Shared instructions here.
+
+## Handoff Buttons
+
+Click the "Implement" button when ready.
+
+## More Shared Content
+
+This section appears in both outputs.
+```
+
+**CC Output:**
+
+```markdown
+# Agent Mode
+
+This content appears in BOTH Copilot and CC output.
+
+## Core Instructions
+
+Shared instructions here.
+
+## CC Platform Notes
+
+Use `@agent-Implement` to proceed.
+
+## More Shared Content
+
+This section appears in both outputs.
+```
+
+---
+
+## Output Directory Mapping
+
+| Template Type                          | Copilot Output                   | CC Output                   |
+| -------------------------------------- | -------------------------------- | --------------------------- |
+| `templates/agents/*.template.md`       | `.github/agents/*.agent.md`      | `.claude/agents/*.md`       |
+| `templates/skills/*/SKILL.template.md` | `.github/skills/*/SKILL.md`      | `.claude/skills/*/SKILL.md` |
+| `templates/instructions/*.template.md` | `instructions/*.instructions.md` | `.claude/rules/*.md`        |
+
+### File Naming Conventions
+
+- **Agents:** Template `explore.template.md` → Copilot `explore.agent.md`, CC `explore.md`
+- **Skills:** Template `debug/SKILL.template.md` → Both `debug/SKILL.md` (preserve structure)
+- **Instructions:** Template `python.template.md` → Copilot `python.instructions.md`, CC `python.md`
+
+---
+
+## Validation Rules
+
+The generator MUST fail with clear error messages for:
+
+| Error              | Detection                                         | Message                                                         |
+| ------------------ | ------------------------------------------------- | --------------------------------------------------------------- |
+| Unclosed block     | `<!-- CC-ONLY -->` without `<!-- /CC-ONLY -->`    | `Error: Unclosed CC-ONLY block in {file}`                       |
+| Nested directives  | `<!-- CC-ONLY -->` inside `<!-- COPILOT-ONLY -->` | `Error: Nested directive CC-ONLY inside COPILOT-ONLY in {file}` |
+| Unknown directive  | `<!-- WINDOWS-ONLY -->`                           | `Error: Unknown directive WINDOWS-ONLY in {file}`               |
+| Orphan closing tag | `<!-- /CC-ONLY -->` without opening               | `Error: Orphan closing tag /CC-ONLY in {file}`                  |
+
+**Valid directives:** `SHARED`, `COPILOT-ONLY`, `/COPILOT-ONLY`, `CC-ONLY`, `/CC-ONLY`
+
+---
+
+## Whitespace Handling
+
+1. **Directive lines are removed entirely** — no residual blank lines
+2. **Content whitespace is preserved** — exact spacing within blocks
+3. **Block boundaries collapse to single blank line** — prevents double spacing
+
+---
+
+## Edge Cases
+
+### E1: Agents Without CC-Only Body Content
+
+Some agents (Research, Worker) have no platform-specific body sections—they're embedded into parent agents for CC. The template has `cc:` frontmatter but no `<!-- CC-ONLY -->` body block:
+
+```yaml
+---
+name: Research
+description: "Internal research subagent..."
+
+copilot:
+  user-invokable: false
+  tools: [read/readFile, search, web]
+  model: ["Claude Sonnet 4.5 (copilot)"]
+
+cc:
+  tools: [Read, Grep, Glob, WebFetch, WebSearch, LSP]
+  model: sonnet
+---
+# Research Mode
+
+[Body content identical for both platforms]
+```
+
+### E2: Skills Without CC Enhancements
+
+Skills that don't need CC-specific frontmatter omit the `cc:` section entirely:
+
+```yaml
+---
+name: simple-skill
+description: "Does something simple..."
+# No cc: section — identical output for both platforms
+---
+```
+
+### E3: Agents Referencing Other Agents
+
+`handoffs` and `agents` fields are Copilot-only (live under `copilot:`). CC uses `Task(agent-name)` in the tools array instead:
+
+```yaml
+copilot:
+  agents: ["Explore", "Research"]
+  handoffs:
+    - label: Implement
+      agent: Implement
+      ...
+
+cc:
+  tools: [Task(explore), Task(implement), ...]  # Subagent invocation
+```
+
+### E4: Platform-Specific Tool Names
+
+Tool names differ completely between platforms. No mapping—each platform has its own tools array:
+
+```yaml
+copilot:
+  tools: ["vscode/askQuestions", "read/readFile", ...]
+cc:
+  tools: [AskUserQuestion, Read, ...]
+```
+
+### E5: Platform-Specific Model Names
+
+Same approach as tools—separate model fields:
+
+```yaml
+copilot:
+  model: ["Claude Opus 4.5 (copilot)", "Claude Opus 4.6 (copilot)"]
+cc:
+  model: opus
+```
+
+---
+
+## Complete Agent Example
+
+See [agents/explore.template.md](agents/explore.template.md) for a complete template demonstrating all features:
+
+- Full frontmatter with both `copilot:` and `cc:` sections
+- Shared body content (default)
+- CC-only platform notes block

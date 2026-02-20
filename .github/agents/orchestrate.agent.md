@@ -11,7 +11,7 @@ tools:
     "todo",
   ]
 agents: ["Explore", "Implement", "Review", "Commit", "Worker"]
-model: ["Claude Opus 4.6 (copilot)", "Claude Opus 4.5 (copilot)"]
+model: ["Claude Opus 4.6 (copilot)", "Claude Sonnet 4.6 (copilot)"]
 disable-model-invocation: true
 ---
 

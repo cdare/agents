@@ -184,17 +184,21 @@ install() {
     fi
     local cc_skill_count=0
     if command -v node &>/dev/null; then
-        if node "$SCRIPT_DIR/scripts/generate-cc-files.js" skills "$CLAUDE_SKILLS_TARGET_DIR" "$SCRIPT_DIR/.github/skills" 2>&1; then
+        # Generate all CC files from templates
+        local gen_exit=0
+        node "$SCRIPT_DIR/scripts/generate.js" cc --source "$SCRIPT_DIR/templates" 2>&1 || gen_exit=$?
+        if [[ $gen_exit -eq 0 || $gen_exit -eq 1 ]]; then
+            # Copy generated skills to target dir
+            for src in "$SCRIPT_DIR/.claude/skills"/*/; do
+                [[ -d "$src" ]] || continue
+                local skill_name=$(basename "$src")
+                mkdir -p "$CLAUDE_SKILLS_TARGET_DIR/$skill_name"
+                cp "$src/SKILL.md" "$CLAUDE_SKILLS_TARGET_DIR/$skill_name/SKILL.md" 2>/dev/null || true
+            done
             success "Generated Claude Code enhanced skills"
             cc_skill_count=$(find "$CLAUDE_SKILLS_TARGET_DIR" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
         else
-            local exit_code=$?
-            if [[ $exit_code -eq 1 ]]; then
-                info "Claude Code skills already up to date"
-                cc_skill_count=$(find "$CLAUDE_SKILLS_TARGET_DIR" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
-            else
-                warn "Could not generate Claude Code skills"
-            fi
+            warn "Could not generate Claude Code skills"
         fi
     else
         warn "Node.js not found — cannot generate Claude Code skills"
@@ -251,20 +255,19 @@ install() {
     info "Generating Claude Code subagents..."
     local cc_agent_count=0
     if command -v node &>/dev/null; then
-        if node "$SCRIPT_DIR/scripts/generate-cc-files.js" agents "$CLAUDE_AGENTS_DIR" "$SCRIPT_DIR/.github/agents" 2>&1; then
-            success "Generated Claude Code native subagents"
-            cc_agent_count=$(ls "$CLAUDE_AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
-        else
-            local exit_code=$?
-            if [[ $exit_code -eq 1 ]]; then
-                info "Claude Code agents already up to date"
-                cc_agent_count=$(ls "$CLAUDE_AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
-            else
-                warn "Could not generate Claude Code agents"
+        # Copy pre-generated CC agents to target dir (generated above with skills)
+        mkdir -p "$CLAUDE_AGENTS_DIR"
+        for src in "$SCRIPT_DIR/.claude/agents"/*.md; do
+            [[ -f "$src" ]] || continue
+            local agent_dest="$CLAUDE_AGENTS_DIR/$(basename "$src")"
+            if [[ ! -f "$agent_dest" ]] || ! diff -q "$src" "$agent_dest" &>/dev/null; then
+                cp "$src" "$agent_dest"
             fi
-        fi
+        done
+        success "Installed Claude Code native subagents"
+        cc_agent_count=$(ls "$CLAUDE_AGENTS_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
     else
-        warn "Node.js not found — cannot generate Claude Code agents"
+        warn "Node.js not found — cannot install Claude Code agents"
         info "Install Node.js and re-run to enable Claude Code agent generation"
     fi
 
@@ -292,20 +295,19 @@ install() {
     info "Generating Claude Code rules..."
     local cc_rule_count=0
     if command -v node &>/dev/null; then
-        if node "$SCRIPT_DIR/scripts/generate-cc-files.js" rules "$CLAUDE_RULES_DIR" "$SCRIPT_DIR/instructions" 2>&1; then
-            success "Generated Claude Code rules"
-            cc_rule_count=$(ls "$CLAUDE_RULES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
-        else
-            local exit_code=$?
-            if [[ $exit_code -eq 1 ]]; then
-                info "Claude Code rules already up to date"
-                cc_rule_count=$(ls "$CLAUDE_RULES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
-            else
-                warn "Could not generate Claude Code rules"
+        # Copy pre-generated CC rules to target dir (generated above with skills)
+        mkdir -p "$CLAUDE_RULES_DIR"
+        for src in "$SCRIPT_DIR/.claude/rules"/*.md; do
+            [[ -f "$src" ]] || continue
+            local rule_dest="$CLAUDE_RULES_DIR/$(basename "$src")"
+            if [[ ! -f "$rule_dest" ]] || ! diff -q "$src" "$rule_dest" &>/dev/null; then
+                cp "$src" "$rule_dest"
             fi
-        fi
+        done
+        success "Installed Claude Code rules"
+        cc_rule_count=$(ls "$CLAUDE_RULES_DIR"/*.md 2>/dev/null | wc -l | tr -d ' ')
     else
-        warn "Node.js not found — cannot generate Claude Code rules"
+        warn "Node.js not found — cannot install Claude Code rules"
         info "Install Node.js and re-run to enable Claude Code rule generation"
     fi
     

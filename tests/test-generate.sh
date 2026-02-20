@@ -31,7 +31,7 @@ node scripts/generate.js all --source "$SCRIPT_DIR/templates" >/dev/null 2>&1; g
 [[ $gen_code -eq 0 || $gen_code -eq 1 ]] && pass "Generate all succeeds" || fail "Generate all exited $gen_code"
 
 # Test 5: Verify Copilot agent file count
-AGENT_COUNT=$(find "$SCRIPT_DIR/.github/agents" -name "*.agent.md" 2>/dev/null | wc -l | tr -d ' ')
+AGENT_COUNT=$(find "$SCRIPT_DIR/generated/copilot/agents" -name "*.agent.md" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$AGENT_COUNT" -ge 7 ]]; then
   pass "Generated $AGENT_COUNT Copilot agents (expected 7)"
 else
@@ -39,7 +39,7 @@ else
 fi
 
 # Test 6: Verify Copilot skill count
-SKILL_COUNT=$(find "$SCRIPT_DIR/.github/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
+SKILL_COUNT=$(find "$SCRIPT_DIR/generated/copilot/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$SKILL_COUNT" -ge 11 ]]; then
   pass "Generated $SKILL_COUNT Copilot skills (expected 11)"
 else
@@ -47,7 +47,7 @@ else
 fi
 
 # Test 7: Verify Copilot instruction count
-INSTR_COUNT=$(find "$SCRIPT_DIR/instructions" -name "*.instructions.md" 2>/dev/null | wc -l | tr -d ' ')
+INSTR_COUNT=$(find "$SCRIPT_DIR/generated/copilot/instructions" -name "*.instructions.md" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$INSTR_COUNT" -ge 5 ]]; then
   pass "Generated $INSTR_COUNT Copilot instructions (expected 5)"
 else
@@ -55,7 +55,7 @@ else
 fi
 
 # Test 8: Verify CC agent count
-CC_AGENT_COUNT=$(find "$SCRIPT_DIR/.claude/agents" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+CC_AGENT_COUNT=$(find "$SCRIPT_DIR/generated/claude/agents" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$CC_AGENT_COUNT" -ge 7 ]]; then
   pass "Generated $CC_AGENT_COUNT CC agents (expected 7)"
 else
@@ -63,7 +63,7 @@ else
 fi
 
 # Test 9: Verify CC skill count
-CC_SKILL_COUNT=$(find "$SCRIPT_DIR/.claude/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
+CC_SKILL_COUNT=$(find "$SCRIPT_DIR/generated/claude/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$CC_SKILL_COUNT" -ge 11 ]]; then
   pass "Generated $CC_SKILL_COUNT CC skills (expected 11)"
 else
@@ -71,7 +71,7 @@ else
 fi
 
 # Test 10: Verify CC rule count
-CC_RULE_COUNT=$(find "$SCRIPT_DIR/.claude/rules" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+CC_RULE_COUNT=$(find "$SCRIPT_DIR/generated/claude/rules" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$CC_RULE_COUNT" -ge 5 ]]; then
   pass "Generated $CC_RULE_COUNT CC rules (expected 5)"
 else
@@ -92,7 +92,7 @@ idem_code=$?
 }
 
 # Test 12: Global CC rule has no frontmatter
-GLOBAL_RULE="$SCRIPT_DIR/.claude/rules/global.md"
+GLOBAL_RULE="$SCRIPT_DIR/generated/claude/rules/global.md"
 if [[ -f "$GLOBAL_RULE" ]]; then
   first_line=$(head -1 "$GLOBAL_RULE")
   if [[ "$first_line" != "---" ]]; then
@@ -121,7 +121,7 @@ node scripts/generate.js cc >/dev/null 2>&1 && pass "Generate cc subcommand succ
 
 # Test 18: CC agents have required 'tools:' frontmatter
 cc_fm_ok=true
-for agent in "$SCRIPT_DIR"/.claude/agents/*.md; do
+for agent in "$SCRIPT_DIR"/generated/claude/agents/*.md; do
   [[ -f "$agent" ]] || continue
   if ! grep -q "^tools:" "$agent"; then
     cc_fm_ok=false
@@ -132,7 +132,7 @@ done
 
 # Test 19: CC rules with frontmatter have paths: scoping
 cc_paths_ok=true
-for rule in "$SCRIPT_DIR"/.claude/rules/*.md; do
+for rule in "$SCRIPT_DIR"/generated/claude/rules/*.md; do
   [[ -f "$rule" ]] || continue
   first_line=$(head -1 "$rule")
   # Only check rules that have frontmatter (global and terminal apply unconditionally)

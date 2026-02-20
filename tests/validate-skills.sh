@@ -7,8 +7,8 @@ set -e
 
 SCRIPT_DIR="${0:A:h}"
 REPO_ROOT="$SCRIPT_DIR/.."
-AGENTS_DIR="$REPO_ROOT/.github/agents"
-SKILLS_DIR="$REPO_ROOT/.github/skills"
+AGENTS_DIR="$REPO_ROOT/generated/copilot/agents"
+SKILLS_DIR="$REPO_ROOT/generated/copilot/skills"
 
 # Colors
 RED='\033[0;31m'
@@ -139,11 +139,11 @@ fi
 
 echo ""
 echo "═══════════════════════════════════════════"
-echo "Validating CC Agents in $REPO_ROOT/.claude/agents/"
+echo "Validating CC Agents in $REPO_ROOT/generated/claude/agents/"
 echo "═══════════════════════════════════════════"
 echo ""
 
-CC_AGENTS_DIR="$REPO_ROOT/.claude/agents"
+CC_AGENTS_DIR="$REPO_ROOT/generated/claude/agents"
 for agent_file in "$CC_AGENTS_DIR"/*.md; do
     [[ -f "$agent_file" ]] || continue
     name=$(basename "$agent_file" .md)
@@ -159,11 +159,11 @@ done
 
 echo ""
 echo "═══════════════════════════════════════════"
-echo "Validating CC Skills in $REPO_ROOT/.claude/skills/"
+echo "Validating CC Skills in $REPO_ROOT/generated/claude/skills/"
 echo "═══════════════════════════════════════════"
 echo ""
 
-CC_SKILLS_DIR="$REPO_ROOT/.claude/skills"
+CC_SKILLS_DIR="$REPO_ROOT/generated/claude/skills"
 for skill_dir in "$CC_SKILLS_DIR"/*/; do
     [[ -d "$skill_dir" ]] || continue
     name=$(basename "$skill_dir")
@@ -184,11 +184,11 @@ done
 
 echo ""
 echo "═══════════════════════════════════════════"
-echo "Validating CC Rules in $REPO_ROOT/.claude/rules/"
+echo "Validating CC Rules in $REPO_ROOT/generated/claude/rules/"
 echo "═══════════════════════════════════════════"
 echo ""
 
-CC_RULES_DIR="$REPO_ROOT/.claude/rules"
+CC_RULES_DIR="$REPO_ROOT/generated/claude/rules"
 for rule_file in "$CC_RULES_DIR"/*.md; do
     [[ -f "$rule_file" ]] || continue
     name=$(basename "$rule_file" .md)
@@ -208,16 +208,16 @@ echo "Checking cross-platform parity..."
 echo "═══════════════════════════════════════════"
 echo ""
 
-copilot_agents=$(find "$REPO_ROOT/.github/agents" -name "*.agent.md" 2>/dev/null | wc -l | tr -d ' ')
-cc_agents=$(find "$REPO_ROOT/.claude/agents" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+copilot_agents=$(find "$REPO_ROOT/generated/copilot/agents" -name "*.agent.md" 2>/dev/null | wc -l | tr -d ' ')
+cc_agents=$(find "$REPO_ROOT/generated/claude/agents" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$copilot_agents" -eq "$cc_agents" ]]; then
     success "Agent count matches ($copilot_agents)"
 else
     error "Agent count mismatch: Copilot=$copilot_agents CC=$cc_agents"
 fi
 
-copilot_skills=$(find "$REPO_ROOT/.github/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
-cc_skills=$(find "$REPO_ROOT/.claude/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+copilot_skills=$(find "$REPO_ROOT/generated/copilot/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+cc_skills=$(find "$REPO_ROOT/generated/claude/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
 if [[ "$copilot_skills" -eq "$cc_skills" ]]; then
     success "Skill count matches ($copilot_skills)"
 else

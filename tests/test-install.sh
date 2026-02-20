@@ -27,7 +27,7 @@ info "Running install..."
 
 # Verify agent symlinks exist in global agents directory
 VSCODE_AGENTS_DIR="$HOME/.copilot/agents"
-for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
+for agent in "$REPO_ROOT"/generated/copilot/agents/*.agent.md; do
     [[ -f "$agent" ]] || continue
     name=$(basename "$agent")
     if [[ ! -L "$VSCODE_AGENTS_DIR/$name" ]]; then
@@ -37,7 +37,7 @@ done
 success "Agent symlinks created"
 
 # Verify skill symlinks exist
-for skill in "$REPO_ROOT"/.github/skills/*/; do
+for skill in "$REPO_ROOT"/generated/copilot/skills/*/; do
     [[ -d "$skill" ]] || continue
     name=$(basename "$skill")
     if [[ ! -L "$HOME/.copilot/skills/$name" ]]; then
@@ -48,7 +48,7 @@ success "Skill symlinks created"
 
 # Verify instruction symlinks exist in global instructions directory
 VSCODE_INSTRUCTIONS_DIR="$HOME/.copilot/instructions"
-for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
+for instr in "$REPO_ROOT"/generated/copilot/instructions/*.instructions.md; do
     [[ -f "$instr" ]] || continue
     name=$(basename "$instr")
     if [[ ! -L "$VSCODE_INSTRUCTIONS_DIR/$name" ]]; then
@@ -59,7 +59,7 @@ success "Instruction symlinks created"
 
 # Verify Claude Code agent symlinks exist
 CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
-for agent in "$REPO_ROOT"/.claude/agents/*.md; do
+for agent in "$REPO_ROOT"/generated/claude/agents/*.md; do
     [[ -f "$agent" ]] || continue
     name=$(basename "$agent")
     if [[ ! -L "$CLAUDE_AGENTS_DIR/$name" ]]; then
@@ -69,7 +69,7 @@ done
 success "CC agent symlinks created"
 
 # Verify Claude Code skill symlinks exist
-for skill in "$REPO_ROOT"/.claude/skills/*/; do
+for skill in "$REPO_ROOT"/generated/claude/skills/*/; do
     [[ -d "$skill" ]] || continue
     name=$(basename "$skill")
     if [[ ! -L "$HOME/.claude/skills/$name" ]]; then
@@ -79,7 +79,7 @@ done
 success "CC skill symlinks created"
 
 # Verify Claude Code rule symlinks exist
-for rule in "$REPO_ROOT"/.claude/rules/*.md; do
+for rule in "$REPO_ROOT"/generated/claude/rules/*.md; do
     [[ -f "$rule" ]] || continue
     name=$(basename "$rule")
     if [[ ! -L "$HOME/.claude/rules/$name" ]]; then
@@ -105,7 +105,7 @@ info "Running uninstall..."
 "$REPO_ROOT/install.sh" uninstall > /dev/null
 
 # Verify agent symlinks removed
-for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
+for agent in "$REPO_ROOT"/generated/copilot/agents/*.agent.md; do
     [[ -f "$agent" ]] || continue
     name=$(basename "$agent")
     if [[ -L "$VSCODE_AGENTS_DIR/$name" ]]; then
@@ -115,7 +115,7 @@ done
 success "Agent symlinks removed"
 
 # Verify skill symlinks removed
-for skill in "$REPO_ROOT"/.github/skills/*/; do
+for skill in "$REPO_ROOT"/generated/copilot/skills/*/; do
     [[ -d "$skill" ]] || continue
     name=$(basename "$skill")
     if [[ -L "$HOME/.copilot/skills/$name" ]]; then
@@ -125,7 +125,7 @@ done
 success "Skill symlinks removed"
 
 # Verify instruction symlinks removed
-for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
+for instr in "$REPO_ROOT"/generated/copilot/instructions/*.instructions.md; do
     [[ -f "$instr" ]] || continue
     name=$(basename "$instr")
     if [[ -L "$VSCODE_INSTRUCTIONS_DIR/$name" ]]; then
@@ -135,7 +135,7 @@ done
 success "Instruction symlinks removed"
 
 # Verify CC agent symlinks removed
-for agent in "$REPO_ROOT"/.claude/agents/*.md; do
+for agent in "$REPO_ROOT"/generated/claude/agents/*.md; do
     [[ -f "$agent" ]] || continue
     name=$(basename "$agent")
     if [[ -L "$CLAUDE_AGENTS_DIR/$name" ]]; then
@@ -145,7 +145,7 @@ done
 success "CC agent symlinks removed"
 
 # Verify CC skill symlinks removed
-for skill in "$REPO_ROOT"/.claude/skills/*/; do
+for skill in "$REPO_ROOT"/generated/claude/skills/*/; do
     [[ -d "$skill" ]] || continue
     name=$(basename "$skill")
     if [[ -L "$HOME/.claude/skills/$name" ]]; then
@@ -155,7 +155,7 @@ done
 success "CC skill symlinks removed"
 
 # Verify CC rule symlinks removed
-for rule in "$REPO_ROOT"/.claude/rules/*.md; do
+for rule in "$REPO_ROOT"/generated/claude/rules/*.md; do
     [[ -f "$rule" ]] || continue
     name=$(basename "$rule")
     if [[ -L "$HOME/.claude/rules/$name" ]]; then

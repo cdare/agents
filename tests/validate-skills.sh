@@ -139,6 +139,93 @@ fi
 
 echo ""
 echo "═══════════════════════════════════════════"
+echo "Validating CC Agents in $REPO_ROOT/.claude/agents/"
+echo "═══════════════════════════════════════════"
+echo ""
+
+CC_AGENTS_DIR="$REPO_ROOT/.claude/agents"
+for agent_file in "$CC_AGENTS_DIR"/*.md; do
+    [[ -f "$agent_file" ]] || continue
+    name=$(basename "$agent_file" .md)
+    if ! grep -q "^tools:" "$agent_file"; then
+        error "$name (CC): Missing 'tools' in frontmatter"
+    fi
+    if ! grep -q "^model:" "$agent_file"; then
+        warn "$name (CC): No 'model' in frontmatter"
+    fi
+    lines=$(wc -l < "$agent_file" | tr -d ' ')
+    success "$name (CC): Valid ($lines lines)"
+done
+
+echo ""
+echo "═══════════════════════════════════════════"
+echo "Validating CC Skills in $REPO_ROOT/.claude/skills/"
+echo "═══════════════════════════════════════════"
+echo ""
+
+CC_SKILLS_DIR="$REPO_ROOT/.claude/skills"
+for skill_dir in "$CC_SKILLS_DIR"/*/; do
+    [[ -d "$skill_dir" ]] || continue
+    name=$(basename "$skill_dir")
+    skill_file="$skill_dir/SKILL.md"
+    if [[ ! -f "$skill_file" ]]; then
+        error "$name (CC): Missing SKILL.md"
+        continue
+    fi
+    if ! grep -q "^name:" "$skill_file"; then
+        error "$name (CC): Missing 'name'"
+    fi
+    if ! grep -q "^description:" "$skill_file"; then
+        error "$name (CC): Missing 'description'"
+    fi
+    lines=$(wc -l < "$skill_file" | tr -d ' ')
+    success "$name (CC): Valid ($lines lines)"
+done
+
+echo ""
+echo "═══════════════════════════════════════════"
+echo "Validating CC Rules in $REPO_ROOT/.claude/rules/"
+echo "═══════════════════════════════════════════"
+echo ""
+
+CC_RULES_DIR="$REPO_ROOT/.claude/rules"
+for rule_file in "$CC_RULES_DIR"/*.md; do
+    [[ -f "$rule_file" ]] || continue
+    name=$(basename "$rule_file" .md)
+    if [[ "$name" == "global" ]]; then
+        first_line=$(head -1 "$rule_file")
+        if [[ "$first_line" == "---" ]]; then
+            error "global rule should not have frontmatter"
+        fi
+    fi
+    lines=$(wc -l < "$rule_file" | tr -d ' ')
+    success "$name (CC rule): Valid ($lines lines)"
+done
+
+echo ""
+echo "═══════════════════════════════════════════"
+echo "Checking cross-platform parity..."
+echo "═══════════════════════════════════════════"
+echo ""
+
+copilot_agents=$(find "$REPO_ROOT/.github/agents" -name "*.agent.md" 2>/dev/null | wc -l | tr -d ' ')
+cc_agents=$(find "$REPO_ROOT/.claude/agents" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+if [[ "$copilot_agents" -eq "$cc_agents" ]]; then
+    success "Agent count matches ($copilot_agents)"
+else
+    error "Agent count mismatch: Copilot=$copilot_agents CC=$cc_agents"
+fi
+
+copilot_skills=$(find "$REPO_ROOT/.github/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+cc_skills=$(find "$REPO_ROOT/.claude/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+if [[ "$copilot_skills" -eq "$cc_skills" ]]; then
+    success "Skill count matches ($copilot_skills)"
+else
+    error "Skill count mismatch: Copilot=$copilot_skills CC=$cc_skills"
+fi
+
+echo ""
+echo "═══════════════════════════════════════════"
 
 if [[ $ERRORS -gt 0 ]]; then
     echo "${RED}$ERRORS errors${NC}, $WARNINGS warnings"

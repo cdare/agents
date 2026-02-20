@@ -22,6 +22,8 @@ See [AGENTS.md](../AGENTS.md) for cross-agent instructions including:
 After modifying agents or skills:
 
 ```bash
+make validate
 ./install.sh
 ./tests/validate-skills.sh
+./tests/test-generate.sh
 ```

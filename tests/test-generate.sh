@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # Integration tests for scripts/generate.js
 
 set -uo pipefail
@@ -104,28 +104,45 @@ else
   fail "Global CC rule file not found"
 fi
 
-# Test 13: Copilot snapshot parity
-SNAPSHOT_DIR="$SCRIPT_DIR/.tasks/017-cc-full-compatibility/snapshots/copilot"
-if [[ -d "$SNAPSHOT_DIR" ]]; then
-  parity_ok=true
-  for snap_dir in agents skills instructions; do
-    if [[ -d "$SNAPSHOT_DIR/$snap_dir" ]]; then
-      case "$snap_dir" in
-        agents)     gen_dir="$SCRIPT_DIR/.github/agents" ;;
-        skills)     gen_dir="$SCRIPT_DIR/.github/skills" ;;
-        instructions) gen_dir="$SCRIPT_DIR/instructions" ;;
-      esac
-      if ! diff -rq "$SNAPSHOT_DIR/$snap_dir" "$gen_dir" >/dev/null 2>&1; then
-        parity_ok=false
-        echo "  Diff found in $snap_dir:"
-        diff -r "$SNAPSHOT_DIR/$snap_dir" "$gen_dir" 2>&1 | head -20
-      fi
-    fi
-  done
-  [[ "$parity_ok" == true ]] && pass "Copilot output matches snapshots" || fail "Copilot output differs from snapshots"
-else
-  pass "No snapshot dir found (skipping parity check)"
-fi
+# Test 13: make validate exits 0
+make validate >/dev/null 2>&1 && pass "make validate succeeds" || fail "make validate failed"
+
+# Test 14: make copilot exits 0
+make copilot >/dev/null 2>&1 && pass "make copilot succeeds" || fail "make copilot failed"
+
+# Test 15: make cc exits 0
+make cc >/dev/null 2>&1 && pass "make cc succeeds" || fail "make cc failed"
+
+# Test 16: generate copilot subcommand only
+node scripts/generate.js copilot >/dev/null 2>&1 && pass "Generate copilot subcommand succeeds" || fail "Generate copilot subcommand failed"
+
+# Test 17: generate cc subcommand only
+node scripts/generate.js cc >/dev/null 2>&1 && pass "Generate cc subcommand succeeds" || fail "Generate cc subcommand failed"
+
+# Test 18: CC agents have required 'tools:' frontmatter
+cc_fm_ok=true
+for agent in "$SCRIPT_DIR"/.claude/agents/*.md; do
+  [[ -f "$agent" ]] || continue
+  if ! grep -q "^tools:" "$agent"; then
+    cc_fm_ok=false
+    echo "  Missing tools: in $(basename $agent)"
+  fi
+done
+[[ "$cc_fm_ok" == true ]] && pass "CC agents have tools: frontmatter" || fail "CC agents missing tools: frontmatter"
+
+# Test 19: CC rules with frontmatter have paths: scoping
+cc_paths_ok=true
+for rule in "$SCRIPT_DIR"/.claude/rules/*.md; do
+  [[ -f "$rule" ]] || continue
+  first_line=$(head -1 "$rule")
+  # Only check rules that have frontmatter (global and terminal apply unconditionally)
+  [[ "$first_line" == "---" ]] || continue
+  if ! grep -q "^paths:" "$rule"; then
+    cc_paths_ok=false
+    echo "  Missing paths: in $(basename $rule)"
+  fi
+done
+[[ "$cc_paths_ok" == true ]] && pass "CC rules with frontmatter have paths: scoping" || fail "CC rules missing paths: scoping"
 
 echo ""
 echo "Results: $PASS passed, $FAIL failed"

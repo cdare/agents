@@ -21,8 +21,10 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 ```bash
 git clone https://github.com/mcouthon/agents.git
 cd agents
-./install.sh
+./install.sh    # Works out of the box — generated files are committed to git
 ```
+
+> **Modifying templates?** Run `make` first to regenerate output files, then `./install.sh`.
 
 That's it. Use `/agent` or the Chat menu to select agents, or just talk naturally and let skills auto-activate.
 
@@ -141,6 +143,15 @@ No manual switching required—just ask naturally.
 
 ## Installation Details
 
+Generated files are committed to git, so `./install.sh` works immediately after clone.
+
+**For contributors modifying templates:**
+
+```bash
+make            # Regenerate .github/, .claude/, instructions/ from templates/
+./install.sh    # Symlink generated files to home directories
+```
+
 After `./install.sh`:
 
 | Component               | Installed To                                           |
@@ -149,7 +160,7 @@ After `./install.sh`:
 | Instructions (VS Code)  | `~/.copilot/instructions/`                             |
 | Instructions (IntelliJ) | `~/.config/github-copilot/intellij/`                   |
 | Skills                  | `~/.copilot/skills/` (with `~/.claude/skills` symlink) |
-| Commands (Claude Code)  | `~/.claude/commands/`                                  |
+| Agents (Claude Code)    | `~/.claude/agents/`                                    |
 | Task state gitignore    | Added to global gitignore (`.tasks/`)                  |
 
 **IntelliJ users:** Only global instructions are installed. Agents and skills require VS Code's agent discovery mechanism and tool restrictions, which IntelliJ doesn't support.
@@ -160,37 +171,37 @@ The installer also configures VS Code settings (`chat.agentFilesLocations`, `cha
 
 ## Claude Code Usage
 
-Agents are available using `@agent-<Name>` syntax in Claude Code:
+Agents are available as native subagents in Claude Code:
 
-| Command                 | Purpose                 |
-| ----------------------- | ----------------------- |
-| `@agent-Explore <task>` | Research and plan       |
-| `@agent-Implement`      | Execute the plan        |
-| `@agent-Review`         | Verify changes          |
-| `@agent-Commit`         | Create semantic commits |
+| Agent              | Purpose                 |
+| ------------------ | ----------------------- |
+| `Explore`          | Research and plan       |
+| `Implement`        | Execute the plan        |
+| `Review`           | Verify changes          |
+| `Commit`           | Create semantic commits |
 
 **Example workflow:**
 
 ```
 $ claude
-> @agent-Explore add user authentication
+> use Explore to add user authentication
 
 [Claude researches, produces plan]
 
-> @agent-Implement
+> use Implement
 
 [Claude implements based on conversation context]
 
-> @agent-Review
+> use Review
 
 [Claude reviews changes]
 
-> @agent-Commit
+> use Commit
 
 [Claude creates commits]
 ```
 
-**Note:** VS Code agent features like tool restrictions, model selection, and handoff buttons are not available in Claude Code. Skills work identically on both platforms.
+**Note:** Claude Code supports tool restrictions, model selection, and skills. The only VS Code feature not available in Claude Code is handoff buttons — use the next agent manually when ready.
 
 ---
 
@@ -198,38 +209,19 @@ $ claude
 
 ### Adding an Agent
 
-Create `.github/agents/my-agent.agent.md`:
+Create `templates/agents/my-agent.template.md` (see [templates/README.md](templates/README.md) for format), then:
 
-```yaml
----
-name: My Agent
-description: What this agent does and when to use it.
-tools: ["codebase", "search", "editFiles"]
-model: Claude Sonnet 4 # Optional
-handoffs:
-  - label: Next Step
-    agent: other-agent
-    prompt: Continue with the next phase.
----
-# My Agent Instructions
-
-Your detailed instructions here.
+```bash
+make            # Generate output files for both platforms
+./install.sh    # Install locally
 ```
 
 ### Adding a Skill
 
-Create `.github/skills/my-skill/SKILL.md`:
+Create `templates/skills/my-skill/SKILL.template.md` (see [templates/README.md](templates/README.md) for format), then:
 
-```yaml
----
-name: my-skill
-description: >
-  Trigger keywords for auto-activation: "keyword1", "keyword2".
-  Focus on WHEN to use (symptoms), not WHAT it does.
----
-# My Skill Instructions
-
-Your instructions here (< 500 lines recommended).
+```bash
+make && ./install.sh
 ```
 
 ### Validating Skills (TDD for Documentation)
@@ -240,7 +232,7 @@ Your instructions here (< 500 lines recommended).
 
 > If you didn't see it fail without the skill, you don't know if the skill helps.
 
-Run `./install.sh` after adding agents or skills.
+Run `make && ./install.sh` after adding agents or skills.
 
 ---
 
@@ -288,16 +280,28 @@ Explore persists state to `.tasks/[NNN]-[task-name]/`:
 ## File Structure
 
 ```
-.github/
-├── agents/           # Workflow phases (Explore, Implement, Review, Commit)
-└── skills/           # Auto-activating capabilities (debug, mentor, etc.)
+templates/                # SOURCE OF TRUTH — edit these
+├── agents/               #   7 agent templates
+├── skills/               #   11 skill templates
+└── instructions/         #   5 instruction templates
 
-instructions/         # File-type coding standards
-├── global.instructions.md
-├── python.instructions.md
-├── typescript.instructions.md
-├── testing.instructions.md
-└── terminal.instructions.md
+.github/                  # GENERATED — Copilot output (do not edit)
+├── agents/               #   Copilot agent files
+└── skills/               #   Copilot skill files
+
+.claude/                  # GENERATED — Claude Code output (do not edit)
+├── agents/               #   CC subagent files
+├── skills/               #   CC skill files
+└── rules/                #   CC rule files
+
+instructions/             # GENERATED — Copilot instructions (do not edit)
+
+scripts/
+├── generate.js           # Bidirectional template generator
+└── configure-vscode-settings.js
+
+Makefile                  # Build targets: make [copilot|cc|all|validate]
+install.sh                # Symlinks generated files to ~/.copilot/ and ~/.claude/
 
 docs/
 ├── synthesis/        # Core principles and framework analysis
@@ -310,9 +314,16 @@ docs/
 
 **Skills not auto-activating?**
 
-1. Run `./install.sh` to ensure symlinks exist
+1. Run `make && ./install.sh` to ensure generated files and symlinks exist
 2. Check `~/.github/skills/` for your skills
 3. Be more explicit: "Use debug mode to investigate..."
+
+**Generated files out of date?**
+
+```bash
+make validate   # Check if generated files match templates
+make            # Regenerate if needed
+```
 
 **Need to uninstall?**
 

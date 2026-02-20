@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `make validate` step in CI workflow (`.github/workflows/test.yml`) — fails build if committed generated files drift from templates
+- `zsh ./tests/test-generate.sh` step in CI workflow
+- Node.js setup (`actions/setup-node@v4`, node 20) and `npm ci` steps in CI workflow
+- CC agent validation, CC skill validation, CC rule validation, and cross-platform parity checks in `tests/validate-skills.sh`
+- Tests 13–19 in `tests/test-generate.sh`: Makefile target tests (`make validate`, `make copilot`, `make cc`), separate subcommand tests, CC frontmatter content checks, CC rules paths: scoping checks
+
+### Changed
+
+- `README.md`: Updated installation quick-start (note about `make` for template modifications), file structure (template-centric), installation details (CC row → agents, not commands; contributor two-step workflow), Claude Code usage (correct invocation; updated Note re: CC capabilities), customization (points to templates instead of `.github/` directly), troubleshooting (`make validate` item)
+- `docs/architecture/ADR-005-ide-compatibility.md`: Amended to document template-based generation — templates are source of truth, both VS Code and CC are first-class; updated support matrix (CC = ✅ Hard enforcement), build and install section, acceptable losses table (CC: only handoff buttons lost)
+- `docs/synthesis/ide-compatibility.md`: Status Partial → Active; CC support matrix updated to Full support (native subagents); architecture section reflects both platforms generated from templates/; feature comparison updated; key insight updated to template-based approach
+- `CONTRIBUTING.md`: Quick Start step 3 now `make && ./install.sh`; Adding Skill/Agent sections point to templates; Testing section includes `make validate`; PR Process includes `make` step
+- `AGENTS.md`: Repository Structure table has `templates/`, `Makefile`, `scripts/` rows; Conventions updated to `Run make && ./install.sh after modifying templates`
+- `.github/copilot-instructions.md`: Testing commands include `make validate` and `./tests/test-generate.sh`
+- `tests/test-install.sh`: CC commands check replaced with CC agents/skills/rules symlink checks; uninstall section checks CC agents/skills/rules removal; all `CLAUDE_COMMANDS_DIR` references removed
+- `tests/validate-skills.sh`: Added CC agent, skill, and rule validation sections; added cross-platform parity check
+- `tests/test-generate.sh`: Shebang changed to `#!/bin/zsh`; stale snapshot parity test (test 13) replaced with Makefile target tests and CC frontmatter/paths validation
+
+### Added
+
 - Bidirectional template generator `scripts/generate.js`: generates BOTH Copilot and CC files from `templates/` source
 - `node scripts/generate.js copilot` — generates 7 agents, 11 skills, 5 instructions to `.github/` and `instructions/`
 - `node scripts/generate.js cc` — generates 7 agents, 11 skills, 5 rules to `.claude/`
@@ -21,13 +41,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- `install.sh`: Updated to use `scripts/generate.js cc` instead of deleted `scripts/generate-cc-files.js`
-- `templates/agents/implement.template.md`: Aligned model to `["Claude Sonnet 4.6 (copilot)"]` (matches snapshot)
-- `templates/skills/design/SKILL.template.md`: Added missing `Card.tsx` line (matches snapshot)
+- `install.sh`: Simplified to symlink-only; removed all generation logic (no `node scripts/generate.js` invocation); requires `make` to be run first; added `check_generated_files()` precondition check that verifies all 7 CC agents, 11 CC skills, 5 CC rules, 7 Copilot agents, 11 Copilot skills, and 5 instructions exist before proceeding; CC file installation is now simple diff-checked copies from pre-generated `.claude/` directory
+- `install.sh`: Updated header comment to document `make` prerequisite
+- `install.sh`: CC file installation now uses `link_file()` symlinks (matching Copilot pattern) instead of diff-checked `cp` copies for agents, skills, and rules; uninstall uses `unlink_if_ours()` instead of bare `rm`; summary messages updated to say "symlinked"
 
 ### Removed
 
+- `install.sh`: Removed CC skill generation block (was invoking `node scripts/generate.js cc`)
+- `install.sh`: Removed slash commands migration block (old `~/.claude/commands/` cleanup)
+- `install.sh`: Removed Node.js dependency checks around generation (VS Code settings config still uses Node)
 - `scripts/generate-cc-files.js` (596 lines) — superseded by `scripts/generate.js`
+
+### Added (Prior Phases)
 
 - CC skill generation: `generate-cc-files.js skills` reads source SKILL.md files and merges CC-specific frontmatter (allowed-tools, context) at install time
 - 11 CC-enhanced skill files generated to `~/.claude/skills/` with per-skill tool restrictions and context isolation

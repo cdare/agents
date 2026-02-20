@@ -6,14 +6,21 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 1. Fork the repository
 2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/agents.git`
-3. Run `./install.sh` to set up agents and skills locally
+3. Run `make && ./install.sh` to generate files and set up agents locally
 4. Make your changes
-5. Test your changes (see Testing section below)
-6. Submit a pull request
+5. If you modified templates, run `make` to regenerate output files
+6. Test your changes (see Testing section below)
+7. Submit a pull request
 
 ## Adding a Skill
 
-Skills are auto-activating capabilities that trigger based on user prompts. See [README.md](README.md#adding-a-skill) for the basic structure.
+Skills are auto-activating capabilities that trigger based on user prompts. Create a template at `templates/skills/my-skill/SKILL.template.md`. See [templates/README.md](templates/README.md) for the template format.
+
+Then regenerate and install:
+
+```bash
+make && ./install.sh
+```
 
 ### Community Skill Guidelines
 
@@ -39,7 +46,13 @@ Your instructions here...
 
 ## Adding an Agent
 
-Agents are workflow phases with enforced tool restrictions. See [README.md](README.md#adding-an-agent) for the basic structure.
+Agents are workflow phases with enforced tool restrictions. Create a template at `templates/agents/my-agent.template.md`. See [templates/README.md](templates/README.md) for the template format.
+
+Then regenerate and install:
+
+```bash
+make && ./install.sh
+```
 
 ### Agent Guidelines
 
@@ -59,11 +72,10 @@ Agents are workflow phases with enforced tool restrictions. See [README.md](READ
 ### Validation
 
 ```bash
-# Run validation script
-./tests/validate-skills.sh
-
-# Test installation
-./install.sh
+make validate                 # Verify generated files match templates
+./tests/validate-skills.sh   # Validate skill format
+./tests/test-generate.sh     # Test generator
+./install.sh                  # Test installation
 ```
 
 ## Code Style
@@ -91,8 +103,10 @@ Releases are tagged as `vX.Y.Z` (e.g., `v0.1.0`).
 
 ## Pull Request Process
 
-1. Update README.md if adding new agents/skills
-2. Run `./install.sh` and test locally
-3. Run `./tests/validate-skills.sh` if modifying skills
-4. Fill out the PR template completely
-5. Wait for review and address feedback
+1. If you modified templates, run `make` and commit generated files
+2. Run `make validate` to verify consistency
+3. Update README.md if adding new agents/skills
+4. Run `./install.sh` and test locally
+5. Run `./tests/validate-skills.sh` if modifying skills
+6. Fill out the PR template completely
+7. Wait for review and address feedback

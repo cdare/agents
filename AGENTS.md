@@ -8,24 +8,21 @@ This is an agentic coding framework. Key locations:
 
 | Path              | Contents                                                                |
 | ----------------- | ----------------------------------------------------------------------- |
-| `.github/agents/` | Agent definitions (Explore, Implement, Review, Commit)                  |
-| `.github/skills/` | Auto-activating skills (debug, tech-debt, architecture, mentor, critic) |
-| `instructions/`   | File-type coding standards                                              |
+| `templates/`      | Source-of-truth templates for agents, skills, instructions              |
+| `Makefile`        | Build targets: `make [copilot\|cc\|all\|validate]`                     |
+| `scripts/`        | Generator (`generate.js`) and VS Code config scripts                    |
+| `.github/agents/` | GENERATED — Copilot agent files (do not edit)                           |
+| `.github/skills/` | GENERATED — Copilot skill files (do not edit)                           |
+| `.claude/`        | GENERATED — Claude Code output: agents, skills, rules (do not edit)     |
+| `instructions/`   | GENERATED — Copilot instructions (do not edit)                          |
 | `docs/sources/`   | Reference materials from external frameworks                            |
 | `docs/synthesis/` | Framework design principles and analysis                                |
 
 ## Conventions
 
 - Follow existing patterns in the codebase
-- Run `./install.sh` after modifying agents or skills
+- Run `make && ./install.sh` after modifying templates
 - See [README.md](README.md) for full documentation and usage instructions
-
-## Learned Patterns
-
-<!-- Learned during implementation. Review periodically for staleness. -->
-
-| Pattern | Location | Discovered |
-| ------- | -------- | ---------- |
 
 ## Post-Implementation
 

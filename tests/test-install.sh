@@ -57,21 +57,36 @@ for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
 done
 success "Instruction symlinks created"
 
-# Verify Claude Code commands exist (generated files, not symlinks)
-CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
-command_count=0
-for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
+# Verify Claude Code agent symlinks exist
+CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
+for agent in "$REPO_ROOT"/.claude/agents/*.md; do
     [[ -f "$agent" ]] || continue
-    # Command files are named after the agent prefix (e.g., explore.agent.md -> explore.md)
-    name=$(basename "$agent" .agent.md)
-    if [[ -f "$CLAUDE_COMMANDS_DIR/$name.md" ]]; then
-        command_count=$((command_count + 1))
+    name=$(basename "$agent")
+    if [[ ! -L "$CLAUDE_AGENTS_DIR/$name" ]]; then
+        error "CC agent symlink not created: $name"
     fi
 done
-if [[ $command_count -eq 0 ]]; then
-    error "No Claude Code commands created in $CLAUDE_COMMANDS_DIR"
-fi
-success "Claude Code commands created ($command_count files)"
+success "CC agent symlinks created"
+
+# Verify Claude Code skill symlinks exist
+for skill in "$REPO_ROOT"/.claude/skills/*/; do
+    [[ -d "$skill" ]] || continue
+    name=$(basename "$skill")
+    if [[ ! -L "$HOME/.claude/skills/$name" ]]; then
+        error "CC skill symlink not created: $name"
+    fi
+done
+success "CC skill symlinks created"
+
+# Verify Claude Code rule symlinks exist
+for rule in "$REPO_ROOT"/.claude/rules/*.md; do
+    [[ -f "$rule" ]] || continue
+    name=$(basename "$rule")
+    if [[ ! -L "$HOME/.claude/rules/$name" ]]; then
+        error "CC rule symlink not created: $name"
+    fi
+done
+success "CC rule symlinks created"
 
 # Verify global gitignore contains .tasks/ pattern
 gitignore_global=$(git config --global core.excludesFile 2>/dev/null || echo "")
@@ -119,15 +134,35 @@ for instr in "$REPO_ROOT"/instructions/*.instructions.md; do
 done
 success "Instruction symlinks removed"
 
-# Verify Claude Code commands removed
-for agent in "$REPO_ROOT"/.github/agents/*.agent.md; do
+# Verify CC agent symlinks removed
+for agent in "$REPO_ROOT"/.claude/agents/*.md; do
     [[ -f "$agent" ]] || continue
-    name=$(basename "$agent" .agent.md)
-    if [[ -f "$CLAUDE_COMMANDS_DIR/$name.md" ]]; then
-        error "Claude Code command not removed: $name.md"
+    name=$(basename "$agent")
+    if [[ -L "$CLAUDE_AGENTS_DIR/$name" ]]; then
+        error "CC agent symlink not removed: $name"
     fi
 done
-success "Claude Code commands removed"
+success "CC agent symlinks removed"
+
+# Verify CC skill symlinks removed
+for skill in "$REPO_ROOT"/.claude/skills/*/; do
+    [[ -d "$skill" ]] || continue
+    name=$(basename "$skill")
+    if [[ -L "$HOME/.claude/skills/$name" ]]; then
+        error "CC skill symlink not removed: $name"
+    fi
+done
+success "CC skill symlinks removed"
+
+# Verify CC rule symlinks removed
+for rule in "$REPO_ROOT"/.claude/rules/*.md; do
+    [[ -f "$rule" ]] || continue
+    name=$(basename "$rule")
+    if [[ -L "$HOME/.claude/rules/$name" ]]; then
+        error "CC rule symlink not removed: $name"
+    fi
+done
+success "CC rule symlinks removed"
 
 # Re-install for normal use
 info "Re-installing for normal use..."

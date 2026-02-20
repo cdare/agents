@@ -3,7 +3,7 @@
 | Field      | Value      |
 | ---------- | ---------- |
 | **Date**   | 2026-02-14 |
-| **Status** | Partial    |
+| **Status** | Active     |
 
 ## Summary
 
@@ -16,7 +16,7 @@ AGENTS framework compatibility across VS Code, Claude Code, Cursor, and IntelliJ
 | IDE         | Agents | Skills | Instructions | Status                   |
 | ----------- | ------ | ------ | ------------ | ------------------------ |
 | VS Code     | ✅     | ✅     | ✅           | Full support             |
-| Claude Code | ⚠️     | ✅     | ✅           | No tool enforcement      |
+| Claude Code | ✅     | ✅     | ✅           | Full support (native subagents) |
 | Cursor      | ❌     | ✅     | ❌           | Skills only              |
 | IntelliJ    | ❌     | ❌     | ✅ (global)  | Global instructions only |
 
@@ -26,27 +26,30 @@ AGENTS framework compatibility across VS Code, Claude Code, Cursor, and IntelliJ
 
 **Source:** [VS Code Custom Agents](https://code.visualstudio.com/docs/copilot/customization/custom-agents)
 
-VS Code agents use `.agent.md` with 12 frontmatter fields. Claude Code doesn't support agent files—uses slash commands instead.
+VS Code agents use `.agent.md` with 12 frontmatter fields. Claude Code uses native subagents (`.claude/agents/`) with CC-specific frontmatter.
 
-### Compatibility Layer
+### Architecture
 
-`install.sh` generates Claude Code slash commands from agent bodies:
+Both platforms are generated from `templates/` via `scripts/generate.js`:
 
-- Strip frontmatter, copy body to `~/.claude/commands/<agent>.md`
-- Skip `handoff` agent (doesn't make sense standalone)
+- **Copilot:** `.github/agents/*.agent.md` with Copilot YAML frontmatter
+- **Claude Code:** `.claude/agents/*.md` with CC YAML frontmatter (tools, disallowedTools, model, skills)
+
+Neither platform is "primary" — templates are the single source of truth.
 
 ### Feature Comparison
 
-| Feature           | VS Code | Claude Code  |
-| ----------------- | ------- | ------------ |
-| Agent modes       | ✅      | ❌           |
-| Tool restrictions | ✅      | ❌           |
-| Handoffs          | ✅      | ❌           |
-| Skills            | ✅      | ✅ (symlink) |
+| Feature           | VS Code | Claude Code         |
+| ----------------- | ------- | ------------------- |
+| Agent modes       | ✅      | ✅ (subagents)      |
+| Tool restrictions | ✅      | ✅ (tools/disallow) |
+| Handoffs          | ✅      | ❌ (manual)         |
+| Skills            | ✅      | ✅                  |
+| Instructions      | ✅      | ✅ (rules)          |
 
 ### Key Insight
 
-80/20 approach: the core value is methodology in each agent's instructions, not tool enforcement or handoff buttons. Claude Code users get the workflow discipline; acceptable losses are tool enforcement (Claude respects instructions anyway) and handoff buttons (run next command manually).
+Template-based generation ensures both platforms get first-class support. The only remaining gap is handoff buttons (Copilot UI feature with no CC equivalent). CC users manually invoke the next agent.
 
 ---
 

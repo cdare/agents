@@ -253,8 +253,9 @@ Review findings are presented to the user at the checkpoint.
 
 **Then call `askQuestions` with these options:**
 
-- [Continue] Approve plan and proceed to next step
-- [Adopt Suggestions] Apply review suggestions, then re-present for approval
+- [Adopt Suggestions] Adopt suggestions and continue with implementation
+- [Reject Suggestions] Continue with implementation with original plan
+- [Re-present Plan] Apply review suggestions, then re-present for approval
 - [Skip Phase] Move to next phase
 
 **DO NOT proceed until user responds.**

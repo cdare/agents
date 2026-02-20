@@ -15,9 +15,9 @@
 //   node scripts/generate.js all     [--source templates/] [--dry-run]
 //
 // Exit codes:
-//   0 - Files generated (or would be generated in dry-run)
-//   1 - No changes needed (all files already match)
-//   2 - Error (parse failure, validation error, etc.)
+//   0 - Success (files generated or already up to date)
+//   1 - Dry-run validation failed (committed files are out of date)
+//   2 - Error (parse failure, missing template, etc.)
 
 "use strict";
 
@@ -955,12 +955,12 @@ function main() {
     );
   }
 
-  // Exit code: 1 if no changes, 0 if changes made or dry-run
-  if (!options.dryRun && totalChanged === 0) {
+  if (options.dryRun && totalChanged > 0) {
+    console.log(
+      `\n⚠️  ${totalChanged} file(s) would be updated. Run 'make all' to regenerate.`,
+    );
     process.exit(1);
   }
-
-  process.exit(0);
 }
 
 main();

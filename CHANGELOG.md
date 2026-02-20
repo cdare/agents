@@ -29,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `scripts/generate-cc-files.js` (596 lines) — superseded by `scripts/generate.js`
 
-
 - CC skill generation: `generate-cc-files.js skills` reads source SKILL.md files and merges CC-specific frontmatter (allowed-tools, context) at install time
 - 11 CC-enhanced skill files generated to `~/.claude/skills/` with per-skill tool restrictions and context isolation
 - 5 CC subagent files generated to `~/.claude/agents/` (explore, implement, review, commit, orchestrate) with proper CC frontmatter (tools, disallowedTools, model, skills)

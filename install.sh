@@ -19,22 +19,22 @@ set -e
 # Configuration
 SCRIPT_DIR="${0:A:h}"
 
+# Optional prefix for test isolation (redirects all target paths)
+HOME_DIR="${INSTALL_PREFIX:-}$HOME"
+
 # Target directories
-SKILLS_TARGET_DIR="$HOME/.copilot/skills"
-CLAUDE_SKILLS_TARGET_DIR="$HOME/.claude/skills"
+SKILLS_TARGET_DIR="$HOME_DIR/.copilot/skills"
+CLAUDE_SKILLS_TARGET_DIR="$HOME_DIR/.claude/skills"
 
 # Agent and instruction target directories (VS Code 1.109+)
-VSCODE_AGENTS_DIR="$HOME/.copilot/agents"
-VSCODE_INSTRUCTIONS_DIR="$HOME/.copilot/instructions"
-CLAUDE_COMMANDS_DIR="$HOME/.claude/commands"
-CLAUDE_AGENTS_DIR="$HOME/.claude/agents"
-CLAUDE_RULES_DIR="$HOME/.claude/rules"
-
-# Old location (for migration cleanup)
-OLD_VSCODE_PROMPTS_DIR="$HOME/Library/Application Support/Code/User/prompts"
+VSCODE_AGENTS_DIR="$HOME_DIR/.copilot/agents"
+VSCODE_INSTRUCTIONS_DIR="$HOME_DIR/.copilot/instructions"
+CLAUDE_COMMANDS_DIR="$HOME_DIR/.claude/commands"
+CLAUDE_AGENTS_DIR="$HOME_DIR/.claude/agents"
+CLAUDE_RULES_DIR="$HOME_DIR/.claude/rules"
 
 # IntelliJ Copilot configuration directory
-INTELLIJ_COPILOT_DIR="$HOME/.config/github-copilot/intellij"
+INTELLIJ_COPILOT_DIR="$HOME_DIR/.config/github-copilot/intellij"
 
 # Colors for output
 RED='\033[0;31m'
@@ -299,31 +299,25 @@ install() {
         fi
     fi
 
-    # Configure global gitignore
-    if configure_global_gitignore; then
-        success "Added .tasks/ to global gitignore"
-    fi
-
-    # Migrate old prompts folder (temporary — remove after all users have migrated)
-    if [[ -d "$OLD_VSCODE_PROMPTS_DIR" ]]; then
-        local migrated=0
-        for src in "$SCRIPT_DIR"/generated/copilot/agents/*.agent.md "$SCRIPT_DIR"/generated/copilot/instructions/*.instructions.md; do
-            [[ -f "$src" ]] || continue
-            unlink_if_ours "$src" "$OLD_VSCODE_PROMPTS_DIR/$(basename "$src")" && migrated=$((migrated + 1))
-        done
-        [[ $migrated -gt 0 ]] && info "Migrated $migrated files from old prompts folder"
-    fi
-
-    # Configure VS Code settings
-    if command -v node &>/dev/null; then
-        if node "$SCRIPT_DIR/scripts/configure-vscode-settings.js" 2>/dev/null; then
-            success "Configured VS Code settings for agent discovery"
+    # Configure global gitignore (skip in test-isolation mode)
+    if [[ -z "$INSTALL_PREFIX" ]]; then
+        if configure_global_gitignore; then
+            success "Added .tasks/ to global gitignore"
         fi
-    else
-        warn "Node.js not found - cannot auto-configure VS Code settings"
-        info "Add to VS Code settings.json:"
-        echo '  "chat.agentFilesLocations": { "~/.copilot/agents": true }'
-        echo '  "chat.instructionsFilesLocations": { "~/.copilot/instructions": true }'
+    fi
+
+    # Configure VS Code settings (skip in test-isolation mode)
+    if [[ -z "$INSTALL_PREFIX" ]]; then
+        if command -v node &>/dev/null; then
+            if node "$SCRIPT_DIR/scripts/configure-vscode-settings.js" 2>/dev/null; then
+                success "Configured VS Code settings for agent discovery"
+            fi
+        else
+            warn "Node.js not found - cannot auto-configure VS Code settings"
+            info "Add to VS Code settings.json:"
+            echo '  "chat.agentFilesLocations": { "~/.copilot/agents": true }'
+            echo '  "chat.instructionsFilesLocations": { "~/.copilot/instructions": true }'
+        fi
     fi
 
     echo ""
@@ -378,9 +372,11 @@ uninstall() {
         rmdir "$CLAUDE_COMMANDS_DIR" 2>/dev/null || true
     fi
 
-    # Gitignore
-    if unconfigure_global_gitignore; then
-        success "Removed .tasks/ from global gitignore"
+    # Gitignore (skip in test-isolation mode)
+    if [[ -z "$INSTALL_PREFIX" ]]; then
+        if unconfigure_global_gitignore; then
+            success "Removed .tasks/ from global gitignore"
+        fi
     fi
 
     # IntelliJ

@@ -19,7 +19,7 @@ copilot:
       "search",
       "todo",
     ]
-  model: ["Claude Sonnet 4.5 (copilot)", "Gemini 3 Pro (Preview) (copilot)"]
+  model: ["Claude Sonnet 4.6 (copilot)"]
   agents: ["Worker"]
   handoffs:
     - label: Commit Changes

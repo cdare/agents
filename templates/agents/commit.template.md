@@ -16,7 +16,7 @@ copilot:
       "todo",
       "agent",
     ]
-  model: ["Claude Sonnet 4.5 (copilot)", "Gemini 3 Pro (Preview) (copilot)"]
+  model: ["Claude Sonnet 4.6 (copilot)"]
   agents: ["Research"]
   handoffs:
     - label: Review Commits

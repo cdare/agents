@@ -9,7 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Claude Code native subagent generation via `scripts/generate-cc-files.js`
+- Bidirectional template generator `scripts/generate.js`: generates BOTH Copilot and CC files from `templates/` source
+- `node scripts/generate.js copilot` — generates 7 agents, 11 skills, 5 instructions to `.github/` and `instructions/`
+- `node scripts/generate.js cc` — generates 7 agents, 11 skills, 5 rules to `.claude/`
+- `node scripts/generate.js all` — generates all 46 files for both platforms
+- `--dry-run` flag: validates templates and reports what would change without writing files
+- Body directive filtering: `<!-- COPILOT-ONLY -->`, `<!-- CC-ONLY -->`, `<!-- /COPILOT-ONLY -->`, `<!-- /CC-ONLY -->` blocks
+- Template validation with clear error messages for unknown directives, unclosed blocks, nested directives
+- `package.json` with `js-yaml` dependency for YAML frontmatter parsing
+- `tests/test-generate.sh` integration test for the generator (13 tests)
+
+### Changed
+
+- `install.sh`: Updated to use `scripts/generate.js cc` instead of deleted `scripts/generate-cc-files.js`
+- `templates/agents/implement.template.md`: Aligned model to `["Claude Sonnet 4.6 (copilot)"]` (matches snapshot)
+- `templates/skills/design/SKILL.template.md`: Added missing `Card.tsx` line (matches snapshot)
+
+### Removed
+
+- `scripts/generate-cc-files.js` (596 lines) — superseded by `scripts/generate.js`
+
+
 - CC skill generation: `generate-cc-files.js skills` reads source SKILL.md files and merges CC-specific frontmatter (allowed-tools, context) at install time
 - 11 CC-enhanced skill files generated to `~/.claude/skills/` with per-skill tool restrictions and context isolation
 - 5 CC subagent files generated to `~/.claude/agents/` (explore, implement, review, commit, orchestrate) with proper CC frontmatter (tools, disallowedTools, model, skills)

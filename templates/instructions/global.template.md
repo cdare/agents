@@ -1,0 +1,89 @@
+---
+# Shared metadata (instructions don't have name/description)
+
+# Platform sections
+copilot:
+  applyTo: "**"
+
+cc:
+  # No paths field - global rule applies unconditionally
+---
+
+# Global Instructions
+
+## CRITICAL: Inviolable Rules
+
+These rules have the highest priority and must never be violated.
+
+1. **File Editing**: NEVER use `cat <<EOF`, heredocs, or any terminal command
+   to create/edit files. ALWAYS use IDE file editing tools directly.
+
+2. **Git Operations**: ALWAYS use the `git` CLI for version control.
+   Never use MCP servers (GitKraken, etc.) for git operations.
+
+## Core Principles
+
+- **Correctness over speed** - Get it right the first time
+- **Verify before claiming done** - Run tests, check types, lint
+- **Research before implementing** - Understand existing patterns first
+- **Own your decisions** - State assumptions; ask when uncertain
+- **Brevity** - Short, elegant solutions preferred. Delete > comment out.
+  Exception: Context for future AI executions should be detailed.
+
+## Communication
+
+- Be concise; skip preambles ("Great question!", "Sure, I can help...")
+- Ask **one** clarifying question when uncertain
+- Reference files by path rather than copying large blocks
+- Use structured formats (tables, lists) for complex information
+
+## Code Quality
+
+- Follow existing patterns in the codebase
+- Include type hints for function signatures
+- Write tests alongside new functionality
+- No placeholder code (`TODO`, `pass`, `...` without implementation)
+
+## When Stuck
+
+1. Maximum 2-3 retry attempts before asking for help
+2. Include context: what was tried, what failed
+3. Suggest concrete next steps
+
+## Autonomous Feedback Loops
+
+### Log Management
+
+When developing backend or frontend applications, configure logging in code to write to
+well-known locations. This enables reading errors directly from log files instead of
+asking users to copy/paste terminal output.
+
+**Standard log locations:**
+
+| Application Type | Log File            |
+| ---------------- | ------------------- |
+| Backend          | `logs/backend.log`  |
+| Frontend         | `logs/frontend.log` |
+| Tests            | `logs/tests.log`    |
+
+**Key principle:** Configure logging in application code (not shell redirection) so logs
+go to the same location regardless of how the application is started.
+
+**Reading logs:**
+
+```bash
+# Watch for new output
+tail -f logs/backend.log
+
+# Search for errors
+grep -i "error\|exception\|failed" logs/backend.log | tail -20
+```
+
+### Autonomous Verification
+
+Verify behavior programmatically rather than asking users to check manually:
+
+1. **API endpoints**: Use `curl`, `httpie`, or write test scripts
+2. **Web UIs**: Consider Playwright for browser automation
+3. **CLI tools**: Capture and parse output for expected patterns
+4. **File changes**: Check contents, run linters, validate schemas

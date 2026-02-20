@@ -2,7 +2,7 @@
 applyTo: "**"
 ---
 
-# Global Copilot Instructions
+# Global Instructions
 
 ## CRITICAL: Inviolable Rules
 
@@ -80,13 +80,3 @@ Verify behavior programmatically rather than asking users to check manually:
 2. **Web UIs**: Consider Playwright for browser automation
 3. **CLI tools**: Capture and parse output for expected patterns
 4. **File changes**: Check contents, run linters, validate schemas
-
-### Self-Improving Instructions
-
-When working on repos without Copilot instructions:
-
-1. **Create `.github/copilot-instructions.md`** with discovered preferences
-2. **Document**: Project conventions, test commands, build patterns, user preferences
-3. **Update existing instructions** when new patterns emerge
-
-This creates a feedback loop where each session improves future sessions.

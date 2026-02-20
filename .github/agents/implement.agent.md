@@ -21,7 +21,7 @@ tools:
     "web",
     "todo",
   ]
-model: ["Claude Sonnet 4.6 (copilot)"]
+model: ["Claude Sonnet 4.6 (copilot)", "Claude Opus 4.6 (copilot)"]
 agents: ["Worker"]
 handoffs:
   - label: Review

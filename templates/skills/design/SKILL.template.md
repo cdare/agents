@@ -1766,7 +1766,8 @@ src/
 │   │   ├── Input.tsx          # Glass borders, focus shift
 │   │   ├── Select.tsx         # Custom chevron
 │   │   ├── Checkbox.tsx       # Custom styled
-│   │   └── Modal.tsx          # Entry/exit animations
+│   │   ├── Modal.tsx          # Entry/exit animations
+│   │   └── Card.tsx           # Variants: default, elevated, glass, interactive
 │   └── layout/
 │       ├── Sidebar.tsx        # Color-coded icons, gradient logo
 │       ├── Header.tsx         # Glass effect

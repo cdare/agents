@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Node.js setup (`actions/setup-node@v4`, node 20) and `npm ci` steps in CI workflow
 - CC agent validation, CC skill validation, CC rule validation, and cross-platform parity checks in `tests/validate-skills.sh`
 - Tests 13–19 in `tests/test-generate.sh`: Makefile target tests (`make validate`, `make copilot`, `make cc`), separate subcommand tests, CC frontmatter content checks, CC rules paths: scoping checks
+- Neutral output directory: generator now writes to `generated/copilot/` and `generated/claude/` instead of `.github/`, `.claude/`, and `instructions/`
+
+### Changed
+
+- `scripts/generate.js`: all 6 output path functions updated to write under `generated/copilot/` and `generated/claude/`; header comment and help text updated to reflect new paths
+- `Makefile`: comments updated to reference `generated/copilot/` and `generated/claude/`
+- `install.sh`: all source path globs updated to read from `generated/`; fixed pre-existing bug in `check_generated_files()` error message (was referencing `.github/skills/instructions/` — now correctly `generated/copilot/instructions/`)
+- `tests/test-generate.sh`: all `find` paths updated to `generated/copilot/` and `generated/claude/`
+- `tests/validate-skills.sh`: top-level `AGENTS_DIR`/`SKILLS_DIR` vars and CC section vars updated; echo headers updated; cross-platform parity `find` paths updated
+- `tests/test-install.sh`: all source path references updated to `generated/` paths
 
 ### Changed
 

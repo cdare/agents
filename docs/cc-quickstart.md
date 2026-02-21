@@ -1,0 +1,377 @@
+# Claude Code Quickstart
+
+A hands-on guide for using the AGENTS framework with Claude Code (CC). Covers prerequisites, how agents work, four learning scenarios, troubleshooting, and a Copilot-to-CC translation reference.
+
+---
+
+## 1. Prerequisites
+
+1. **Claude Code CLI installed** — verify with:
+
+   ```bash
+   claude --version
+   ```
+
+2. **This repo cloned and built:**
+
+   ```bash
+   git clone <repo-url>
+   cd agents
+   make && ./install.sh
+   ```
+
+3. **Verify installation:**
+
+   ```bash
+   ls ~/.claude/agents/    # Should show 7 .md files
+   ls ~/.claude/skills/    # Should show 11 skill directories
+   ```
+
+   You should see agents: `commit.md`, `explore.md`, `implement.md`, `orchestrate.md`, `research.md`, `review.md`, `worker.md`
+
+   And skills: `architecture/`, `consolidate-task/`, `critic/`, `debug/`, `deep-research/`, `design/`, `makefile/`, `mentor/`, `phase-review/`, `security-review/`, `tech-debt/`
+
+4. **Any project directory** to practice on (or use this repo itself)
+
+> **How install works:** `install.sh` symlinks generated files from `generated/claude/` to `~/.claude/agents/` and `~/.claude/skills/`. Skills also get a `~/.copilot/skills` → `~/.claude/skills` symlink for cross-platform sharing.
+
+---
+
+## 2. How Agents Work in CC
+
+### Agent Invocation
+
+Invoke any agent by typing in a Claude session:
+
+```
+use Explore to analyze this project's structure
+```
+
+The pattern is always: **`use [Agent] to [task description]`**
+
+Available agents: **Explore**, **Implement**, **Orchestrate**, **Review**, **Commit**, **Worker**, **Research**
+
+### The `Task()` Tool
+
+When an agent needs to delegate work, it uses CC's `Task()` tool to dispatch a subagent. This creates a **context fork** — a fresh context that receives the prompt, does the work, and returns a summary to the parent.
+
+```
+User ──► Orchestrate ──► Task(explore, "research the codebase...")
+                              │
+                              └──► Explore runs in isolated context
+                              └──► Returns summary to Orchestrate
+```
+
+### Single-Level Nesting
+
+CC enforces **single-level subagent nesting**. Subagents cannot spawn sub-subagents. This means:
+
+- Orchestrate can invoke `Task(explore, ...)`, `Task(implement, ...)`, etc.
+- But Explore cannot invoke `Task(research, ...)` from within a subagent call
+- Explore and Implement do all their work directly when running as subagents
+
+### Skills
+
+Skills activate from **natural language** — the same triggers work in both Copilot and CC:
+
+- "use debug mode" → activates the debug skill
+- "use phase-review mode" → activates the phase-review skill
+- "use architecture mode" → activates the architecture skill
+
+CC discovers skills from `~/.claude/skills/`. Each skill directory contains a `SKILL.md` with instructions, trigger phrases, and allowed-tools restrictions.
+
+### Checkpoints
+
+Orchestrate pauses at key decision points using `AskUserQuestion`. In the terminal, this appears as a **free-text prompt** — there are no clickable buttons. You type your choice:
+
+```
+Task created with 2 phases. Options:
+- [Continue] Approve task structure and proceed to phase planning
+- [Abort] Cancel the workflow
+
+> Continue
+```
+
+### CC Tool Names
+
+CC uses different tool names than VS Code Copilot:
+
+| Action         | CC Tool            |
+| -------------- | ------------------ |
+| Read file      | `Read`             |
+| Edit file      | `Edit`             |
+| Create file    | `Write`            |
+| Run command    | `Bash`             |
+| Text search    | `Grep`             |
+| File search    | `Glob`             |
+| Directory list | `Glob`             |
+| Ask user       | `AskUserQuestion`  |
+| Subagent       | `Task(agent, ...)` |
+
+### Model Defaults
+
+| Agent                            | Model    |
+| -------------------------------- | -------- |
+| Orchestrate, Explore, Implement  | `opus`   |
+| Review, Commit, Worker, Research | `sonnet` |
+
+---
+
+## 3. Scenario 1: Basic Explore
+
+**Goal:** Invoke Explore, create a task, confirm `.tasks/` persistence.
+
+### Steps
+
+1. Open a terminal in any project directory
+
+2. Start a Claude session:
+
+   ```bash
+   claude
+   ```
+
+3. Invoke Explore:
+
+   ```
+   use Explore to analyze the project structure and create a task plan for adding a health check endpoint
+   ```
+
+4. **Observe:** Explore reads files, searches patterns, builds understanding of the codebase
+
+5. **Observe:** Explore creates `.tasks/001-add-health-check/task.md` with phases
+
+6. **Verify:**
+
+   ```bash
+   cat .tasks/001-add-health-check/task.md
+   ```
+
+   Confirm research findings and phase table are present.
+
+7. End session or continue to Scenario 2
+
+### What to Look For
+
+- Explore **only reads files and writes to `.tasks/`** — it never edits source code
+- The task.md has a phase table with `⬜ Not Started` entries
+- Research findings reference specific files and line numbers
+
+### Expected Output Excerpt
+
+```markdown
+## Phases
+
+| #   | Phase           | Status         | Plan | Notes             |
+| --- | --------------- | -------------- | ---- | ----------------- |
+| 1   | Route setup     | ⬜ Not Started | —    | Add /health route |
+| 2   | Response format | ⬜ Not Started | —    | JSON status body  |
+```
+
+---
+
+## 4. Scenario 2: Implement from Plan
+
+**Goal:** Invoke Implement with an existing task to execute a planned phase.
+
+**Prerequisite:** Scenario 1 completed (task exists in `.tasks/`).
+
+### Steps
+
+1. In the same or new Claude session:
+
+   ```
+   use Implement to work on the health check task
+   ```
+
+2. **Observe:** Implement reads `.tasks/001-add-health-check/task.md`
+
+3. **Observe:** Lists available phases, picks the first `⬜ Not Started` phase
+
+4. **Observe:** Reads all files referenced in the plan
+
+5. **Observe:** Creates/edits source files, runs tests if applicable
+
+6. **Verify:** Check the created files match the plan
+
+7. **Observe:** Implement updates phase status to `✅ Done`
+
+### What to Look For
+
+- Implement has full file access (`Edit`, `Write`, `Bash`)
+- It follows the plan's checklist items
+- It does **not** run `git commit` (that's the Commit agent's job)
+- Phase status in task.md gets updated
+
+### Troubleshooting
+
+If Implement doesn't find the task, specify the path directly:
+
+```
+The task is at .tasks/001-add-health-check/task.md
+```
+
+---
+
+## 5. Scenario 3: Full Orchestrate
+
+**Goal:** Run the Orchestrate pattern end-to-end on a small task.
+
+> **Tip:** For a faster first run, use a trivial task (badge, comment, config tweak) so phases complete quickly.
+
+### Steps
+
+1. Start a fresh Claude session:
+
+   ```bash
+   claude
+   ```
+
+2. Invoke:
+
+   ```
+   use Orchestrate to add a README badge showing the Node.js version
+   ```
+
+3. **Step 1 — Task Initialization:**
+   - Orchestrate invokes `Task(explore, ...)` to research and create the task
+   - Explore returns a summary
+
+4. **🛑 Checkpoint: Task Created** — Orchestrate asks via `AskUserQuestion`:
+
+   ```
+   Task created with 1 phase. Options:
+   - [Continue] Approve task structure and proceed to phase planning
+   - [Abort] Cancel the workflow
+   ```
+
+   Type: `Continue`
+
+5. **Step 2a — Phase Planning:**
+   - Orchestrate invokes `Task(explore, ...)` to create a detailed plan
+   - Then invokes `Task(explore, ...)` with the phase-review skill
+
+6. **🛑 Checkpoint: Plan Review** — Orchestrate presents review findings and asks:
+
+   ```
+   - [Adopt Suggestions] ...
+   - [Reject Suggestions] ...
+   - [Skip Phase] ...
+   ```
+
+   Type: `Reject Suggestions` (or `Adopt Suggestions` to see the revision flow)
+
+7. **Step 2c — Implementation:**
+   - Orchestrate invokes `Task(implement, ...)`
+   - Then `Task(review, ...)` to verify
+
+8. **🛑 Checkpoint: Implementation Complete** — Type: `Commit`
+
+9. **Step 2f — Commit:**
+   - Orchestrate invokes `Task(commit, ...)`
+   - Phase marked `✅ Done`
+
+10. Summary displayed
+
+### What to Look For
+
+- Orchestrate **never reads/edits source code itself** — it only coordinates via `Task()` calls
+- Each checkpoint requires **your explicit typed response** (not clicks)
+- Subagent summaries are returned between steps
+- The `.tasks/` directory persists the full workflow state
+
+---
+
+## 6. Scenario 4: Skill Activation
+
+**Goal:** Test three skills: phase-review, debug, consolidate-task.
+
+### 4a. Phase-Review Skill
+
+1. Have a task with a planned phase (from Scenario 1 or 2)
+
+2. In a Claude session:
+
+   ```
+   use Explore to review phase 1 of the health-check task using phase-review mode
+   ```
+
+3. **Observe:** Explore loads the phase-review skill, reads the plan, produces a structured review
+
+4. **Verify:** Review output includes approval status and suggestions. The phase status in task.md is updated to `⭐ Reviewed`
+
+### 4b. Debug Skill
+
+1. Introduce or find a bug in the project (e.g., a failing test)
+
+2. In a Claude session:
+
+   ```
+   use Implement to debug why the health check test is failing
+   ```
+
+3. **Observe:** Implement activates the debug skill — follows the 4-phase process (Assessment → Hypotheses → Test → Fix)
+
+4. **Verify:** The debug output shows hypothesis formation before jumping to fixes
+
+### 4c. Consolidate-Task Skill
+
+1. Have a completed task (all phases `✅ Done`)
+
+2. In a Claude session:
+
+   ```
+   use Explore to consolidate the health-check task
+   ```
+
+3. **Observe:** Explore loads the consolidate-task skill, reads task.md, decides whether to create/skip an ADR
+
+4. **Verify:** If an ADR is created, it appears in `docs/architecture/` with proper format
+
+### What to Look For Across All Skills
+
+- Skills activate from **natural language** — no special syntax required
+- The skill frontmatter (`allowed-tools`) restricts what tools the agent can use during skill execution
+- Skills work identically to Copilot (same trigger phrases, same behavior)
+
+---
+
+## 7. Troubleshooting
+
+| Problem                           | Cause                                      | Fix                                                                |
+| --------------------------------- | ------------------------------------------ | ------------------------------------------------------------------ |
+| "Agent not found"                 | `install.sh` not run or symlinks broken    | Run `./install.sh`, verify `ls ~/.claude/agents/`                  |
+| Agent doesn't follow instructions | Generated files out of date                | Run `make && ./install.sh`                                         |
+| Skill doesn't activate            | Skill not installed or trigger not matched | Check `ls ~/.claude/skills/`, use explicit "use X mode"            |
+| Orchestrate skips checkpoints     | Rare model behavior                        | Re-invoke; checkpoints are unconditional in the agent instructions |
+| Subagent can't spawn sub-subagent | CC single-level nesting limit              | Expected behavior; agents do work directly                         |
+| `AskUserQuestion` unclear         | Terminal prompt without rich UI            | Type the option name (e.g., "Continue", "Abort")                   |
+| Task not found by Implement       | Implement didn't scan `.tasks/`            | Specify: "The task is at .tasks/NNN-slug/task.md"                  |
+| Permission denied errors          | CC permission mode too strict              | Use `--dangerously-skip-permissions` for testing, or approve tools |
+| Responses seem lower quality      | Wrong model in agent frontmatter           | Check model field — Orchestrate/Explore/Implement should be `opus` |
+| Session state lost                | CC sessions are stateless between runs     | Task persistence in `.tasks/` provides continuity across sessions  |
+
+---
+
+## 8. Reference: Copilot → CC Translation Table
+
+| Concept               | VS Code Copilot                       | Claude Code                                        |
+| --------------------- | ------------------------------------- | -------------------------------------------------- |
+| **Start agent**       | `@Explore` in Chat panel              | `use Explore to...`                                |
+| **Switch agent**      | Click handoff button or `@Agent`      | Type `use [Agent] to...`                           |
+| **Subagent dispatch** | "Run the Explore agent as a subagent" | `Task(explore, "prompt")`                          |
+| **User prompt**       | `askQuestions` with clickable options | `AskUserQuestion` — type response                  |
+| **File read**         | `read_file`                           | `Read`                                             |
+| **File edit**         | `replace_string_in_file`              | `Edit`                                             |
+| **File create**       | `create_file`                         | `Write`                                            |
+| **Terminal**          | `run_in_terminal`                     | `Bash`                                             |
+| **Search (text)**     | `grep_search`                         | `Grep`                                             |
+| **Search (files)**    | `file_search`                         | `Glob`                                             |
+| **Directory list**    | `list_dir`                            | `Glob`                                             |
+| **Handoff buttons**   | In-context action buttons             | Not available — manually invoke next agent         |
+| **Skill activation**  | Natural language                      | Natural language (identical)                       |
+| **Nesting depth**     | Multi-level (agent → Research → ...)  | Single-level only                                  |
+| **Project config**    | `.copilot/` directory                 | `.claude/` directory                               |
+| **Global config**     | `~/.copilot/`                         | `~/.claude/`                                       |
+| **Permission model**  | VS Code tool approval dialogs         | CLI permission modes (`plan`, `bypassPermissions`) |
+| **Model selection**   | VS Code model picker                  | Agent frontmatter `model:` field                   |

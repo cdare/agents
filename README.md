@@ -352,6 +352,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 | Core principles             | [prevailing-wisdom.md](./docs/synthesis/prevailing-wisdom.md)         |
 | Framework analysis          | [framework-comparison.md](./docs/synthesis/framework-comparison.md)   |
 | Memory & session continuity | [memory-and-continuity.md](./docs/synthesis/memory-and-continuity.md) |
+| Claude Code quickstart      | [cc-quickstart.md](./docs/cc-quickstart.md)                           |
 | Research decisions          | [docs/research/](./docs/research/)                                    |
 | 12-Factor Agents            | [docs/sources/12-factor-agents/](./docs/sources/12-factor-agents/)    |
 

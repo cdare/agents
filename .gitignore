@@ -206,6 +206,3 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
-
-# Force include GitHub Agents directory since we're ignoring it globally
-!.github/agents/

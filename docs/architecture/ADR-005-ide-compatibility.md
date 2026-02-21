@@ -73,17 +73,21 @@ How do we support Cursor, Claude Code, and IntelliJ without these features?
 
 ### Conditional Directives (COPILOT-ONLY / CC-ONLY)
 
-Template-based generation alone isn't sufficient — the *body content* of agent
+Template-based generation alone isn't sufficient — the _body content_ of agent
 templates contains platform-specific references (tool names, invocation syntax,
 UI concepts). Conditional directives solve this at the template level:
 
 ```markdown
 <!-- COPILOT-ONLY-START -->
+
 Run the Explore agent as a subagent to research the codebase.
+
 <!-- COPILOT-ONLY-END -->
 
 <!-- CC-ONLY-START -->
+
 Task(explore, "Research the codebase...")
+
 <!-- CC-ONLY-END -->
 ```
 
@@ -93,12 +97,12 @@ clean, platform-native output for each IDE.
 
 **Key patterns replaced with conditional directives:**
 
-| Pattern                       | Copilot                          | Claude Code                      |
-| ----------------------------- | -------------------------------- | -------------------------------- |
-| User prompts                  | `askQuestions` tool               | `AskUserQuestion` tool            |
-| Subagent invocation           | "Run the X agent as a subagent"  | `Task(agent, "prompt")`          |
-| Directory listing             | `list_dir` tool                   | `LS` / `Glob` tools               |
-| Workflow transitions          | Handoff buttons                  | Instructions guide next steps    |
+| Pattern              | Copilot                         | Claude Code                   |
+| -------------------- | ------------------------------- | ----------------------------- |
+| User prompts         | `askQuestions` tool             | `AskUserQuestion` tool        |
+| Subagent invocation  | "Run the X agent as a subagent" | `Task(agent, "prompt")`       |
+| Directory listing    | `list_dir` tool                 | `LS` / `Glob` tools           |
+| Workflow transitions | Handoff buttons                 | Instructions guide next steps |
 
 ### Why Template-Based Generation
 
@@ -146,8 +150,8 @@ The 80/20 insight still applies to Cursor/IntelliJ: most value comes from the in
 
 ## Updates
 
-| Date     | Task | Summary                                                                         |
-| -------- | ---- | ------------------------------------------------------------------------------- |
+| Date     | Task | Summary                                                                                                                              |
+| -------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Feb 2026 | 019  | Added COPILOT-ONLY/CC-ONLY conditional directives to all 7 agent templates; no-commit guard for Implement agent; CC quickstart guide |
 
 ## See Also

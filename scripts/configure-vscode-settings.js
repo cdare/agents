@@ -153,6 +153,14 @@ function main() {
     process.exit(2);
   }
 
+  // Validate file has JSON/JSONC structure
+  if (!content.includes("{") || !content.includes("}")) {
+    console.error(
+      `Settings file is not valid JSON/JSONC (missing {} structure): ${settingsPath}`,
+    );
+    process.exit(2);
+  }
+
   // Apply each setting
   let anyChanged = false;
   for (const setting of SETTINGS) {

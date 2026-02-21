@@ -40,7 +40,19 @@ copilot:
       send: true
 
 cc:
-  tools: [Read, Grep, Glob, Bash, WebFetch, WebSearch, TaskList, TaskGet, LSP]
+  tools:
+    [
+      Read,
+      Grep,
+      Glob,
+      Bash,
+      WebFetch,
+      WebSearch,
+      Task(worker),
+      TaskList,
+      TaskGet,
+      LSP,
+    ]
   disallowedTools: [Edit, Write]
   model: sonnet
   skills: [critic, tech-debt, security-review]
@@ -181,11 +193,24 @@ For deeper analysis, spawn skill-powered subagents with context isolation.
 
 When reviewing complex or high-risk changes:
 
+<!-- COPILOT-ONLY -->
+
 ```
 Spawn subagent: "Use critic mode to challenge this approach: [brief description].
 Find weaknesses, edge cases, and what could go wrong.
 Return: Top 3-5 concerns ranked by severity."
 ```
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+Task(worker, "Use critic mode to challenge this approach: [brief description].
+Find weaknesses, edge cases, and what could go wrong.
+Return: Top 3-5 concerns ranked by severity.")
+```
+
+<!-- /CC-ONLY -->
 
 **When to invoke:**
 
@@ -198,11 +223,24 @@ Return: Top 3-5 concerns ranked by severity."
 
 When assessing code health:
 
+<!-- COPILOT-ONLY -->
+
 ```
 Spawn subagent: "Use tech-debt mode to scan these files for code smells: [file list].
 Find dead code, missing types, TODO comments, and cleanup opportunities.
 Return: Prioritized debt items with effort estimates."
 ```
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+Task(worker, "Use tech-debt mode to scan these files for code smells: [file list].
+Find dead code, missing types, TODO comments, and cleanup opportunities.
+Return: Prioritized debt items with effort estimates.")
+```
+
+<!-- /CC-ONLY -->
 
 **When to invoke:**
 
@@ -220,10 +258,22 @@ Return: Prioritized debt items with effort estimates."
 
 For running tests with context isolation:
 
+<!-- COPILOT-ONLY -->
+
 ```
 Run the Worker agent as a subagent to run the test suite for src/auth/
 and verify all tests pass. Return: test count, pass/fail status, and any failure details.
 ```
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+Task(worker, "Run the test suite for src/auth/
+and verify all tests pass. Return: test count, pass/fail status, and any failure details.")
+```
+
+<!-- /CC-ONLY -->
 
 **When to invoke:**
 
@@ -394,19 +444,10 @@ After review is complete, proceed based on the outcome:
 
 <!-- CC-ONLY -->
 
-## CC Platform Notes
-
-### Worker Capability (Embedded)
-
-In Claude Code, there is no separate Worker subagent. Run tests, lint checks,
-and verifications directly using your Bash tool.
-
-### Next Steps
-
 After review is complete:
 
-- PASS: `@agent-Commit` to create semantic commits
-- NEEDS_WORK: `@agent-Implement` to fix issues
-- FAIL: `@agent-Explore` to re-plan
+- PASS: `/agent-Commit` to create semantic commits
+- NEEDS_WORK: `/agent-Implement` to fix issues
+- FAIL: `/agent-Explore` to re-plan
 
 <!-- /CC-ONLY -->

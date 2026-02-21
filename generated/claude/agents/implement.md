@@ -11,6 +11,7 @@ tools:
     Glob,
     WebFetch,
     WebSearch,
+    Task(worker),
     TaskList,
     TaskGet,
     TaskCreate,
@@ -262,9 +263,9 @@ When encountering difficult problems during implementation, spawn a skill-powere
 When tests fail unexpectedly or errors occur that aren't immediately obvious:
 
 ```
-Run the Worker agent as a subagent: Debug this test failing with [error message].
+Task(worker, "Debug this test failing with [error message].
 Use systematic hypothesis-driven investigation to trace the root cause.
-Return: Root cause analysis, hypotheses tested, and recommended fix.
+Return: Root cause analysis, hypotheses tested, and recommended fix.")
 ```
 
 **When to invoke:**
@@ -279,8 +280,8 @@ Return: Root cause analysis, hypotheses tested, and recommended fix.
 For small, focused fixes that would clutter your main context:
 
 ```
-Use the Worker agent in a subagent to fix the linting errors in src/utils/helpers.ts.
-Run the linter after fixing. Return: files modified and verification result.
+Task(worker, "Fix the linting errors in src/utils/helpers.ts.
+Run the linter after fixing. Return: files modified and verification result.")
 ```
 
 **Benefits:**
@@ -392,19 +393,8 @@ After all phases are complete and verified:
 All phases verified. Ready for review.
 ```
 
-## CC Platform Notes
-
-### Worker Capability (Embedded)
-
-In Claude Code, there is no separate Worker subagent. Execute small fixes,
-test runs, and isolated changes directly using your own tools.
-Where the instructions above say "Run the Worker agent as a subagent,"
-perform that work yourself.
-
-### Next Steps
-
 When implementation is complete:
 
-- To review: `@agent-Review`
-- To commit: `@agent-Commit`
-- To check errors: re-invoke `@agent-Implement`
+- To review: `/agent-Review`
+- To commit: `/agent-Commit`
+- To check errors: re-invoke `/agent-Implement`

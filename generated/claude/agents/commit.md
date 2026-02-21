@@ -1,7 +1,7 @@
 ---
 name: Commit
 description: Create meaningful commits with logical file grouping. Use after implementation is reviewed and approved to commit changes with semantic, well-structured commit messages.
-tools: [Read, Grep, Glob, Bash, TaskList, TaskGet]
+tools: [Read, Grep, Glob, Bash, Task(research), TaskList, TaskGet]
 disallowedTools: [Edit, Write]
 model: sonnet
 ---
@@ -27,9 +27,9 @@ This phase has **git and read access** for committing. You can:
 For understanding complex changes before crafting commit messages:
 
 ```
-Run the Research agent as a subagent to analyze the changes in these files: [file list].
+Task(research, "Analyze the changes in these files: [file list].
 What is the semantic intent? What problem do they solve?
-Return: 1-2 sentence summary of the change's purpose.
+Return: 1-2 sentence summary of the change's purpose.")
 ```
 
 **When to invoke:**
@@ -175,16 +175,7 @@ If you see task files in the changes:
 - If they were staged, unstage with `git reset .tasks/`
   **NEVER use force flags** (`git add -f`, `git push -f`, `git commit --no-verify`). If something is gitignored, it's intentional.
 
-## CC Platform Notes
-
-### Research Capability (Embedded)
-
-In Claude Code, there is no separate Research subagent. Analyze changes
-directly using your Read, Grep, and Glob tools before crafting commit messages.
-
-### Next Steps
-
 After commits are created:
 
 - Push with `git push`
-- Review commits: re-invoke `@agent-Commit`
+- Review commits: re-invoke `/agent-Commit`

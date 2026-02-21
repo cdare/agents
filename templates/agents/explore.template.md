@@ -52,6 +52,7 @@ cc:
       Edit,
       Write,
       Task(explore),
+      Task(research),
       TaskList,
       TaskGet,
       TaskCreate,
@@ -231,6 +232,8 @@ For complex research, **autonomously spawn subagents** to investigate independen
 
 **How to invoke:**
 
+<!-- COPILOT-ONLY -->
+
 ```
 # Single subagent for deep codebase tracing
 Run the Explore agent as a subagent to trace all usages of the User model.
@@ -247,6 +250,26 @@ Run these subagents in parallel:
 3. Use Research to document API structure → return summary
 ```
 
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+# Single subagent for deep codebase tracing
+Task(explore, "Trace all usages of the User model.
+Return a summary of where it's used and key patterns.")
+
+# Single subagent for external docs or semantic analysis
+Task(research, "Read the VS Code 1.109 release notes
+and summarize new agent-related features. Return: bullet list of features.")
+
+# Multiple parallel investigations (run sequentially in CC)
+Task(research, "Analyze authentication patterns → return summary")
+Task(research, "Investigate test infrastructure → return summary")
+Task(research, "Document API structure → return summary")
+```
+
+<!-- /CC-ONLY -->
+
 Subagents return only their final summary. Incorporate these into your synthesis.
 
 **Skill-Powered Subagents:**
@@ -255,11 +278,24 @@ For specialized analysis, invoke skills via subagent prompts:
 
 **Architecture Skill — Understanding System Structure:**
 
+<!-- COPILOT-ONLY -->
+
 ```
 Run the Research agent as a subagent: Use architecture mode to analyze the [component] system.
 Document high-level design, data flow, and integration points.
 Return: Component overview, key interfaces, and dependency map.
 ```
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+Task(research, "Use architecture mode to analyze the [component] system.
+Document high-level design, data flow, and integration points.
+Return: Component overview, key interfaces, and dependency map.")
+```
+
+<!-- /CC-ONLY -->
 
 **When to invoke:**
 
@@ -269,11 +305,24 @@ Return: Component overview, key interfaces, and dependency map.
 
 **Deep-Research Skill — Exhaustive Investigation:**
 
+<!-- COPILOT-ONLY -->
+
 ```
 Use the Research agent in a subagent: Use deep-research mode to thoroughly investigate [topic].
 Cite all relevant files and line numbers. Cover exhaustively.
 Return: Structured findings with citations and confidence levels.
 ```
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+Task(research, "Use deep-research mode to thoroughly investigate [topic].
+Cite all relevant files and line numbers. Cover exhaustively.
+Return: Structured findings with citations and confidence levels.")
+```
+
+<!-- /CC-ONLY -->
 
 **When to invoke:**
 
@@ -428,24 +477,13 @@ Before completing this session, verify:
 3. **Save work**: Is your research saved to `.tasks/[NNN]-[slug]/task.md`?
 4. **No auto-handoff**: Did you invoke the Implement subagent? If yes, STOP—the user controls when to move to implementation.
 
+<!-- COPILOT-ONLY -->
+
 **→ Next step**: Save and wait for user direction. Use the "Implement" handoff button only when the user is ready.
 
+<!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-## CC Platform Notes
-
-### Research Capability (Embedded)
-
-In Claude Code, there is no separate Research subagent. Use your own tools
-(Read, Grep, Glob, WebFetch, WebSearch) directly for all investigation.
-Where the instructions above say "Run the Research agent as a subagent,"
-perform that research yourself using your available tools.
-
-### Next Steps
-
-When research is complete, tell the user to invoke the appropriate agent:
-
-- To implement: `@agent-Implement`
-- To plan next phase: re-invoke `@agent-Explore`
+**→ Next step**: Save and wait for user direction. Tell the user to invoke `/agent-Implement` when ready.
 
 <!-- /CC-ONLY -->

@@ -1,7 +1,19 @@
 ---
 name: Review
 description: Verify implementation quality with read and test access. Use for reviewing changes, checking code quality, verifying implementations, or auditing work before merge.
-tools: [Read, Grep, Glob, Bash, WebFetch, WebSearch, TaskList, TaskGet, LSP]
+tools:
+  [
+    Read,
+    Grep,
+    Glob,
+    Bash,
+    WebFetch,
+    WebSearch,
+    Task(worker),
+    TaskList,
+    TaskGet,
+    LSP,
+  ]
 disallowedTools: [Edit, Write]
 model: sonnet
 skills: [critic, tech-debt, security-review]
@@ -143,9 +155,9 @@ For deeper analysis, spawn skill-powered subagents with context isolation.
 When reviewing complex or high-risk changes:
 
 ```
-Spawn subagent: "Use critic mode to challenge this approach: [brief description].
+Task(worker, "Use critic mode to challenge this approach: [brief description].
 Find weaknesses, edge cases, and what could go wrong.
-Return: Top 3-5 concerns ranked by severity."
+Return: Top 3-5 concerns ranked by severity.")
 ```
 
 **When to invoke:**
@@ -160,9 +172,9 @@ Return: Top 3-5 concerns ranked by severity."
 When assessing code health:
 
 ```
-Spawn subagent: "Use tech-debt mode to scan these files for code smells: [file list].
+Task(worker, "Use tech-debt mode to scan these files for code smells: [file list].
 Find dead code, missing types, TODO comments, and cleanup opportunities.
-Return: Prioritized debt items with effort estimates."
+Return: Prioritized debt items with effort estimates.")
 ```
 
 **When to invoke:**
@@ -182,8 +194,8 @@ Return: Prioritized debt items with effort estimates."
 For running tests with context isolation:
 
 ```
-Run the Worker agent as a subagent to run the test suite for src/auth/
-and verify all tests pass. Return: test count, pass/fail status, and any failure details.
+Task(worker, "Run the test suite for src/auth/
+and verify all tests pass. Return: test count, pass/fail status, and any failure details.")
 ```
 
 **When to invoke:**
@@ -353,17 +365,8 @@ After review is complete, proceed based on the outcome:
 
 **→ Re-Explore**: The approach is fundamentally wrong or scope has grown beyond the original plan. Start fresh with a revised plan.
 
-## CC Platform Notes
-
-### Worker Capability (Embedded)
-
-In Claude Code, there is no separate Worker subagent. Run tests, lint checks,
-and verifications directly using your Bash tool.
-
-### Next Steps
-
 After review is complete:
 
-- PASS: `@agent-Commit` to create semantic commits
-- NEEDS_WORK: `@agent-Implement` to fix issues
-- FAIL: `@agent-Explore` to re-plan
+- PASS: `/agent-Commit` to create semantic commits
+- NEEDS_WORK: `/agent-Implement` to fix issues
+- FAIL: `/agent-Explore` to re-plan

@@ -33,7 +33,7 @@ copilot:
       send: true
 
 cc:
-  tools: [Read, Grep, Glob, Bash, TaskList, TaskGet]
+  tools: [Read, Grep, Glob, Bash, Task(research), TaskList, TaskGet]
   disallowedTools: [Edit, Write]
   model: sonnet
 ---
@@ -58,11 +58,24 @@ This phase has **git and read access** for committing. You can:
 
 For understanding complex changes before crafting commit messages:
 
+<!-- COPILOT-ONLY -->
+
 ```
 Run the Research agent as a subagent to analyze the changes in these files: [file list].
 What is the semantic intent? What problem do they solve?
 Return: 1-2 sentence summary of the change's purpose.
 ```
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+Task(research, "Analyze the changes in these files: [file list].
+What is the semantic intent? What problem do they solve?
+Return: 1-2 sentence summary of the change's purpose.")
+```
+
+<!-- /CC-ONLY -->
 
 **When to invoke:**
 
@@ -209,18 +222,9 @@ If you see task files in the changes:
 
 <!-- CC-ONLY -->
 
-## CC Platform Notes
-
-### Research Capability (Embedded)
-
-In Claude Code, there is no separate Research subagent. Analyze changes
-directly using your Read, Grep, and Glob tools before crafting commit messages.
-
-### Next Steps
-
 After commits are created:
 
 - Push with `git push`
-- Review commits: re-invoke `@agent-Commit`
+- Review commits: re-invoke `/agent-Commit`
 
 <!-- /CC-ONLY -->

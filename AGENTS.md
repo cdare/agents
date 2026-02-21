@@ -6,17 +6,15 @@ Instructions that apply to all AI agents working in this repository.
 
 This is an agentic coding framework. Key locations:
 
-| Path              | Contents                                                                |
-| ----------------- | ----------------------------------------------------------------------- |
-| `templates/`      | Source-of-truth templates for agents, skills, instructions              |
-| `Makefile`        | Build targets: `make [copilot\|cc\|all\|validate]`                     |
-| `scripts/`        | Generator (`generate.js`) and VS Code config scripts                    |
-| `.github/agents/` | GENERATED — Copilot agent files (do not edit)                           |
-| `.github/skills/` | GENERATED — Copilot skill files (do not edit)                           |
-| `.claude/`        | GENERATED — Claude Code output: agents, skills, rules (do not edit)     |
-| `instructions/`   | GENERATED — Copilot instructions (do not edit)                          |
-| `docs/sources/`   | Reference materials from external frameworks                            |
-| `docs/synthesis/` | Framework design principles and analysis                                |
+| Path                 | Contents                                                       |
+| -------------------- | -------------------------------------------------------------- |
+| `templates/`         | Source-of-truth templates for agents, skills, instructions     |
+| `Makefile`           | Build targets: `make [copilot\|cc\|all\|validate]`             |
+| `scripts/`           | Generator (`generate.js`) and VS Code config scripts           |
+| `generated/copilot/` | GENERATED — Copilot agents, skills, instructions (do not edit) |
+| `generated/claude/`  | GENERATED — Claude Code agents, skills, rules (do not edit)    |
+| `docs/sources/`      | Reference materials from external frameworks                   |
+| `docs/synthesis/`    | Framework design principles and analysis                       |
 
 ## Conventions
 

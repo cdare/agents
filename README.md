@@ -148,7 +148,7 @@ Generated files are committed to git, so `./install.sh` works immediately after 
 **For contributors modifying templates:**
 
 ```bash
-make            # Regenerate .github/, .claude/, instructions/ from templates/
+make            # Regenerate generated/ from templates/
 ./install.sh    # Symlink generated files to home directories
 ```
 
@@ -173,12 +173,12 @@ The installer also configures VS Code settings (`chat.agentFilesLocations`, `cha
 
 Agents are available as native subagents in Claude Code:
 
-| Agent              | Purpose                 |
-| ------------------ | ----------------------- |
-| `Explore`          | Research and plan       |
-| `Implement`        | Execute the plan        |
-| `Review`           | Verify changes          |
-| `Commit`           | Create semantic commits |
+| Agent       | Purpose                 |
+| ----------- | ----------------------- |
+| `Explore`   | Research and plan       |
+| `Implement` | Execute the plan        |
+| `Review`    | Verify changes          |
+| `Commit`    | Create semantic commits |
 
 **Example workflow:**
 
@@ -212,7 +212,7 @@ $ claude
 Create `templates/agents/my-agent.template.md` (see [templates/README.md](templates/README.md) for format), then:
 
 ```bash
-make            # Generate output files for both platforms
+make            # Regenerate generated/ from templates/
 ./install.sh    # Install locally
 ```
 
@@ -285,16 +285,15 @@ templates/                # SOURCE OF TRUTH — edit these
 ├── skills/               #   11 skill templates
 └── instructions/         #   5 instruction templates
 
-.github/                  # GENERATED — Copilot output (do not edit)
-├── agents/               #   Copilot agent files
-└── skills/               #   Copilot skill files
-
-.claude/                  # GENERATED — Claude Code output (do not edit)
-├── agents/               #   CC subagent files
-├── skills/               #   CC skill files
-└── rules/                #   CC rule files
-
-instructions/             # GENERATED — Copilot instructions (do not edit)
+generated/                # GENERATED — do not edit
+├── copilot/              #   Copilot output
+│   ├── agents/           #     Agent files
+│   ├── skills/           #     Skill files
+│   └── instructions/     #     Instruction files
+└── claude/               #   Claude Code output
+    ├── agents/           #     CC subagent files
+    ├── skills/           #     CC skill files
+    └── rules/            #     CC rule files
 
 scripts/
 ├── generate.js           # Bidirectional template generator
@@ -315,7 +314,7 @@ docs/
 **Skills not auto-activating?**
 
 1. Run `make && ./install.sh` to ensure generated files and symlinks exist
-2. Check `~/.github/skills/` for your skills
+2. Check `~/.copilot/skills/` for your skills
 3. Be more explicit: "Use debug mode to investigate..."
 
 **Generated files out of date?**

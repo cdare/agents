@@ -132,7 +132,7 @@ Selection guidance: "Need terminal? → Implement/Review, NOT Explore"
 ## Current Structure
 
 ```
-.github/agents/
+generated/copilot/agents/
 ├── orchestrate.agent.md  # Conductor - coordinates workflow
 ├── explore.agent.md      # READ-ONLY research and planning
 ├── implement.agent.md    # Code implementation

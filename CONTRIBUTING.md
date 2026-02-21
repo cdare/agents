@@ -27,7 +27,7 @@ make && ./install.sh
 - Keep skills under 500 lines (focus and clarity)
 - Use descriptive trigger keywords in the frontmatter
 - Include clear examples in the description
-- Follow existing patterns in `.github/skills/`
+- Follow existing patterns in `templates/skills/`
 - Test using the TDD approach (see Testing section)
 
 ### Skill Structure

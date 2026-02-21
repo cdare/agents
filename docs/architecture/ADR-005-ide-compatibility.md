@@ -53,7 +53,7 @@ How do we support Cursor, Claude Code, and IntelliJ without these features?
 - CC subagents have full frontmatter: `tools`, `disallowedTools`, `model`, `skills`
 - Skills generated from `templates/skills/` with CC-specific frontmatter (`allowed-tools`, `context`)
 - Rules generated from `templates/instructions/` with `paths:` scoping
-- `install.sh` symlinks generated `.claude/` files to `~/.claude/`
+- `install.sh` symlinks generated files from `generated/claude/` to `~/.claude/`
 - Users invoke agents via subagent syntax in Claude Code
 
 **Cursor:**
@@ -72,26 +72,26 @@ How do we support Cursor, Claude Code, and IntelliJ without these features?
 
 ### Why Template-Based Generation
 
-| Aspect           | Old (Feb 2026)                       | New (template-based)                 |
-| ---------------- | ------------------------------------ | ------------------------------------ |
-| Source of truth  | Copilot files (.github/)             | Templates (templates/)               |
-| CC generation    | Strip frontmatter from Copilot       | Generate from templates              |
-| CC enforcement   | Soft (instructions only)             | Hard (tools/disallowedTools)         |
-| CC agent format  | Slash commands (~/.claude/commands/) | Native subagents (~/.claude/agents/) |
-| Build system     | install.sh does everything           | make generates, install.sh symlinks  |
+| Aspect          | Old (Feb 2026)                       | New (template-based)                 |
+| --------------- | ------------------------------------ | ------------------------------------ |
+| Source of truth | Copilot files (.github/)             | Templates (templates/)               |
+| CC generation   | Strip frontmatter from Copilot       | Generate from templates              |
+| CC enforcement  | Soft (instructions only)             | Hard (tools/disallowedTools)         |
+| CC agent format | Slash commands (~/.claude/commands/) | Native subagents (~/.claude/agents/) |
+| Build system    | install.sh does everything           | make generates, install.sh symlinks  |
 
 ### Acceptable Losses by Platform
 
-| Platform    | What's Lost           | Why Acceptable                        |
-| ----------- | --------------------- | ------------------------------------- |
-| Claude Code | Handoff UI buttons    | Instructions guide next steps         |
+| Platform    | What's Lost              | Why Acceptable                      |
+| ----------- | ------------------------ | ----------------------------------- |
+| Claude Code | Handoff UI buttons       | Instructions guide next steps       |
 | Cursor      | Agent modes, persistence | Skills still provide specialization |
 | IntelliJ    | Agents, skills, handoffs | Core instructions still apply       |
 
 ### Build and Install
 
 ```bash
-make              # Generate .github/ and .claude/ from templates/
+make              # Generate generated/ from templates/
 ./install.sh      # Symlink to ~/.copilot/ and ~/.claude/
 
 # Creates:

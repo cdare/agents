@@ -149,7 +149,7 @@ AGENTS uses **Task-Centric Persistence** for session continuity:
 4. New session: Just say "Continue working on [task-name]"
 5. Within a session, Explore updates the same file (no prompting)
 
-For implementation details, see the agent definitions in `.github/agents/`.
+For implementation details, see the agent definitions in `generated/copilot/agents/`.
 
 ---
 
@@ -257,4 +257,4 @@ After 15-50+ tool calls, original goals can drift from attention ("lost in the m
 
 - [Prevailing Wisdom](./prevailing-wisdom.md) — Core framework principles
 - [Framework Comparison](./framework-comparison.md) — How source frameworks handle context
-- [Explore Agent](../../.github/agents/explore.agent.md) — Task persistence implementation
+- [Explore Agent](../../generated/copilot/agents/explore.agent.md) — Task persistence implementation

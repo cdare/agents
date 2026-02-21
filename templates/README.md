@@ -6,12 +6,12 @@ Templates encode platform-agnostic content with conditional platform-specific se
 
 ```
 templates/
-├── agents/           → Copilot: .github/agents/*.agent.md
-│                     → CC: .claude/agents/*.md
-├── skills/           → Copilot: .github/skills/*/SKILL.md
-│                     → CC: .claude/skills/*/SKILL.md
-└── instructions/     → Copilot: instructions/*.instructions.md
-                      → CC: .claude/rules/*.md
+├── agents/           → Copilot: generated/copilot/agents/*.agent.md
+│                     → CC: generated/claude/agents/*.md
+├── skills/           → Copilot: generated/copilot/skills/*/SKILL.md
+│                     → CC: generated/claude/skills/*/SKILL.md
+└── instructions/     → Copilot: generated/copilot/instructions/*.instructions.md
+                      → CC: generated/claude/rules/*.md
 ```
 
 ---
@@ -201,11 +201,11 @@ This section appears in both outputs.
 
 ## Output Directory Mapping
 
-| Template Type                          | Copilot Output                   | CC Output                   |
-| -------------------------------------- | -------------------------------- | --------------------------- |
-| `templates/agents/*.template.md`       | `.github/agents/*.agent.md`      | `.claude/agents/*.md`       |
-| `templates/skills/*/SKILL.template.md` | `.github/skills/*/SKILL.md`      | `.claude/skills/*/SKILL.md` |
-| `templates/instructions/*.template.md` | `instructions/*.instructions.md` | `.claude/rules/*.md`        |
+| Template Type                          | Copilot Output                                     | CC Output                            |
+| -------------------------------------- | -------------------------------------------------- | ------------------------------------ |
+| `templates/agents/*.template.md`       | `generated/copilot/agents/*.agent.md`              | `generated/claude/agents/*.md`       |
+| `templates/skills/*/SKILL.template.md` | `generated/copilot/skills/*/SKILL.md`              | `generated/claude/skills/*/SKILL.md` |
+| `templates/instructions/*.template.md` | `generated/copilot/instructions/*.instructions.md` | `generated/claude/rules/*.md`        |
 
 ### File Naming Conventions
 

@@ -10,12 +10,13 @@ See [AGENTS.md](../AGENTS.md) for cross-agent instructions including:
 
 ## File Conventions
 
-| Type         | Pattern                          |
-| ------------ | -------------------------------- |
-| Agents       | `.github/agents/*.agent.md`      |
-| Skills       | `.github/skills/*/SKILL.md`      |
-| Instructions | `instructions/*.instructions.md` |
-| Research     | `docs/research/RDR-XXX-*.md`     |
+| Type         | Pattern                                                |
+| ------------ | ------------------------------------------------------ |
+| Templates    | `templates/{agents,skills,instructions}/*.template.md` |
+| Agents       | `generated/copilot/agents/*.agent.md`                  |
+| Skills       | `generated/copilot/skills/*/SKILL.md`                  |
+| Instructions | `generated/copilot/instructions/*.instructions.md`     |
+| Research     | `docs/research/RDR-XXX-*.md`                           |
 
 ## Testing Changes
 

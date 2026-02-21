@@ -13,12 +13,12 @@ AGENTS framework compatibility across VS Code, Claude Code, Cursor, and IntelliJ
 
 ## Support Matrix
 
-| IDE         | Agents | Skills | Instructions | Status                   |
-| ----------- | ------ | ------ | ------------ | ------------------------ |
-| VS Code     | ✅     | ✅     | ✅           | Full support             |
+| IDE         | Agents | Skills | Instructions | Status                          |
+| ----------- | ------ | ------ | ------------ | ------------------------------- |
+| VS Code     | ✅     | ✅     | ✅           | Full support                    |
 | Claude Code | ✅     | ✅     | ✅           | Full support (native subagents) |
-| Cursor      | ❌     | ✅     | ❌           | Skills only              |
-| IntelliJ    | ❌     | ❌     | ✅ (global)  | Global instructions only |
+| Cursor      | ❌     | ✅     | ❌           | Skills only                     |
+| IntelliJ    | ❌     | ❌     | ✅ (global)  | Global instructions only        |
 
 ---
 
@@ -32,8 +32,8 @@ VS Code agents use `.agent.md` with 12 frontmatter fields. Claude Code uses nati
 
 Both platforms are generated from `templates/` via `scripts/generate.js`:
 
-- **Copilot:** `.github/agents/*.agent.md` with Copilot YAML frontmatter
-- **Claude Code:** `.claude/agents/*.md` with CC YAML frontmatter (tools, disallowedTools, model, skills)
+- **Copilot:** `generated/copilot/agents/*.agent.md` with Copilot YAML frontmatter
+- **Claude Code:** `generated/claude/agents/*.md` with CC YAML frontmatter (tools, disallowedTools, model, skills)
 
 Neither platform is "primary" — templates are the single source of truth.
 

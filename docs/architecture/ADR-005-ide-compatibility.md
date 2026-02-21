@@ -2,6 +2,7 @@
 
 **Source:** RDR-017, RDR-029 (via ide-compatibility.md), February 2026
 **Amended:** February 20, 2026 — Template-based generation (task 017)
+**Amended:** February 21, 2026 — Conditional directives for UX parity (task 019)
 
 ## Decision
 
@@ -70,6 +71,35 @@ How do we support Cursor, Claude Code, and IntelliJ without these features?
 - No skills or custom agents
 - AGENTS.md works for Coding Agent (not Chat)
 
+### Conditional Directives (COPILOT-ONLY / CC-ONLY)
+
+Template-based generation alone isn't sufficient — the *body content* of agent
+templates contains platform-specific references (tool names, invocation syntax,
+UI concepts). Conditional directives solve this at the template level:
+
+```markdown
+<!-- COPILOT-ONLY-START -->
+Run the Explore agent as a subagent to research the codebase.
+<!-- COPILOT-ONLY-END -->
+
+<!-- CC-ONLY-START -->
+Task(explore, "Research the codebase...")
+<!-- CC-ONLY-END -->
+```
+
+The generator (`scripts/generate.js`) strips the opposite platform's blocks
+during generation. This keeps one template as the source of truth while producing
+clean, platform-native output for each IDE.
+
+**Key patterns replaced with conditional directives:**
+
+| Pattern                       | Copilot                          | Claude Code                      |
+| ----------------------------- | -------------------------------- | -------------------------------- |
+| User prompts                  | `askQuestions` tool               | `AskUserQuestion` tool            |
+| Subagent invocation           | "Run the X agent as a subagent"  | `Task(agent, "prompt")`          |
+| Directory listing             | `list_dir` tool                   | `LS` / `Glob` tools               |
+| Workflow transitions          | Handoff buttons                  | Instructions guide next steps    |
+
 ### Why Template-Based Generation
 
 | Aspect          | Old (Feb 2026)                       | New (template-based)                 |
@@ -103,16 +133,26 @@ make              # Generate generated/ from templates/
 
 ## Key Insights
 
-The core value is methodology in each agent's instructions. Template-based generation ensures both VS Code and Claude Code get first-class, in-sync implementations.
+The core value is methodology in each agent's instructions. Template-based generation
+with conditional directives ensures both VS Code and Claude Code get first-class,
+in-sync implementations with zero cross-platform leakage.
 
-Clause Code users get the same tool restrictions and model selection as VS Code. Only remaining acceptable loss:
+Claude Code users get the same tool restrictions, model selection, and
+platform-native UX as VS Code. Only remaining acceptable loss:
 
 - Handoff buttons → Instructions guide next steps; user invokes next agent manually
 
 The 80/20 insight still applies to Cursor/IntelliJ: most value comes from the instructions themselves. Enforcement is nice-to-have for those platforms, not essential.
 
+## Updates
+
+| Date     | Task | Summary                                                                         |
+| -------- | ---- | ------------------------------------------------------------------------------- |
+| Feb 2026 | 019  | Added COPILOT-ONLY/CC-ONLY conditional directives to all 7 agent templates; no-commit guard for Implement agent; CC quickstart guide |
+
 ## See Also
 
 - [ide-compatibility.md](../synthesis/ide-compatibility.md) — Detailed platform analysis
 - [install.sh](../../install.sh) — Compatibility layer implementation
+- [cc-quickstart.md](../cc-quickstart.md) — Claude Code quickstart guide
 - [Agent Skills Standard](https://agentskills.io/) — Skills format specification

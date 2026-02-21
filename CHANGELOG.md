@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Claude Code quickstart guide** (`docs/cc-quickstart.md`): Hands-on guide with 4 learning scenarios, troubleshooting, and Copilot-to-CC translation table
+
 ## [2.0.0] - 2026-02-21
 
 Full Claude Code (CC) support — agents, skills, and rules now generated from the same template set as Copilot.

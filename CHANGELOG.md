@@ -7,102 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+## [2.0.0] - 2026-02-21
 
-- `make validate` step in CI workflow (`.github/workflows/test.yml`) — fails build if committed generated files drift from templates
-- `zsh ./tests/test-generate.sh` step in CI workflow
-- Node.js setup (`actions/setup-node@v4`, node 20) and `npm ci` steps in CI workflow
-- CC agent validation, CC skill validation, CC rule validation, and cross-platform parity checks in `tests/validate-skills.sh`
-- Tests 13–19 in `tests/test-generate.sh`: Makefile target tests (`make validate`, `make copilot`, `make cc`), separate subcommand tests, CC frontmatter content checks, CC rules paths: scoping checks
-- Neutral output directory: generator now writes to `generated/copilot/` and `generated/claude/` instead of `.github/`, `.claude/`, and `instructions/`
-
-### Changed
-
-- `scripts/generate.js`: all 6 output path functions updated to write under `generated/copilot/` and `generated/claude/`; header comment and help text updated to reflect new paths
-- `Makefile`: comments updated to reference `generated/copilot/` and `generated/claude/`
-- `install.sh`: all source path globs updated to read from `generated/`; fixed pre-existing bug in `check_generated_files()` error message (was referencing `.github/skills/instructions/` — now correctly `generated/copilot/instructions/`)
-- `tests/test-generate.sh`: all `find` paths updated to `generated/copilot/` and `generated/claude/`
-- `tests/validate-skills.sh`: top-level `AGENTS_DIR`/`SKILLS_DIR` vars and CC section vars updated; echo headers updated; cross-platform parity `find` paths updated
-- `tests/test-install.sh`: all source path references updated to `generated/` paths
-
-### Changed
-
-- `README.md`: Updated installation quick-start (note about `make` for template modifications), file structure (template-centric), installation details (CC row → agents, not commands; contributor two-step workflow), Claude Code usage (correct invocation; updated Note re: CC capabilities), customization (points to templates instead of `.github/` directly), troubleshooting (`make validate` item)
-- `docs/architecture/ADR-005-ide-compatibility.md`: Amended to document template-based generation — templates are source of truth, both VS Code and CC are first-class; updated support matrix (CC = ✅ Hard enforcement), build and install section, acceptable losses table (CC: only handoff buttons lost)
-- `docs/synthesis/ide-compatibility.md`: Status Partial → Active; CC support matrix updated to Full support (native subagents); architecture section reflects both platforms generated from templates/; feature comparison updated; key insight updated to template-based approach
-- `CONTRIBUTING.md`: Quick Start step 3 now `make && ./install.sh`; Adding Skill/Agent sections point to templates; Testing section includes `make validate`; PR Process includes `make` step
-- `AGENTS.md`: Repository Structure table has `templates/`, `Makefile`, `scripts/` rows; Conventions updated to `Run make && ./install.sh after modifying templates`
-- `.github/copilot-instructions.md`: Testing commands include `make validate` and `./tests/test-generate.sh`
-- `tests/test-install.sh`: CC commands check replaced with CC agents/skills/rules symlink checks; uninstall section checks CC agents/skills/rules removal; all `CLAUDE_COMMANDS_DIR` references removed
-- `tests/validate-skills.sh`: Added CC agent, skill, and rule validation sections; added cross-platform parity check
-- `tests/test-generate.sh`: Shebang changed to `#!/bin/zsh`; stale snapshot parity test (test 13) replaced with Makefile target tests and CC frontmatter/paths validation
+Full Claude Code (CC) support — agents, skills, and rules now generated from the same template set as Copilot.
 
 ### Added
 
-- Bidirectional template generator `scripts/generate.js`: generates BOTH Copilot and CC files from `templates/` source
-- `node scripts/generate.js copilot` — generates 7 agents, 11 skills, 5 instructions to `.github/` and `instructions/`
-- `node scripts/generate.js cc` — generates 7 agents, 11 skills, 5 rules to `.claude/`
-- `node scripts/generate.js all` — generates all 46 files for both platforms
-- `--dry-run` flag: validates templates and reports what would change without writing files
-- Body directive filtering: `<!-- COPILOT-ONLY -->`, `<!-- CC-ONLY -->`, `<!-- /COPILOT-ONLY -->`, `<!-- /CC-ONLY -->` blocks
-- Template validation with clear error messages for unknown directives, unclosed blocks, nested directives
-- `package.json` with `js-yaml` dependency for YAML frontmatter parsing
-- `tests/test-generate.sh` integration test for the generator (13 tests)
+- **Claude Code support**: agents, skills, and rules generated for CC alongside Copilot from `templates/`
+- **Single template set**: `scripts/generate.js` generates both platforms; use `<!-- COPILOT-ONLY -->` / `<!-- CC-ONLY -->` directives for platform-specific content
+- **Neutral output dirs**: generated files now live in `generated/copilot/` and `generated/claude/` (previously scattered across `.github/`, `.claude/`, `instructions/`)
+- Orchestrate agent improvements: Position Lock Protocol, Detour Recovery, context-adaptive checkpoints
 
 ### Changed
 
-- `install.sh`: Simplified to symlink-only; removed all generation logic (no `node scripts/generate.js` invocation); requires `make` to be run first; added `check_generated_files()` precondition check that verifies all 7 CC agents, 11 CC skills, 5 CC rules, 7 Copilot agents, 11 Copilot skills, and 5 instructions exist before proceeding; CC file installation is now simple diff-checked copies from pre-generated `.claude/` directory
-- `install.sh`: Updated header comment to document `make` prerequisite
-- `install.sh`: CC file installation now uses `link_file()` symlinks (matching Copilot pattern) instead of diff-checked `cp` copies for agents, skills, and rules; uninstall uses `unlink_if_ours()` instead of bare `rm`; summary messages updated to say "symlinked"
+- **BREAKING:** Generated output paths moved to `generated/copilot/` and `generated/claude/`
+- **`install.sh` is now symlink-only** — run `make` first to generate files, then `./install.sh` to symlink them into place; workflow is `make → ./install.sh`
+- Documentation and instructions updated to reflect template-centric workflow
 
 ### Removed
 
-- `install.sh`: Removed CC skill generation block (was invoking `node scripts/generate.js cc`)
-- `install.sh`: Removed slash commands migration block (old `~/.claude/commands/` cleanup)
-- `install.sh`: Removed Node.js dependency checks around generation (VS Code settings config still uses Node)
-- `scripts/generate-cc-files.js` (596 lines) — superseded by `scripts/generate.js`
-
-### Added (Prior Phases)
-
-- CC skill generation: `generate-cc-files.js skills` reads source SKILL.md files and merges CC-specific frontmatter (allowed-tools, context) at install time
-- 11 CC-enhanced skill files generated to `~/.claude/skills/` with per-skill tool restrictions and context isolation
-- 5 CC subagent files generated to `~/.claude/agents/` (explore, implement, review, commit, orchestrate) with proper CC frontmatter (tools, disallowedTools, model, skills)
-- CC Platform Notes appended to each agent body (embedded Research/Worker capabilities, handoff guidance)
-- Migration logic in `install.sh` to clean up old slash commands from `~/.claude/commands/`
-- Orchestrate agent: Position Lock Protocol — todo list is now a hard execution cursor
-- Orchestrate agent: Detour Recovery protocol for handling interruptions
-- Orchestrate agent: Conductor constraints preventing self-research
-- Presentation slide deck (`docs/presentation/agents-slides.md`) — 10-slide Marp presentation for live demos
-- Companion cheat-sheet (`docs/presentation/agents-cheatsheet.md`) — 1-page reference card for audience takeaway
-- CC rule generation: `generate-cc-files.js rules` translates `instructions/*.instructions.md` (Copilot `applyTo` frontmatter) to `~/.claude/rules/*.md` (CC `paths:` frontmatter)
-
-### Changed
-
-- `install.sh`: Replaced slash command generation (`~/.claude/commands/`) with native CC subagent generation (`~/.claude/agents/`) via Node.js script
-- `install.sh`: CC skills are now generated files (not symlinks) at `~/.claude/skills/`, while Copilot skills remain symlinked to source
-- `install.sh`: Uninstall now cleans up `~/.claude/agents/` directory and `~/.claude/skills/` generated files
-- Renamed `scripts/generate-cc-agents.js` → `scripts/generate-cc-files.js` with subcommand interface (`agents`, `skills`)
-- SKILL.md files no longer contain CC-specific frontmatter — CC fields are injected at install time
-- orchestrate.agent.md: Added Entry Gate pre-flight checklist, tool-coupled first action, and anti-bypass language for reliable First Action Protocol enforcement
-- Orchestrate agent streamlined from 479 to 419 lines (removed redundant sections, consolidated session management)
-- `install.sh`: Uninstall now cleans up `~/.claude/rules/` generated files
-- Instructions made platform-neutral: removed Copilot-specific language from `global.instructions.md`
-
-### Removed
-
-- Orchestrate agent `search` tool (forces delegation to subagents for research tasks)
-- "Self-Improving Instructions" section from `global.instructions.md` (framework should not modify its own instruction files)
-
-### Fixed
-
-- Orchestrate agent now enforces checkpoints unconditionally — even when user requests plan-only mode (no implementation), pause points fire after each plan+review
-- Phase-review skill no longer modifies plan files — suggestions are returned to Orchestrate and presented to the user for adoption or rejection
-
-### Added
-
-- "Workflow Modes" section in Orchestrate explaining how different user instructions adapt the workflow while preserving mandatory checkpoints
-- Context-adaptive checkpoint options: plan-only mode offers "Continue to Next Phase" instead of "Continue to Implementation"
-- "Adopt Suggestions" flow: user can adopt review suggestions, which spawns Explore to revise the plan, then re-presents for approval
+- `scripts/generate-cc-files.js` — superseded by the unified `scripts/generate.js`
+- Node.js generation logic from `install.sh` (generation is now a `make` step)
 
 ## [1.0.0] - 2026-02-13
 
@@ -422,7 +347,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation and synthesis from multiple frameworks
 - Source materials from 12-Factor Agents, HumanLayer, CursorRIPER, Superpowers
 
-[Unreleased]: https://github.com/mcouthon/agents/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/mcouthon/agents/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/mcouthon/agents/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/mcouthon/agents/compare/v0.11.0...v1.0.0
 [0.11.0]: https://github.com/mcouthon/agents/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/mcouthon/agents/compare/v0.9.1...v0.10.0

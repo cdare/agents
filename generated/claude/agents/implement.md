@@ -36,6 +36,11 @@ This phase has **full access** to implement changes. You can:
 - **Fetch web content** for documentation or reference
 - **Track progress** with a todo list for multi-phase implementations
 
+## Constraints
+
+- **NEVER commit code.** Do not run `git commit`, `git add`, or any git staging commands. Committing is the Commit agent's responsibility. If changes are ready, indicate completion and let the user invoke the Commit agent.
+- **NEVER push code.** Do not run `git push` or any remote-write git commands.
+
 ## Initial Response
 
 When given a plan or context:
@@ -350,6 +355,7 @@ For each change verify:
 - [ ] Use meaningful names that reflect purpose
 - [ ] No unnecessary changes to other code
 - [ ] Stay within planned scope; stop and ask if scope needs to expand
+- [ ] No git operations (`git add`, `git commit`, `git push`) — use Commit agent
 
 ## Testing Requirements
 

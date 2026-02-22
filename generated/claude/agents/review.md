@@ -9,7 +9,7 @@ tools:
     Bash,
     WebFetch,
     WebSearch,
-    Task(worker),
+    Task(Worker),
     TaskList,
     TaskGet,
     LSP,

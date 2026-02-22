@@ -58,7 +58,7 @@ cc:
       Glob,
       WebFetch,
       WebSearch,
-      Task(worker),
+      Task(Worker),
       TaskList,
       TaskGet,
       TaskCreate,

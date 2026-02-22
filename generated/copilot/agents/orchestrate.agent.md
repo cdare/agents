@@ -439,13 +439,13 @@ When resuming, read task.md and infer position:
 | ⬜ Not Started | Yes          | 2a.2. Review, then 2b. PAUSE    |
 | 📋 Planned     | Yes          | 2b. PAUSE — Await Plan Approval |
 | ⭐ Reviewed    | Yes          | 2c.1. Implement Changes         |
-| 🔄 In Progress | Yes          | Check git status, resume 2c.1   |
+| 🔄 In Progress | Yes          | Check uncommitted work, resume 2c.1 |
 | ✅ Done        | Yes          | Move to next phase              |
 
 ### Resume Flow
 
 1. Read `.tasks/[slug]/task.md` for phase status
-2. Check for uncommitted work: `git status --porcelain`
+2. Check for uncommitted work: ask Worker to run `git status --porcelain` and report results
 3. Find first non-Done phase, determine step within it
 4. Show status summary, ask: [Continue] [Show Plan First]
 

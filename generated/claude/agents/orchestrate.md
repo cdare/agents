@@ -1,16 +1,11 @@
 ---
 name: Orchestrate
 description: "Conductor for multi-phase task execution. Automates: task creation → phase planning → review → implementation → verification → commit. Maintains user control at key decision points."
-tools:
-  [
+tools: [
     Read,
     Glob,
-    Task(explore),
-    Task(implement),
-    Task(review),
-    Task(commit),
-    Task(worker),
-    AskUserQuestion,
+    # Needs to be a scalar, or else YAML will parse it over multiple lines
+    "Task(Explore, Implement, Review, Commit, Worker)",
     TaskList,
     TaskGet,
     TaskCreate,
@@ -108,7 +103,7 @@ The user maintains control. You MUST pause and wait for explicit continuation at
 
 1. STOP execution
 
-2. Call `AskUserQuestion` with the listed options
+2. Present the listed options to the user in your response text
 3. Wait for user response before proceeding
 
 **NEVER:**
@@ -133,7 +128,7 @@ If user response is NOT a checkpoint option (free-form question, tangent, error)
 
 The todo list is your recovery anchor. Always consult it after any interruption.
 
-**Implementation:** Use `AskUserQuestion` tool for all pause points—present options clearly and wait for user response.
+**Implementation:** Present checkpoint options in your response text. Stop and wait for the user to reply before proceeding.
 
 ## Task State Requirement
 
@@ -186,7 +181,7 @@ Save to .tasks/ directory. Return: task slug, number of phases, phase summaries.
 
 **STOP. You must pause here.**
 
-Call `AskUserQuestion` with these options:
+Present these options to the user and wait for their reply:
 
 - [Continue] Approve task structure and proceed to phase planning
 - [Abort] Cancel the workflow
@@ -240,7 +235,7 @@ Review findings are presented to the user at the checkpoint.
 2. List key suggestions from the phase-review (bullet points)
 3. State the review's approval status (Approved / Approved with Suggestions / Needs Revision)
 
-**Then call `AskUserQuestion` with these options:**
+**Then present these options to the user and wait for their reply:**
 
 - [Adopt Suggestions] Adopt suggestions and continue with implementation
 - [Reject Suggestions] Continue with implementation with original plan
@@ -321,7 +316,7 @@ Return: review status (PASS/ISSUES), issue list if any.")
 
 **STOP. You must pause here.**
 
-Call `AskUserQuestion` with these options:
+Present these options to the user and wait for their reply:
 
 - [Commit] Approve changes and proceed
 - [Abort] Stop the workflow
@@ -448,13 +443,13 @@ When resuming, read task.md and infer position:
 | ⬜ Not Started | Yes          | 2a.2. Review, then 2b. PAUSE    |
 | 📋 Planned     | Yes          | 2b. PAUSE — Await Plan Approval |
 | ⭐ Reviewed    | Yes          | 2c.1. Implement Changes         |
-| 🔄 In Progress | Yes          | Check git status, resume 2c.1   |
+| 🔄 In Progress | Yes          | Check uncommitted work, resume 2c.1 |
 | ✅ Done        | Yes          | Move to next phase              |
 
 ### Resume Flow
 
 1. Read `.tasks/[slug]/task.md` for phase status
-2. Check for uncommitted work: `git status --porcelain`
+2. Check for uncommitted work: `Task(worker, "Run git status --porcelain and report any uncommitted changes")`
 3. Find first non-Done phase, determine step within it
 4. Show status summary, ask: [Continue] [Show Plan First]
 

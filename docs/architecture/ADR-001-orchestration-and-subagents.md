@@ -11,7 +11,7 @@ Introduce a conductor pattern with restricted subagent invocation to enable auto
 - Manual orchestration of 3-phase tasks required 12+ separate sessions
 - Subagent context isolation prevents context bloat from parallel research
 - Scope enforcement via `agents` frontmatter prevents unintended agent invocations
-- Structured pause points (`askQuestions`) give users control without manual intervention
+- Structured pause points (`askQuestions` / CC: `AskUserQuestion`) give users control without manual intervention
 
 ## Problem Statement
 
@@ -104,7 +104,7 @@ agents: ["Worker"]  # Can only use Worker for isolated tasks
 
 ### 4. Mandatory Pause Points
 
-Orchestrate uses `askQuestions` tool for structured user decisions:
+Orchestrate uses `askQuestions` (CC: `AskUserQuestion`) tool for structured user decisions:
 
 ```markdown
 | Pause Point       | Trigger                      | User Action               |
@@ -228,7 +228,7 @@ formed an execution plan from the user's message.
 ```
 
 This applies the Checkpoint Enforcement insight (visual markers, commands before actions) to
-the entry point of the workflow. Tool-coupling mirrors how checkpoints force `askQuestions`
+the entry point of the workflow. Tool-coupling mirrors how checkpoints force `askQuestions` (CC: `AskUserQuestion`)
 calls — now extended to the very first action.
 
 **Position Lock format:**

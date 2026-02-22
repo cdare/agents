@@ -687,11 +687,13 @@ When resuming, read task.md and infer position:
 1. Read `.tasks/[slug]/task.md` for phase status
 <!-- COPILOT-ONLY -->
 2. Check for uncommitted work: ask Worker to run `git status --porcelain` and report results
-   <!-- /COPILOT-ONLY -->
-   <!-- CC-ONLY -->
-3. Check for uncommitted work: `Task(Worker, "Run git status --porcelain and report any uncommitted changes")`
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+2. Check for uncommitted work: `Task(Worker, "Run git status --porcelain and report any uncommitted changes")`
 <!-- /CC-ONLY -->
-4. Find first non-Done phase, determine step within it
-5. Show status summary, ask: [Continue] [Show Plan First]
+3. Find first non-Done phase, determine step within it
+4. Show status summary, ask: [Continue] [Show Plan First]
 
 **Session independence:** Don't assume conversation history — always read task.md fresh and re-derive current step from file state.

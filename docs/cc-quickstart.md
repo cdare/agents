@@ -51,12 +51,42 @@ The pattern is always: **`use [Agent] to [task description]`**
 
 Available agents: **Explore**, **Implement**, **Orchestrate**, **Review**, **Commit**, **Worker**, **Research**
 
+### Shell Helpers (Optional)
+
+For faster agent launches from any terminal, install the shell helpers:
+
+```bash
+./install.sh helpers
+```
+
+This symlinks `a-*` commands to `~/.local/bin/`:
+
+| Command          | Equivalent                                      |
+| ---------------- | ----------------------------------------------- |
+| `a-explore`      | `claude --agent Explore`                        |
+| `a-implement`    | `claude --agent Implement`                      |
+| `a-orchestrate`  | `claude --agent Orchestrate`                    |
+| `a-review`       | `claude --agent Review`                         |
+| `a-commit`       | `claude --agent Commit`                         |
+
+Each command supports three modes:
+
+```bash
+a-explore                          # Fresh interactive session
+a-explore continue                 # Auto-detect task in .tasks/, pre-fill prompt
+a-explore "Analyze the auth system"  # Custom initial prompt
+```
+
+The `continue` mode finds the most recently modified `NNN-*` directory in `.tasks/` and passes it as the prompt. To uninstall: `./install.sh uninstall-helpers`.
+
+> **PATH note:** If `~/.local/bin` is not in your PATH, the installer will print instructions to add it.
+
 ### The `Task()` Tool
 
 When an agent needs to delegate work, it uses CC's `Task()` tool to dispatch a subagent. This creates a **context fork** — a fresh context that receives the prompt, does the work, and returns a summary to the parent.
 
 ```
-User ──► Orchestrate ──► Task(explore, "research the codebase...")
+User ──► Orchestrate ──► Task(Explore, "research the codebase...")
                               │
                               └──► Explore runs in isolated context
                               └──► Returns summary to Orchestrate
@@ -66,8 +96,8 @@ User ──► Orchestrate ──► Task(explore, "research the codebase...")
 
 CC enforces **single-level subagent nesting**. Subagents cannot spawn sub-subagents. This means:
 
-- Orchestrate can invoke `Task(explore, ...)`, `Task(implement, ...)`, etc.
-- But Explore cannot invoke `Task(research, ...)` from within a subagent call
+- Orchestrate can invoke `Task(Explore, ...)`, `Task(Implement, ...)`, etc.
+- But Explore cannot invoke `Task(Research, ...)` from within a subagent call
 - Explore and Implement do all their work directly when running as subagents
 
 ### Skills
@@ -106,7 +136,7 @@ CC uses different tool names than VS Code Copilot:
 | File search    | `Glob`             |
 | Directory list | `Glob`             |
 | Ask user       | `AskUserQuestion`  |
-| Subagent       | `Task(agent, ...)` |
+| Subagent       | `Task(Agent, ...)` |
 
 ### Model Defaults
 
@@ -234,7 +264,7 @@ The task is at .tasks/001-add-health-check/task.md
    ```
 
 3. **Step 1 — Task Initialization:**
-   - Orchestrate invokes `Task(explore, ...)` to research and create the task
+   - Orchestrate invokes `Task(Explore, ...)` to research and create the task
    - Explore returns a summary
 
 4. **🛑 Checkpoint: Task Created** — Orchestrate asks via `AskUserQuestion`:
@@ -248,8 +278,8 @@ The task is at .tasks/001-add-health-check/task.md
    Type: `Continue`
 
 5. **Step 2a — Phase Planning:**
-   - Orchestrate invokes `Task(explore, ...)` to create a detailed plan
-   - Then invokes `Task(explore, ...)` with the phase-review skill
+   - Orchestrate invokes `Task(Explore, ...)` to create a detailed plan
+   - Then invokes `Task(Explore, ...)` with the phase-review skill
 
 6. **🛑 Checkpoint: Plan Review** — Orchestrate presents review findings and asks:
 
@@ -262,13 +292,13 @@ The task is at .tasks/001-add-health-check/task.md
    Type: `Reject Suggestions` (or `Adopt Suggestions` to see the revision flow)
 
 7. **Step 2c — Implementation:**
-   - Orchestrate invokes `Task(implement, ...)`
-   - Then `Task(review, ...)` to verify
+   - Orchestrate invokes `Task(Implement, ...)`
+   - Then `Task(Review, ...)` to verify
 
 8. **🛑 Checkpoint: Implementation Complete** — Type: `Commit`
 
 9. **Step 2f — Commit:**
-   - Orchestrate invokes `Task(commit, ...)`
+   - Orchestrate invokes `Task(Commit, ...)`
    - Phase marked `✅ Done`
 
 10. Summary displayed
@@ -359,7 +389,7 @@ The task is at .tasks/001-add-health-check/task.md
 | --------------------- | ------------------------------------- | -------------------------------------------------- |
 | **Start agent**       | `@Explore` in Chat panel              | `use Explore to...`                                |
 | **Switch agent**      | Click handoff button or `@Agent`      | Type `use [Agent] to...`                           |
-| **Subagent dispatch** | "Run the Explore agent as a subagent" | `Task(explore, "prompt")`                          |
+| **Subagent dispatch** | "Run the Explore agent as a subagent" | `Task(Explore, "prompt")`                          |
 | **User prompt**       | `askQuestions` with clickable options | `AskUserQuestion` — type response                  |
 | **File read**         | `read_file`                           | `Read`                                             |
 | **File edit**         | `replace_string_in_file`              | `Edit`                                             |
@@ -373,5 +403,5 @@ The task is at .tasks/001-add-health-check/task.md
 | **Nesting depth**     | Multi-level (agent → Research → ...)  | Single-level only                                  |
 | **Project config**    | `.copilot/` directory                 | `.claude/` directory                               |
 | **Global config**     | `~/.copilot/`                         | `~/.claude/`                                       |
-| **Permission model**  | VS Code tool approval dialogs         | CLI permission modes (`plan`, `bypassPermissions`) |
+| **Permission model**  | VS Code tool approval dialogs         | `permissionMode` frontmatter (`plan`, `bypassPermissions`) or `--dangerously-skip-permissions` CLI flag |
 | **Model selection**   | VS Code model picker                  | Agent frontmatter `model:` field                   |

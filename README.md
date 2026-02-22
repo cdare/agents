@@ -15,8 +15,8 @@ A minimal framework for AI-assisted coding with phase-based workflows, auto-acti
 | Component        | Count | What It Does                                                                |
 | ---------------- | ----- | --------------------------------------------------------------------------- |
 | **Agents**       | 7     | Phase-based workflow with orchestration (4 core + Orchestrate + 2 internal) |
-| **Skills**       | 11    | Auto-activate based on your prompts (debug, mentor, architecture, etc.)     |
-| **Instructions** | 5     | File-type coding standards that load automatically                          |
+| **Skills**       | 12    | Auto-activate based on your prompts (debug, mentor, testing, etc.)          |
+| **Instructions** | 4     | File-type coding standards that load automatically                          |
 
 ```bash
 git clone https://github.com/mcouthon/agents.git
@@ -124,6 +124,7 @@ Skills activate automatically based on what you say:
 | "Create a Makefile"         | `makefile`        |
 | "Build a dashboard UI"      | `design`          |
 | "Security review this PR"   | `security-review` |
+| "Write tests for this"      | `testing`         |
 
 No manual switching required—just ask naturally.
 
@@ -284,8 +285,8 @@ Explore persists state to `.tasks/[NNN]-[task-name]/`:
 ```
 templates/                # SOURCE OF TRUTH — edit these
 ├── agents/               #   7 agent templates
-├── skills/               #   11 skill templates
-└── instructions/         #   5 instruction templates
+├── skills/               #   12 skill templates
+└── instructions/         #   4 instruction templates
 
 generated/                # GENERATED — do not edit
 ├── copilot/              #   Copilot output

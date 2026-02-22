@@ -71,6 +71,9 @@ You are a conductor agent. Your job is to:
 **CC constraint:** Subagents cannot spawn sub-subagents. The agents you invoke
 (Explore, Implement, Review, Commit, Worker) perform all work directly.
 
+**Read/Glob scope: `.tasks/` only.** You may ONLY use `Read` and `Glob` on paths
+within `.tasks/`. Any other path requires a `Task()` delegation -- no exceptions.
+
 <!-- /CC-ONLY -->
 
 ## Agent Capabilities
@@ -99,7 +102,7 @@ You are a conductor agent. Your job is to:
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-**Your FIRST tool call in EVERY conversation MUST be `Glob` on `.tasks/`.**
+**Your FIRST tool call MUST be `Glob(".tasks/*")`** -- no other tool call is permitted before this completes.
 
 <!-- /CC-ONLY -->
 

@@ -48,7 +48,7 @@ cc:
       Bash,
       WebFetch,
       WebSearch,
-      Task(Worker),
+      "Task(Worker)",
       TaskList,
       TaskGet,
       LSP,
@@ -205,7 +205,7 @@ Return: Top 3-5 concerns ranked by severity."
 <!-- CC-ONLY -->
 
 ```
-Task(worker, "Use critic mode to challenge this approach: [brief description].
+Task(Worker, "Use critic mode to challenge this approach: [brief description].
 Find weaknesses, edge cases, and what could go wrong.
 Return: Top 3-5 concerns ranked by severity.")
 ```
@@ -235,7 +235,7 @@ Return: Prioritized debt items with effort estimates."
 <!-- CC-ONLY -->
 
 ```
-Task(worker, "Use tech-debt mode to scan these files for code smells: [file list].
+Task(Worker, "Use tech-debt mode to scan these files for code smells: [file list].
 Find dead code, missing types, TODO comments, and cleanup opportunities.
 Return: Prioritized debt items with effort estimates.")
 ```
@@ -269,7 +269,7 @@ and verify all tests pass. Return: test count, pass/fail status, and any failure
 <!-- CC-ONLY -->
 
 ```
-Task(worker, "Run the test suite for src/auth/
+Task(Worker, "Run the test suite for src/auth/
 and verify all tests pass. Return: test count, pass/fail status, and any failure details.")
 ```
 

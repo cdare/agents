@@ -6,6 +6,7 @@ tools: [
     Glob,
     # Needs to be a scalar, or else YAML will parse it over multiple lines
     "Task(Explore, Implement, Review, Commit, Worker)",
+    AskUserQuestion,
     TaskList,
     TaskGet,
     TaskCreate,
@@ -106,7 +107,7 @@ The user maintains control. You MUST pause and wait for explicit continuation at
 
 1. STOP execution
 
-2. Present the listed options to the user in your response text
+2. Call `AskUserQuestion` with the listed options
 3. Wait for user response before proceeding
 
 **NEVER:**
@@ -131,7 +132,7 @@ If user response is NOT a checkpoint option (free-form question, tangent, error)
 
 The todo list is your recovery anchor. Always consult it after any interruption.
 
-**Implementation:** Present checkpoint options in your response text. Stop and wait for the user to reply before proceeding.
+**Implementation:** Use `AskUserQuestion` tool for all pause points—present options clearly and wait for user response.
 
 ## Task State Requirement
 
@@ -184,7 +185,7 @@ Save to .tasks/ directory. Return: task slug, number of phases, phase summaries.
 
 **STOP. You must pause here.**
 
-Present these options to the user and wait for their reply:
+Call `AskUserQuestion` with these options:
 
 - [Continue] Approve task structure and proceed to phase planning
 - [Abort] Cancel the workflow
@@ -238,7 +239,7 @@ Review findings are presented to the user at the checkpoint.
 2. List key suggestions from the phase-review (bullet points)
 3. State the review's approval status (Approved / Approved with Suggestions / Needs Revision)
 
-**Then present these options to the user and wait for their reply:**
+**Then call `AskUserQuestion` with these options:**
 
 - [Adopt Suggestions] Adopt suggestions and continue with implementation
 - [Reject Suggestions] Continue with implementation with original plan
@@ -319,7 +320,7 @@ Return: review status (PASS/ISSUES), issue list if any.")
 
 **STOP. You must pause here.**
 
-Present these options to the user and wait for their reply:
+Call `AskUserQuestion` with these options:
 
 - [Commit] Approve changes and proceed
 - [Abort] Stop the workflow

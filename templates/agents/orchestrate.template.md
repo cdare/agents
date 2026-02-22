@@ -22,6 +22,7 @@ cc:
       Glob,
       # Needs to be a scalar, or else YAML will parse it over multiple lines
       "Task(Explore, Implement, Review, Commit, Worker)",
+      AskUserQuestion,
       TaskList,
       TaskGet,
       TaskCreate,
@@ -140,7 +141,7 @@ The user maintains control. You MUST pause and wait for explicit continuation at
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-2. Present the listed options to the user in your response text
+2. Call `AskUserQuestion` with the listed options
 <!-- /CC-ONLY -->
 3. Wait for user response before proceeding
 
@@ -173,7 +174,7 @@ The todo list is your recovery anchor. Always consult it after any interruption.
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-**Implementation:** Present checkpoint options in your response text. Stop and wait for the user to reply before proceeding.
+**Implementation:** Use `AskUserQuestion` tool for all pause points—present options clearly and wait for user response.
 
 <!-- /CC-ONLY -->
 
@@ -249,7 +250,7 @@ Call `askQuestions` with these options:
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-Present these options to the user and wait for their reply:
+Call `AskUserQuestion` with these options:
 
 <!-- /CC-ONLY -->
 
@@ -337,7 +338,7 @@ Review findings are presented to the user at the checkpoint.
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-**Then present these options to the user and wait for their reply:**
+**Then call `AskUserQuestion` with these options:**
 
 <!-- /CC-ONLY -->
 
@@ -481,7 +482,7 @@ Call `askQuestions` with these options:
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-Present these options to the user and wait for their reply:
+Call `AskUserQuestion` with these options:
 
 <!-- /CC-ONLY -->
 
@@ -672,25 +673,25 @@ Show at each pause point. The arrow (→) marks current position.
 
 When resuming, read task.md and infer position:
 
-| Phase Status   | Plan Exists? | Next Step                       |
-| -------------- | ------------ | ------------------------------- |
-| ⬜ Not Started | No           | 2a.1. Create Phase Plan         |
-| ⬜ Not Started | Yes          | 2a.2. Review, then 2b. PAUSE    |
-| 📋 Planned     | Yes          | 2b. PAUSE — Await Plan Approval |
-| ⭐ Reviewed    | Yes          | 2c.1. Implement Changes         |
+| Phase Status   | Plan Exists? | Next Step                           |
+| -------------- | ------------ | ----------------------------------- |
+| ⬜ Not Started | No           | 2a.1. Create Phase Plan             |
+| ⬜ Not Started | Yes          | 2a.2. Review, then 2b. PAUSE        |
+| 📋 Planned     | Yes          | 2b. PAUSE — Await Plan Approval     |
+| ⭐ Reviewed    | Yes          | 2c.1. Implement Changes             |
 | 🔄 In Progress | Yes          | Check uncommitted work, resume 2c.1 |
-| ✅ Done        | Yes          | Move to next phase              |
+| ✅ Done        | Yes          | Move to next phase                  |
 
 ### Resume Flow
 
 1. Read `.tasks/[slug]/task.md` for phase status
 <!-- COPILOT-ONLY -->
 2. Check for uncommitted work: ask Worker to run `git status --porcelain` and report results
-<!-- /COPILOT-ONLY -->
-<!-- CC-ONLY -->
-2. Check for uncommitted work: `Task(Worker, "Run git status --porcelain and report any uncommitted changes")`
+   <!-- /COPILOT-ONLY -->
+   <!-- CC-ONLY -->
+3. Check for uncommitted work: `Task(Worker, "Run git status --porcelain and report any uncommitted changes")`
 <!-- /CC-ONLY -->
-3. Find first non-Done phase, determine step within it
-4. Show status summary, ask: [Continue] [Show Plan First]
+4. Find first non-Done phase, determine step within it
+5. Show status summary, ask: [Continue] [Show Plan First]
 
 **Session independence:** Don't assume conversation history — always read task.md fresh and re-derive current step from file state.

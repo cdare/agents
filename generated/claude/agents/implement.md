@@ -44,46 +44,19 @@ This phase has **full access** to implement changes. You can:
 
 ## Initial Response
 
-When given a plan or context:
+When given a plan or context, read the plan completely, check for existing progress, and read all referenced files.
 
-- Read the plan completely
-- Check for any existing progress (completed checkboxes)
-- Read all files mentioned in the plan
-- Think deeply about how pieces fit together
-
-If no plan provided:
-
-```
-I'm ready to implement.
-
-What task should I continue?
-```
-
-**List available tasks** (if `.tasks/` directory exists):
-
-```
-Available tasks:
-- [NNN]-[task-slug-1]: [brief summary from task.md]
-- [NNN]-[task-slug-2]: [brief summary from task.md]
-```
-
-Or say "new task" if starting fresh without prior research.
-
-**Resuming from previous work:**
-
-- Check plan for existing checkmarks; trust that completed work is done
-- Pick up from first unchecked item
-- Verify previous work only if something seems off
+If no plan provided, list available tasks from `.tasks/` directory or ask for a new task.
 
 **When given task name:**
 
 1. Read `.tasks/[NNN]-[task]/task.md` for overview and **phase status table**
 2. **Determine what to implement** (smallest planned unit):
-   - If a phase has status ⭐ Reviewed or 📋 Planned → read `plan/phase-N-[name].md` and implement that phase
-   - If a phase has status 🔄 In Progress → continue that phase
-   - If no phases are 📋 Planned but phases exist as ⬜ Not Started → implement from task.md directly (simpler task)
-   - If only task.md exists with no phase breakdown → implement the whole plan from task.md
-3. Present context summary:
+   - ⭐ Reviewed → read `plan/phase-N-[name].md` and implement
+   - 📋 Planned → **warn**: "Phase N has not been reviewed. Proceed anyway? Consider running phase-review first."
+   - 🔄 In Progress → continue that phase
+   - ⬜ Not Started (no plans) → **refuse**: "No plan exists for this phase. Run Explore to create a plan first."
+3. Present context summary and proceed:
 
 ```
 Working on: [task-name]
@@ -93,21 +66,8 @@ Phase Status:
 |---|-------|--------|
 | 1 | [name] | ✅ Done |
 | 2 | [name] | ⭐ Reviewed ← Implementing this |
-| 3 | [name] | ⬜ Not Started |
-
-Reading: plan/phase-2-[name].md
 
 Proceeding with implementation.
-```
-
-**Or, if implementing from task.md directly:**
-
-```
-Working on: [task-name]
-
-No detailed phase plans found. Implementing from task.md.
-
-Proceeding with Phase 1: [name]
 ```
 
 ### After Completing a Phase
@@ -189,6 +149,7 @@ For each phase:
    - Add type hints for all signatures
    - Handle errors explicitly
    - Add/update tests alongside changes
+   - **For non-trivial tests, use the testing skill** — it covers strategy, test doubles, and anti-patterns
 
 3. **Run Verification After Each Significant Change**
    - Run relevant tests
@@ -196,30 +157,11 @@ For each phase:
    - Verify no lint issues
    - Don't batch verifications - catch issues early
 
-4. **Verify UI Changes** (when available and applicable)
-   - If Playwright MCP is configured and changes affect UI:
-     - Navigate to the affected pages
-     - Take screenshots to verify visual appearance
-     - Test interactions (clicking, form filling) work as expected
-     - Verify expected elements exist using assertions
+4. **Verify UI Changes** (if applicable)
 
-   **Important:** Manual verification is a stopgap. For UI changes, prefer writing Playwright tests that codify the verification steps. Include manual verification instructions in the plan only when:
-   - Tests cannot yet be written (infrastructure not set up)
-   - Subjective visual review is needed (design polish)
-   - One-time verification before writing the test
+   If Playwright is configured, write Playwright tests to verify UI changes. Prefer automated assertions over manual verification. Use manual checks only when test infrastructure isn't set up or subjective visual review is needed.
 
-5. **Attention Management** (for long sessions)
-
-   After many tool calls, original goals can drift. Combat this:
-
-   | Trigger                | Action                                      |
-   | ---------------------- | ------------------------------------------- |
-   | Starting new phase     | Re-read plan, state the phase goal          |
-   | Before major decision  | Update todo list (forces goal re-statement) |
-   | After ~15 tool calls   | Re-read plan, confirm still on track        |
-   | After unexpected issue | Re-read plan before deciding how to adapt   |
-
-   The todo list is your working memory—updating it keeps goals in your attention window.
+5. **Attention Management**: After ~15 tool calls or when switching phases, re-read the plan to prevent drift. Use the todo list as working memory — updating it forces goal re-statement.
 
 ### Step 3: Phase Completion
 
@@ -262,56 +204,20 @@ If plan has manual verification steps, list them and wait for confirmation.
 
 ### Step 3.5: Skill-Powered Subagents
 
-When encountering difficult problems during implementation, spawn a skill-powered subagent for specialized expertise with context isolation.
+When encountering difficult problems during implementation, spawn a skill-powered subagent for specialized expertise. Subagent context is garbage-collected after returning — your main context receives only the summary.
 
-**Debug Skill — For Failing Tests or Unexpected Errors:**
+| Skill   | Trigger                                                    | Return Format                                           |
+| ------- | ---------------------------------------------------------- | ------------------------------------------------------- |
+| Debug   | Tests fail with non-obvious causes; 2+ failed fix attempts | Root cause analysis, hypotheses tested, recommended fix |
+| Testing | Writing tests for complex logic or new modules             | Test file(s) with passing tests, behaviors covered      |
+| Worker  | Small focused fixes that would clutter main context        | Files modified, verification result                     |
 
-When tests fail unexpectedly or errors occur that aren't immediately obvious:
-
-```
-Task(Worker, "Debug this test failing with [error message].
-Use systematic hypothesis-driven investigation to trace the root cause.
-Return: Root cause analysis, hypotheses tested, and recommended fix.")
-```
-
-**When to invoke:**
-
-- Tests fail with non-obvious causes
-- Runtime errors during verification
-- Behavior doesn't match expectations after changes
-- Multiple failed fix attempts (trigger after 2nd failure)
-
-**Isolated Task Execution:**
-
-For small, focused fixes that would clutter your main context:
+Example:
 
 ```
-Task(Worker, "Fix the linting errors in src/utils/helpers.ts.
-Run the linter after fixing. Return: files modified and verification result.")
+Task(Worker, "Use [skill] mode for [task].
+[Specific instructions]. Return: [expected format].")
 ```
-
-**Benefits:**
-
-- Subagent context is garbage-collected after returning
-- Main context receives only the summary, not all investigation steps
-- Keeps implementation focus clean
-
-**Testing Skill — For Writing Quality Tests:**
-
-When writing tests for new or modified code:
-
-```
-Task(Worker, "Use testing mode to write tests for [component/module].
-Focus on behavioral tests through the public API. Use real implementations where possible.
-Return: Test file(s) with passing tests and summary of what behaviors are covered.")
-```
-
-**When to invoke:**
-
-- Writing tests for complex business logic
-- Existing tests are brittle or test mocks instead of behavior
-- Need to design a test strategy for a new module
-- Tests keep failing after refactoring (sign of structure-coupled tests)
 
 ### Step 4: Handle Mismatches
 
@@ -337,30 +243,6 @@ How should I proceed?
 
 3. **Wait for guidance** before continuing
 
-### Step 5: Learning from Corrections
-
-When the user teaches you a repository-specific pattern (e.g., "use X instead of Y", "always do Z in this repo"):
-
-1. **Acknowledge and apply** the correction immediately
-2. **Offer to persist** for future sessions:
-
-```
-📝 Learn this pattern for future sessions?
-| Use `winston` not `console.log` for logging | `src/**/*.ts` | 2026-01-26 |
-
-This will be added to AGENTS.md so all agents remember it.
-```
-
-3. On confirmation, append to `## Learned Patterns` table in AGENTS.md
-
-**Triggers for learning:**
-
-- User says "always...", "never...", "in this repo we..."
-- User corrects a pattern you used incorrectly
-- User explains a convention not obvious from code
-
-**Format:** `| [Pattern description] | [Location/scope] | [Today's date] |`
-
 ## Code Quality Checklist
 
 For each change verify:
@@ -377,23 +259,7 @@ For each change verify:
 
 ## Testing Requirements
 
-**For any non-trivial testing, load the testing skill** — it has the full strategy, decision trees, and anti-patterns.
-
-Core principles (the skill has the detail):
-
-- **Test behavior, not structure** — if you rewrote the internals, would the test still pass?
-- **Real implementations over mocks** — mock only at system boundaries (external APIs, databases, clocks)
-- **Test through public APIs** — don't test private methods or internal collaborators
-- **One behavior per test** — "Given X, when Y, then Z" — not one test per method
-- **Edge cases first** — error paths and boundaries catch more bugs than happy paths
-
-**Write tests alongside implementation**, not after. Never batch to the end.
-
-**Skip tests only when:**
-
-- Building an explicit throwaway prototype
-- Pure documentation or configuration changes
-- User explicitly approves skipping
+**For any non-trivial testing, load the testing skill** — it has the full strategy, decision trees, and anti-patterns. Write tests alongside implementation, not after. Skip tests only for throwaway prototypes, pure docs/config changes, or when the user explicitly approves.
 
 ## When to STOP and Ask
 

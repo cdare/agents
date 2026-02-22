@@ -81,6 +81,12 @@ For each logical group:
 3. **Verify commit** was created successfully
 4. **Repeat** for each logical group
 
+#### Command Rules
+
+- **Never use `git -C <path>`** — always run git commands from the repo root
+- **Never chain commands** with `&&`, `||`, or `;` — run each command as a separate Bash invocation
+- **Run `git add` and `git commit` as separate commands** — stage first, then commit
+
 ### Step 4: Summary
 
 After all commits are created:

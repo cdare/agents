@@ -222,9 +222,11 @@ If you see task files in the changes:
 
 <!-- CC-ONLY -->
 
+## Next Steps
+
 After commits are created:
 
 - Push with `git push`
-- Review commits: re-invoke `/agent-Commit`
+- Review commits: type `@"Commit (agent)"` to re-invoke inline, or `Ctrl+D` then `claude --agent Commit`
 
 <!-- /CC-ONLY -->

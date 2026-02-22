@@ -483,6 +483,11 @@ Before completing this session, verify:
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-**→ Next step**: Save and wait for user direction. Tell the user to invoke `/agent-Implement` when ready.
+## Next Steps
+
+When this agent's work is complete:
+
+- **Same session:** type `@"Implement (agent)"` to delegate to Implement inline
+- **New session:** `Ctrl+D`, then `claude --agent Implement "Continue task [slug]"`
 
 <!-- /CC-ONLY -->

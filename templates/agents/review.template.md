@@ -444,10 +444,12 @@ After review is complete, proceed based on the outcome:
 
 <!-- CC-ONLY -->
 
+## Next Steps
+
 After review is complete:
 
-- PASS: `/agent-Commit` to create semantic commits
-- NEEDS_WORK: `/agent-Implement` to fix issues
-- FAIL: `/agent-Explore` to re-plan
+- **PASS:** type `@"Commit (agent)"` to commit inline, or `Ctrl+D` then `claude --agent Commit "Continue task [slug]"`
+- **NEEDS_WORK:** type `@"Implement (agent)"` to fix inline, or `Ctrl+D` then `claude --agent Implement "Continue task [slug]"`
+- **FAIL:** type `@"Explore (agent)"` to re-plan inline, or `Ctrl+D` then `claude --agent Explore "Continue task [slug]"`
 
 <!-- /CC-ONLY -->

@@ -389,6 +389,67 @@ uninstall() {
     info "Removed: $cc_agents CC agents, $cc_skills CC skills, $cc_rules CC rules"
 }
 
+# Install shell helpers for agent switching (symlinks to ~/.local/bin)
+install_helpers() {
+    local bin_dir="$HOME_DIR/.local/bin"
+    local src_dir="$SCRIPT_DIR/scripts/bin"
+
+    if [[ ! -d "$src_dir" ]]; then
+        error "scripts/bin/ not found. Are you running from the repo root?"
+    fi
+
+    info "Installing agent shell helpers to $bin_dir..."
+    mkdir -p "$bin_dir"
+
+    local count=0
+    for src in "$src_dir"/a-*; do
+        [[ -f "$src" ]] || continue
+        local name=$(basename "$src")
+        if link_file "$src" "$bin_dir/$name" "$name"; then
+            success "Linked helper: $name"
+            count=$((count + 1))
+        fi
+    done
+
+    echo ""
+    success "Installed $count shell helpers"
+
+    # Check if ~/.local/bin is in PATH
+    case ":$PATH:" in
+        *":$HOME/.local/bin:"*) ;;
+        *)
+            echo ""
+            warn "~/.local/bin is not in your PATH"
+            info "Add to your shell rc file:"
+            echo '  export PATH="$HOME/.local/bin:$PATH"'
+            echo ""
+            info "For fish shell:"
+            echo '  fish_add_path ~/.local/bin'
+            ;;
+    esac
+}
+
+# Remove shell helper symlinks from ~/.local/bin
+uninstall_helpers() {
+    local bin_dir="$HOME_DIR/.local/bin"
+    local src_dir="$SCRIPT_DIR/scripts/bin"
+
+    info "Removing agent shell helpers from $bin_dir..."
+
+    local count=0
+    for src in "$src_dir"/a-*; do
+        [[ -f "$src" ]] || continue
+        local name=$(basename "$src")
+        if unlink_if_ours "$src" "$bin_dir/$name"; then
+            success "Removed helper: $name"
+            count=$((count + 1))
+        fi
+    done
+
+    echo ""
+    success "Removed $count shell helpers"
+}
+
 # Main
 case "${1:-install}" in
     install)
@@ -397,12 +458,20 @@ case "${1:-install}" in
     uninstall)
         uninstall
         ;;
+    helpers)
+        install_helpers
+        ;;
+    uninstall-helpers)
+        uninstall_helpers
+        ;;
     *)
-        echo "Usage: $0 [install|uninstall]"
+        echo "Usage: $0 [install|uninstall|helpers|uninstall-helpers]"
         echo ""
         echo "Commands:"
-        echo "  install    Install agents and skills globally"
-        echo "  uninstall  Remove global agent and skill symlinks"
+        echo "  install            Install agents and skills globally"
+        echo "  uninstall          Remove global agent and skill symlinks"
+        echo "  helpers            Install shell helpers (a-explore, a-implement, etc.)"
+        echo "  uninstall-helpers  Remove shell helper symlinks"
         exit 1
         ;;
 esac

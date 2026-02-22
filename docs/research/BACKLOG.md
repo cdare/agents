@@ -6,44 +6,16 @@ Unchecked research items organized by theme. Pick one item per session.
 
 ---
 
-## VS Code Platform
+## Backlog
 
-Items related to VS Code features, Copilot updates, and tooling.
-
+- [ ] [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 - [ ] [agentic-memory-public-preview](https://github.blog/changelog/2026-01-15-agentic-memory-for-github-copilot-is-in-public-preview/)
-
-## External Patterns
-
-Industry frameworks, external agent patterns, best practices.
-
 - [ ] [stripe-minions](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents)
 - [ ] [allenai-open-coding-agents](https://allenai.org/blog/open-coding-agents)
-
-## Agent Architecture
-
-Core agent design, orchestration, workflow decisions.
-
 - [ ] Rename explore back to research to avoid conflicts with Claude Code?
 - [ ] [reddit-github-copilot](https://www.reddit.com/r/GithubCopilot/s/qxQCZ0cP4S)
-
-## Skills
-
-Skill creation, skill ecosystems, specialized capabilities.
-
 - [ ] Supplement design skill? [interface-design](https://github.com/Dammyjay93/interface-design) or [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 - [ ] [pcvelz-superpowers](https://github.com/pcvelz/superpowers)
-
-## Context Management
-
-Memory systems, context passing, subagent context.
-
-_(No pending items)_
-
-## IDE Compatibility
-
-Multi-IDE support, Cursor, Windsurf, Claude Code.
-
-_(No pending items)_
 
 ---
 

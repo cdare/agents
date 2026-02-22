@@ -40,18 +40,18 @@ fi
 
 # Test 6: Verify Copilot skill count
 SKILL_COUNT=$(find "$SCRIPT_DIR/generated/copilot/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
-if [[ "$SKILL_COUNT" -ge 11 ]]; then
-  pass "Generated $SKILL_COUNT Copilot skills (expected 11)"
+if [[ "$SKILL_COUNT" -ge 12 ]]; then
+  pass "Generated $SKILL_COUNT Copilot skills (expected 12)"
 else
-  fail "Expected 11 Copilot skills, got $SKILL_COUNT"
+  fail "Expected 12 Copilot skills, got $SKILL_COUNT"
 fi
 
 # Test 7: Verify Copilot instruction count
 INSTR_COUNT=$(find "$SCRIPT_DIR/generated/copilot/instructions" -name "*.instructions.md" 2>/dev/null | wc -l | tr -d ' ')
-if [[ "$INSTR_COUNT" -ge 5 ]]; then
-  pass "Generated $INSTR_COUNT Copilot instructions (expected 5)"
+if [[ "$INSTR_COUNT" -ge 4 ]]; then
+  pass "Generated $INSTR_COUNT Copilot instructions (expected 4)"
 else
-  fail "Expected 5 Copilot instructions, got $INSTR_COUNT"
+  fail "Expected 4 Copilot instructions, got $INSTR_COUNT"
 fi
 
 # Test 8: Verify CC agent count
@@ -64,18 +64,18 @@ fi
 
 # Test 9: Verify CC skill count
 CC_SKILL_COUNT=$(find "$SCRIPT_DIR/generated/claude/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
-if [[ "$CC_SKILL_COUNT" -ge 11 ]]; then
-  pass "Generated $CC_SKILL_COUNT CC skills (expected 11)"
+if [[ "$CC_SKILL_COUNT" -ge 12 ]]; then
+  pass "Generated $CC_SKILL_COUNT CC skills (expected 12)"
 else
-  fail "Expected 11 CC skills, got $CC_SKILL_COUNT"
+  fail "Expected 12 CC skills, got $CC_SKILL_COUNT"
 fi
 
 # Test 10: Verify CC rule count
 CC_RULE_COUNT=$(find "$SCRIPT_DIR/generated/claude/rules" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
-if [[ "$CC_RULE_COUNT" -ge 5 ]]; then
-  pass "Generated $CC_RULE_COUNT CC rules (expected 5)"
+if [[ "$CC_RULE_COUNT" -ge 4 ]]; then
+  pass "Generated $CC_RULE_COUNT CC rules (expected 4)"
 else
-  fail "Expected 5 CC rules, got $CC_RULE_COUNT"
+  fail "Expected 4 CC rules, got $CC_RULE_COUNT"
 fi
 
 # Test 11: Idempotent - second run should report unchanged or no changes

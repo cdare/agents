@@ -210,13 +210,13 @@ check_generated_files() {
         [[ -f "$SCRIPT_DIR/generated/claude/agents/${agent}.md" ]] || missing+=("generated/claude/agents/${agent}.md")
     done
 
-    # CC skills (11 directories)
-    for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt; do
+    # CC skills (12 directories)
+    for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt testing; do
         [[ -f "$SCRIPT_DIR/generated/claude/skills/${skill}/SKILL.md" ]] || missing+=("generated/claude/skills/${skill}/SKILL.md")
     done
 
-    # CC rules (5 files)
-    for rule in global python terminal testing typescript; do
+    # CC rules (4 files)
+    for rule in global python terminal typescript; do
         [[ -f "$SCRIPT_DIR/generated/claude/rules/${rule}.md" ]] || missing+=("generated/claude/rules/${rule}.md")
     done
 
@@ -225,13 +225,13 @@ check_generated_files() {
         [[ -f "$SCRIPT_DIR/generated/copilot/agents/${agent}.agent.md" ]] || missing+=("generated/copilot/agents/${agent}.agent.md")
     done
 
-    # Copilot skills (11 directories)
-    for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt; do
+    # Copilot skills (12 directories)
+    for skill in architecture consolidate-task critic debug deep-research design makefile mentor phase-review security-review tech-debt testing; do
         [[ -f "$SCRIPT_DIR/generated/copilot/skills/${skill}/SKILL.md" ]] || missing+=("generated/copilot/skills/${skill}/SKILL.md")
     done
 
-    # Copilot instructions (5 files)
-    for instr in global python terminal testing typescript; do
+    # Copilot instructions (4 files)
+    for instr in global python terminal typescript; do
         [[ -f "$SCRIPT_DIR/generated/copilot/instructions/${instr}.instructions.md" ]] || missing+=("generated/copilot/instructions/${instr}.instructions.md")
     done
 

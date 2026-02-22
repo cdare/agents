@@ -86,7 +86,7 @@ Run the Explore agent as a subagent to research the codebase.
 
 <!-- CC-ONLY-START -->
 
-Task(explore, "Research the codebase...")
+Task(Explore, "Research the codebase...")
 
 <!-- CC-ONLY-END -->
 ```
@@ -100,7 +100,7 @@ clean, platform-native output for each IDE.
 | Pattern              | Copilot                         | Claude Code                   |
 | -------------------- | ------------------------------- | ----------------------------- |
 | User prompts         | `askQuestions` tool             | `AskUserQuestion` tool        |
-| Subagent invocation  | "Run the X agent as a subagent" | `Task(agent, "prompt")`       |
+| Subagent invocation  | "Run the X agent as a subagent" | `Task(Agent, "prompt")`       |
 | Directory listing    | `list_dir` tool                 | `LS` / `Glob` tools           |
 | Workflow transitions | Handoff buttons                 | Instructions guide next steps |
 
@@ -133,6 +133,10 @@ make              # Generate generated/ from templates/
 # Claude Code: ~/.claude/agents/*.md (symlinks)
 # Cursor:      (skills via ~/.copilot/skills/ symlinks)
 # IntelliJ:    ~/.config/github-copilot/intellij/ (symlink)
+
+# Optional: install shell helpers for quick agent launches
+./install.sh helpers    # Symlink a-* commands to ~/.local/bin/
+# Provides: a-explore, a-implement, a-review, a-commit, a-orchestrate
 ```
 
 ## Key Insights

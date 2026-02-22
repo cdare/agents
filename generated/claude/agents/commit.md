@@ -175,7 +175,9 @@ If you see task files in the changes:
 - If they were staged, unstage with `git reset .tasks/`
   **NEVER use force flags** (`git add -f`, `git push -f`, `git commit --no-verify`). If something is gitignored, it's intentional.
 
+## Next Steps
+
 After commits are created:
 
 - Push with `git push`
-- Review commits: re-invoke `/agent-Commit`
+- Review commits: type `@"Commit (agent)"` to re-invoke inline, or `Ctrl+D` then `claude --agent Commit`

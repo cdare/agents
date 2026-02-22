@@ -399,8 +399,10 @@ After all phases are complete and verified:
 All phases verified. Ready for review.
 ```
 
+## Next Steps
+
 When implementation is complete:
 
-- To review: `/agent-Review`
-- To commit: `/agent-Commit`
-- To check errors: re-invoke `/agent-Implement`
+- **Review:** type `@"Review (agent)"` to review inline, or `Ctrl+D` then `claude --agent Review "Continue task [slug]"`
+- **Commit:** type `@"Commit (agent)"` to commit inline, or `Ctrl+D` then `claude --agent Commit "Continue task [slug]"`
+- **Fix errors:** type `@"Implement (agent)"` to re-invoke inline, or `Ctrl+D` then `claude --agent Implement "Continue task [slug]"`

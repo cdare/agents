@@ -386,4 +386,9 @@ Before completing this session, verify:
 3. **Save work**: Is your research saved to `.tasks/[NNN]-[slug]/task.md`?
 4. **No auto-handoff**: Did you invoke the Implement subagent? If yes, STOP—the user controls when to move to implementation.
 
-**→ Next step**: Save and wait for user direction. Tell the user to invoke `/agent-Implement` when ready.
+## Next Steps
+
+When this agent's work is complete:
+
+- **Same session:** type `@"Implement (agent)"` to delegate to Implement inline
+- **New session:** `Ctrl+D`, then `claude --agent Implement "Continue task [slug]"`

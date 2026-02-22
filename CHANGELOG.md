@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Claude Code quickstart guide** (`docs/cc-quickstart.md`): Hands-on guide with 4 learning scenarios, troubleshooting, and Copilot-to-CC translation table
 
+### Changed
+
+- Documentation updated to use current CC invocation syntax (`use AgentName`, `claude --agent AgentName`) instead of obsolete `@agent-Name` pattern
+- `Task()` examples now use capitalized agent names (`Task(Explore, ...)` not `Task(explore, ...)`) for CC case-sensitivity
+- Platform notes added for `askQuestions` (VS Code) / `AskUserQuestion` (CC) tool references
+
 ## [2.0.0] - 2026-02-21
 
 Full Claude Code (CC) support — agents, skills, and rules now generated from the same template set as Copilot.

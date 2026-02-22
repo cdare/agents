@@ -129,7 +129,7 @@ Present findings to user before making any decision:
 3. **Recommendation**: Adopt / Partially Adopt / Reject, with specific rationale
 4. **If adopting**: What concrete changes would be made
 
-Use `askQuestions` to present options:
+Present options to the user (`askQuestions` / CC: `AskUserQuestion`):
 
 - **[Adopt]** Proceed with adoption changes
 - **[Reject]** Document as rejected, no changes

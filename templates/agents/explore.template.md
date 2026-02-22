@@ -253,6 +253,11 @@ Run these subagents in parallel:
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
+> **Note:** Task() calls require main-thread context. When Explore runs as a
+> subagent of Orchestrate, Task() is unavailable (CC's one-level nesting limit).
+> The instructions below apply only when Explore is the main thread agent
+> (`claude --agent Explore`).
+
 ```
 # Single subagent for deep codebase tracing
 Task(Explore, "Trace all usages of the User model.

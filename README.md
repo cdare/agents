@@ -26,7 +26,7 @@ cd agents
 
 > **Modifying templates?** Run `make` first to regenerate output files, then `./install.sh`.
 
-That's it. Use `/agent` or the Chat menu to select agents, or just talk naturally and let skills auto-activate.
+That's it. In VS Code, use the Chat menu to select agents. In Claude Code, use `claude --agent AgentName` or `use AgentName`. Or just talk naturally and let skills auto-activate.
 
 ---
 
@@ -50,7 +50,7 @@ Explore ──→ Implement ──→ Review ──→ Commit
                └──→ Commit (skip review for small changes)
 ```
 
-**Orchestrated workflow** (use `@Orchestrate`):
+**Orchestrated workflow** (VS Code: `@Orchestrate` | CC: `use Orchestrate` or `claude --agent Orchestrate`):
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -77,9 +77,9 @@ Orchestrate automates multi-phase workflows with pause points for user approval.
 
 **Automatic state persistence**: Explore saves research to `.tasks/[NNN]-[task-name]/` so you can resume across sessions. Tasks are numbered sequentially (001, 002, etc.) for chronological ordering.
 
-**In-context actions**: Each agent has handoff buttons for common next steps that keep your chat history and context intact. To switch agents, just @ mention them (e.g., `@Implement` when ready to start coding).
+**In-context actions** _(VS Code)_: Each agent has handoff buttons for common next steps that keep your chat history and context intact. To switch agents, just @ mention them (e.g., `@Implement` when ready to start coding). In Claude Code, type `use Implement` or start a new session with `claude --agent Implement`.
 
-### Handoff Buttons (In-Context Actions)
+### Handoff Buttons (VS Code In-Context Actions)
 
 Each agent has buttons that trigger common next steps **without leaving your current chat context**:
 
@@ -202,6 +202,8 @@ $ claude
 ```
 
 **Note:** Claude Code supports tool restrictions, model selection, and skills. The only VS Code feature not available in Claude Code is handoff buttons — use the next agent manually when ready.
+
+**Shell helpers** _(optional)_: Run `./install.sh helpers` to add `a-explore`, `a-implement`, `a-review`, `a-commit`, and `a-orchestrate` commands to your PATH. Each supports `a-explore`, `a-explore continue` (auto-detect task), and `a-explore "prompt"` modes. See [cc-quickstart.md](./docs/cc-quickstart.md) for details.
 
 ---
 

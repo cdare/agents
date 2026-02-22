@@ -10,7 +10,8 @@ tools:
     WebSearch,
     Edit,
     Write,
-    Task(Research),
+    # Needs to be a scalar, or else YAML will parse it over multiple lines
+    "Task(Explore, Research)",
     TaskList,
     TaskGet,
     TaskCreate,
@@ -192,17 +193,17 @@ For complex research, **autonomously spawn subagents** to investigate independen
 
 ```
 # Single subagent for deep codebase tracing
-Task(explore, "Trace all usages of the User model.
+Task(Explore, "Trace all usages of the User model.
 Return a summary of where it's used and key patterns.")
 
 # Single subagent for external docs or semantic analysis
-Task(research, "Read the VS Code 1.109 release notes
+Task(Research, "Read the VS Code 1.109 release notes
 and summarize new agent-related features. Return: bullet list of features.")
 
 # Multiple parallel investigations (run sequentially in CC)
-Task(research, "Analyze authentication patterns → return summary")
-Task(research, "Investigate test infrastructure → return summary")
-Task(research, "Document API structure → return summary")
+Task(Research, "Analyze authentication patterns → return summary")
+Task(Research, "Investigate test infrastructure → return summary")
+Task(Research, "Document API structure → return summary")
 ```
 
 Subagents return only their final summary. Incorporate these into your synthesis.
@@ -214,7 +215,7 @@ For specialized analysis, invoke skills via subagent prompts:
 **Architecture Skill — Understanding System Structure:**
 
 ```
-Task(research, "Use architecture mode to analyze the [component] system.
+Task(Research, "Use architecture mode to analyze the [component] system.
 Document high-level design, data flow, and integration points.
 Return: Component overview, key interfaces, and dependency map.")
 ```
@@ -228,7 +229,7 @@ Return: Component overview, key interfaces, and dependency map.")
 **Deep-Research Skill — Exhaustive Investigation:**
 
 ```
-Task(research, "Use deep-research mode to thoroughly investigate [topic].
+Task(Research, "Use deep-research mode to thoroughly investigate [topic].
 Cite all relevant files and line numbers. Cover exhaustively.
 Return: Structured findings with citations and confidence levels.")
 ```

@@ -167,7 +167,7 @@ Plan and review phases but skip implementation and commit. Triggered by: "just p
 **Subagent prompt:**
 
 ```
-Task(explore, "Create a task and phased implementation plan for: [user's task description]
+Task(Explore, "Create a task and phased implementation plan for: [user's task description]
 
 Break into numbered phases. Each phase should be independently implementable.
 Save to .tasks/ directory. Return: task slug, number of phases, phase summaries.")
@@ -201,7 +201,7 @@ Invoke Explore to generate detailed implementation plan:
 > Before invoking: Verify this matches your `[in-progress]` todo item.
 
 ```
-Task(explore, "Plan the next unplanned phase (⬜ Not Started) in the task.
+Task(Explore, "Plan the next unplanned phase (⬜ Not Started) in the task.
 Include: detailed file changes, implementation steps, success criteria.
 Return: phase number, plan file path, plan summary.")
 ```
@@ -213,7 +213,7 @@ Invoke Explore with phase-review skill:
 > Before invoking: Verify this matches your `[in-progress]` todo item.
 
 ```
-Task(explore, "Use phase-review mode to review phase [N] in .tasks/[slug]/task.md
+Task(Explore, "Use phase-review mode to review phase [N] in .tasks/[slug]/task.md
 Return: review findings, suggested improvements, approval status.")
 ```
 
@@ -253,7 +253,7 @@ When user selects [Adopt Suggestions]:
 1. **Spawn Explore** to revise the plan incorporating the review suggestions:
 
 ```
-Task(explore, "Update the phase plan incorporating review suggestions.
+Task(Explore, "Update the phase plan incorporating review suggestions.
 Plan file: .tasks/[slug]/plan/phase-N-[name].md
 Suggestions to incorporate: [list the suggestions from the review]
 Return: confirmation of changes made.")
@@ -272,7 +272,7 @@ This ensures the plan is always in a coherent state before proceeding to impleme
 Before implementation begins, update the phase status:
 
 ```
-Task(worker, "Update .tasks/[slug]/task.md:
+Task(Worker, "Update .tasks/[slug]/task.md:
 - Change phase N status from ⭐ Reviewed to 🔄 In Progress
 Return: confirmation.")
 ```
@@ -286,7 +286,7 @@ Invoke Implement with the approved phase plan:
 > Before invoking: Verify this matches your `[in-progress]` todo item.
 
 ```
-Task(implement, "Implement Phase N from the task plan.
+Task(Implement, "Implement Phase N from the task plan.
 Plan file: .tasks/[slug]/plan/phase-N-[name].md
 Follow the implementation checklist exactly.
 Return: summary of changes made, any issues encountered.")
@@ -297,7 +297,7 @@ Return: summary of changes made, any issues encountered.")
 Invoke Review to verify changes:
 
 ```
-Task(review, "Verify the implementation of Phase N.
+Task(Review, "Verify the implementation of Phase N.
 Verify: changes match plan, tests pass, no regressions.
 Return: review status (PASS/ISSUES), issue list if any.")
 ```
@@ -343,7 +343,7 @@ Present these options to the user and wait for their reply:
 **Subagent prompt:**
 
 ```
-Task(implement, "Update documentation:
+Task(Implement, "Update documentation:
 - Changes to document: [list specific user-facing changes from this phase]
 - Update CHANGELOG.md under [Unreleased]
 - Update README.md if applicable
@@ -360,7 +360,7 @@ Return: files updated.")
 **Subagent prompt:**
 
 ```
-Task(commit, "Create semantic commits for Phase N implementation.
+Task(Commit, "Create semantic commits for Phase N implementation.
 Group logically, write meaningful messages.
 Return: commit list (hashes, messages).")
 ```
@@ -368,7 +368,7 @@ Return: commit list (hashes, messages).")
 **Update task status (after commit completes):**
 
 ```
-Task(worker, "Update .tasks/[slug]/task.md:
+Task(Worker, "Update .tasks/[slug]/task.md:
 - Change phase N status to ✅ Done
 - Add any completion notes if relevant
 Return: confirmation.")
@@ -386,7 +386,7 @@ Return: confirmation.")
 **Subagent prompt (consolidate):**
 
 ```
-Task(explore, "Use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
+Task(Explore, "Use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
 Determine if this warrants a new ADR, updates an existing one, or should be skipped.
 Return: ADR path created/updated, or 'skipped' with reason.")
 ```
@@ -394,7 +394,7 @@ Return: ADR path created/updated, or 'skipped' with reason.")
 **Subagent prompt (commit ADR):**
 
 ```
-Task(commit, "Commit the ADR for task [slug].
+Task(Commit, "Commit the ADR for task [slug].
 ADR file: [path returned from consolidate step]
 Return: commit hash and message, or 'skipped' if no ADR changes.")
 ```
@@ -449,7 +449,7 @@ When resuming, read task.md and infer position:
 ### Resume Flow
 
 1. Read `.tasks/[slug]/task.md` for phase status
-2. Check for uncommitted work: `Task(worker, "Run git status --porcelain and report any uncommitted changes")`
+2. Check for uncommitted work: `Task(Worker, "Run git status --porcelain and report any uncommitted changes")`
 3. Find first non-Done phase, determine step within it
 4. Show status summary, ask: [Continue] [Show Plan First]
 

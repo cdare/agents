@@ -11,7 +11,7 @@ tools:
     Glob,
     WebFetch,
     WebSearch,
-    Task(Worker),
+    "Task(Worker)",
     TaskList,
     TaskGet,
     TaskCreate,
@@ -268,7 +268,7 @@ When encountering difficult problems during implementation, spawn a skill-powere
 When tests fail unexpectedly or errors occur that aren't immediately obvious:
 
 ```
-Task(worker, "Debug this test failing with [error message].
+Task(Worker, "Debug this test failing with [error message].
 Use systematic hypothesis-driven investigation to trace the root cause.
 Return: Root cause analysis, hypotheses tested, and recommended fix.")
 ```
@@ -285,7 +285,7 @@ Return: Root cause analysis, hypotheses tested, and recommended fix.")
 For small, focused fixes that would clutter your main context:
 
 ```
-Task(worker, "Fix the linting errors in src/utils/helpers.ts.
+Task(Worker, "Fix the linting errors in src/utils/helpers.ts.
 Run the linter after fixing. Return: files modified and verification result.")
 ```
 

@@ -9,7 +9,7 @@ tools:
     Bash,
     WebFetch,
     WebSearch,
-    Task(Worker),
+    "Task(Worker)",
     TaskList,
     TaskGet,
     LSP,
@@ -155,7 +155,7 @@ For deeper analysis, spawn skill-powered subagents with context isolation.
 When reviewing complex or high-risk changes:
 
 ```
-Task(worker, "Use critic mode to challenge this approach: [brief description].
+Task(Worker, "Use critic mode to challenge this approach: [brief description].
 Find weaknesses, edge cases, and what could go wrong.
 Return: Top 3-5 concerns ranked by severity.")
 ```
@@ -172,7 +172,7 @@ Return: Top 3-5 concerns ranked by severity.")
 When assessing code health:
 
 ```
-Task(worker, "Use tech-debt mode to scan these files for code smells: [file list].
+Task(Worker, "Use tech-debt mode to scan these files for code smells: [file list].
 Find dead code, missing types, TODO comments, and cleanup opportunities.
 Return: Prioritized debt items with effort estimates.")
 ```
@@ -194,7 +194,7 @@ Return: Prioritized debt items with effort estimates.")
 For running tests with context isolation:
 
 ```
-Task(worker, "Run the test suite for src/auth/
+Task(Worker, "Run the test suite for src/auth/
 and verify all tests pass. Return: test count, pass/fail status, and any failure details.")
 ```
 

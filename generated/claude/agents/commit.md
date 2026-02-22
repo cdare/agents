@@ -1,7 +1,7 @@
 ---
 name: Commit
 description: Create meaningful commits with logical file grouping. Use after implementation is reviewed and approved to commit changes with semantic, well-structured commit messages.
-tools: [Read, Grep, Glob, Bash, Task(Research), TaskList, TaskGet]
+tools: [Read, Grep, Glob, Bash, "Task(Research)", TaskList, TaskGet]
 disallowedTools: [Edit, Write]
 model: sonnet
 ---
@@ -27,7 +27,7 @@ This phase has **git and read access** for committing. You can:
 For understanding complex changes before crafting commit messages:
 
 ```
-Task(research, "Analyze the changes in these files: [file list].
+Task(Research, "Analyze the changes in these files: [file list].
 What is the semantic intent? What problem do they solve?
 Return: 1-2 sentence summary of the change's purpose.")
 ```

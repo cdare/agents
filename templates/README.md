@@ -44,7 +44,7 @@ copilot:
 
 # === CC-SPECIFIC ===
 cc:
-  tools: [Read, Grep, Glob, Edit, Write, Task(explore), LSP, ...]
+  tools: [Read, Grep, Glob, Edit, Write, Task(Explore), LSP, ...]
   disallowedTools: [Bash] # Explicit tool restrictions
   model: opus
   skills: [deep-research, architecture, critic]
@@ -148,7 +148,7 @@ Click the "Implement" button when ready.
 
 ## CC Platform Notes
 
-Use `@agent-Implement` to proceed.
+Type `@"Implement (agent)"` to proceed.
 
 <!-- /CC-ONLY -->
 
@@ -190,7 +190,7 @@ Shared instructions here.
 
 ## CC Platform Notes
 
-Use `@agent-Implement` to proceed.
+Type `@"Implement (agent)"` to proceed.
 
 ## More Shared Content
 
@@ -277,7 +277,7 @@ description: "Does something simple..."
 
 ### E3: Agents Referencing Other Agents
 
-`handoffs` and `agents` fields are Copilot-only (live under `copilot:`). CC uses `Task(agent-name)` in the tools array instead:
+`handoffs` and `agents` fields are Copilot-only (live under `copilot:`). CC uses `Task(Agent-Name)` in the tools array instead:
 
 ```yaml
 copilot:
@@ -288,7 +288,7 @@ copilot:
       ...
 
 cc:
-  tools: [Task(explore), Task(implement), ...]  # Subagent invocation
+  tools: [Task(Explore), Task(Implement), ...]  # Subagent invocation
 ```
 
 ### E4: Platform-Specific Tool Names

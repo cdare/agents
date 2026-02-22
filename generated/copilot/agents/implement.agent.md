@@ -320,6 +320,23 @@ Run the linter after fixing. Return: files modified and verification result.
 - Main context receives only the summary, not all investigation steps
 - Keeps implementation focus clean
 
+**Testing Skill — For Writing Quality Tests:**
+
+When writing tests for new or modified code:
+
+```
+Run the Worker agent as a subagent: Use testing mode to write tests for [component/module].
+Focus on behavioral tests through the public API. Use real implementations where possible.
+Return: Test file(s) with passing tests and summary of what behaviors are covered.
+```
+
+**When to invoke:**
+
+- Writing tests for complex business logic
+- Existing tests are brittle or test mocks instead of behavior
+- Need to design a test strategy for a new module
+- Tests keep failing after refactoring (sign of structure-coupled tests)
+
 ### Step 4: Handle Mismatches
 
 When things don't match the plan:
@@ -384,14 +401,15 @@ For each change verify:
 
 ## Testing Requirements
 
-Follow the Testing Strategy defined in the plan. If no plan was provided:
+**For any non-trivial testing, load the testing skill** — it has the full strategy, decision trees, and anti-patterns.
 
-- Unit tests for all new functions/methods
-- Edge cases: null, empty, boundary values
-- Error scenario coverage
-- Test edge cases, not just happy path
-- Ensure tests actually assert meaningful behavior
-- Minimum 70% coverage for new code
+Core principles (the skill has the detail):
+
+- **Test behavior, not structure** — if you rewrote the internals, would the test still pass?
+- **Real implementations over mocks** — mock only at system boundaries (external APIs, databases, clocks)
+- **Test through public APIs** — don't test private methods or internal collaborators
+- **One behavior per test** — "Given X, when Y, then Z" — not one test per method
+- **Edge cases first** — error paths and boundaries catch more bugs than happy paths
 
 **Write tests alongside implementation**, not after. Never batch to the end.
 

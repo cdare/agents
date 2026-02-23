@@ -371,18 +371,18 @@ The task is at .tasks/001-add-health-check/task.md
 
 ## 7. Troubleshooting
 
-| Problem                           | Cause                                      | Fix                                                                |
-| --------------------------------- | ------------------------------------------ | ------------------------------------------------------------------ |
-| "Agent not found"                 | `install.sh` not run or symlinks broken    | Run `./install.sh`, verify `ls ~/.claude/agents/`                  |
-| Agent doesn't follow instructions | Generated files out of date                | Run `make && ./install.sh`                                         |
-| Skill doesn't activate            | Skill not installed or trigger not matched | Check `ls ~/.claude/skills/`, use explicit "use X mode"            |
-| Orchestrate skips checkpoints     | Rare model behavior                        | Re-invoke; checkpoints are unconditional in the agent instructions |
-| Subagent can't spawn sub-subagent | CC single-level nesting limit              | Expected behavior; agents do work directly                         |
-| `AskUserQuestion` unclear         | Terminal prompt without rich UI            | Type the option name (e.g., "Continue", "Abort")                   |
-| Task not found by Implement       | Implement didn't scan `.tasks/`            | Specify: "The task is at .tasks/NNN-slug/task.md"                  |
-| Permission denied errors          | CC permission mode too strict              | Use `--dangerously-skip-permissions` for testing, or approve tools |
-| Responses seem lower quality      | Wrong model in agent frontmatter           | Check model field — Orchestrate/Explore/Implement should be `opus` |
-| Session state lost                | CC sessions are stateless between runs     | Task persistence in `.tasks/` provides continuity across sessions  |
+| Problem                           | Cause                                      | Fix                                                                      |
+| --------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------ |
+| "Agent not found"                 | `install.sh` not run or symlinks broken    | Run `./install.sh`, verify `ls ~/.claude/agents/`                        |
+| Agent doesn't follow instructions | Generated files out of date                | Run `./install.sh` (or `make && ./install.sh` if you modified templates) |
+| Skill doesn't activate            | Skill not installed or trigger not matched | Check `ls ~/.claude/skills/`, use explicit "use X mode"                  |
+| Orchestrate skips checkpoints     | Rare model behavior                        | Re-invoke; checkpoints are unconditional in the agent instructions       |
+| Subagent can't spawn sub-subagent | CC single-level nesting limit              | Expected behavior; agents do work directly                               |
+| `AskUserQuestion` unclear         | Terminal prompt without rich UI            | Type the option name (e.g., "Continue", "Abort")                         |
+| Task not found by Implement       | Implement didn't scan `.tasks/`            | Specify: "The task is at .tasks/NNN-slug/task.md"                        |
+| Permission denied errors          | CC permission mode too strict              | Use `--dangerously-skip-permissions` for testing, or approve tools       |
+| Responses seem lower quality      | Wrong model in agent frontmatter           | Check model field — Orchestrate/Explore/Implement should be `opus`       |
+| Session state lost                | CC sessions are stateless between runs     | Task persistence in `.tasks/` provides continuity across sessions        |
 
 ---
 

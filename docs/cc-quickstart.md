@@ -12,28 +12,31 @@ A hands-on guide for using the AGENTS framework with Claude Code (CC). Covers pr
    claude --version
    ```
 
-2. **This repo cloned and built:**
+2. **This repo cloned and installed:**
 
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/mcouthon/agents.git
    cd agents
-   make && ./install.sh
+   ./install.sh
    ```
+
+   > **Note:** `make` is only needed if you modify templates in `templates/`. The generated files are committed to git, so `./install.sh` works out of the box.
 
 3. **Verify installation:**
 
    ```bash
    ls ~/.claude/agents/    # Should show 7 .md files
-   ls ~/.claude/skills/    # Should show 11 skill directories
+   ls ~/.claude/skills/    # Should show 12 skill directories
    ```
 
    You should see agents: `commit.md`, `explore.md`, `implement.md`, `orchestrate.md`, `research.md`, `review.md`, `worker.md`
 
-   And skills: `architecture/`, `consolidate-task/`, `critic/`, `debug/`, `deep-research/`, `design/`, `makefile/`, `mentor/`, `phase-review/`, `security-review/`, `tech-debt/`
+   And skills: `architecture/`, `consolidate-task/`, `critic/`, `debug/`, `deep-research/`, `design/`, `makefile/`, `mentor/`, `phase-review/`, `security-review/`, `tech-debt/`, `testing/`
 
 4. **Any project directory** to practice on (or use this repo itself)
 
-> **How install works:** `install.sh` symlinks generated files from `generated/claude/` to `~/.claude/agents/` and `~/.claude/skills/`. Skills also get a `~/.copilot/skills` → `~/.claude/skills` symlink for cross-platform sharing.
+> **How install works:** `install.sh` creates per-directory symlinks from `generated/claude/` into `~/.claude/` (agents, skills, rules) and from `generated/copilot/` into `~/.copilot/` (agents, skills, instructions).
+> Each skill directory is linked individually — there is no single cross-platform symlink.
 
 ---
 
@@ -61,13 +64,13 @@ For faster agent launches from any terminal, install the shell helpers:
 
 This symlinks `a-*` commands to `~/.local/bin/`:
 
-| Command          | Equivalent                                      |
-| ---------------- | ----------------------------------------------- |
-| `a-explore`      | `claude --agent Explore`                        |
-| `a-implement`    | `claude --agent Implement`                      |
-| `a-orchestrate`  | `claude --agent Orchestrate`                    |
-| `a-review`       | `claude --agent Review`                         |
-| `a-commit`       | `claude --agent Commit`                         |
+| Command         | Equivalent                   |
+| --------------- | ---------------------------- |
+| `a-explore`     | `claude --agent Explore`     |
+| `a-implement`   | `claude --agent Implement`   |
+| `a-orchestrate` | `claude --agent Orchestrate` |
+| `a-review`      | `claude --agent Review`      |
+| `a-commit`      | `claude --agent Commit`      |
 
 Each command supports three modes:
 
@@ -385,23 +388,23 @@ The task is at .tasks/001-add-health-check/task.md
 
 ## 8. Reference: Copilot → CC Translation Table
 
-| Concept               | VS Code Copilot                       | Claude Code                                        |
-| --------------------- | ------------------------------------- | -------------------------------------------------- |
-| **Start agent**       | `@Explore` in Chat panel              | `use Explore to...`                                |
-| **Switch agent**      | Click handoff button or `@Agent`      | Type `use [Agent] to...`                           |
-| **Subagent dispatch** | "Run the Explore agent as a subagent" | `Task(Explore, "prompt")`                          |
-| **User prompt**       | `askQuestions` with clickable options | `AskUserQuestion` — type response                  |
-| **File read**         | `read_file`                           | `Read`                                             |
-| **File edit**         | `replace_string_in_file`              | `Edit`                                             |
-| **File create**       | `create_file`                         | `Write`                                            |
-| **Terminal**          | `run_in_terminal`                     | `Bash`                                             |
-| **Search (text)**     | `grep_search`                         | `Grep`                                             |
-| **Search (files)**    | `file_search`                         | `Glob`                                             |
-| **Directory list**    | `list_dir`                            | `Glob`                                             |
-| **Handoff buttons**   | In-context action buttons             | Not available — manually invoke next agent         |
-| **Skill activation**  | Natural language                      | Natural language (identical)                       |
-| **Nesting depth**     | Multi-level (agent → Research → ...)  | Single-level only                                  |
-| **Project config**    | `.copilot/` directory                 | `.claude/` directory                               |
-| **Global config**     | `~/.copilot/`                         | `~/.claude/`                                       |
+| Concept               | VS Code Copilot                       | Claude Code                                                                                             |
+| --------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Start agent**       | `@Explore` in Chat panel              | `use Explore to...`                                                                                     |
+| **Switch agent**      | Click handoff button or `@Agent`      | Type `use [Agent] to...`                                                                                |
+| **Subagent dispatch** | "Run the Explore agent as a subagent" | `Task(Explore, "prompt")`                                                                               |
+| **User prompt**       | `askQuestions` with clickable options | `AskUserQuestion` — type response                                                                       |
+| **File read**         | `read_file`                           | `Read`                                                                                                  |
+| **File edit**         | `replace_string_in_file`              | `Edit`                                                                                                  |
+| **File create**       | `create_file`                         | `Write`                                                                                                 |
+| **Terminal**          | `run_in_terminal`                     | `Bash`                                                                                                  |
+| **Search (text)**     | `grep_search`                         | `Grep`                                                                                                  |
+| **Search (files)**    | `file_search`                         | `Glob`                                                                                                  |
+| **Directory list**    | `list_dir`                            | `Glob`                                                                                                  |
+| **Handoff buttons**   | In-context action buttons             | Not available — manually invoke next agent                                                              |
+| **Skill activation**  | Natural language                      | Natural language (identical)                                                                            |
+| **Nesting depth**     | Multi-level (agent → Research → ...)  | Single-level only                                                                                       |
+| **Project config**    | `.copilot/` directory                 | `.claude/` directory                                                                                    |
+| **Global config**     | `~/.copilot/`                         | `~/.claude/`                                                                                            |
 | **Permission model**  | VS Code tool approval dialogs         | `permissionMode` frontmatter (`plan`, `bypassPermissions`) or `--dangerously-skip-permissions` CLI flag |
-| **Model selection**   | VS Code model picker                  | Agent frontmatter `model:` field                   |
+| **Model selection**   | VS Code model picker                  | Agent frontmatter `model:` field                                                                        |

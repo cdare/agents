@@ -187,99 +187,32 @@ Review each changed file for:
 
 ### Step 4.5: Skill-Powered Subagents
 
-For deeper analysis, spawn skill-powered subagents with context isolation.
+Spawn skill-powered subagents for specialized review analysis. Subagent context is garbage-collected — main context receives only findings.
 
-**Critic Skill — Challenge the Approach:**
-
-When reviewing complex or high-risk changes:
+| Skill     | Trigger                                          | Return Format                                |
+| --------- | ------------------------------------------------ | -------------------------------------------- |
+| Critic    | Architectural changes, security-sensitive code   | Top 3-5 concerns ranked by severity          |
+| Tech-Debt | Large PRs, rapid prototyping code                | Prioritized debt items with effort estimates |
+| Testing   | Large test suites, verifying specific test files | Test count, pass/fail, failure details       |
 
 <!-- COPILOT-ONLY -->
 
+Example:
+
 ```
-Spawn subagent: "Use critic mode to challenge this approach: [brief description].
-Find weaknesses, edge cases, and what could go wrong.
-Return: Top 3-5 concerns ranked by severity."
+Spawn subagent: "Use [skill] mode to [task]. Return: [format]."
 ```
 
 <!-- /COPILOT-ONLY -->
 <!-- CC-ONLY -->
 
-```
-Task(Worker, "Use critic mode to challenge this approach: [brief description].
-Find weaknesses, edge cases, and what could go wrong.
-Return: Top 3-5 concerns ranked by severity.")
-```
-
-<!-- /CC-ONLY -->
-
-**When to invoke:**
-
-- Reviewing architectural changes
-- Complex business logic
-- Security-sensitive code
-- Changes with broad impact
-
-**Tech-Debt Skill — Scan for Code Smells:**
-
-When assessing code health:
-
-<!-- COPILOT-ONLY -->
+Example:
 
 ```
-Spawn subagent: "Use tech-debt mode to scan these files for code smells: [file list].
-Find dead code, missing types, TODO comments, and cleanup opportunities.
-Return: Prioritized debt items with effort estimates."
-```
-
-<!-- /COPILOT-ONLY -->
-<!-- CC-ONLY -->
-
-```
-Task(Worker, "Use tech-debt mode to scan these files for code smells: [file list].
-Find dead code, missing types, TODO comments, and cleanup opportunities.
-Return: Prioritized debt items with effort estimates.")
+Task(Worker, "Use [skill] mode to [task]. Return: [format].")
 ```
 
 <!-- /CC-ONLY -->
-
-**When to invoke:**
-
-- Large PRs touching many files
-- Code from rapid prototyping sessions
-- Before approving a PASS status on substantial changes
-
-**Benefits:**
-
-- Subagent context is garbage-collected after returning
-- Main context receives only findings, not investigation details
-- Enables thorough analysis without bloating review context
-
-**Test Verification:**
-
-For running tests with context isolation:
-
-<!-- COPILOT-ONLY -->
-
-```
-Run the Worker agent as a subagent to run the test suite for src/auth/
-and verify all tests pass. Return: test count, pass/fail status, and any failure details.
-```
-
-<!-- /COPILOT-ONLY -->
-<!-- CC-ONLY -->
-
-```
-Task(Worker, "Run the test suite for src/auth/
-and verify all tests pass. Return: test count, pass/fail status, and any failure details.")
-```
-
-<!-- /CC-ONLY -->
-
-**When to invoke:**
-
-- Large test suites that produce verbose output
-- Tests requiring setup/teardown that clutters context
-- Verifying specific test files after changes
 
 ### Confidence Scoring
 
@@ -352,19 +285,15 @@ Would you like me to help fix these?
 
 ### Plan Completion
 
-| Phase | Step       | Status      | Notes                   |
-| ----- | ---------- | ----------- | ----------------------- |
-| 1     | Setup      | ✅ Complete |                         |
-| 1     | Core logic | ⚠️ Partial  | Missing error handling  |
-| 2     | Tests      | ❌ Missing  | No tests for edge cases |
+| Phase | Step   | Status   | Notes |
+| ----- | ------ | -------- | ----- |
+| N     | [Step] | ✅/⚠️/❌ | ...   |
 
 ### Verification Results
 
-| Check | Result          | Details          |
-| ----- | --------------- | ---------------- |
-| Tests | ✅ Pass (24/24) |                  |
-| Types | ⚠️ 2 errors     | See issues below |
-| Lint  | ✅ Clean        |                  |
+| Check | Result   | Details |
+| ----- | -------- | ------- |
+| Tests | ✅/⚠️/❌ | ...     |
 
 ### Issues Found
 
@@ -384,21 +313,7 @@ Should fix:
 | ------------ | ----------------- | ---------- | ------------------------ |
 | `file.py:78` | Missing type hint | 75%        | Add `-> str` return type |
 
-#### Notes (Confidence <70%)
-
-Observations that may not require action:
-
-- `file.py:95` - Long line; consider breaking up (50% - style preference)
-
 ### What's Good ✅
-
-- [Positive observation 1]
-- [Positive observation 2]
-
-### Files Reviewed
-
-- `path/to/file.py` - [summary of changes]
-- `tests/test_file.py` - [summary]
 
 ### Recommendation
 
@@ -424,6 +339,7 @@ You may NOT declare PASS status without:
 - [ ] Test command output shown (actual output, not summary)
 - [ ] Type/lint check output shown (if applicable)
 - [ ] Bug fix verified with evidence (if this was a bug fix)
+- [ ] Main flow validated — verify the core implemented functionality actually works end-to-end, not just that unit tests pass
 - [ ] Manual verification steps completed (if plan specified them)
 
 **"I ran the tests" is not evidence. Show the output.**

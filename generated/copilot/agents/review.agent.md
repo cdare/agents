@@ -176,6 +176,7 @@ Spawn skill-powered subagents for specialized review analysis. Subagent context 
 | Testing   | Large test suites, verifying specific test files | Test count, pass/fail, failure details       |
 
 Example:
+
 ```
 Spawn subagent: "Use [skill] mode to [task]. Return: [format]."
 ```
@@ -251,14 +252,14 @@ Would you like me to help fix these?
 
 ### Plan Completion
 
-| Phase | Step   | Status       | Notes |
-| ----- | ------ | ------------ | ----- |
-| N     | [Step] | ✅/⚠️/❌    | ...   |
+| Phase | Step   | Status   | Notes |
+| ----- | ------ | -------- | ----- |
+| N     | [Step] | ✅/⚠️/❌ | ...   |
 
 ### Verification Results
 
-| Check | Result    | Details |
-| ----- | --------- | ------- |
+| Check | Result   | Details |
+| ----- | -------- | ------- |
 | Tests | ✅/⚠️/❌ | ...     |
 
 ### Issues Found

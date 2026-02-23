@@ -1,6 +1,6 @@
 # Claude Code Quickstart
 
-A hands-on guide for using the AGENTS framework with Claude Code (CC). Covers prerequisites, how agents work, four learning scenarios, troubleshooting, and a Copilot-to-CC translation reference.
+A hands-on guide for using the AGENTS framework with Claude Code (CC). Covers prerequisites, how agents work, four learning scenarios, and troubleshooting.
 
 ---
 
@@ -105,7 +105,7 @@ CC enforces **single-level subagent nesting**. Subagents cannot spawn sub-subage
 
 ### Skills
 
-Skills activate from **natural language** — the same triggers work in both Copilot and CC:
+Skills activate from **natural language triggers**:
 
 - "use debug mode" → activates the debug skill
 - "use phase-review mode" → activates the phase-review skill
@@ -127,7 +127,7 @@ Task created with 2 phases. Options:
 
 ### CC Tool Names
 
-CC uses different tool names than VS Code Copilot:
+CC has its own tool names for common file and terminal operations:
 
 | Action         | CC Tool            |
 | -------------- | ------------------ |
@@ -365,7 +365,7 @@ The task is at .tasks/001-add-health-check/task.md
 
 - Skills activate from **natural language** — no special syntax required
 - The skill frontmatter (`allowed-tools`) restricts what tools the agent can use during skill execution
-- Skills work identically to Copilot (same trigger phrases, same behavior)
+- Skills work across sessions — trigger phrases and behavior are consistent
 
 ---
 
@@ -386,7 +386,9 @@ The task is at .tasks/001-add-health-check/task.md
 
 ---
 
-## 8. Reference: Copilot → CC Translation Table
+## 8. Appendix: Copilot Comparison
+
+> **Note:** This section is for users who also work with VS Code Copilot. If you only use Claude Code, you can skip this.
 
 | Concept               | VS Code Copilot                       | Claude Code                                                                                             |
 | --------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |

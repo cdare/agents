@@ -81,3 +81,4 @@ Originals of consolidated RDRs, plus rejected/superseded research. See [archive/
 | 029 | Alternative IDE Support      | Merged → ide-compatibility.md            |
 | 031 | 1.109 Orchestration          | Merged → vscode-platform.md              |
 | —   | ai-project-system            | Rejected: different scope (project mgmt) |
+| —   | agentops                     | Rejected: autonomous DevOps scope        |

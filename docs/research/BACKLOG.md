@@ -8,7 +8,6 @@ Unchecked research items organized by theme. Pick one item per session.
 
 ## Backlog
 
-- [ ] https://github.com/boshu2/agentops
 - [ ] https://github.com/gsd-build/get-shit-done
 - [ ] [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 - [ ] [agentic-memory-public-preview](https://github.blog/changelog/2026-01-15-agentic-memory-for-github-copilot-is-in-public-preview/)
@@ -48,6 +47,7 @@ Checked items from previous research. Keep for traceability.
 - [x] [copilot-orchestra](https://github.com/ShepAlderson/copilot-orchestra) → [RDR-032](RDR-032-atlas-orchestra.md) (combined with Atlas)
 - [x] [agno-framework](https://www.agno.com/) → [RDR-021](archive/RDR-021-agno.md) (Rejected)
 - [x] [ai-project-system](https://github.com/panchew/ai-project-system) — Rejected (project management methodology, different scope; no RDR)
+- [x] [agentops](https://github.com/boshu2/agentops) — Rejected (autonomous DevOps scope, different from collaborative AGENTS; no RDR)
 
 ### Agent Architecture
 

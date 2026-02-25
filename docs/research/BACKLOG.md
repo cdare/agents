@@ -8,7 +8,6 @@ Unchecked research items organized by theme. Pick one item per session.
 
 ## Backlog
 
-- [ ] https://github.com/gsd-build/get-shit-done
 - [ ] [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
 - [ ] [agentic-memory-public-preview](https://github.blog/changelog/2026-01-15-agentic-memory-for-github-copilot-is-in-public-preview/)
 - [ ] [stripe-minions](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents)
@@ -48,6 +47,7 @@ Checked items from previous research. Keep for traceability.
 - [x] [agno-framework](https://www.agno.com/) → [RDR-021](archive/RDR-021-agno.md) (Rejected)
 - [x] [ai-project-system](https://github.com/panchew/ai-project-system) — Rejected (project management methodology, different scope; no RDR)
 - [x] [agentops](https://github.com/boshu2/agentops) — Rejected (autonomous DevOps scope, different from collaborative AGENTS; no RDR)
+- [x] [get-shit-done](https://github.com/gsd-build/get-shit-done) — Rejected (different scope/audience, CLI-only, validates existing approach; no RDR)
 
 ### Agent Architecture
 

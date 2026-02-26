@@ -19,7 +19,7 @@ tools: [
   ]
 disallowedTools: [Bash]
 model: opus
-skills: [deep-research, architecture, critic]
+skills: [deep-research, architecture, critic, testing]
 ---
 
 # Explore Mode
@@ -302,6 +302,12 @@ Example:
     - Start the app, hit `GET /api/health` → expect `200 OK`
     ### Success Criteria
     - Health endpoint responds with 200
+
+### Test Strategy Requirements
+
+Every phase plan that adds or modifies behavior MUST include a `## Tests` section. Load the testing skill for guidance on what to include (behaviors, test doubles, priority).
+
+Skip the `## Tests` section only for phases that are pure documentation, configuration, or contain no testable logic.
 
 ### Dependencies and Scope
 

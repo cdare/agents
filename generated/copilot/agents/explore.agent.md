@@ -324,6 +324,12 @@ Example:
     ### Success Criteria
     - Health endpoint responds with 200
 
+### Test Strategy Requirements
+
+Every phase plan that adds or modifies behavior MUST include a `## Tests` section. Load the testing skill for guidance on what to include (behaviors, test doubles, priority).
+
+Skip the `## Tests` section only for phases that are pure documentation, configuration, or contain no testable logic.
+
 ### Dependencies and Scope
 
 Make dependencies between steps explicit. Keep phases testable independently. Explicitly list what's OUT of scope.

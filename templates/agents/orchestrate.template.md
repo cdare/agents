@@ -300,6 +300,7 @@ Invoke Explore with phase-review skill:
 
 ```
 Run the Explore agent as a subagent: use phase-review mode to review phase [N] in .tasks/[slug]/task.md
+IMPORTANT: Do NOT create or modify any files. Return your findings as text only.
 Return: review findings, suggested improvements, approval status.
 ```
 
@@ -308,6 +309,7 @@ Return: review findings, suggested improvements, approval status.
 
 ```
 Task(Explore, "Use phase-review mode to review phase [N] in .tasks/[slug]/task.md
+IMPORTANT: Do NOT create or modify any files. Return your findings as text only.
 Return: review findings, suggested improvements, approval status.")
 ```
 

@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Review owns functional verification — presents manual verification runbook, waits for single user confirmation before PASS
   - Orchestrate 2d checkpoint adds `[Verify]` option alongside Commit/Abort
   - Implement requires pasted terminal output as evidence (no more "✅ Tests pass" without proof) and delegates functional validation to Review
+- **ADR commit ordering** — moved task consolidation (ADR creation) from post-commit step 2g to pre-commit step 2e.5 in orchestrate template:
+  - ADR files are now committed together with code and docs in a single commit pass (step 2f)
+  - Consolidation uses Implement agent (write-capable) instead of Explore (read-only outside `.tasks/`)
+  - Removed separate post-commit ADR step (2g) that caused orphaned uncommitted files
 - Research: [get-shit-done](https://github.com/gsd-build/get-shit-done) — Rejected (different scope/audience, CLI-only, validates existing approach)
 - Research: [agentops](https://github.com/boshu2/agentops) — Rejected (autonomous DevOps scope, different from collaborative AGENTS)
 - **Testing skill** (`templates/skills/testing/`): Behavioral testing strategy based on Kent Beck, Google SWE Book, and Martin Fowler research — tests behavior over structure, minimizes mocking, uses Saff Squeeze for regression workflow

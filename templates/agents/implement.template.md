@@ -196,7 +196,7 @@ For each phase:
    - Add type hints for all signatures
    - Handle errors explicitly
    - Add/update tests alongside changes
-   - **For non-trivial tests, use the testing skill** — it covers strategy, test doubles, and anti-patterns
+   - **For non-trivial tests, load the testing skill before writing tests**
 
 3. **Run Verification After Each Significant Change**
    - Run relevant tests
@@ -342,7 +342,7 @@ For each change verify:
 
 ## Testing Requirements
 
-**For any non-trivial testing, load the testing skill** — it has the full strategy, decision trees, and anti-patterns. Write tests alongside implementation, not after. Skip tests only for throwaway prototypes, pure docs/config changes, or when the user explicitly approves.
+**Before writing non-trivial tests, load the testing skill.** Write tests alongside implementation, not after. Skip tests only for throwaway prototypes, pure docs/config changes, or when the user explicitly approves.
 
 ## When to STOP and Ask
 

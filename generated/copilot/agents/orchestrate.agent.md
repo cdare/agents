@@ -361,6 +361,28 @@ Run the Implement agent as a subagent to update documentation:
 Return: files updated.
 ```
 
+#### 2e.5. Consolidate Task (Final Phase Only)
+
+**Trigger:** This is the last phase to complete (all other phases are ✅ Done)
+
+**Skip if not the final phase.** Note in todo list: "Skipping consolidation — not final phase"
+
+**Actions:**
+
+1. Invoke Implement as a subagent with consolidate-task skill to create/update/skip the ADR
+2. ADR files (if any) will be committed together with code and docs in step 2f
+
+**Subagent prompt:**
+
+```
+Run the Implement agent as a subagent: use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
+This is a documentation-only task — skip the standard verification steps (Step 3). Just produce the ADR and confirm.
+Determine if this warrants a new ADR, updates an existing one, or should be skipped.
+Also update docs/architecture/README.md if an ADR was created/updated.
+Do NOT delete or archive the .tasks/ folder — task data is preserved for the orchestration flow.
+Return: ADR path created/updated, or "skipped" with reason.
+```
+
 #### 2f. Commit Phase
 
 **Actions (SEQUENTIAL - wait for each to complete):**
@@ -383,31 +405,6 @@ Run the Worker agent as a subagent to update .tasks/[slug]/task.md:
 - Change phase N status to ✅ Done
 - Add any completion notes if relevant
 Return: confirmation.
-```
-
-#### 2g. Consolidate Task (Final Phase Only)
-
-**Trigger:** All phases are ✅ Done
-
-**Actions:**
-
-1. Invoke Explore as a subagent with consolidate-task skill trigger
-2. If ADR was created/updated: Invoke Commit as a subagent to commit the ADR
-
-**Subagent prompt (consolidate):**
-
-```
-Run the Explore agent as a subagent: use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
-Determine if this warrants a new ADR, updates an existing one, or should be skipped.
-Return: ADR path created/updated, or "skipped" with reason.
-```
-
-**Subagent prompt (commit ADR):**
-
-```
-Run the Commit agent as a subagent to commit the ADR for task [slug].
-ADR file: [path returned from consolidate step]
-Return: commit hash and message, or "skipped" if no ADR changes.
 ```
 
 ### Step 3: Completion

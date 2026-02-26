@@ -55,7 +55,7 @@ cc:
     ]
   disallowedTools: [Edit, Write]
   model: sonnet
-  skills: [critic, tech-debt, security-review]
+  skills: [critic, tech-debt, security-review, testing]
 ---
 
 # Review Mode
@@ -178,6 +178,7 @@ Review each changed file for:
 - [ ] Tests actually assert meaningful behavior
 - [ ] Edge cases covered
 - [ ] Tests follow codebase patterns
+- [ ] For non-trivial tests, load the testing skill and verify test quality
 
 **Safety**
 

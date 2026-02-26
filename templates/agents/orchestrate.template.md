@@ -486,10 +486,25 @@ Call `AskUserQuestion` with these options:
 
 <!-- /CC-ONLY -->
 
-- [Commit] Approve changes and proceed
+- [Commit] Approve changes and proceed to commit
+- [Verify] Show verification steps from the phase plan before committing
 - [Abort] Stop the workflow
 
 **DO NOT proceed to Step 2e until user responds.**
+
+#### Handling "Verify"
+
+When user selects [Verify]:
+
+1. Read the phase plan's `## Verification` section from `.tasks/[slug]/plan/phase-N-[name].md`
+2. Present the verification steps to the user:
+   - **Automated checks** — commands to run (or show Review's output if already executed)
+   - **Manual verification steps** — steps for the user to try
+   - **Success criteria** — what to look for
+3. If Review already ran these steps, show the Review output as evidence
+4. Wait for user to confirm: [Commit] or [Abort]
+
+If no verification section exists in the plan, present Review's output summary and ask: "Review passed automated checks. No manual verification steps were defined. Proceed? [Commit] [Abort]"
 
 ---
 

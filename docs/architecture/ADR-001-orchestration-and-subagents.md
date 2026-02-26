@@ -107,12 +107,17 @@ agents: ["Worker"]  # Can only use Worker for isolated tasks
 Orchestrate uses `askQuestions` (CC: `AskUserQuestion`) tool for structured user decisions:
 
 ```markdown
-| Pause Point       | Trigger                      | User Action               |
-| ----------------- | ---------------------------- | ------------------------- |
-| Task Created      | After Explore creates phases | Approve task structure    |
-| Phase Plan Ready  | After plan + review          | Approve plan, adopt fixes |
-| Phase Implemented | After Implement + Review     | Approve changes, commit   |
+| Pause Point       | Trigger                      | User Action                        |
+| ----------------- | ---------------------------- | ---------------------------------- |
+| Task Created      | After Explore creates phases | Approve task structure             |
+| Phase Plan Ready  | After plan + review          | Approve plan, adopt fixes          |
+| Phase Implemented | After Implement + Review     | [Commit] / [Verify] / [Abort]     |
 ```
+
+The Phase Implemented checkpoint offers three options:
+- **[Commit]** — Approve and proceed to commit
+- **[Verify]** — Present manual verification runbook from phase plan, wait for user confirmation
+- **[Abort]** — Stop the flow
 
 ### 5. Agent Capabilities Table (Task 011)
 
@@ -128,6 +133,23 @@ Explicit capability mapping prevents wrong agent selection:
 ```
 
 Selection guidance: "Need terminal? → Implement/Review, NOT Explore"
+
+### 6. Verification Layer (Task 029)
+
+Structured verification across the agent pipeline ensures quality gates before commit:
+
+| Agent     | Verification Responsibility                                                  |
+| --------- | ---------------------------------------------------------------------------- |
+| Explore   | Phase plans require `## Verification` (1-3 critical flow checks) and `## Tests` sections |
+| Implement | Automated checks with evidence (actual terminal output, not summaries)       |
+| Review    | Functional verification — presents manual runbook, single user confirmation  |
+| Orchestrate | `[Verify]` checkpoint option before commit                                 |
+
+Implement handles automated verification (tests, types, lint) and must paste terminal output as evidence. Review handles functional verification (does the feature actually work?) using the manual steps from Explore's phase plan. This separation prevents both agents from skipping verification.
+
+### 7. ADR Consolidation Ordering (Task 029)
+
+Task consolidation (ADR creation) moved from post-commit step 2g to pre-commit step 2e.5. This ensures ADR files are committed together with code and documentation in a single commit pass, eliminating orphaned uncommitted files. Consolidation uses Implement (write-capable) instead of Explore (read-only outside `.tasks/`).
 
 ## Current Structure
 
@@ -261,6 +283,7 @@ This transforms the todo list from advisory to enforcement mechanism.
 | February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines                          |
 | February 2026 | 013  | Drift prevention: Position Lock, removed `search` tool, detour recovery; 479→420 lines                          |
 | February 2026 | 014  | FAP enforcement: Entry Gate at primacy position, tool-coupled first action, anti-bypass language; 427→438 lines |
+| February 2026 | 029  | Verification layer: [Verify] checkpoint, evidence-based Implement output, functional Review step, ADR consolidation before commit (2e.5), testing skill integration |
 
 ## Related
 

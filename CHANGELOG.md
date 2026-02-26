@@ -29,6 +29,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Implement template Testing Requirements — replaced generic guidelines with skill-aware behavioral testing principles; removed "70% coverage" metric
+- Orchestrate: Added `[Verify]` checkpoint option before commit with manual verification runbook
+- Orchestrate: Moved ADR consolidation before commit step (2e.5), removed separate 2g step
+- Explore: Phase plans now require `## Verification` section (1-3 critical flow checks)
+- Explore: Phase plans now require `## Tests` section for behavioral changes
+- Implement: Automated verification now requires evidence (actual terminal output)
+- Review: Added functional verification step with manual verification runbook (single confirmation)
+- Review: Added `testing` to CC skills frontmatter
+- All agents: Testing skill references use natural language invocation consistently
 
 ### Removed
 

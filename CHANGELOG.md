@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Verification before commit** — structured verification layer across Explore, Review, Orchestrate, and Implement templates:
+  - Explore phase plans now require a `## Verification` section (automated checks, manual steps, success criteria)
+  - Review owns functional verification — presents manual verification runbook, waits for single user confirmation before PASS
+  - Orchestrate 2d checkpoint adds `[Verify]` option alongside Commit/Abort
+  - Implement requires pasted terminal output as evidence (no more "✅ Tests pass" without proof) and delegates functional validation to Review
 - Research: [get-shit-done](https://github.com/gsd-build/get-shit-done) — Rejected (different scope/audience, CLI-only, validates existing approach)
 - Research: [agentops](https://github.com/boshu2/agentops) — Rejected (autonomous DevOps scope, different from collaborative AGENTS)
 - **Testing skill** (`templates/skills/testing/`): Behavioral testing strategy based on Kent Beck, Google SWE Book, and Martin Fowler research — tests behavior over structure, minimizes mocking, uses Saff Squeeze for regression workflow

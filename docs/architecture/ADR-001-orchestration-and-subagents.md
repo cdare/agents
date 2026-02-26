@@ -107,14 +107,15 @@ agents: ["Worker"]  # Can only use Worker for isolated tasks
 Orchestrate uses `askQuestions` (CC: `AskUserQuestion`) tool for structured user decisions:
 
 ```markdown
-| Pause Point       | Trigger                      | User Action                        |
-| ----------------- | ---------------------------- | ---------------------------------- |
-| Task Created      | After Explore creates phases | Approve task structure             |
-| Phase Plan Ready  | After plan + review          | Approve plan, adopt fixes          |
-| Phase Implemented | After Implement + Review     | [Commit] / [Verify] / [Abort]     |
+| Pause Point       | Trigger                      | User Action                   |
+| ----------------- | ---------------------------- | ----------------------------- |
+| Task Created      | After Explore creates phases | Approve task structure        |
+| Phase Plan Ready  | After plan + review          | Approve plan, adopt fixes     |
+| Phase Implemented | After Implement + Review     | [Commit] / [Verify] / [Abort] |
 ```
 
 The Phase Implemented checkpoint offers three options:
+
 - **[Commit]** — Approve and proceed to commit
 - **[Verify]** — Present manual verification runbook from phase plan, wait for user confirmation
 - **[Abort]** — Stop the flow
@@ -138,12 +139,12 @@ Selection guidance: "Need terminal? → Implement/Review, NOT Explore"
 
 Structured verification across the agent pipeline ensures quality gates before commit:
 
-| Agent     | Verification Responsibility                                                  |
-| --------- | ---------------------------------------------------------------------------- |
-| Explore   | Phase plans require `## Verification` (1-3 critical flow checks) and `## Tests` sections |
-| Implement | Automated checks with evidence (actual terminal output, not summaries)       |
-| Review    | Functional verification — presents manual runbook, single user confirmation  |
-| Orchestrate | `[Verify]` checkpoint option before commit                                 |
+| Agent       | Verification Responsibility                                                              |
+| ----------- | ---------------------------------------------------------------------------------------- |
+| Explore     | Phase plans require `## Verification` (1-3 critical flow checks) and `## Tests` sections |
+| Implement   | Automated checks with evidence (actual terminal output, not summaries)                   |
+| Review      | Functional verification — presents manual runbook, single user confirmation              |
+| Orchestrate | `[Verify]` checkpoint option before commit                                               |
 
 Implement handles automated verification (tests, types, lint) and must paste terminal output as evidence. Review handles functional verification (does the feature actually work?) using the manual steps from Explore's phase plan. This separation prevents both agents from skipping verification.
 
@@ -274,15 +275,15 @@ This transforms the todo list from advisory to enforcement mechanism.
 
 ## Updates
 
-| Date          | Task | Summary                                                                                                         |
-| ------------- | ---- | --------------------------------------------------------------------------------------------------------------- |
-| February 2026 | 007  | Added 🛑 CHECKPOINT headers, strengthened enforcement; pause compliance fixed                                   |
-| February 2026 | 008  | Validated patterns against Atlas/Orchestra; confirmed context conservation approach                             |
-| February 2026 | 009  | Made checkpoints unconditional; review returns findings (doesn't modify plans)                                  |
-| February 2026 | 010  | Simplified to two modes; 544→450 lines; made task state mandatory                                               |
-| February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines                          |
-| February 2026 | 013  | Drift prevention: Position Lock, removed `search` tool, detour recovery; 479→420 lines                          |
-| February 2026 | 014  | FAP enforcement: Entry Gate at primacy position, tool-coupled first action, anti-bypass language; 427→438 lines |
+| Date          | Task | Summary                                                                                                                                                             |
+| ------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| February 2026 | 007  | Added 🛑 CHECKPOINT headers, strengthened enforcement; pause compliance fixed                                                                                       |
+| February 2026 | 008  | Validated patterns against Atlas/Orchestra; confirmed context conservation approach                                                                                 |
+| February 2026 | 009  | Made checkpoints unconditional; review returns findings (doesn't modify plans)                                                                                      |
+| February 2026 | 010  | Simplified to two modes; 544→450 lines; made task state mandatory                                                                                                   |
+| February 2026 | 011  | Added Agent Capabilities table, First Action protocol, removed handoffs; 473→471 lines                                                                              |
+| February 2026 | 013  | Drift prevention: Position Lock, removed `search` tool, detour recovery; 479→420 lines                                                                              |
+| February 2026 | 014  | FAP enforcement: Entry Gate at primacy position, tool-coupled first action, anti-bypass language; 427→438 lines                                                     |
 | February 2026 | 029  | Verification layer: [Verify] checkpoint, evidence-based Implement output, functional Review step, ADR consolidation before commit (2e.5), testing skill integration |
 
 ## Related

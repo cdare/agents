@@ -8,6 +8,12 @@ Unchecked research items organized by theme. Pick one item per session.
 
 ## Backlog
 
+- [ ] https://www.a5c.ai/
+- [ ] VSCode 1.110
+  - /slash commands for subagents (testing, phase-review): https://github.com/microsoft/vscode/issues/297119
+  - browser intergration: https://github.com/microsoft/vscode/issues/274118
+  - forking: https://github.com/microsoft/vscode/issues/291481
+  - askQuestion in subagents
 - [ ] [agentic-memory-public-preview](https://github.blog/changelog/2026-01-15-agentic-memory-for-github-copilot-is-in-public-preview/)
 - [ ] [stripe-minions](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents)
 - [ ] [allenai-open-coding-agents](https://allenai.org/blog/open-coding-agents)

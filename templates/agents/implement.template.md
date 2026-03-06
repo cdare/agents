@@ -196,7 +196,7 @@ For each phase:
    - Add type hints for all signatures
    - Handle errors explicitly
    - Add/update tests alongside changes
-   - **For non-trivial tests, use the testing skill** — it covers strategy, test doubles, and anti-patterns
+   - **For non-trivial tests, load the testing skill before writing tests**
 
 3. **Run Verification After Each Significant Change**
    - Run relevant tests
@@ -214,40 +214,62 @@ For each phase:
 
 After implementing all changes in a phase:
 
-1. **Run All Automated Verification**
+1. **Run All Automated Verification — Show Evidence**
 
-```
+   Run each check and **paste the actual terminal output**, not a summary.
 
-Running verification for Phase [N]:
+   ```
+   Running verification for Phase [N]:
 
-- Tests: [command and result]
-- Types: [command and result]
-- Lint: [command and result]
-- UI: [screenshot/assertions if applicable]
+   $ [test command]
+   [actual terminal output]
 
-```
+   $ [type check command]
+   [actual terminal output]
+
+   $ [lint command]
+   [actual terminal output]
+   ```
+
+   **"✅ Tests pass" without output is not acceptable.** Show the command and result.
 
 2. **Fix Any Issues** before proceeding
 
-3. **Update Progress**
+3. **Check Plan Verification Section**
+
+   If the phase plan has a `## Verification` section with manual verification steps, note them for Review:
+
+   ```
+   Manual verification steps for Review:
+   - [Step 1 from plan]
+   - [Step 2 from plan]
+   ```
+
+   Do NOT execute these — functional validation is Review's responsibility.
+
+4. **Update Progress**
    - Check off completed items in the plan
    - Note any deviations from plan
    - Optionally write progress to `.tasks/[NNN]-[task]/implement/progress.md`
 
-4. **Confirm ready for next phase**:
+5. **Confirm ready for review**:
 
-```
-Phase [N] Complete
+   ```
+   Phase [N] Complete — Ready for Review
 
-Verification passed:
-- ✅ Tests pass
-- ✅ Type check clean
-- ✅ Lint clean
+   Automated verification (evidence shown above):
+   - Tests: [PASS/FAIL]
+   - Types: [PASS/FAIL]
+   - Lint:  [PASS/FAIL]
 
-Continue to Phase [N+1]?
-```
+   Pending functional verification (for Review):
+   - [Manual step 1 from plan]
+   - [Manual step 2 from plan]
 
-If plan has manual verification steps, list them and wait for confirmation.
+   All automated checks pass. Ready for Review.
+   ```
+
+   Do NOT run the app, hit endpoints, or perform functional validation. That is Review's job.
 
 ### Step 3.5: Skill-Powered Subagents
 
@@ -320,7 +342,7 @@ For each change verify:
 
 ## Testing Requirements
 
-**For any non-trivial testing, load the testing skill** — it has the full strategy, decision trees, and anti-patterns. Write tests alongside implementation, not after. Skip tests only for throwaway prototypes, pure docs/config changes, or when the user explicitly approves.
+**Before writing non-trivial tests, load the testing skill.** Write tests alongside implementation, not after. Skip tests only for throwaway prototypes, pure docs/config changes, or when the user explicitly approves.
 
 ## When to STOP and Ask
 

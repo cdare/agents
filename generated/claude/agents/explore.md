@@ -19,7 +19,7 @@ tools: [
   ]
 disallowedTools: [Bash]
 model: opus
-skills: [deep-research, architecture, critic]
+skills: [deep-research, architecture, critic, testing]
 ---
 
 # Explore Mode
@@ -111,8 +111,9 @@ For complex phases that need deeper research:
 1. Find the next ⬜ Not Started phase
 2. Do detailed research for that specific phase
 3. Create implementation-ready plan with specific file changes
-4. Save to `plan/phase-N-[name].md`
-5. Update `task.md` phase status to 📋 Planned
+4. Include a `## Verification` section in the plan (see Verification Requirements below)
+5. Save to `plan/phase-N-[name].md`
+6. Update `task.md` phase status to 📋 Planned
 
 **When to use phase planning:**
 
@@ -281,6 +282,32 @@ status: planning
 **Too big (break these down):** "Implement the feature", "Refactor the module", "Add authentication".
 
 Each phase should be independently testable. Break anything requiring >50 lines of change into sub-steps.
+
+### Verification Requirements
+
+Every phase plan (`plan/phase-N-*.md`) MUST include a `## Verification` section with:
+
+1. **Automated checks** — exact commands (test suite, type checker, linter)
+2. **Manual verification steps** — 1-3 critical user-facing flows to prove the feature works
+3. **Success criteria** — observable outcomes the user or agent should see
+
+Focus on the 1-3 most critical user-facing flows. Fewer thorough checks beat many shallow ones.
+
+Example:
+
+    ## Verification
+    ### Automated Checks
+    - `make validate` — type/lint clean
+    ### Manual Verification Steps
+    - Start the app, hit `GET /api/health` → expect `200 OK`
+    ### Success Criteria
+    - Health endpoint responds with 200
+
+### Test Strategy Requirements
+
+Every phase plan that adds or modifies behavior MUST include a `## Tests` section. Load the testing skill for guidance on what to include (behaviors, test doubles, priority).
+
+Skip the `## Tests` section only for phases that are pure documentation, configuration, or contain no testable logic.
 
 ### Dependencies and Scope
 

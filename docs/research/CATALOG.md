@@ -51,32 +51,34 @@ See [BACKLOG.md](BACKLOG.md) for unchecked research items organized by category.
 
 Originals of consolidated RDRs, plus rejected/superseded research. See [archive/](archive/) for full documents.
 
-| RDR | Title                        | Why Archived                         |
-| --- | ---------------------------- | ------------------------------------ |
-| 001 | Spec-Driven                  | Rejected: spec files not used        |
-| 002 | Context Cortex               | Rejected: memory bank not used       |
-| 003 | Feature-Dev                  | Merged → framework-comparison.md     |
-| 004 | Superpowers                  | Merged → skills.md                   |
-| 006 | Agentic Future               | Informational only                   |
-| 007 | mitsuhiko agent-stuff        | Superseded by RDR-018                |
-| 008 | Handoff Workspace Constraint | Superseded by RDR-018                |
-| 009 | MCP Memory                   | Rejected: too complex                |
-| 010 | Subagents Context Fork       | Merged → memory-and-continuity.md    |
-| 011 | Protection Markers           | Feature removed                      |
-| 012 | Planning with Files          | Merged → memory-and-continuity.md    |
-| 014 | VSCode Copilot Settings      | Merged → vscode-platform.md          |
-| 015 | Copilot Agent Tools          | Merged → vscode-platform.md          |
-| 016 | Agent Consolidation          | Superseded by ADR-003                |
-| 017 | Agent Spec Compatibility     | Merged → ide-compatibility.md        |
-| 018 | Task-Centric Persistence     | Superseded by ADR-002                |
-| 019 | Skill Review                 | Merged → skills.md                   |
-| 021 | Agno                         | Rejected: out of scope               |
-| 022 | Six Tips for Agents          | Merged → framework-comparison.md     |
-| 023 | Ralph Wiggum                 | Merged → framework-comparison.md     |
-| 024 | Claude Code Mastery          | Merged → framework-comparison.md     |
-| 025 | Copilot Memory               | Merged → memory-and-continuity.md    |
-| 026 | MetaPrompts                  | Rejected: confirms existing approach |
-| 027 | Skill Subagents              | Merged → skills.md                   |
-| 028 | Skills.sh                    | Merged → skills.md                   |
-| 029 | Alternative IDE Support      | Merged → ide-compatibility.md        |
-| 031 | 1.109 Orchestration          | Merged → vscode-platform.md          |
+| RDR | Title                        | Why Archived                             |
+| --- | ---------------------------- | ---------------------------------------- |
+| 001 | Spec-Driven                  | Rejected: spec files not used            |
+| 002 | Context Cortex               | Rejected: memory bank not used           |
+| 003 | Feature-Dev                  | Merged → framework-comparison.md         |
+| 004 | Superpowers                  | Merged → skills.md                       |
+| 006 | Agentic Future               | Informational only                       |
+| 007 | mitsuhiko agent-stuff        | Superseded by RDR-018                    |
+| 008 | Handoff Workspace Constraint | Superseded by RDR-018                    |
+| 009 | MCP Memory                   | Rejected: too complex                    |
+| 010 | Subagents Context Fork       | Merged → memory-and-continuity.md        |
+| 011 | Protection Markers           | Feature removed                          |
+| 012 | Planning with Files          | Merged → memory-and-continuity.md        |
+| 014 | VSCode Copilot Settings      | Merged → vscode-platform.md              |
+| 015 | Copilot Agent Tools          | Merged → vscode-platform.md              |
+| 016 | Agent Consolidation          | Superseded by ADR-003                    |
+| 017 | Agent Spec Compatibility     | Merged → ide-compatibility.md            |
+| 018 | Task-Centric Persistence     | Superseded by ADR-002                    |
+| 019 | Skill Review                 | Merged → skills.md                       |
+| 021 | Agno                         | Rejected: out of scope                   |
+| 022 | Six Tips for Agents          | Merged → framework-comparison.md         |
+| 023 | Ralph Wiggum                 | Merged → framework-comparison.md         |
+| 024 | Claude Code Mastery          | Merged → framework-comparison.md         |
+| 025 | Copilot Memory               | Merged → memory-and-continuity.md        |
+| 026 | MetaPrompts                  | Rejected: confirms existing approach     |
+| 027 | Skill Subagents              | Merged → skills.md                       |
+| 028 | Skills.sh                    | Merged → skills.md                       |
+| 029 | Alternative IDE Support      | Merged → ide-compatibility.md            |
+| 031 | 1.109 Orchestration          | Merged → vscode-platform.md              |
+| —   | ai-project-system            | Rejected: different scope (project mgmt) |
+| —   | agentops                     | Rejected: autonomous DevOps scope        |

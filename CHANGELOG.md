@@ -9,7 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Verification before commit** — structured verification layer across Explore, Review, Orchestrate, and Implement templates:
+  - Explore phase plans now require a `## Verification` section (automated checks, manual steps, success criteria)
+  - Review owns functional verification — presents manual verification runbook, waits for single user confirmation before PASS
+  - Orchestrate 2d checkpoint adds `[Verify]` option alongside Commit/Abort
+  - Implement requires pasted terminal output as evidence (no more "✅ Tests pass" without proof) and delegates functional validation to Review
+- **ADR commit ordering** — moved task consolidation (ADR creation) from post-commit step 2g to pre-commit step 2e.5 in orchestrate template:
+  - ADR files are now committed together with code and docs in a single commit pass (step 2f)
+  - Consolidation uses Implement agent (write-capable) instead of Explore (read-only outside `.tasks/`)
+  - Removed separate post-commit ADR step (2g) that caused orphaned uncommitted files
+- Research: [get-shit-done](https://github.com/gsd-build/get-shit-done) — Rejected (different scope/audience, CLI-only, validates existing approach)
+- Research: [agentops](https://github.com/boshu2/agentops) — Rejected (autonomous DevOps scope, different from collaborative AGENTS)
 - **Testing skill** (`templates/skills/testing/`): Behavioral testing strategy based on Kent Beck, Google SWE Book, and Martin Fowler research — tests behavior over structure, minimizes mocking, uses Saff Squeeze for regression workflow
+- Research: [ai-project-system](https://github.com/panchew/ai-project-system) — Rejected (project management methodology, different scope)
 - **CC-ONLY Command Rules in commit template**: Prevents `git -C` and `&&` command chaining that breaks Claude Code auto-approval
 - **Testing skill integration in implement template**: Skill-loading directive, condensed testing principles, and testing skill subagent entry
 - **Claude Code quickstart guide** (`docs/cc-quickstart.md`): Hands-on guide with 4 learning scenarios, troubleshooting, and Copilot-to-CC translation table
@@ -17,6 +29,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Implement template Testing Requirements — replaced generic guidelines with skill-aware behavioral testing principles; removed "70% coverage" metric
+- Orchestrate: Added `[Verify]` checkpoint option before commit with manual verification runbook
+- Orchestrate: Moved ADR consolidation before commit step (2e.5), removed separate 2g step
+- Explore: Phase plans now require `## Verification` section (1-3 critical flow checks)
+- Explore: Phase plans now require `## Tests` section for behavioral changes
+- Implement: Automated verification now requires evidence (actual terminal output)
+- Review: Added functional verification step with manual verification runbook (single confirmation)
+- Review: Added `testing` to CC skills frontmatter
+- All agents: Testing skill references use natural language invocation consistently
 
 ### Removed
 

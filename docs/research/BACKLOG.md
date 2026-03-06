@@ -8,7 +8,12 @@ Unchecked research items organized by theme. Pick one item per session.
 
 ## Backlog
 
-- [ ] [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
+- [ ] https://www.a5c.ai/
+- [ ] VSCode 1.110
+  - /slash commands for subagents (testing, phase-review): https://github.com/microsoft/vscode/issues/297119
+  - browser intergration: https://github.com/microsoft/vscode/issues/274118
+  - forking: https://github.com/microsoft/vscode/issues/291481
+  - askQuestion in subagents
 - [ ] [agentic-memory-public-preview](https://github.blog/changelog/2026-01-15-agentic-memory-for-github-copilot-is-in-public-preview/)
 - [ ] [stripe-minions](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents)
 - [ ] [allenai-open-coding-agents](https://allenai.org/blog/open-coding-agents)
@@ -45,6 +50,9 @@ Checked items from previous research. Keep for traceability.
 - [x] [atlas-orchestra](https://github.com/bigguy345/Github-Copilot-Atlas) → [RDR-032](RDR-032-atlas-orchestra.md) (Partially Adopted)
 - [x] [copilot-orchestra](https://github.com/ShepAlderson/copilot-orchestra) → [RDR-032](RDR-032-atlas-orchestra.md) (combined with Atlas)
 - [x] [agno-framework](https://www.agno.com/) → [RDR-021](archive/RDR-021-agno.md) (Rejected)
+- [x] [ai-project-system](https://github.com/panchew/ai-project-system) — Rejected (project management methodology, different scope; no RDR)
+- [x] [agentops](https://github.com/boshu2/agentops) — Rejected (autonomous DevOps scope, different from collaborative AGENTS; no RDR)
+- [x] [get-shit-done](https://github.com/gsd-build/get-shit-done) — Rejected (different scope/audience, CLI-only, validates existing approach; no RDR)
 
 ### Agent Architecture
 

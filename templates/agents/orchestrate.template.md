@@ -88,8 +88,7 @@ within `.tasks/`. Any other path requires a `Task()` delegation -- no exceptions
 
 **Selection guidance:**
 
-- Need terminal or tests? → **Implement** or **Review**, never Explore
-- Need file changes? → **Implement**, never Explore
+- Need file changes (or might need them)? → **Implement**
 - Research only? → **Explore** (cannot run commands)
 
 ## First Action Protocol
@@ -300,6 +299,7 @@ Invoke Explore with phase-review skill:
 
 ```
 Run the Explore agent as a subagent: use phase-review mode to review phase [N] in .tasks/[slug]/task.md
+IMPORTANT: Do NOT create or modify any files. Return your findings as text only.
 Return: review findings, suggested improvements, approval status.
 ```
 
@@ -308,6 +308,7 @@ Return: review findings, suggested improvements, approval status.
 
 ```
 Task(Explore, "Use phase-review mode to review phase [N] in .tasks/[slug]/task.md
+IMPORTANT: Do NOT create or modify any files. Return your findings as text only.
 Return: review findings, suggested improvements, approval status.")
 ```
 
@@ -486,10 +487,25 @@ Call `AskUserQuestion` with these options:
 
 <!-- /CC-ONLY -->
 
-- [Commit] Approve changes and proceed
+- [Commit] Approve changes and proceed to commit
+- [Verify] Show verification steps from the phase plan before committing
 - [Abort] Stop the workflow
 
 **DO NOT proceed to Step 2e until user responds.**
+
+#### Handling "Verify"
+
+When user selects [Verify]:
+
+1. Read the phase plan's `## Verification` section from `.tasks/[slug]/plan/phase-N-[name].md`
+2. Present the verification steps to the user:
+   - **Automated checks** — commands to run (or show Review's output if already executed)
+   - **Manual verification steps** — steps for the user to try
+   - **Success criteria** — what to look for
+3. If Review already ran these steps, show the Review output as evidence
+4. Wait for user to confirm: [Commit] or [Abort]
+
+If no verification section exists in the plan, present Review's output summary and ask: "Review passed automated checks. No manual verification steps were defined. Proceed? [Commit] [Abort]"
 
 ---
 
@@ -529,6 +545,44 @@ Task(Implement, "Update documentation:
 - Update CHANGELOG.md under [Unreleased]
 - Update README.md if applicable
 Return: files updated.")
+```
+
+<!-- /CC-ONLY -->
+
+#### 2e.5. Consolidate Task (Final Phase Only)
+
+**Trigger:** This is the last phase to complete (all other phases are ✅ Done)
+
+**Skip if not the final phase.** Note in todo list: "Skipping consolidation — not final phase"
+
+**Actions:**
+
+1. Invoke Implement as a subagent with consolidate-task skill to create/update/skip the ADR
+2. ADR files (if any) will be committed together with code and docs in step 2f
+
+**Subagent prompt:**
+
+<!-- COPILOT-ONLY -->
+
+```
+Run the Implement agent as a subagent: use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
+This is a documentation-only task — skip the standard verification steps (Step 3). Just produce the ADR and confirm.
+Determine if this warrants a new ADR, updates an existing one, or should be skipped.
+Also update docs/architecture/README.md if an ADR was created/updated.
+Do NOT delete or archive the .tasks/ folder — task data is preserved for the orchestration flow.
+Return: ADR path created/updated, or "skipped" with reason.
+```
+
+<!-- /COPILOT-ONLY -->
+<!-- CC-ONLY -->
+
+```
+Task(Implement, "Use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
+This is a documentation-only task — skip the standard verification steps (Step 3). Just produce the ADR and confirm.
+Determine if this warrants a new ADR, updates an existing one, or should be skipped.
+Also update docs/architecture/README.md if an ADR was created/updated.
+Do NOT delete or archive the .tasks/ folder — task data is preserved for the orchestration flow.
+Return: ADR path created/updated, or 'skipped' with reason.")
 ```
 
 <!-- /CC-ONLY -->
@@ -580,57 +634,6 @@ Task(Worker, "Update .tasks/[slug]/task.md:
 - Change phase N status to ✅ Done
 - Add any completion notes if relevant
 Return: confirmation.")
-```
-
-<!-- /CC-ONLY -->
-
-#### 2g. Consolidate Task (Final Phase Only)
-
-**Trigger:** All phases are ✅ Done
-
-**Actions:**
-
-1. Invoke Explore as a subagent with consolidate-task skill trigger
-2. If ADR was created/updated: Invoke Commit as a subagent to commit the ADR
-
-**Subagent prompt (consolidate):**
-
-<!-- COPILOT-ONLY -->
-
-```
-Run the Explore agent as a subagent: use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
-Determine if this warrants a new ADR, updates an existing one, or should be skipped.
-Return: ADR path created/updated, or "skipped" with reason.
-```
-
-<!-- /COPILOT-ONLY -->
-<!-- CC-ONLY -->
-
-```
-Task(Explore, "Use consolidate-task mode to summarize .tasks/[slug]/task.md into an ADR.
-Determine if this warrants a new ADR, updates an existing one, or should be skipped.
-Return: ADR path created/updated, or 'skipped' with reason.")
-```
-
-<!-- /CC-ONLY -->
-
-**Subagent prompt (commit ADR):**
-
-<!-- COPILOT-ONLY -->
-
-```
-Run the Commit agent as a subagent to commit the ADR for task [slug].
-ADR file: [path returned from consolidate step]
-Return: commit hash and message, or "skipped" if no ADR changes.
-```
-
-<!-- /COPILOT-ONLY -->
-<!-- CC-ONLY -->
-
-```
-Task(Commit, "Commit the ADR for task [slug].
-ADR file: [path returned from consolidate step]
-Return: commit hash and message, or 'skipped' if no ADR changes.")
 ```
 
 <!-- /CC-ONLY -->

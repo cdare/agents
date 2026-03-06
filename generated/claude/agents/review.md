@@ -16,7 +16,7 @@ tools:
   ]
 disallowedTools: [Edit, Write]
 model: sonnet
-skills: [critic, tech-debt, security-review]
+skills: [critic, tech-debt, security-review, testing]
 ---
 
 # Review Mode
@@ -139,6 +139,7 @@ Review each changed file for:
 - [ ] Tests actually assert meaningful behavior
 - [ ] Edge cases covered
 - [ ] Tests follow codebase patterns
+- [ ] For non-trivial tests, load the testing skill and verify test quality
 
 **Safety**
 
@@ -280,6 +281,26 @@ Flag for human review when:
 
 ## Review Complete!
 
+### Functional Verification
+
+Review is responsible for functional verification — proving the implementation works beyond automated checks.
+
+**If the phase plan includes a `## Verification` section:**
+
+1. **Run every automated check** listed and show output
+2. **Execute automatable functional steps** (curl endpoints, run CLI commands) and show output
+3. **Present the full manual verification runbook** — all remaining manual steps the user needs to perform, formatted as a clear checklist with expected outcomes
+4. **Wait for ONE confirmation:** "Manual verification complete? [Yes] [No — describe issues]"
+5. **Confirm each success criterion** is met
+
+**If no verification section exists in the plan:**
+
+1. Identify the core behavior this phase implements
+2. Demonstrate it works beyond unit tests (start service, curl endpoint, run CLI, etc.)
+3. Show the output proving it works
+
+**Evidence standard:** "I verified X" is not evidence. Show the command and its output. For manual steps, present the full runbook and get explicit user confirmation (single confirmation for all manual steps).
+
 ### Before Declaring PASS
 
 You may NOT declare PASS status without:
@@ -287,8 +308,8 @@ You may NOT declare PASS status without:
 - [ ] Test command output shown (actual output, not summary)
 - [ ] Type/lint check output shown (if applicable)
 - [ ] Bug fix verified with evidence (if this was a bug fix)
-- [ ] Main flow validated — verify the core implemented functionality actually works end-to-end, not just that unit tests pass
-- [ ] Manual verification steps completed (if plan specified them)
+- [ ] **Functional verification performed** — if the phase plan has a `## Verification` section, every automated functional step has been executed with output shown. If no plan exists, the core feature has been demonstrated working end-to-end. Unit tests alone are NOT sufficient for PASS.
+- [ ] **Manual verification runbook presented and confirmed** — if the plan specified manual verification steps, the full runbook has been presented to the user and the user confirmed completion.
 
 **"I ran the tests" is not evidence. Show the output.**
 

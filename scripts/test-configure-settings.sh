@@ -313,5 +313,59 @@ verify_contains "$TEST_DIR/settings.json" '"chat.askQuestions.enabled"'
 verify_contains "$TEST_DIR/settings.json" '"github.copilot.chat.searchSubagent.enabled"'
 verify_contains "$TEST_DIR/settings.json" '"editor.fontSize"'
 
+# Test 17: Correct wrong boolean value
+run_test "Wrong boolean value" '{
+  "chat.customAgentInSubagent.enabled": false,
+  "github.copilot.chat.copilotMemory.enabled": false
+}' 0
+verify_contains "$TEST_DIR/settings.json" '"chat.customAgentInSubagent.enabled": true'
+verify_contains "$TEST_DIR/settings.json" '"github.copilot.chat.copilotMemory.enabled": true'
+# Verify the output mentions "Updated"
+echo '{"chat.customAgentInSubagent.enabled": false}' > "$TEST_DIR/settings.json"
+set +e
+output=$(node "$SCRIPT_DIR/configure-vscode-settings.js" "$TEST_DIR/settings.json" 2>&1)
+set -e
+if echo "$output" | grep -q "Updated:.*chat.customAgentInSubagent.enabled"; then
+    echo "✓ Reports updated setting"
+else
+    echo "❌ Missing 'Updated' message for corrected setting"
+    exit 1
+fi
+
+# Test 18: Correct wrong object entry value
+run_test "Wrong object entry value" '{
+  "chat.agentFilesLocations": {
+    "~/.copilot/agents": false
+  }
+}' 0
+verify_contains "$TEST_DIR/settings.json" '"~/.copilot/agents": true'
+# Verify the output mentions "Updated"
+echo '{"chat.agentFilesLocations": {"~/.copilot/agents": false}}' > "$TEST_DIR/settings.json"
+set +e
+output=$(node "$SCRIPT_DIR/configure-vscode-settings.js" "$TEST_DIR/settings.json" 2>&1)
+set -e
+if echo "$output" | grep -q "Updated:.*chat.agentFilesLocations"; then
+    echo "✓ Reports updated object entry"
+else
+    echo "❌ Missing 'Updated' message for corrected object entry"
+    exit 1
+fi
+
+# Test 19: Mixed correct and wrong values
+run_test "Mixed correct and wrong values" '{
+  "chat.agentFilesLocations": {
+    "~/.copilot/agents": true
+  },
+  "chat.instructionsFilesLocations": {
+    "~/.copilot/instructions": false
+  },
+  "chat.customAgentInSubagent.enabled": true,
+  "github.copilot.chat.copilotMemory.enabled": false
+}' 0
+verify_contains "$TEST_DIR/settings.json" '"~/.copilot/instructions": true'
+verify_contains "$TEST_DIR/settings.json" '"github.copilot.chat.copilotMemory.enabled": true'
+verify_contains "$TEST_DIR/settings.json" '"~/.copilot/agents": true'
+verify_contains "$TEST_DIR/settings.json" '"chat.customAgentInSubagent.enabled": true'
+
 echo ""
 echo "=== All tests completed ==="

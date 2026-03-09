@@ -19,6 +19,35 @@
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
+const { execSync } = require("child_process");
+
+/**
+ * Detect VS Code version from CLI.
+ */
+function getVSCodeVersion() {
+  for (const cmd of ["code --version", "code-insiders --version"]) {
+    try {
+      const output = execSync(cmd, {
+        encoding: "utf8",
+        timeout: 5000,
+        stdio: ["pipe", "pipe", "pipe"],
+      });
+      const version = output.split("\n")[0].trim();
+      if (/^\d+\.\d+/.test(version)) return version;
+    } catch {
+      // Try next command
+    }
+  }
+  return null;
+}
+
+function versionGreaterThan(version, major, minor) {
+  const parts = version.split(".");
+  const vMajor = parseInt(parts[0], 10);
+  const vMinor = parseInt(parts[1], 10);
+  if (isNaN(vMajor) || isNaN(vMinor)) return false;
+  return vMajor > major || (vMajor === major && vMinor > minor);
+}
 
 // Settings to configure
 const SETTINGS = [
@@ -55,8 +84,32 @@ const SETTINGS = [
  * Uses string manipulation to preserve comments and formatting.
  */
 function addToSetting(content, settingKey, entryKey, entryValue) {
-  // Already has our entry?
-  if (content.includes(`"${entryKey}"`)) {
+  // Check if entry already exists
+  const entryPattern = `"${entryKey}"`;
+  const entryIndex = content.indexOf(entryPattern);
+  if (entryIndex !== -1) {
+    // Entry exists — check if value is correct
+    const afterEntry = content.slice(entryIndex + entryPattern.length);
+    const valueMatch = afterEntry.match(/^(\s*:\s*)(true|false|"[^"]*"|\d+|null)/);
+    if (valueMatch) {
+      const currentValue = valueMatch[2];
+      if (currentValue === entryValue) {
+        return { content, changed: false };
+      }
+      // Value is wrong — replace it
+      const valueStart =
+        entryIndex + entryPattern.length + valueMatch[1].length;
+      const newContent =
+        content.slice(0, valueStart) +
+        entryValue +
+        content.slice(valueStart + currentValue.length);
+      return {
+        content: newContent,
+        changed: true,
+        corrected: true,
+        oldValue: currentValue,
+      };
+    }
     return { content, changed: false };
   }
 
@@ -112,8 +165,32 @@ function addToSetting(content, settingKey, entryKey, entryValue) {
  * Add a top-level boolean setting to JSONC content.
  */
 function addBooleanSetting(content, settingKey, value) {
-  // Already has this setting?
-  if (content.includes(`"${settingKey}"`)) {
+  const keyPattern = `"${settingKey}"`;
+  const keyIndex = content.indexOf(keyPattern);
+
+  if (keyIndex !== -1) {
+    // Setting exists — check if value is correct
+    const afterKey = content.slice(keyIndex + keyPattern.length);
+    const valueMatch = afterKey.match(/^(\s*:\s*)(true|false)/);
+    if (valueMatch) {
+      const currentValue = valueMatch[2];
+      const desiredValue = String(value);
+      if (currentValue === desiredValue) {
+        return { content, changed: false };
+      }
+      // Value is wrong — replace it
+      const valueStart = keyIndex + keyPattern.length + valueMatch[1].length;
+      const newContent =
+        content.slice(0, valueStart) +
+        desiredValue +
+        content.slice(valueStart + currentValue.length);
+      return {
+        content: newContent,
+        changed: true,
+        corrected: true,
+        oldValue: currentValue,
+      };
+    }
     return { content, changed: false };
   }
 
@@ -161,21 +238,47 @@ function main() {
     process.exit(2);
   }
 
+  // Detect VS Code version and filter settings
+  const vscodeVersion = getVSCodeVersion();
+  let settings = SETTINGS;
+  const builtInAfter110 = [
+    "chat.askQuestions.enabled",
+    "github.copilot.chat.searchSubagent.enabled",
+  ];
+  if (vscodeVersion && versionGreaterThan(vscodeVersion, 1, 110)) {
+    settings = SETTINGS.filter((s) => !builtInAfter110.includes(s.key));
+    console.log(
+      `VS Code ${vscodeVersion} detected — skipping built-in settings: ${builtInAfter110.join(", ")}`,
+    );
+  }
+
   // Apply each setting
   let anyChanged = false;
-  for (const setting of SETTINGS) {
+  for (const setting of settings) {
     let result;
     if (setting.type === "boolean") {
       result = addBooleanSetting(content, setting.key, setting.value);
       if (result.changed) {
-        console.log(`Added: ${setting.key} = ${setting.value}`);
+        if (result.corrected) {
+          console.log(
+            `Updated: ${setting.key} = ${setting.value} (was: ${result.oldValue})`,
+          );
+        } else {
+          console.log(`Added: ${setting.key} = ${setting.value}`);
+        }
       } else {
         console.log(`Already configured: ${setting.key}`);
       }
     } else {
       result = addToSetting(content, setting.key, setting.entry, setting.value);
       if (result.changed) {
-        console.log(`Added: ${setting.key} → ${setting.entry}`);
+        if (result.corrected) {
+          console.log(
+            `Updated: ${setting.key} → ${setting.entry} = ${setting.value} (was: ${result.oldValue})`,
+          );
+        } else {
+          console.log(`Added: ${setting.key} → ${setting.entry}`);
+        }
       } else {
         console.log(`Already configured: ${setting.entry}`);
       }
